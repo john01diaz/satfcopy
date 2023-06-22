@@ -1,0 +1,41 @@
+This is the schema for a table called Interal_Wiring.
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'Interal_Wiring'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+14_Interal_Wiring	From_Parent_Equipment_No
+14_Interal_Wiring	From_Compartment
+14_Interal_Wiring	From_Equipment
+14_Interal_Wiring	From_Wire_Link
+14_Interal_Wiring	From_Marking
+14_Interal_Wiring	From_Left_Right
+14_Interal_Wiring	To_Parent_Equipment_No
+14_Interal_Wiring	To_Compartment
+14_Interal_Wiring	To_Equipment_No
+14_Interal_Wiring	To_Wire_Link
+14_Interal_Wiring	To_Marking
+14_Interal_Wiring	To_Left_Right
+
+
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class Internal_Wiring(Enum):
+    FROM_PARENT_EQUIPMENT_NO = 'from_parent_equipment_no'
+    FROM_COMPARTMENT = 'from_compartment'
+    FROM_EQUIPMENT = 'from_equipment'
+    FROM_WIRE_LINK = 'from_wire_link'
+    FROM_MARKING = 'from_marking'
+    FROM_LEFT_RIGHT = 'from_left_right'
+    TO_PARENT_EQUIPMENT_NO = 'to_parent_equipment_no'
+    TO_COMPARTMENT = 'to_compartment'
+    TO_EQUIPMENT_NO = 'to_equipment_no'
+    TO_WIRE_LINK = 'to_wire_link'
+    TO_MARKING = 'to_marking'
+    TO_LEFT_RIGHT = 'to_left_right'

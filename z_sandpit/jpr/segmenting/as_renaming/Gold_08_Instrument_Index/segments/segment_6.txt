@@ -1,0 +1,217 @@
+Convert the following SQL column renames into a python dictionary.
+Use the following python enums to refer to the column names.
+Use enum value attribute when you generate the dictionary.
+
+This is the output schema.
+Instrument_Index(Enum)
+SOLENOID_VALVE = 'solenoid valve'
+FUNCTION_AT_MINIMUM = 'function at minimum'
+FUNCTION_AT_MAXIMUM = 'function at maximum'
+PRESSURE_GAUGE_SHUT_OFF = 'pressure gauge shut-off'
+METER_METERING_ELEMENT_MATERIAL = 'meter/metering element material'
+PA_BUS_TERMINAL = 'pa bus terminal'
+REFERENCE_VESSEL_MATERIAL = 'reference vessel material'
+HEAD_END_MATERIAL = 'head end material'
+SHORT_CIRCUIT_PROOF = 'short-circuit-proof'
+OUTPUT_SIGNAL_EXPLOSION_PROTECTION = 'output signal explosion protection'
+FD_OUTPUT_SIGNAL = 'fd output signal'
+MANUAL_ACTUATION = 'manual actuation'
+LIMIT_SWITCH = 'limit switch'
+WETTED_BODY_MATERIAL = 'wetted body material'
+MT_HEAD_ASSEMBLY = 'mt head assembly'
+SPINDLE_MATERIAL = 'spindle material'
+TEMPLATE_PROTECTION_FLUID = 'template protection fluid'
+RESTRICTION_ORIFICE_MATERIAL = 'restriction orifice material'
+METERING_CONE_MATERIAL = 'metering cone material'
+FLOAT_TYPE_MATERIAL = 'float-type material'
+TRANSMITTER_PROTECTIVE_BOX = 'transmitter protective box'
+FINE_ADJUSTMENT_VALVE = 'fine adjustment valve'
+PUMP_FOR_SAMPLE = 'pump for sample'
+PUMP_FOR_SAMPLE_PREPARATION = 'pump for sample preparation'
+PRIMARY_PRESSURE_REDUCER = 'primary pressure reducer'
+MASS_LIMITATION_BEFORE_AGR = 'mass limitation before agr'
+MEDIUM_CONNECTION_DESIGN = 'medium connection design'
+POSITION_WITHOUT_POWER = 'position without power'
+LOOP_DIAGRAM_LEVEL = 'loop diagram level'
+ELEMENT_TYPE = 'element type'
+HANDWHEEL_POSITION = 'handwheel position'
+MEASURED_QUANTITY = 'measured quantity'
+HOUSING_TYPE = 'housing type'
+SIGNAL_TYPE = 'signal type'
+LIMIT_SWITCH_SIGNALED = 'limit switch signaled'
+DIGITAL_FUNCTION = 'digital function'
+RING_CHAMBER_MATERIAL = 'ring chamber material'
+CHARACTERISTIC = 'characteristic'
+AUXILIARY_POWER_TYPE = 'auxiliary power type'
+FLOW_DIRECTION = 'flow direction'
+SPINDLE_BUSHING = 'spindle bushing'
+RESISTANCE_THERMOCOUPLE_TYPE = 'resistance thermocouple type'
+THERMOMETER_DESIGN = 'thermometer design'
+EXTENSION = 'extension'
+STELLITING = 'stelliting'
+THERMOCOUPLE = 'thermocouple'
+HOUSING_PRESSURE_STAGE = 'housing pressure stage'
+GLAND_NUT_TYPE = 'gland nut type'
+INPUT_SIGNAL = 'input signal'
+GALVANIC_SEPARATION = 'galvanic separation'
+
+This is the input schema.
+S_Instrument_Index(Enum)
+SOLENOID_VALVE = 'solenoid_valve'
+FUNCTION_AT_MINIMUM = 'function_at_minimum'
+FUNCTION_AT_MAXIMUM = 'function_at_maximum'
+PRESSURE_GAUGE_SHUT_OFF = 'pressure_gauge_shut_off'
+METER_METERING_ELEMENT_MATERIAL = 'meter_metering_element_material'
+PA_BUS_TERMINAL = 'pa_bus_terminal'
+REFERENCE_VESSEL_MATERIAL = 'reference_vessel_material'
+HEAD_END_MATERIAL = 'head_end_material'
+SHORT_CIRCUIT_PROOF = 'short_circuit_proof'
+OUTPUT_SIGNAL_EXPLOSION_PROTECTION = 'output_signal_explosion_protection'
+FD_OUTPUT_SIGNAL = 'fd_output_signal'
+MANUAL_ACTUATION = 'manual_actuation'
+LIMIT_SWITCH_SV = 'limit_switch_sv'
+WETTED_BODY_MATERIAL = 'wetted_body_material'
+MT_HEAD_ASSEMBLY = 'mt_head_assembly'
+SPINDLE_MATERIAL = 'spindle_material'
+TEMPLATE_PROTECTION_FLUID = 'template_protection_fluid'
+RESTRICTION_ORIFICE_MATERIAL = 'restriction_orifice_material'
+METERING_CONE_MATERIAL = 'metering_cone_material'
+FLOAT_TYPE_MATERIAL = 'float_type_material'
+TRANSMITTER_PROTECTIVE_BOX = 'transmitter_protective_box'
+FINE_ADJUSTMENT_VALVE = 'fine_adjustment_valve'
+PUMP_FOR_SAMPLE = 'pump_for_sample'
+PUMP_FOR_SAMPLE_PREPARATION = 'pump_for_sample_preparation'
+PRIMARY_PRESSURE_REDUCER = 'primary_pressure_reducer'
+MASS_LIMITATION_BEFORE_AGR = 'mass_limitation_before_agr'
+MEDIUM_CONNECTION_DESIGN = 'medium_connection_design'
+POSITION_WITHOUT_POWER = 'position_without_power'
+LOOP_DIAGRAM_LEVEL = 'loop_diagram_level'
+ELEMENT_TYPE = 'element_type'
+HANDWHEEL_POSITION = 'handwheel_position'
+MEASURED_QUANTITY = 'measured_quantity'
+HOUSING_TYPE = 'housing_type'
+SIGNAL_TYPE = 'signal_type'
+LIMIT_SWITCH_SIGNALLED = 'limit_switch_signaled'
+DIGITAL_FUNCTION = 'digital_function'
+RING_CHAMBER_MATERIAL = 'ring_chamber_material'
+CHARACTERISTIC = 'characteristic'
+AUXILIARY_POWER_TYPE = 'auxiliary_power_type'
+FLOW_DIRECTION = 'flow_direction'
+SPINDLE_BUSHING = 'spindle_bushing'
+RESISTANCE_THERMOCOUPLE_TYPE = 'resistance_thermocouple_type'
+THERMOMETER_DESIGN = 'thermometer_design'
+EXTENSION = 'extension'
+STELLITING = 'stelliting'
+THERMOCOUPLE = 'thermocouple'
+HOUSING_PRESSURE_STAGE = 'housing_pressure_stage'
+GLAND_NUT_TYPE = 'gland_nut_type'
+INPUT_SIGNAL = 'input_signal'
+GALVANIC_SEPARATION = 'galvanic_separation'
+
+This is the SQL rename Instrument_Index_Segment_6.
+
+Solenoid_Valve As Solenoid Valve
+Function_at_Minimum As Function at Minimum
+Function_at_Maximum As Function at Maximum
+Pressure_Gauge_Shut_Off As Pressure Gauge Shut-Off
+Meter_Metering_Element_Material As Meter/Metering Element Material
+PA_Bus_Terminal As PA Bus Terminal
+Reference_Vessel_Material As Reference Vessel Material
+Head_End_Material As Head End Material
+Short_Circuit_Proof As Short-Circuit-Proof
+Output_Signal_Explosion_Protection As Output Signal Explosion Protection
+FD_Output_Signal As FD Output Signal
+Manual_Actuation As Manual Actuation
+Limit_Switch_sv As Limit Switch
+Wetted_Body_Material As Wetted Body Material
+MT_Head_Assembly As MT Head Assembly
+Spindle_Material As Spindle Material
+Template_Protection_Fluid As Template Protection Fluid
+Restriction_Orifice_Material As Restriction Orifice Material
+Metering_Cone_Material As Metering Cone Material
+Float_Type_Material As Float-Type Material
+Transmitter_Protective_Box As Transmitter Protective Box
+Fine_Adjustment_Valve As Fine Adjustment Valve
+Pump_for_Sample As Pump for Sample
+Pump_for_Sample_Preparation As Pump for Sample Preparation
+Primary_Pressure_Reducer As Primary Pressure Reducer
+Mass_Limitation_before_AGR As Mass Limitation before AGR
+Medium_Connection_Design As Medium Connection Design
+Position_without_Power As Position without Power
+Loop_Diagram_Level As Loop Diagram Level
+Element_type As Element type
+Handwheel_Position As Handwheel Position
+Measured_Quantity As Measured Quantity
+Housing_Type As Housing Type
+Signal_type As Signal type
+Limit_Switch_signaled As Limit Switch signaled
+Digital_Function As Digital Function
+Ring_Chamber_Material As Ring Chamber Material
+characteristic As characteristic
+Auxiliary_power_type As Auxiliary power type
+Flow_Direction As Flow Direction
+Spindle_Bushing As Spindle Bushing
+Resistance_Thermocouple_Type As Resistance Thermocouple Type
+Thermometer_Design As Thermometer Design
+Extension As Extension
+Stelliting As Stelliting
+Thermocouple As Thermocouple
+Housing_Pressure_Stage As Housing Pressure Stage
+Gland_Nut_Type As Gland Nut Type
+Input_Signal As Input Signal
+Galvanic_Separation As Galvanic Separation
+
+
+&&&&&&&&&&&&&&&&&&&
+sql_to_python = {
+    S_Instrument_Index.SOLENOID_VALVE.value: Instrument_Index.SOLENOID_VALVE.value,
+    S_Instrument_Index.FUNCTION_AT_MINIMUM.value: Instrument_Index.FUNCTION_AT_MINIMUM.value,
+    S_Instrument_Index.FUNCTION_AT_MAXIMUM.value: Instrument_Index.FUNCTION_AT_MAXIMUM.value,
+    S_Instrument_Index.PRESSURE_GAUGE_SHUT_OFF.value: Instrument_Index.PRESSURE_GAUGE_SHUT_OFF.value,
+    S_Instrument_Index.METER_METERING_ELEMENT_MATERIAL.value: Instrument_Index.METER_METERING_ELEMENT_MATERIAL.value,
+    S_Instrument_Index.PA_BUS_TERMINAL.value: Instrument_Index.PA_BUS_TERMINAL.value,
+    S_Instrument_Index.REFERENCE_VESSEL_MATERIAL.value: Instrument_Index.REFERENCE_VESSEL_MATERIAL.value,
+    S_Instrument_Index.HEAD_END_MATERIAL.value: Instrument_Index.HEAD_END_MATERIAL.value,
+    S_Instrument_Index.SHORT_CIRCUIT_PROOF.value: Instrument_Index.SHORT_CIRCUIT_PROOF.value,
+    S_Instrument_Index.OUTPUT_SIGNAL_EXPLOSION_PROTECTION.value: Instrument_Index.OUTPUT_SIGNAL_EXPLOSION_PROTECTION.value,
+    S_Instrument_Index.FD_OUTPUT_SIGNAL.value: Instrument_Index.FD_OUTPUT_SIGNAL.value,
+    S_Instrument_Index.MANUAL_ACTUATION.value: Instrument_Index.MANUAL_ACTUATION.value,
+    S_Instrument_Index.LIMIT_SWITCH_SV.value: Instrument_Index.LIMIT_SWITCH.value,
+    S_Instrument_Index.WETTED_BODY_MATERIAL.value: Instrument_Index.WETTED_BODY_MATERIAL.value,
+    S_Instrument_Index.MT_HEAD_ASSEMBLY.value: Instrument_Index.MT_HEAD_ASSEMBLY.value,
+    S_Instrument_Index.SPINDLE_MATERIAL.value: Instrument_Index.SPINDLE_MATERIAL.value,
+    S_Instrument_Index.TEMPLATE_PROTECTION_FLUID.value: Instrument_Index.TEMPLATE_PROTECTION_FLUID.value,
+    S_Instrument_Index.RESTRICTION_ORIFICE_MATERIAL.value: Instrument_Index.RESTRICTION_ORIFICE_MATERIAL.value,
+    S_Instrument_Index.METERING_CONE_MATERIAL.value: Instrument_Index.METERING_CONE_MATERIAL.value,
+    S_Instrument_Index.FLOAT_TYPE_MATERIAL.value: Instrument_Index.FLOAT_TYPE_MATERIAL.value,
+    S_Instrument_Index.TRANSMITTER_PROTECTIVE_BOX.value: Instrument_Index.TRANSMITTER_PROTECTIVE_BOX.value,
+    S_Instrument_Index.FINE_ADJUSTMENT_VALVE.value: Instrument_Index.FINE_ADJUSTMENT_VALVE.value,
+    S_Instrument_Index.PUMP_FOR_SAMPLE.value: Instrument_Index.PUMP_FOR_SAMPLE.value,
+    S_Instrument_Index.PUMP_FOR_SAMPLE_PREPARATION.value: Instrument_Index.PUMP_FOR_SAMPLE_PREPARATION.value,
+    S_Instrument_Index.PRIMARY_PRESSURE_REDUCER.value: Instrument_Index.PRIMARY_PRESSURE_REDUCER.value,
+    S_Instrument_Index.MASS_LIMITATION_BEFORE_AGR.value: Instrument_Index.MASS_LIMITATION_BEFORE_AGR.value,
+    S_Instrument_Index.MEDIUM_CONNECTION_DESIGN.value: Instrument_Index.MEDIUM_CONNECTION_DESIGN.value,
+    S_Instrument_Index.POSITION_WITHOUT_POWER.value: Instrument_Index.POSITION_WITHOUT_POWER.value,
+    S_Instrument_Index.LOOP_DIAGRAM_LEVEL.value: Instrument_Index.LOOP_DIAGRAM_LEVEL.value,
+    S_Instrument_Index.ELEMENT_TYPE.value: Instrument_Index.ELEMENT_TYPE.value,
+    S_Instrument_Index.HANDWHEEL_POSITION.value: Instrument_Index.HANDWHEEL_POSITION.value,
+    S_Instrument_Index.MEASURED_QUANTITY.value: Instrument_Index.MEASURED_QUANTITY.value,
+    S_Instrument_Index.HOUSING_TYPE.value: Instrument_Index.HOUSING_TYPE.value,
+    S_Instrument_Index.SIGNAL_TYPE.value: Instrument_Index.SIGNAL_TYPE.value,
+    S_Instrument_Index.LIMIT_SWITCH_SIGNALLED.value: Instrument_Index.LIMIT_SWITCH_SIGNALED.value,
+    S_Instrument_Index.DIGITAL_FUNCTION.value: Instrument_Index.DIGITAL_FUNCTION.value,
+    S_Instrument_Index.RING_CHAMBER_MATERIAL.value: Instrument_Index.RING_CHAMBER_MATERIAL.value,
+    S_Instrument_Index.CHARACTERISTIC.value: Instrument_Index.CHARACTERISTIC.value,
+    S_Instrument_Index.AUXILIARY_POWER_TYPE.value: Instrument_Index.AUXILIARY_POWER_TYPE.value,
+    S_Instrument_Index.FLOW_DIRECTION.value: Instrument_Index.FLOW_DIRECTION.value,
+    S_Instrument_Index.SPINDLE_BUSHING.value: Instrument_Index.SPINDLE_BUSHING.value,
+    S_Instrument_Index.RESISTANCE_THERMOCOUPLE_TYPE.value: Instrument_Index.RESISTANCE_THERMOCOUPLE_TYPE.value,
+    S_Instrument_Index.THERMOMETER_DESIGN.value: Instrument_Index.THERMOMETER_DESIGN.value,
+    S_Instrument_Index.EXTENSION.value: Instrument_Index.EXTENSION.value,
+    S_Instrument_Index.STELLITING.value: Instrument_Index.STELLITING.value,
+    S_Instrument_Index.THERMOCOUPLE.value: Instrument_Index.THERMOCOUPLE.value,
+    S_Instrument_Index.HOUSING_PRESSURE_STAGE.value: Instrument_Index.HOUSING_PRESSURE_STAGE.value,
+    S_Instrument_Index.GLAND_NUT_TYPE.value: Instrument_Index.GLAND_NUT_TYPE.value,
+    S_Instrument_Index.INPUT_SIGNAL.value: Instrument_Index.INPUT_SIGNAL.value,
+    S_Instrument_Index.GALVANIC_SEPARATION.value: Instrument_Index.GALVANIC_SEPARATION.value,
+}

@@ -1,0 +1,10 @@
+This is the schema for a table called Loop_Elements.
+It is a list of column names for Loop_Elements
+Create a python Enum for these column names.
+Name the class 'Loop_Elements'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

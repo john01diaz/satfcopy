@@ -1,0 +1,67 @@
+
+S_DeviceCatalogue_schema_format.prompt.txt
+
+This is the schema for a table called S_DeviceCatalogue. 
+the first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names using a sub-class of Enum called ColumnTypes.
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+
+S_DeviceCatalogue	parquet_file_relative_path
+S_DeviceCatalogue	Catalogue_RNT
+S_DeviceCatalogue	Item_Dynamic_Class
+S_DeviceCatalogue	Object_Identifier
+S_DeviceCatalogue	Dynamic_Class
+S_DeviceCatalogue	Item_Object_Identifier
+S_DeviceCatalogue	database_name
+S_DeviceCatalogue	Product_Key
+S_DeviceCatalogue	Tag_Number
+S_DeviceCatalogue	Document_Number
+S_DeviceCatalogue	Loop_Number
+S_DeviceCatalogue	AllowUse
+S_DeviceCatalogue	Type
+S_DeviceCatalogue	Description
+S_DeviceCatalogue	Manufacturer
+S_DeviceCatalogue	ModelNo
+S_DeviceCatalogue	Class
+S_DeviceCatalogue	Left
+S_DeviceCatalogue	Right
+S_DeviceCatalogue	Left_Marking
+S_DeviceCatalogue	Right_Marking
+S_DeviceCatalogue	Symbol_name
+
+
+S_DeviceCatalogue Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class ColumnTypes(Enum):
+    pass
+	
+class S_DeviceCatalogueColumns(ColumnTypes):
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+    CATALOGUE_RNT = "catalogue_rnt"
+    ITEM_DYNAMIC_CLASS = "item_dynamic_class"
+    OBJECT_IDENTIFIER = "object_identifier"
+    DYNAMIC_CLASS = "dynamic_class"
+    ITEM_OBJECT_IDENTIFIER = "item_object_identifier"
+    DATABASE_NAME = "database_name"
+    PRODUCT_KEY = "product_key"
+    TAG_NUMBER = "tag_number"
+    DOCUMENT_NUMBER = "document_number"
+    LOOP_NUMBER = "loop_number"
+    ALLOW_USE = "allowuse"
+    TYPE = "type"
+    DESCRIPTION = "description"
+    MANUFACTURER = "manufacturer"
+    MODEL_NO = "modelno"
+    CLASS = "class"
+    LEFT = "left"
+    RIGHT = "right"
+    LEFT_MARKING = "left_marking"
+    RIGHT_MARKING = "right_marking"
+    SYMBOL_NAME = "symbol_name"
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

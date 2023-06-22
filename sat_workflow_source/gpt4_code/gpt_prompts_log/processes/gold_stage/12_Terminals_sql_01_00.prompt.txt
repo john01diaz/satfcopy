@@ -1,0 +1,75 @@
+Convert the following Databricks SQL statement into python code.
+
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways, modularise these different ways if possible.
+A column will be passed through without any modification.
+A columnn will be simply mapped to a column with a new name, sometimes multiple times.
+A new columnn will be added with a constant value
+A columnn will be mapped to a column using  more complex calculations
+
+Refer to the following enums when using column names.
+Do not generate the enums. Instead, refer to them in the script you generate.
+
+This is the enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named Terminals
+
+class Terminals(
+        Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENT_NO = 'equipment_no'
+    SEQUENCE = 'sequence'
+    MARKING = 'marking'
+
+
+
+This is the enum schema for the input table named S_Terminals
+
+class S_Terminals(
+        Enum):
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENT_NO = 'equipment_no'
+    MARKING = 'marking'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    SEQUENCE = 'sequence'
+
+This is the SQL statement named 12_Terminals.
+Unpack the SQL Dense_Rank() into a seperate function.
+
+Select
+Parent_Equipment_No
+,Equipment_No
+,Marking
+,Dense_Rank() Over(Partition by Parent_Equipment_No,Equipment_No order by Marking) as Sequence
+From (
+Select Distinct
+Parent_Equipment_No
+,Equipment_No
+,Marking
+From Sigraph_Silver.S_Terminals
+Where Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') and
+database_name in (Select Database_name from VW_Database_names)
+) as A

@@ -1,0 +1,50 @@
+
+Crosswalks_PBS_Table_schema_format.prompt_1.txt
+
+This is the schema for a table called PBS_Table. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'PBS_Table'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+PBS_Table  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class PBS_Table(Enum):
+
+--- the column names go here.
+
+PBS_Table Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+PBS_Table	Area_Code
+PBS_Table	parquet_file_relative_path
+PBS_Table	Plant_Code
+PBS_Table	Plant_Name
+PBS_Table	Process_Unit
+PBS_Table	Revised_Plant_Code
+PBS_Table	Revised_Process_Unit
+PBS_Table	Site_Code
+PBS_Table	Site_Name
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class PBS_Table(Enum):
+    SITE_CODE = 'site_code'
+    SITE_NAME = 'site_name'
+    PLANT_CODE = 'plant_code'
+    PLANT_NAME = 'plant_name'
+    PROCESS_UNIT = 'process_unit'
+    AREA_CODE = 'area_code'
+    REVISED_PROCESS_UNIT = 'revised_process_unit'
+    REVISED_PLANT_CODE = 'revised_plant_code'
+
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+In this example, I've created a new Enum class called PBS_Table that inherits from Python's built-in Enum class. The enum names are the column names from the PBS_Table table schema, and they are all in uppercase. The corresponding values are the same column names but in lowercase.

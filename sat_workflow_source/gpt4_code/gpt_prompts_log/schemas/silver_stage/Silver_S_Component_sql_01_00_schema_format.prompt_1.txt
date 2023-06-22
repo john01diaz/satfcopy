@@ -1,0 +1,49 @@
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'S_Component'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+class S_Component(Enum):
+
+--- the column names go here.
+
+S_Component Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+S_Component	CatalogueNo
+S_Component	Class
+S_Component	database_name
+S_Component	DinRail
+S_Component	dynamic_class
+S_Component	Equipment_No
+S_Component	EquipmentType
+S_Component	Item_dynamic_class
+S_Component	Item_Object_identifier
+S_Component	object_identifier
+S_Component	Parent_Equipment_No
+S_Component	parquet_file_relative_path
+S_Component	Remarks
+S_Component	Sequence
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_Component(Enum):
+    CATALOGUENO = 'catalogueno'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DINRAIL = 'dinrail'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENT_NO = 'equipment_no'
+    EQUIPMENTTYPE = 'equipmenttype'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    REMARKS = 'remarks'
+    SEQUENCE = 'sequence'

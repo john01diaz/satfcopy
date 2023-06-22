@@ -1,0 +1,259 @@
+We need to convert Databricks SQL statements into vanilla python code. 
+we want to find the general patterns in the SQL statements so we can write the python code is a similar way.
+
+Where things are not clear please ask for a clarification
+
+General instructions
+Can you make the code as modular as possible.
+Can you use clean coding principles.
+Can you follow the PEP8 style guide.
+Can you use human readable names.
+Can you choose descriptive and unambiguous names.
+Can you choose pronounceable names
+Can you choose searchable names
+Can you NEVER choose any abbreviations or shortened variable names
+Can you replace magic numbers with named constants.
+
+Can you define any literals as named constants
+Define and name all lists and arrays separately
+
+Specific instructions
+
+Can you treat  the input files as pandas dataframes and read them in as parameters at the start,
+
+The input columns can be treated in different ways - modularise these different ways if possible.
+sometimes a column will be passed through without any modification.
+sometimes a columnn will be simply mapped to a column with a new name - note that the same column may be mapped several times
+sometimes a new columnn will be added with a constant value
+sometimes a columnn will be mapped to a column using  more complex calculations 
+
+Can you make sure you complete all the lists and arrays - don't stop in the middle.
+
+Code all string literals as constants
+
+use the names 'dataframe' and 'pandas' in full, do not abbreviate. 
+
+------------------
+
+------------------
+This is the Databricks SQL statement called - 17_S_Terminations.sql
+It takes in two dataframes (S_CableCoreCatalogue and S_CableCatalogue) and outputs a third dataframe (S_CableCatalogueNumber_Master) 
+
+we have converted the schemas for these dataframes into Python Enums using a subsclass of enums CollectTypes - and converted the names to lower case.
+Can you use these when referring to the column names.
+
+from enum import Enum
+
+
+class SConnection(ColumnTypes):
+    FROM_FACILITY = "from_facility"
+    FROM_LOCATION = "from_location"
+    WIRE_OBJECT_IDENTIFIER = "wire_object_identifier"
+    CABLE_OBJECT_IDENTIFIER = "cable_object_identifier"
+    TO_ITEM_OBJECT_IDENTIFIER = "to_item_object_identifier"
+    FROM_ITEM = "from_item"
+    FROM_DYNAMIC_CLASS = "from_dynamic_class"
+    TO_CONNECTION_PIN_HREF = "to_connection_pin_href"
+    FROM_OBJECT_IDENTIFIER = "from_object_identifier"
+    TO_DYNAMIC_CLASS = "to_dynamic_class"
+    FROM_ITEM_DYNAMIC_CLASS = "from_item_dynamic_class"
+    FROM_ITEM_OBJECT_IDENTIFIER = "from_item_object_identifier"
+    TO_OBJECT_IDENTIFIER = "to_object_identifier"
+    TO_ITEM_DYNAMIC_CLASS = "to_item_dynamic_class"
+    FROM_TERMINAL_MARKING = "from_terminal_marking"
+    CABLE = "cable"
+    WIRE_CROSS_SECTION = "wire_cross_section"
+    WIRE_MARKINGS = "wire_markings"
+    TO_LOCATION = "to_location"
+    TO_FACILITY = "to_facility"
+    TO_ITEM = "to_item"
+    TO_TERMINAL_MARKING = "to_terminal_marking"
+    LOOP_NUMBER = "loop_number"
+    TAG_NUMBER = "tag_number"
+    DOCUMENT_NUMBER = "document_number"
+    CONNECTION_TYPE = "connection_type"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+    DATABASE_NAME = "database_name"
+    OBJECT_IDENTIFIER = "object_identifier"
+    FROM_CONNECTION_PIN_HREF = "from_connection_pin_href"
+
+	
+from enum import Enum
+
+class STerminals(ColumnTypes):
+    DATABASE_NAME = "database_name"
+    DYNAMIC_CLASS = "dynamic_class"
+    OBJECT_IDENTIFIER = "object_identifier"
+    PARENT_EQUIPMENT_NO = "parent_equipment_no"
+    EQUIPMENT_NO = "equipment_no"
+    MARKING = "marking"
+    SEQUENCE = "sequence"
+    CLASS = "class"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+
+
+from enum import Enum
+
+class ColumnTypes(Enum):
+    pass
+
+class S_ItemFunctionColumns(ColumnTypes):
+    DOCUMENT_NUMBER = "document_number"
+    CLASS = "class"
+    TYPE = "type"
+    LOCATION_DESIGNATION = "location_designation"
+    FACILITY_DESIGNATION = "facility_designation"
+    RACK = "rack"
+    MANUFACTURER = "manufacturer"
+    DEVICE_TYPE = "device_type"
+    SYMBOL_NAME = "symbol_name"
+    LOOP_ELEMENT_DYNAMIC_CLASS = "loop_element_dynamic_class"
+    LOOP_ELEMENT_OBJECT_IDENTIFIER = "loop_element_object_identifier"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+    DATABASE_NAME = "database_name"
+    DYNAMIC_CLASS = "dynamic_class"
+    OBJECT_IDENTIFIER = "object_identifier"
+    FUNCTION_OCC_OBJECT_IDENTIFIER = "function_occ_object_identifier"
+    ITEM_DYNAMIC_CLASS = "item_dynamic_class"
+    ITEM_OBJECT_IDENTIFIER = "item_object_identifier"
+    LOCATION_DYNAMIC_CLASS = "location_dynamic_class"
+    LOCATION_OBJECT_IDENTIFIER = "location_object_identifier"
+    FACILITY_DYNAMIC_CLASS = "facility_dynamic_class"
+    FACILITY_OBJECT_IDENTIFIER = "facility_object_identifier"
+    RACK_DYNAMIC_CLASS = "rack_dynamic_class"
+    RACK_OBJECT_IDENTIFIER = "rack_object_identifier"
+    MODELNO = "modelno"
+    DESCRIPTION = "description"
+    IOTYPE = "iotype"
+    CHANNELNUMBER = "channelnumber"
+    PRODUCT_DESIGNATION = "product_designation"
+    PRODUCT_KEY = "product_key"
+    PRODUCT_KEY_ORIGINAL = "product_key_original"
+    SHOW_KEY = "show_key"
+    ITEM_SLOT = "item_slot"
+    TAG_NUMBER = "tag_number"
+    LOOP_NUMBER = "loop_number"
+    TXN = "txn"
+    ADD = "add"
+    REMOVE = "remove"
+    METADATA = "metadata"
+    PROTOCOL = "protocol"
+    ROWIDHIGHWATERMARK = "rowidhighwatermark"
+
+
+
+from enum import Enum
+
+class STerminations(ColumnTypes):
+    DATABASE_NAME = "database_name"
+    DYNAMIC_CLASS = "dynamic_class"
+    OBJECT_IDENTIFIER = "object_identifier"
+    PARENT_EQUIPMENT_NO = "parent_equipment_no"
+    EQUIPMENT_NO = "equipment_no"
+    MARKING = "marking"
+    SEQUENCE = "sequence"
+    CLASS = "class"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+
+
+
+create or replace temp view Terminations
+as
+Select Distinct
+ A.database_name
+,A.object_identifier
+,A.Cable as CableNumber
+,Coalesce(Wire_Markings,'1') as Core_Markings
+,Coalesce(A.From_Location,'') as Parent_Equipment_No
+,Case When B.Type='Field Device' Then B.Tag_Number else Product_Key END as Equipment_No
+,A.From_Terminal_Marking as Marking
+,'R' as Left_Right
+,DT.Class
+From Sigraph_silver.S_Connection A
+Inner join Sigraph_Silver.S_ItemFunction B On A.database_name=B.database_name and A.From_Dynamic_Class=B.Dynamic_Class
+and A.From_Object_identifier=B.Object_identifier
+Inner join Sigraph_Silver.S_Terminals DT On DT.Parent_Equipment_No=Coalesce(A.From_Location,'')
+and DT.Equipment_No=Case When B.Type='Field Device' Then B.Tag_Number else Product_Key END
+and DT.Marking=A.From_Terminal_Marking
+WHERE  Coalesce(A.From_Location,'')<>Coalesce(A.TO_Location,'')
+
+UNION
+Select Distinct
+ A.database_name
+,A.object_identifier
+,A.Cable as CableNumber
+,Coalesce(Wire_Markings,'1')  as CoreMarkings
+,Coalesce(A.To_Location,'') as Parent_Equipment_No
+,Case When B.Type='Field Device' Then B.Tag_Number else B.Product_Key END as Equipment_No
+,A.To_Terminal_Marking as Marking
+,'L' as Left_Right
+,DT.Class
+From Sigraph_silver.S_Connection A
+Inner join Sigraph_Silver.S_ItemFunction B On A.database_name=B.database_name and A.To_Dynamic_Class=B.Dynamic_Class
+and A.To_Object_identifier=B.Object_identifier
+Inner join Sigraph_Silver.S_Terminals DT 
+On DT.Parent_Equipment_No=Coalesce(A.To_Location,'')
+and DT.Equipment_No=Case When B.Type='Field Device' Then B.Tag_Number else B.Product_Key END
+and DT.Marking=A.To_Terminal_Marking
+WHERE Coalesce(A.From_Location,'')<>Coalesce(A.TO_Location,'')
+
+order by 1,2
+
+GPT generation &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+import pandas as pd
+from enum import Enum
+
+
+
+# Constants
+LEFT = "L"
+RIGHT = "R"
+FIELD_DEVICE = "Field Device"
+ONE = "1"
+
+
+def create_terminations_df(s_connection_df, s_itemfunction_df, s_terminals_df):
+    s_connection_df = s_connection_df.copy()
+    s_itemfunction_df = s_itemfunction_df.copy()
+    s_terminals_df = s_terminals_df.copy()
+
+    df1 = pd.merge(s_connection_df, s_itemfunction_df, 
+                   left_on=[SConnection.DATABASE_NAME, SConnection.FROM_DYNAMIC_CLASS, SConnection.FROM_OBJECT_IDENTIFIER],
+                   right_on=[S_ItemFunctionColumns.DATABASE_NAME, S_ItemFunctionColumns.DYNAMIC_CLASS, S_ItemFunctionColumns.OBJECT_IDENTIFIER])
+
+    df1[STerminations.PARENT_EQUIPMENT_NO] = df1[SConnection.FROM_LOCATION].fillna("")
+    df1[STerminations.EQUIPMENT_NO] = df1.apply(lambda row: row[S_ItemFunctionColumns.TAG_NUMBER] 
+                                                if row[S_ItemFunctionColumns.TYPE] == FIELD_DEVICE 
+                                                else row[S_ItemFunctionColumns.PRODUCT_KEY], axis=1)
+    df1[STerminations.MARKING] = df1[SConnection.FROM_TERMINAL_MARKING]
+
+    df1 = pd.merge(df1, s_terminals_df, 
+                   left_on=[STerminations.PARENT_EQUIPMENT_NO, STerminations.EQUIPMENT_NO, STerminations.MARKING],
+                   right_on=[STerminations.PARENT_EQUIPMENT_NO, STerminations.EQUIPMENT_NO, STerminations.MARKING])
+
+    df2 = pd.merge(s_connection_df, s_itemfunction_df, 
+                   left_on=[SConnection.DATABASE_NAME, SConnection.TO_DYNAMIC_CLASS, SConnection.TO_OBJECT_IDENTIFIER],
+                   right_on=[S_ItemFunctionColumns.DATABASE_NAME, S_ItemFunctionColumns.DYNAMIC_CLASS, S_ItemFunctionColumns.OBJECT_IDENTIFIER])
+
+    df2[STerminations.PARENT_EQUIPMENT_NO] = df2[SConnection.TO_LOCATION].fillna("")
+    df2[STerminations.EQUIPMENT_NO] = df2.apply(lambda row: row[S_ItemFunctionColumns.TAG_NUMBER] 
+                                                if row[S_ItemFunctionColumns.TYPE] == FIELD_DEVICE 
+                                                else row[S_ItemFunctionColumns.PRODUCT_KEY], axis=1)
+    df2[STerminations.MARKING] = df2[SConnection.TO_TERMINAL_MARKING]
+
+    df2 = pd.merge(df2, s_terminals_df, 
+                   left_on=[STerminations.PARENT_EQUIPMENT_NO, STerminations.EQUIPMENT_NO, STerminations.MARKING],
+                   right_on=[STerminations.PARENT_EQUIPMENT_NO, STerminations.EQUIPMENT_NO, STerminations.MARKING])
+
+    # Prepare the final DataFrame
+    df1["Left_Right"] = RIGHT
+    df2["Left_Right"] = LEFT
+
+    final_df = pd.concat([df1, df2])
+    final_df = final_df.drop_duplicates()
+    final_df = final_df.sort_values([SConnection.DATABASE_NAME, SConnection.OBJECT_IDENTIFIER])
+
+    return final_df
+
+

@@ -1,0 +1,165 @@
+Convert the following Databricks SQL statement into  python code.
+
+
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Complete all the lists and arrays - don't stop in the middle.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+
+Treat the input files as pandas dataframes and read them in as parameters at the start,
+
+You can treat the input columnsin different ways - modularise these different ways if possible.
+Sometimes a column will be passed through without any modification.
+Sometimes a columnn will be simply mapped to a column with a new name - note that the same column may be mapped several times
+Sometimes a new columnn will be added with a constant value
+Sometimes a columnn will be mapped to a column using  more complex calculations
+
+
+------------------
+
+------------------
+This is the Databricks SQL statement called - 14_Internal_Wiring.sql
+It takes in a datafram as input S_Internal_Wiring and outputs the dataframe Internal_Wiring
+
+Refer to the following enums when using column names.
+
+Internal_Wiring Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class Internal_Wiring(
+        Enum):
+    FROM_PARENT_EQUIPMENT_NO = 'from_parent_equipment_no'
+    FROM_COMPARTMENT = 'from_compartment'
+    FROM_EQUIPMENT = 'from_equipment'
+    FROM_WIRE_LINK = 'from_wire_link'
+    FROM_MARKING = 'from_marking'
+    FROM_LEFT_RIGHT = 'from_left_right'
+    TO_PARENT_EQUIPMENT_NO = 'to_parent_equipment_no'
+    TO_COMPARTMENT = 'to_compartment'
+    TO_EQUIPMENT_NO = 'to_equipment_no'
+    TO_WIRE_LINK = 'to_wire_link'
+    TO_MARKING = 'to_marking'
+    TO_LEFT_RIGHT = 'to_left_right'
+
+
+
+S_Internal_Wiring Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_Internal_Wiring(
+        Enum):
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    FROM_COMPARTMENT = 'from_compartment'
+    FROM_EQUIPMENT = 'from_equipment'
+    FROM_LEFT_RIGHT = 'from_left_right'
+    FROM_MARKING = 'from_marking'
+    FROM_PARENT_EQUIPMENT_NO = 'from_parent_equipment_no'
+    FROM_WIRE_LINK = 'from_wire_link'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    TO_COMPARTMENT = 'to_compartment'
+    TO_EQUIPMENT_NO = 'to_equipment_no'
+    TO_LEFT_RIGHT = 'to_left_right'
+    TO_MARKING = 'to_marking'
+    TO_PARENT_EQUIPMENT_NO = 'to_parent_equipment_no'
+    TO_WIRE_LINK = 'to_wire_link'
+
+Select Distinct
+From_Parent_Equipment_No
+,From_Compartment
+,From_Equipment
+,From_Wire_Link
+,From_Marking
+,From_Left_Right
+,To_Parent_Equipment_No
+,To_Compartment
+,To_Equipment_No
+,To_Wire_Link
+,To_Marking
+,To_Left_Right
+From Sigraph_Silver.S_Internal_Wiring
+Where Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and database_name in (Select Database_name from VW_Database_names)
+
+&&&&&&&&&&&&&&&&&&&&&
+
+The code to convert the provided SQL statement into Python using pandas is provided below.
+
+python
+Copy code
+from enum import Enum
+import pandas
+
+class Internal_Wiring(Enum):
+    FROM_PARENT_EQUIPMENT_NO = 'from_parent_equipment_no'
+    FROM_COMPARTMENT = 'from_compartment'
+    FROM_EQUIPMENT = 'from_equipment'
+    FROM_WIRE_LINK = 'from_wire_link'
+    FROM_MARKING = 'from_marking'
+    FROM_LEFT_RIGHT = 'from_left_right'
+    TO_PARENT_EQUIPMENT_NO = 'to_parent_equipment_no'
+    TO_COMPARTMENT = 'to_compartment'
+    TO_EQUIPMENT_NO = 'to_equipment_no'
+    TO_WIRE_LINK = 'to_wire_link'
+    TO_MARKING = 'to_marking'
+    TO_LEFT_RIGHT = 'to_left_right'
+
+
+class S_Internal_Wiring(Enum):
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    FROM_COMPARTMENT = 'from_compartment'
+    FROM_EQUIPMENT = 'from_equipment'
+    FROM_LEFT_RIGHT = 'from_left_right'
+    FROM_MARKING = 'from_marking'
+    FROM_PARENT_EQUIPMENT_NO = 'from_parent_equipment_no'
+    FROM_WIRE_LINK = 'from_wire_link'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    TO_COMPARTMENT = 'to_compartment'
+    TO_EQUIPMENT_NO = 'to_equipment_no'
+    TO_LEFT_RIGHT = 'to_left_right'
+    TO_MARKING = 'to_marking'
+    TO_PARENT_EQUIPMENT_NO = 'to_parent_equipment_no'
+    TO_WIRE_LINK = 'to_wire_link'
+
+
+def extract_internal_wiring(s_internal_wiring_dataframe, database_names_dataframe):
+    classes = ['Instrumentation', 'Inst(Shared)', 'Elec(Shared)']
+    database_names = database_names_dataframe['Database_name'].unique()
+
+    filtered_dataframe = s_internal_wiring_dataframe[
+        (s_internal_wiring_dataframe[S_Internal_Wiring.CLASS.value].isin(classes)) &
+        (s_internal_wiring_dataframe[S_Internal_Wiring.DATABASE_NAME.value].isin(database_names))
+    ]
+
+    columns_to_select = [
+        S_Internal_Wiring.FROM_PARENT_EQUIPMENT_NO.value,
+        S_Internal_Wiring.FROM_COMPARTMENT.value,
+        S_Internal_Wiring.FROM_EQUIPMENT.value,
+        S_Internal_Wiring.FROM_WIRE_LINK.value,
+        S_Internal_Wiring.FROM_MARKING.value,
+        S_Internal_Wiring.FROM_LEFT_RIGHT.value,
+        S_Internal_Wiring.TO_PARENT_EQUIPMENT_NO.value,
+        S_Internal_Wiring.TO_COMPARTMENT.value,
+        S_Internal_Wiring.TO_EQUIPMENT_NO.value,
+        S_Internal_Wiring.TO_WIRE_LINK.value,
+        S_Internal_Wiring.TO_MARKING.value,
+        S_Internal_Wiring.TO_LEFT_RIGHT.value
+    ]
+
+    internal_wiring_dataframe = filtered_dataframe[columns_to_select].drop_duplicates()
+
+    return internal_wiring_dataframe
+The above code assumes that the s_internal_wiring_dataframe and database_names_dataframe are provided as inputs to the extract_internal_wiring function. The function filters the rows based on the class and database_name columns using the specified criteria. Then it selects only the required columns and drops any duplicates to mimic the SELECT DISTINCT statement in the SQL code.
+
+Remember to modify the function according to your needs. Also, make sure you have the necessary data cleaning steps before applying this function if your data requires it. The function doesn't handle missing data or any data inconsistencies that may be present in your input dataframes.

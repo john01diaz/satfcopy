@@ -1,0 +1,113 @@
+Convert the following Databricks SQL statement into python code.
+
+Do not value brevity.
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways, modularise these different ways if possible.
+A column will be passed through without any modification.
+A columnn will be simply mapped to a column with a new name, sometimes multiple times.
+A new columnn will be added with a constant value
+A columnn will be mapped to a column using  more complex calculations
+
+
+Do not generate the enums. Refer to the following enums when using column names.
+
+These are the enum schemas for the input tables
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+class S_DeviceCatalogue(
+        Enum):
+    ALLOW_USE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    LEFT = 'left'
+    LEFT_MARKING = 'left_marking'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NO = 'modelno'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PRODUCT_KEY = 'product_key'
+    RIGHT = 'right'
+    RIGHT_MARKING = 'right_marking'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TYPE = 'type'
+
+This is the enum schema for the output table
+
+class Device_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CLASS = 'class'
+    DESCRIPTION = 'description'
+    DOCUMENT_NUMBER = 'document_number'
+    LEFT = 'left'
+    LEFT_MARKING = 'left_marking'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    MODELNO = 'modelno'
+    PRODUCT_KEY = 'product_key'
+    RIGHT = 'right'
+    RIGHT_MARKING = 'right_marking'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TYPE = 'type'
+
+
+
+This is the SQL statement named 04_Device_Catalogue_sql_01_00.sql
+
+-- Databricks notebook source
+-- MAGIC %run /Users/p.abhishek@shell.com/01_Instrumentation_ETL_Scripts/03_Silver_Layer/01_Data_Loaders_Functions
+
+-- COMMAND ----------
+
+Select Distinct
+  AllowUse,
+  Type,
+  Description,
+  Manufacturer,
+  ModelNo,
+  Class,
+  Left,
+  Right,
+  Left_Marking,
+  Right_Marking,
+  Symbol_name,
+  Product_Key,
+  Loop_Number,
+  Tag_Number,
+  Document_Number
+from
+  Sigraph_silver.S_DeviceCatalogue
+Where
+  Catalogue_RNT = 1
+  and Class in (
+    'Instrumentation',
+    'Inst(Shared)',
+    'Elec(Shared)'
+  )
+  and database_name in (Select Database_name from VW_Database_names)

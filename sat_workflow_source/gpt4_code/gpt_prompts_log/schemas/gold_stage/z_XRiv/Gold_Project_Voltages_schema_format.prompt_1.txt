@@ -1,0 +1,29 @@
+
+Gold_Project_Voltages_schema_format.prompt_1.txt
+
+This is the schema for a table called Project_Voltages.
+It is a list of column names for Project_Voltages
+Create a python Enum for these column names.
+Name the class 'Project_Voltages'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+so the code will start as follows
+
+Project_Voltages Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Voltage_Type
+Voltage
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+class Project_Voltages(Enum):
+VOLTAGE_TYPE = 'voltage_type'
+VOLTAGE = 'voltage'
+
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

@@ -1,0 +1,219 @@
+Convert the following SQL column renames into a python dictionary.
+Use the following python enums to refer to the column names.
+Use enum value attribute when you generate the dictionary.
+
+This is the output schema.
+Instrument_Index(Enum)
+RATED_POWER_PER_METER = 'rated power per meter'
+RATED_ASYNCHRONOUS_SPEED = 'rated asynchronous speed'
+RATED_TORQUE_MN = 'rated torque mn'
+REFERENCE_TEMPERATURE = 'reference temperature'
+RING_CHAMBER_DIMENSION_A = 'ring chamber dimension a'
+RING_CHAMBER_DIMENSION_E = 'ring chamber dimension e'
+ROTATIONAL_SPEED_OF_DRIVE = 'rotational speed of drive'
+ROTATIONAL_SPEED_RANGE_FROM = 'rotational speed range from'
+SAMPLE_PIPELINE_TYPE = 'sample pipeline type'
+SAMPLE_PREPARATION_BACK_PRESSURE_REGULATOR = 'sample preparation back pressure regulator'
+SAMPLE_PREPARATION_CHEMICAL_TEMPLATE = 'sample preparation chemical template'
+SAMPLE_PREPARATION_FILTER = 'sample preparation filter'
+SAMPLE_PREPARATION_FLOW_COUNTER = 'sample preparation flow counter'
+SAMPLE_PREPARATION_MEASURING_PRODUCT_COOLER = 'sample preparation measuring product cooler'
+SAMPLE_PREPARATION_MISCELLANEOUS = 'sample preparation miscellaneous'
+SAMPLE_PREPARATION_REDUCTION_STATION = 'sample preparation reduction station'
+SAMPLE_PREPARATION_SEPARATOR = 'sample preparation separator'
+SAMPLE_PREPARATION_TUBE_FURNACE = 'sample preparation tube furnace'
+SAMPLE_PREPARATION_VAPORIZER = 'sample preparation vaporizer'
+SERIAL_NUMBER = 'serial number'
+SOUND_PRESSURE_LEVEL_AT_NO_LOAD = 'sound pressure level at no load'
+SOUND_PRESSURE_LEVEL_AT_NOMINAL_LOAD = 'sound pressure level at nominal load'
+SPECIAL_PAINT = 'special paint'
+ROTATIONAL_SPEED_RANGE_TO = 'rotational speed range to'
+STARTING_CURRENT_RATIO_IA_PER_IN = 'starting current ratio ia per in'
+STARTING_TORQUE_RATIO_MA_PER_MN = 'starting torque ratio ma per mn'
+SYMBOL_LIBRARY = 'symbol library'
+SYMBOL_NAME = 'symbol name'
+TMU = 'tmu'
+TOTAL_DIMENSIONS_HEIGHT = 'total dimensions height'
+TOTAL_DIMENSIONS_LENGTH = 'total dimensions length'
+TOTAL_DIMENSIONS_WIDTH = 'total dimensions width'
+TOTAL_WEIGHT = 'total weight'
+TOTAL_WEIGHT_OF_MOTOR = 'total weight of motor'
+TRAVEL_RANGE = 'travel range'
+TYPE_OF_COOLING = 'type of cooling'
+WEIGHT_FOR_CHOKE = 'weight for choke'
+WEIGHT_FOR_CONVERTER = 'weight for converter'
+WINDING_CIRCUIT = 'winding circuit'
+YEAR_OF_CONSTRUCTION = 'year of construction'
+SCREWED_JOINT = 'screwed joint'
+SAMPLE_PIPELINE_MATERIAL = 'sample pipeline material'
+DRIVE_WITH_HEATING = 'drive with heating'
+BLUFF_BODY_MATERIAL = 'bluff body material'
+SEAT_MATERIAL = 'seat material'
+HOUSING_MATERIAL = 'housing material'
+GLAND_NUT_LUBRICATION = 'gland nut lubrication'
+COOLING_FINS = 'cooling fins'
+STANDARD_ORIFICE_NOZZLE_MATERIAL = 'standard orifice/nozzle material'
+TAPPING_MATERIAL = 'tapping material'
+
+This is the input schema.
+S_Instrument_Index(Enum)
+RATED_POWER_PER_METER = 'rated_power_per_meter'
+RATED_ASYNCHRONOUS_SPEED = 'rated_asynchronous_speed'
+RATED_TORQUE_MN = 'rated_torque_mn'
+REFERENCE_TEMPERATURE = 'reference_temperature'
+RING_CHAMBER_DIMENSION_A = 'ring_chamber_dimension_a'
+RING_CHAMBER_DIMENSION_E = 'ring_chamber_dimension_e'
+ROTATIONAL_SPEED_OF_DRIVE = 'rotational_speed_of_drive'
+ROTATIONAL_SPEED_RANGE_FROM = 'rotational_speed_range_from'
+SAMPLE_PIPELINE_TYPE = 'sample_pipeline_type'
+SAMPLE_PREPARATION_BACK_PRESSURE_REGULATOR = 'sample_preparation_back_pressure_regulator'
+SAMPLE_PREPARATION_CHEMICAL_TEMPLATE = 'sample_preparation_chemical_template'
+SAMPLE_PREPARATION_FILTER = 'sample_preparation_filter'
+SAMPLE_PREPARATION_FLOW_COUNTER = 'sample_preparation_flow_counter'
+SAMPLE_PREPARATION_MEASURING_PRODUCT_COOLER = 'sample_preparation_measuring_product_cooler'
+SAMPLE_PREPARATION_MISCELLANEOUS = 'sample_preparation_miscellaneous'
+SAMPLE_PREPARATION_REDUCTION_STATION = 'sample_preparation_reduction_station'
+SAMPLE_PREPARATION_SEPARATOR = 'sample_preparation_separator'
+SAMPLE_PREPARATION_TUBE_FURNACE = 'sample_preparation_tube_furnace'
+SAMPLE_PREPARATION_VAPORIZER = 'sample_preparation_vaporizer'
+SERIAL_NUMBER = 'serial_number'
+SOUND_PRESSURE_LEVEL_AT_NO_LOAD = 'sound_pressure_level_at_no_load'
+SOUND_PRESSURE_LEVEL_AT_NOMINAL_LOAD = 'sound_pressure_level_at_nominal_load'
+SPECIAL_PAINT = 'special_paint'
+ROTATIONAL_SPEED_RANGE_TO = 'rotational_speed_range_to'
+STARTING_CURRENT_RATIO_IA_IN = 'starting_current_ratio_ia_in'
+STARTING_TORQUE_RATIO_MA_MN = 'starting_torque_ratio_ma_mn'
+DEFAULT_SYMBOL_LIBRARY = 'default_symbol_library'
+SYMBOL_NAME = 'symbol_name'
+TMU = 'tmu'
+TOTAL_DIMENSIONS_HEIGHT = 'total_dimensions_height'
+TOTAL_DIMENSIONS_LENGTH = 'total_dimensions_length'
+TOTAL_DIMENSIONS_WIDTH = 'total_dimensions_width'
+TOTAL_WEIGHT = 'total_weight'
+TOTAL_WEIGHT_OF_MOTOR = 'total_weight_of_motor'
+TRAVEL_RANGE = 'travel_range'
+TYPE_OF_COOLING = 'type_of_cooling'
+WEIGHT_FOR_CHOKE = 'weight_for_choke'
+WEIGHT_FOR_CONVERTER = 'weight_for_converter'
+WINDING_CIRCUIT = 'winding_circuit'
+YEAR_OF_CONSTRUCTION = 'year_of_construction'
+SCREWED_JOINT = 'screwed_joint'
+SAMPLE_PIPELINE_MATERIAL = 'sample_pipeline_material'
+DRIVE_WITH_HEATING = 'drive_with_heating'
+BLUFF_BODY_MATERIAL = 'bluff_body_material'
+SEAT_MATERIAL = 'seat_material'
+HOUSING_MATERIAL = 'housing_material'
+GLAND_NUT_LUBRICATION = 'gland_nut_lubrication'
+COOLING_FINS = 'cooling_fins'
+STANDARD_ORIFICE_NOZZLE_MATERIAL = 'standard_orifice_nozzle_material'
+TAPPING_MATERIAL = 'tapping_material'
+
+
+This is the SQL rename Instrument_Index_Segment_5.
+
+Rated_Power_per_Meter As Rated Power per Meter
+Rated_Asynchronous_Speed As Rated Asynchronous Speed
+Rated_Torque_MN As Rated Torque MN
+Reference_Temperature As Reference Temperature
+Ring_Chamber_Dimension_A As Ring Chamber Dimension A
+Ring_Chamber_Dimension_E As Ring Chamber Dimension E
+Rotational_Speed_of_Drive As Rotational Speed of Drive
+Rotational_Speed_Range_from As Rotational Speed Range from
+Sample_Pipeline_Type As Sample Pipeline Type
+Sample_Preparation_Back_Pressure_Regulator As Sample Preparation Back Pressure Regulator
+Sample_Preparation_Chemical_Template As Sample Preparation Chemical Template
+Sample_Preparation_Filter As Sample Preparation Filter
+Sample_Preparation_Flow_Counter As Sample Preparation Flow Counter
+Sample_Preparation_Measuring_Product_Cooler As Sample Preparation Measuring Product Cooler
+Sample_Preparation_Miscellaneous As Sample Preparation Miscellaneous
+Sample_Preparation_Reduction_Station As Sample Preparation Reduction Station
+Sample_Preparation_Separator As Sample Preparation Separator
+Sample_Preparation_Tube_Furnace As Sample Preparation Tube Furnace
+Sample_Preparation_Vaporizer As Sample Preparation Vaporizer
+Serial_Number As Serial Number
+Sound_Pressure_Level_at_No_Load As Sound Pressure Level at No Load
+Sound_Pressure_Level_at_Nominal_Load As Sound Pressure Level at Nominal Load
+Special_Paint As Special Paint
+Rotational_Speed_Range_to As Rotational Speed Range to
+Starting_Current_Ratio_IA_IN As Starting Current Ratio IA Per IN
+Starting_Torque_Ratio_MA_MN As Starting Torque Ratio MA Per MN
+Default_Symbol_Library As Symbol Library
+Symbol_Name As Symbol Name
+TMU As TMU
+Total_Dimensions_Height As Total Dimensions Height
+Total_Dimensions_Length As Total Dimensions Length
+Total_Dimensions_Width As Total Dimensions Width
+Total_Weight As Total Weight
+Total_Weight_of_Motor As Total Weight of Motor
+Travel_Range As Travel Range
+Type_of_Cooling As Type of Cooling
+Weight_for_Choke As Weight for Choke
+Weight_for_Converter As Weight for Converter
+Winding_Circuit As Winding Circuit
+Year_of_Construction As Year of Construction
+Screwed_Joint As Screwed Joint
+Sample_Pipeline_Material As Sample Pipeline Material
+Drive_with_Heating As Drive with Heating
+Bluff_Body_Material As Bluff Body Material
+Seat_Material As Seat Material
+Housing_Material As Housing Material
+Gland_Nut_Lubrication As Gland Nut Lubrication
+Cooling_Fins As Cooling Fins
+Standard_Orifice_Nozzle_Material As Standard Orifice/Nozzle Material
+Tapping_Material As Tapping Material
+
+
+&&&&&&&&&&&&&&&&&&&
+
+sql_to_python = {
+    S_Instrument_Index.RATED_POWER_PER_METER.value: Instrument_Index.RATED_POWER_PER_METER.value,
+    S_Instrument_Index.RATED_ASYNCHRONOUS_SPEED.value: Instrument_Index.RATED_ASYNCHRONOUS_SPEED.value,
+    S_Instrument_Index.RATED_TORQUE_MN.value: Instrument_Index.RATED_TORQUE_MN.value,
+    S_Instrument_Index.REFERENCE_TEMPERATURE.value: Instrument_Index.REFERENCE_TEMPERATURE.value,
+    S_Instrument_Index.RING_CHAMBER_DIMENSION_A.value: Instrument_Index.RING_CHAMBER_DIMENSION_A.value,
+    S_Instrument_Index.RING_CHAMBER_DIMENSION_E.value: Instrument_Index.RING_CHAMBER_DIMENSION_E.value,
+    S_Instrument_Index.ROTATIONAL_SPEED_OF_DRIVE.value: Instrument_Index.ROTATIONAL_SPEED_OF_DRIVE.value,
+    S_Instrument_Index.ROTATIONAL_SPEED_RANGE_FROM.value: Instrument_Index.ROTATIONAL_SPEED_RANGE_FROM.value,
+    S_Instrument_Index.SAMPLE_PIPELINE_TYPE.value: Instrument_Index.SAMPLE_PIPELINE_TYPE.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_BACK_PRESSURE_REGULATOR.value: Instrument_Index.SAMPLE_PREPARATION_BACK_PRESSURE_REGULATOR.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_CHEMICAL_TEMPLATE.value: Instrument_Index.SAMPLE_PREPARATION_CHEMICAL_TEMPLATE.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_FILTER.value: Instrument_Index.SAMPLE_PREPARATION_FILTER.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_FLOW_COUNTER.value: Instrument_Index.SAMPLE_PREPARATION_FLOW_COUNTER.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_MEASURING_PRODUCT_COOLER.value: Instrument_Index.SAMPLE_PREPARATION_MEASURING_PRODUCT_COOLER.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_MISCELLANEOUS.value: Instrument_Index.SAMPLE_PREPARATION_MISCELLANEOUS.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_REDUCTION_STATION.value: Instrument_Index.SAMPLE_PREPARATION_REDUCTION_STATION.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_SEPARATOR.value: Instrument_Index.SAMPLE_PREPARATION_SEPARATOR.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_TUBE_FURNACE.value: Instrument_Index.SAMPLE_PREPARATION_TUBE_FURNACE.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_VAPORIZER.value: Instrument_Index.SAMPLE_PREPARATION_VAPORIZER.value,
+    S_Instrument_Index.SERIAL_NUMBER.value: Instrument_Index.SERIAL_NUMBER.value,
+    S_Instrument_Index.SOUND_PRESSURE_LEVEL_AT_NO_LOAD.value: Instrument_Index.SOUND_PRESSURE_LEVEL_AT_NO_LOAD.value,
+    S_Instrument_Index.SOUND_PRESSURE_LEVEL_AT_NOMINAL_LOAD.value: Instrument_Index.SOUND_PRESSURE_LEVEL_AT_NOMINAL_LOAD.value,
+    S_Instrument_Index.SPECIAL_PAINT.value: Instrument_Index.SPECIAL_PAINT.value,
+    S_Instrument_Index.ROTATIONAL_SPEED_RANGE_TO.value: Instrument_Index.ROTATIONAL_SPEED_RANGE_TO.value,
+    S_Instrument_Index.STARTING_CURRENT_RATIO_IA_IN.value: Instrument_Index.STARTING_CURRENT_RATIO_IA_PER_IN.value,
+    S_Instrument_Index.STARTING_TORQUE_RATIO_MA_MN.value: Instrument_Index.STARTING_TORQUE_RATIO_MA_PER_MN.value,
+    S_Instrument_Index.DEFAULT_SYMBOL_LIBRARY.value: Instrument_Index.SYMBOL_LIBRARY.value,
+    S_Instrument_Index.SYMBOL_NAME.value: Instrument_Index.SYMBOL_NAME.value,
+    S_Instrument_Index.TMU.value: Instrument_Index.TMU.value,
+    S_Instrument_Index.TOTAL_DIMENSIONS_HEIGHT.value: Instrument_Index.TOTAL_DIMENSIONS_HEIGHT.value,
+    S_Instrument_Index.TOTAL_DIMENSIONS_LENGTH.value: Instrument_Index.TOTAL_DIMENSIONS_LENGTH.value,
+    S_Instrument_Index.TOTAL_DIMENSIONS_WIDTH.value: Instrument_Index.TOTAL_DIMENSIONS_WIDTH.value,
+    S_Instrument_Index.TOTAL_WEIGHT.value: Instrument_Index.TOTAL_WEIGHT.value,
+    S_Instrument_Index.TOTAL_WEIGHT_OF_MOTOR.value: Instrument_Index.TOTAL_WEIGHT_OF_MOTOR.value,
+    S_Instrument_Index.TRAVEL_RANGE.value: Instrument_Index.TRAVEL_RANGE.value,
+    S_Instrument_Index.TYPE_OF_COOLING.value: Instrument_Index.TYPE_OF_COOLING.value,
+    S_Instrument_Index.WEIGHT_FOR_CHOKE.value: Instrument_Index.WEIGHT_FOR_CHOKE.value,
+    S_Instrument_Index.WEIGHT_FOR_CONVERTER.value: Instrument_Index.WEIGHT_FOR_CONVERTER.value,
+    S_Instrument_Index.WINDING_CIRCUIT.value: Instrument_Index.WINDING_CIRCUIT.value,
+    S_Instrument_Index.YEAR_OF_CONSTRUCTION.value: Instrument_Index.YEAR_OF_CONSTRUCTION.value,
+    S_Instrument_Index.SCREWED_JOINT.value: Instrument_Index.SCREWED_JOINT.value,
+    S_Instrument_Index.SAMPLE_PIPELINE_MATERIAL.value: Instrument_Index.SAMPLE_PIPELINE_MATERIAL.value,
+    S_Instrument_Index.DRIVE_WITH_HEATING.value: Instrument_Index.DRIVE_WITH_HEATING.value,
+    S_Instrument_Index.BLUFF_BODY_MATERIAL.value: Instrument_Index.BLUFF_BODY_MATERIAL.value,
+    S_Instrument_Index.SEAT_MATERIAL.value: Instrument_Index.SEAT_MATERIAL.value,
+    S_Instrument_Index.HOUSING_MATERIAL.value: Instrument_Index.HOUSING_MATERIAL.value,
+    S_Instrument_Index.GLAND_NUT_LUBRICATION.value: Instrument_Index.GLAND_NUT_LUBRICATION.value,
+    S_Instrument_Index.COOLING_FINS.value: Instrument_Index.COOLING_FINS.value,
+    S_Instrument_Index.STANDARD_ORIFICE_NOZZLE_MATERIAL.value: Instrument_Index.STANDARD_ORIFICE_NOZZLE_MATERIAL.value,
+    S_Instrument_Index.TAPPING_MATERIAL.value: Instrument_Index.TAPPING_MATERIAL.value
+}

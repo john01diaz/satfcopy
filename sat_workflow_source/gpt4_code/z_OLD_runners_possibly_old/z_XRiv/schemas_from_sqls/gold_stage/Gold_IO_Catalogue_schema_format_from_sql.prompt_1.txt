@@ -1,0 +1,79 @@
+get the input and output tables and their columns from the following SQL code.
+convert the tables into python enums with the columns as the enum values.
+use IO_Catalogue as the name for the output table.
+use the alias names for the output columns.
+Make all enum member names uppercase.
+Make all enum values lowercase.
+Use single quotes for strings.
+
+"SELECT Distinct
+Model_Number
+,Description
+,Manufacturer
+,DescriptionDrawing
+,Channel
+,AllowUse
+,IOType
+,NoOfPoints
+,TerminalsPerPointChannel
+,TerminalsPerMarking
+FROM SIGRAPH_SILVER.S_IO_CATALOGUE
+Where Catalogue_RNT=1
+and database_name in (Select Database_name from VW_Database_names)
+order by Model_Number,Cast(Replace(Replace(TerminalsPerMarking,'+',''),'-','') as BIGINT)"
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+The SQL statement you've provided pulls data from two tables. The primary table is `SIGRAPH_SILVER.S_IO_CATALOGUE`, and the secondary table is `VW_Database_names` (from the subquery).
+
+The selected columns from `SIGRAPH_SILVER.S_IO_CATALOGUE` table are:
+- Model_Number
+- Description
+- Manufacturer
+- DescriptionDrawing
+- Channel
+- AllowUse
+- IOType
+- NoOfPoints
+- TerminalsPerPointChannel
+- TerminalsPerMarking
+
+The selected column from `VW_Database_names` table is:
+- Database_name
+
+Now, let's convert these tables and columns to Python enums:
+
+```python
+from enum import Enum
+
+class S_IO_CATALOGUE(Enum):
+    MODEL_NUMBER = 'model_number'
+    DESCRIPTION = 'description'
+    MANUFACTURER = 'manufacturer'
+    DESCRIPTION_DRAWING = 'descriptiondrawing'
+    CHANNEL = 'channel'
+    ALLOW_USE = 'allowuse'
+    IO_TYPE = 'iotype'
+    NO_OF_POINTS = 'noofpoints'
+    TERMINALS_PER_POINT_CHANNEL = 'terminalsperpointchannel'
+    TERMINALS_PER_MARKING = 'terminalspermarking'
+
+class VW_DATABASE_NAMES(Enum):
+    DATABASE_NAME = 'database_name'
+
+class IO_CATALOGUE(Enum):
+    MODEL_NUMBER = 'model_number'
+    DESCRIPTION = 'description'
+    MANUFACTURER = 'manufacturer'
+    DESCRIPTION_DRAWING = 'descriptiondrawing'
+    CHANNEL = 'channel'
+    ALLOW_USE = 'allowuse'
+    IO_TYPE = 'iotype'
+    NO_OF_POINTS = 'noofpoints'
+    TERMINALS_PER_POINT_CHANNEL = 'terminalsperpointchannel'
+    TERMINALS_PER_MARKING = 'terminalspermarking'
+    DATABASE_NAME = 'database_name'
+```
+Note: Python enums do not directly support alias names. Therefore, alias names from the SQL code are not included in the Python enums.
+
+Also, enum values are lowercase in this Python code, as per your request, and string values are enclosed in single quotes. Enum member names are uppercase.

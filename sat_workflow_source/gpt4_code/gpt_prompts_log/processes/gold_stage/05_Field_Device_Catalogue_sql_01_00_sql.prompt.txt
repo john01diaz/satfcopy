@@ -1,0 +1,109 @@
+Translate the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+Do not value brevity when generating python code.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named Field_Device_Catalogue
+
+class Field_Device_Catalogue(
+        Enum):
+    CATALOGUE_NAME = 'catalogue_name'
+    LEFT_PIN_DETAILS = 'left_pin_details'
+    LEFT_MARKING = 'left_marking'
+    RIGHT_PIN_DETAILS = 'right_pin_details'
+    RIGHT_MARKING = 'right_marking'
+    TAG_NUMBER = 'tag_number'
+    LOOP_NUMBER = 'loop_number'
+    DOCUMENT_NUMBER = 'document_number'
+
+This is the enum schema for the input table named S_Field_Device_Catalogue
+
+from enum import Enum
+
+class S_Field_Device_Catalogue(Enum):
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    CATALOGUE_NAME = 'catalogue_name'
+    LEFT_PIN_DETAILS = 'left_pin_details'
+    LEFT_MARKING = 'left_marking'
+    RIGHT_PIN_DETAILS = 'right_pin_details'
+    RIGHT_MARKING = 'right_marking'
+    TAG_NUMBER = 'tag_number'
+    LOOP_NUMBER = 'loop_number'
+    DOCUMENT_NUMBER = 'document_number'
+    CLASS = 'class'
+
+
+This is the SQL statement named 05_Field_Device_Catalogue.
+
+Select Distinct
+  A.Catalogue_Name,
+  A.Left_pin_details,
+  A.Left_Marking,
+  A.Right_pin_details,
+  A.Right_Marking,
+  A.Tag_Number,
+  A.Loop_Number,
+  A.Document_number
+From SIGRAPH_SILVER.S_FIELD_DEVICE_CATALOGUE A
+Where Catalogue_RNT=1 and Catalogue_Name<>''
+and database_name in (Select Database_name from VW_Database_names)
+
+&&&&&&&&&&&&&&&&&&&
+
+def device_catalogue_query(device_catalogue_dataframe, database_names_dataframe):
+    # Constants
+    CATALOGUE_RNT_VALUE = 1
+    EMPTY_CATALOGUE_NAME = ''
+
+    # Select database names
+    database_names = database_names_dataframe[DatabaseNames.DATABASE_NAME.value].unique()
+
+    # Filter the device catalogue dataframe
+    filtered_dataframe = device_catalogue_dataframe[
+        (device_catalogue_dataframe[S_DeviceCatalogue.CATALOGUE_RNT.value] == CATALOGUE_RNT_VALUE) &
+        (device_catalogue_dataframe[S_DeviceCatalogue.DATABASE_NAME.value].isin(database_names)) &
+        (device_catalogue_dataframe[S_DeviceCatalogue.CATALOGUE_NAME.value] != EMPTY_CATALOGUE_NAME)
+    ].drop_duplicates()
+
+    # Select distinct rows with specific columns
+    result_dataframe = filtered_dataframe[[
+        S_DeviceCatalogue.CATALOGUE_NAME.value,
+        S_DeviceCatalogue.LEFT.value,
+        S_DeviceCatalogue.LEFT_MARKING.value,
+        S_DeviceCatalogue.RIGHT.value,
+        S_DeviceCatalogue.RIGHT_MARKING.value,
+        S_DeviceCatalogue.TAG_NUMBER.value,
+        S_DeviceCatalogue.LOOP_NUMBER.value,
+        S_DeviceCatalogue.DOCUMENT_NUMBER.value
+    ]]
+
+    return result_dataframeuery. The enum values must match the column names in the actual dataframes. The drop_duplicates() function is used to mimic the SQL DISTINCT keyword; it will return

@@ -1,0 +1,65 @@
+
+Silver_S_IO_Catalogue_schema_format.prompt_1.txt
+
+This is the schema for a table called S_IO_Catalogue. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'S_IO_Catalogue'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+S_IO_Catalogue  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_IO_Catalogue(Enum):
+
+--- the column names go here.
+
+S_IO_Catalogue Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+S_IO_Catalogue	AllowUse
+S_IO_Catalogue	Catalogue_RNT
+S_IO_Catalogue	Channel
+S_IO_Catalogue	Class
+S_IO_Catalogue	database_name
+S_IO_Catalogue	Description
+S_IO_Catalogue	DescriptionDrawing
+S_IO_Catalogue	dynamic_class
+S_IO_Catalogue	IOType
+S_IO_Catalogue	Manufacturer
+S_IO_Catalogue	Model_Number
+S_IO_Catalogue	NoOfPoints
+S_IO_Catalogue	object_identifier
+S_IO_Catalogue	parquet_file_relative_path
+S_IO_Catalogue	TerminalsPerMarking
+S_IO_Catalogue	TerminalsPerPointChannel
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_IO_Catalogue(Enum):
+    ALLOWUSE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CHANNEL = 'channel'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    DYNAMIC_CLASS = 'dynamic_class'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+In this code, the class name is S_IO_Catalogue, as requested. The column names are all in lowercase, enclosed in single quotes, and converted to uppercase in the Enum members.

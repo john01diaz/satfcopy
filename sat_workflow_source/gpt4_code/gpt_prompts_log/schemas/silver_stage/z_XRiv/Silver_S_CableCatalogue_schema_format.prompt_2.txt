@@ -1,0 +1,79 @@
+
+Silver_S_CableCatalogue_schema_format.prompt.txt
+
+This is the schema for a table called S_CableCatalogue. 
+the first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names using a sub-class of Enum called ColumnTypes.
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+
+S_CableCatalogue	Earth_Core_Size
+S_CableCatalogue	Colour2
+S_CableCatalogue	OD
+S_CableCatalogue	Size
+S_CableCatalogue	Material
+S_CableCatalogue	Colour1
+S_CableCatalogue	LineType
+S_CableCatalogue	Remarks
+S_CableCatalogue	LineTypeArrowHead
+S_CableCatalogue	LineTypeColor
+S_CableCatalogue	LineTypeWidth
+S_CableCatalogue	parquet_file_relative_path
+S_CableCatalogue	DrumLength
+S_CableCatalogue	Voltage
+S_CableCatalogue	AllowUse
+S_CableCatalogue	EarthCore
+S_CableCatalogue	GroupType
+S_CableCatalogue	Object_Identifier
+S_CableCatalogue	Description
+S_CableCatalogue	OAScr
+S_CableCatalogue	Class
+S_CableCatalogue	Manufacturer
+S_CableCatalogue	NoOfGroups
+S_CableCatalogue	Armoured
+S_CableCatalogue	Database_name
+S_CableCatalogue	GroupScr
+
+
+S_CableCatalogue Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+from enum import Enum
+
+class ColumnTypes(Enum):
+    pass
+
+class S_CableCatalogueColumns(ColumnTypes):
+    EARTH_CORE_SIZE = "earth_core_size"
+    COLOUR2 = "colour2"
+    OD = "od"
+    SIZE = "size"
+    MATERIAL = "material"
+    COLOUR1 = "colour1"
+    LINE_TYPE = "linetype"
+    REMARKS = "remarks"
+    LINE_TYPE_ARROW_HEAD = "linetypearrowhead"
+    LINE_TYPE_COLOR = "linetypecolor"
+    LINE_TYPE_WIDTH = "linetypewidth"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+    DRUM_LENGTH = "drumlength"
+    VOLTAGE = "voltage"
+    ALLOW_USE = "allowuse"
+    EARTH_CORE = "earthcore"
+    GROUP_TYPE = "grouptype"
+    OBJECT_IDENTIFIER = "object_identifier"
+    DESCRIPTION = "description"
+    OASCR = "oascr"
+    CLASS = "class"
+    MANUFACTURER = "manufacturer"
+    NO_OF_GROUPS = "noofgroups"
+    ARMOURED = "armoured"
+    DATABASE_NAME = "database_name"
+    GROUP_SCR = "groupscr"
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+In this case, ColumnTypes is a superclass Enum and S_CableCatalogueColumns is a subclass of this Enum. All the Enum member names are uppercase, as you requested, and all the associated values are lowercase.
+
+&&&&&&&&&&&&&&&&& Edited
+

@@ -1,0 +1,40 @@
+Silver_S_Terminations_schema_format.prompt_2.txt
+
+This is the schema for a table called S_Terminations.
+It is a list of column names for S_Terminations
+Create a python Enum for these column names.
+Name the class 'S_Terminations'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_Terminations Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+CableNumber
+Class
+Core_Markings
+database_name
+Equipment_No
+Left_Right
+Marking
+object_identifier
+Parent_Equipment_No
+parquet_file_relative_path
+
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+class S_Terminations(Enum):
+CABLENUMBER = 'cablenumber'
+CLASS = 'class'
+CORE_MARKINGS = 'core_markings'
+DATABASE_NAME = 'database_name'
+EQUIPMENT_NO = 'equipment_no'
+LEFT_RIGHT = 'left_right'
+MARKING = 'marking'
+OBJECT_IDENTIFIER = 'object_identifier'
+PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

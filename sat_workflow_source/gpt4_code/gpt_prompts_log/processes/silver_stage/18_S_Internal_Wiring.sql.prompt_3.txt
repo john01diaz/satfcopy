@@ -1,0 +1,244 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+For merge transformation, preserve the original column names.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the input table named S_Terminals
+
+class S_Terminals(
+        Enum):
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENT_NO = 'equipment_no'
+    MARKING = 'marking'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    SEQUENCE = 'sequence'
+
+This is the enum schema for the input table named S_Connection
+
+class S_Connection(
+        Enum):
+    CABLE = 'cable'
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CONNECTION_TYPE = 'connection_type'
+    DATABASE_NAME = 'database_name'
+    DOCUMENT_NUMBER = 'document_number'
+    FROM_CONNECTION_PIN_HREF = 'from_connection_pin_href'
+    FROM_DYNAMIC_CLASS = 'from_dynamic_class'
+    FROM_FACILITY = 'from_facility'
+    FROM_ITEM = 'from_item'
+    FROM_ITEM_DYNAMIC_CLASS = 'from_item_dynamic_class'
+    FROM_ITEM_OBJECT_IDENTIFIER = 'from_item_object_identifier'
+    FROM_LOCATION = 'from_location'
+    FROM_OBJECT_IDENTIFIER = 'from_object_identifier'
+    FROM_TERMINAL_MARKING = 'from_terminal_marking'
+    LOOP_NUMBER = 'loop_number'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    TAG_NUMBER = 'tag_number'
+    TO_CONNECTION_PIN_HREF = 'to_connection_pin_href'
+    TO_DYNAMIC_CLASS = 'to_dynamic_class'
+    TO_FACILITY = 'to_facility'
+    TO_ITEM = 'to_item'
+    TO_ITEM_DYNAMIC_CLASS = 'to_item_dynamic_class'
+    TO_ITEM_OBJECT_IDENTIFIER = 'to_item_object_identifier'
+    TO_LOCATION = 'to_location'
+    TO_OBJECT_IDENTIFIER = 'to_object_identifier'
+    TO_TERMINAL_MARKING = 'to_terminal_marking'
+    WIRE_CROSS_SECTION = 'wire_cross_section'
+    WIRE_MARKINGS = 'wire_markings'
+    WIRE_OBJECT_IDENTIFIER = 'wire_object_identifier'
+
+This is the enum schema for the output table named S_Internal_Wiring
+
+class S_Internal_Wiring(
+        Enum):
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    FROM_COMPARTMENT = 'from_compartment'
+    FROM_EQUIPMENT = 'from_equipment'
+    FROM_LEFT_RIGHT = 'from_left_right'
+    FROM_MARKING = 'from_marking'
+    FROM_PARENT_EQUIPMENT_NO = 'from_parent_equipment_no'
+    FROM_WIRE_LINK = 'from_wire_link'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    TO_COMPARTMENT = 'to_compartment'
+    TO_EQUIPMENT_NO = 'to_equipment_no'
+    TO_LEFT_RIGHT = 'to_left_right'
+    TO_MARKING = 'to_marking'
+    TO_PARENT_EQUIPMENT_NO = 'to_parent_equipment_no'
+    TO_WIRE_LINK = 'to_wire_link'
+
+
+This is the SQL statement named 18_S_Internal_Wiring.
+
+"
+create or replace temp view Internal_Wiring
+as
+Select Distinct
+ A.database_name
+,A.object_identifier 
+,A.From_Location as From_Parent_Equipment_No
+,'' as From_Compartment
+,A.From_Item as From_Equipment
+,A.Connection_Type as From_Wire_Link
+,A.From_Terminal_Marking as From_Marking
+-- If the connection is from Terminal strip and if we are unable to find the side of terminal strip (Which can be decided based on Pin Designation (A is left and B is right)). Then put them under Normal connection
+,Case when FROM_dynamic_Class='LC_Component_function' 
+      and UPPER(regexp_extract(A.From_Terminal_Marking,'[A-Za-z]+',0)) not in ('AB','CD','EF','GH')
+      Then 'Normal'
+      Else 'R'
+      END as From_Left_Right
+,A.To_Location as To_Parent_Equipment_No
+,'' as To_Compartment
+,A.To_Item as To_Equipment_No
+,A.Connection_Type as To_Wire_Link
+,A.To_Terminal_Marking as To_Marking
+,Case when To_dynamic_Class='LC_Component_function' 
+      and UPPER(regexp_extract(A.To_Terminal_Marking,'[A-Za-z]+',0)) not in ('AB','CD','EF','GH')
+      Then 'Normal'
+      Else 'L'
+      END as To_Left_Right 
+,DF.Class      
+from Sigraph_silver.S_Connection A
+Inner join Sigraph_Silver.S_Terminals DF 
+On DF.Parent_Equipment_No=Coalesce(A.From_Location,'')
+and DF.Equipment_No=A.From_Item 
+and DF.Marking=A.From_Terminal_Marking
+Inner join Sigraph_Silver.S_Terminals DT 
+On DT.Parent_Equipment_No=Coalesce(A.To_Location,'')
+and DT.Equipment_No=A.To_Item 
+and DT.Marking=A.To_Terminal_Marking
+Where A.From_Location=A.To_Location -- Internal wiring logic, both to and from equipment should be same.
+and A.From_Location  is not null  and A.To_Location is not null 
+"
+
+------------------
+def extract_letters(
+        marking):
+    letter_list = re.findall(
+            '[A-Za-z]+',
+            marking)
+    return letter_list[0].upper() if letter_list else ''
+
+
+# Function to determine the side
+def determine_side(
+        dynamic_class,
+        marking):
+    letters = extract_letters(
+            marking)
+    if dynamic_class == 'LC_Component_function' and letters not in ['AB', 'CD', 'EF', 'GH']:
+        return 'Normal'
+    else:
+        return 'R' if letters == 'A' else 'L'
+
+
+def create_silver_18_s_internal_wiring_sql_01_00_dataframe(
+        s_connection_dataframe,
+        s_terminals_dataframe):
+    # Preprocessing: Creating additional columns required for the analysis
+    s_connection_dataframe[S_Connection.FROM_DYNAMIC_CLASS.value] = s_connection_dataframe.apply(
+            lambda
+                row: determine_side(
+                    row[S_Connection.FROM_DYNAMIC_CLASS.value],
+                    row[S_Connection.FROM_TERMINAL_MARKING.value]),
+            axis=1)
+    s_connection_dataframe[S_Connection.TO_DYNAMIC_CLASS.value] = s_connection_dataframe.apply(
+            lambda
+                row: determine_side(
+                    row[S_Connection.TO_DYNAMIC_CLASS.value],
+                    row[S_Connection.TO_TERMINAL_MARKING.value]),
+            axis=1)
+
+    # Join operations
+    merged_dataframe_from = pandas.merge(
+            s_connection_dataframe,
+            s_terminals_dataframe,
+            left_on=[S_Connection.FROM_LOCATION.value, S_Connection.FROM_ITEM.value,
+                     S_Connection.FROM_TERMINAL_MARKING.value],
+            right_on=[S_Terminals.PARENT_EQUIPMENT_NO.value, S_Terminals.EQUIPMENT_NO.value, S_Terminals.MARKING.value],
+            how='inner',
+            suffixes=('', 'term'))
+
+    merged_dataframe_to = pandas.merge(
+            merged_dataframe_from,
+            s_terminals_dataframe,
+            left_on=[S_Connection.TO_LOCATION.value, S_Connection.TO_ITEM.value,
+                     S_Connection.TO_TERMINAL_MARKING.value],
+            right_on=[S_Terminals.PARENT_EQUIPMENT_NO.value, S_Terminals.EQUIPMENT_NO.value, S_Terminals.MARKING.value],
+            how='inner',
+            suffixes=('', 'term'))
+
+    # Selecting required columns and renaming them
+    required_dataframe = merged_dataframe_to[
+        [S_Connection.DATABASE_NAME.value, S_Connection.OBJECT_IDENTIFIER.value, S_Connection.FROM_LOCATION.value,
+         S_Connection.FROM_ITEM.value,
+         S_Connection.CONNECTION_TYPE.value, S_Connection.FROM_TERMINAL_MARKING.value,
+         S_Connection.FROM_DYNAMIC_CLASS.value,
+         S_Connection.TO_LOCATION.value, S_Connection.TO_ITEM.value, S_Connection.TO_TERMINAL_MARKING.value,
+         S_Connection.TO_DYNAMIC_CLASS.value, S_Terminals.CLASS.value + 'term']].copy()
+
+    required_dataframe.rename(
+            columns={
+                S_Terminals.CLASS.value + 'term': S_Internal_Wiring.CLASS.value
+                },
+            inplace=True)
+
+    required_dataframe.columns = [S_Internal_Wiring.DATABASE_NAME.value, S_Internal_Wiring.OBJECT_IDENTIFIER.value,
+                                  S_Internal_Wiring.FROM_PARENT_EQUIPMENT_NO.value,
+                                  S_Internal_Wiring.FROM_EQUIPMENT.value, S_Internal_Wiring.FROM_WIRE_LINK.value,
+                                  S_Internal_Wiring.FROM_MARKING.value,
+                                  S_Internal_Wiring.FROM_LEFT_RIGHT.value,
+                                  S_Internal_Wiring.TO_PARENT_EQUIPMENT_NO.value,
+                                  S_Internal_Wiring.TO_EQUIPMENT_NO.value,
+                                  S_Internal_Wiring.TO_MARKING.value, S_Internal_Wiring.TO_LEFT_RIGHT.value,
+                                  S_Internal_Wiring.CLASS.value]
+
+    # Filtering the data
+    required_dataframe = required_dataframe.loc[(required_dataframe[S_Internal_Wiring.FROM_PARENT_EQUIPMENT_NO.value] ==
+                                                 required_dataframe[S_Internal_Wiring.TO_PARENT_EQUIPMENT_NO.value])
+                                                & (required_dataframe[
+                                                       S_Internal_Wiring.FROM_PARENT_EQUIPMENT_NO.value].notna())
+                                                & (required_dataframe[
+                                                       S_Internal_Wiring.TO_PARENT_EQUIPMENT_NO.value].notna())]
+
+    # Dropping duplicates
+    required_dataframe = required_dataframe.drop_duplicates()
+
+    return required_dataframerect column names before calling the function generate_internal_wiring(dataframe_s_connection, dataframe_s_terminals). This function will return the final dataframe equivalent to the SQL query result. in the conversion, we've used unique names for every column. If you want to keep duplicate columns, you might have to adjust this part according to your needs. Also, the "DF.Class" and "DT.Class" columns are not mapped because their original names in the s_terminals dataframe were not specified.

@@ -1,0 +1,183 @@
+We need to convert Databricks SQL statements into vanilla python code.
+we want to find the general patterns in the SQL statements so we can write the python code is a similar way.
+
+Where things are not clear please ask for a clarification
+
+General instructions
+Can you make the code as modular as possible.
+Can you use clean coding principles.
+Can you follow the PEP8 style guide.
+Can you use human readable names.
+Can you choose descriptive and unambiguous names.
+Can you choose pronounceable names
+Can you choose searchable names
+Can you NEVER choose any abbreviations or shortened variable names
+Can you replace magic numbers with named constants.
+
+Can you define any literals as named constants
+Define and name all lists and arrays separately
+
+Specific instructions
+
+Can you treat  the input files as pandas dataframes and read them in as parameters at the start,
+
+The input columns can be treated in different ways - modularise these different ways if possible.
+sometimes a column will be passed through without any modification.
+sometimes a columnn will be simply mapped to a column with a new name - note that the same column may be mapped several times
+sometimes a new columnn will be added with a constant value
+sometimes a columnn will be mapped to a column using  more complex calculations 
+
+Can you make sure you complete all the lists and arrays - don't stop in the middle.
+
+Code all string literals as constants
+
+use the names 'dataframe' and 'pandas' in full, do not abbreviate. 
+
+use the names 'dataframe' and 'pandas' and .numpy' in full, do not abbreviate. 
+give variables meaningful names
+------------------
+
+------------------
+This is the Databricks SQL statement called - 08_S_Device_Catalogue.sql
+
+It takes in two dataframes (S_Itemfunction and S_Item_Function_Model) and outputs a third dataframe (08_S_Device_Catalogue) 
+
+we have converted the schemas for these dataframes into Python Enums using a subsclass of enums CollectTypes - and converted the names to lower case.
+Can you use these when referring to the column names.
+
+S_Item_Function_Model &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class ColumnTypes(Enum):
+    pass
+	
+class S_ItemFunctionModelColumns(ColumnTypes):
+    DATABASE_NAME = "database_name"
+    DYNAMIC_CLASS = "dynamic_class"
+    OBJECT_IDENTIFIER = "object_identifier"
+    ITEM_DYNAMIC_CLASS = "item_dynamic_class"
+    ITEM_OBJECT_IDENTIFIER = "item_object_identifier"
+    LEFT = "left"
+    RIGHT = "right"
+    LEFT_MARKING = "left_marking"
+    RIGHT_MARKING = "right_marking"
+    ALL_MARKING = "all_marking"
+    MODEL_NO_ORIGINAL = "modelno_original"
+    MODEL_NO = "modelno"
+    SYMBOL_NAME = "symbol_name"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+	
+S_Item_Function_Model &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class ColumnTypes(Enum):
+    pass
+	
+class S_ItemFunctionModelColumns(ColumnTypes):
+    DATABASE_NAME = "database_name"
+    DYNAMIC_CLASS = "dynamic_class"
+    OBJECT_IDENTIFIER = "object_identifier"
+    ITEM_DYNAMIC_CLASS = "item_dynamic_class"
+    ITEM_OBJECT_IDENTIFIER = "item_object_identifier"
+    LEFT = "left"
+    RIGHT = "right"
+    LEFT_MARKING = "left_marking"
+    RIGHT_MARKING = "right_marking"
+    ALL_MARKING = "all_marking"
+    MODEL_NO_ORIGINAL = "modelno_original"
+    MODEL_NO = "modelno"
+    SYMBOL_NAME = "symbol_name"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+
+S_DeviceCatalogue Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class ColumnTypes(Enum):
+    pass
+	
+class S_DeviceCatalogueColumns(ColumnTypes):
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+    CATALOGUE_RNT = "catalogue_rnt"
+    ITEM_DYNAMIC_CLASS = "item_dynamic_class"
+    OBJECT_IDENTIFIER = "object_identifier"
+    DYNAMIC_CLASS = "dynamic_class"
+    ITEM_OBJECT_IDENTIFIER = "item_object_identifier"
+    DATABASE_NAME = "database_name"
+    PRODUCT_KEY = "product_key"
+    TAG_NUMBER = "tag_number"
+    DOCUMENT_NUMBER = "document_number"
+    LOOP_NUMBER = "loop_number"
+    ALLOW_USE = "allowuse"
+    TYPE = "type"
+    DESCRIPTION = "description"
+    MANUFACTURER = "manufacturer"
+    MODEL_NO = "modelno"
+    CLASS = "class"
+    LEFT = "left"
+    RIGHT = "right"
+    LEFT_MARKING = "left_marking"
+    RIGHT_MARKING = "right_marking"
+    SYMBOL_NAME = "symbol_name"
+
+"
+CREATE OR REPLACE TEMP VIEW 08_S_Device_Catalogue
+As
+
+Select Distinct
+"TRUE" as AllowUse
+,VDV.Device_Type as Type
+-- if we have ModelNo blank in Sigraph. add Product Key, Document number and database name in description to validate this details and update with correct data in future - 2/28/2023 Discipline.
+,Coalesce(
+            Concat(Coalesce(VDV.Description,'')
+                  ,'-'
+                  ,Coalesce(VDV.Product_Key,'')
+                  ,'-'
+                  ,Coalesce(VDV.Document_Number,'')
+                  ,'-'
+                  ,Replace(VDV.Database_name,'_2016R3','')
+                  )
+              ,'RHLDD') as Description	
+,Manufacturer as Manufacturer	
+,VM.ModelNo
+,VDV.Class
+,VM.Left
+,VM.Right
+,VM.Left_Marking
+,VM.Right_Marking
+,VM.Symbol_name
+,VDV.Loop_Number
+,VDV.Tag_Number
+,VDV.Document_Number
+,VDV.Product_Key as Product_Key
+,VDV.database_name
+,VDV.Item_Object_Identifier              
+,VDV.Item_Dynamic_Class
+,VDV.Object_Identifier
+,VDV.Dynamic_Class
+,Row_Number() Over(Partition by VM.ModelNo order by VDV.Item_Object_Identifier) as Catalogue_RNT
+from sigraph_silver.S_Itemfunction VDV
+Inner join sigraph_silver.S_Item_Function_Model VM 
+On VDV.database_name=VM.database_name 
+and VDV.Item_Dynamic_Class=VM.Item_Dynamic_Class
+and VDV.Item_Object_identifier=VM.Item_Object_identifier
+and VDV.Dynamic_Class=VM.Dynamic_Class
+and VDV.Object_Identifier=VM.Object_Identifier
+Where VDV.Type in ('Device','FTA') and VDV.location_designation is not null
+and (Coalesce(VM.Left,0)+Coalesce(VM.Right,0))>0
+"
+
+&&&&&&&&&&&&&&&
+
+
+
+
+&&&&&&&&&&&&&&&
+
+
+
+	
+	&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

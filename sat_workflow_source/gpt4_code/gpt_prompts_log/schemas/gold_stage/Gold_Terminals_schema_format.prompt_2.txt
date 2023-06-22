@@ -1,0 +1,24 @@
+This is the schema for a table called Terminals.
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'Terminals'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+12_Terminals	Parent_Equipment_No
+12_Terminals	Equipment_No
+12_Terminals	Sequence
+12_Terminals	Marking
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class Terminals(Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENT_NO = 'equipment_no'
+    SEQUENCE = 'sequence'
+    MARKING = 'marking'
+

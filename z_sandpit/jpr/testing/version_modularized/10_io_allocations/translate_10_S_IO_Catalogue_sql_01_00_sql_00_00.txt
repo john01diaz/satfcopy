@@ -1,0 +1,184 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named S_IO_Catalogue_01
+
+class S_IO_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CHANNEL = 'channel'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    DYNAMIC_CLASS = 'dynamic_class'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+These are the enums for the input table schemas named S_ItemFunction and S_Item_Function_Model
+
+class S_ItemFunction(
+        Enum):
+    ADD = 'add'
+    CHANNELNUMBER = 'channelnumber'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DEVICE_TYPE = 'device_type'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    FACILITY_DESIGNATION = 'facility_designation'
+    FACILITY_DYNAMIC_CLASS = 'facility_dynamic_class'
+    FACILITY_OBJECT_IDENTIFIER = 'facility_object_identifier'
+    FUNCTION_OCC_OBJECT_IDENTIFIER = 'function_occ_object_identifier'
+    IOTYPE = 'iotype'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    ITEM_SLOT = 'item_slot'
+    LOCATION_DESIGNATION = 'location_designation'
+    LOCATION_DYNAMIC_CLASS = 'location_dynamic_class'
+    LOCATION_OBJECT_IDENTIFIER = 'location_object_identifier'
+    LOOP_ELEMENT_DYNAMIC_CLASS = 'loop_element_dynamic_class'
+    LOOP_ELEMENT_OBJECT_IDENTIFIER = 'loop_element_object_identifier'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    METADATA = 'metadata'
+    MODELNO = 'modelno'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PRODUCT_DESIGNATION = 'product_designation'
+    PRODUCT_KEY = 'product_key'
+    PRODUCT_KEY_ORIGINAL = 'product_key_original'
+    PROTOCOL = 'protocol'
+    RACK = 'rack'
+    RACK_DYNAMIC_CLASS = 'rack_dynamic_class'
+    RACK_OBJECT_IDENTIFIER = 'rack_object_identifier'
+    REMOVE = 'remove'
+    ROWIDHIGHWATERMARK = 'rowidhighwatermark'
+    SHOW_KEY = 'show_key'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TXN = 'txn'
+    TYPE = 'type'
+
+
+
+class S_Item_Function_Model(
+        Enum):
+    ALL_MARKING = 'all_marking'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    LEFT = 'left'
+    LEFT_MARKING = 'left_marking'
+    MODELNO = 'modelno'
+    MODELNO_ORIGINAL = 'modelno_original'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    RIGHT = 'right'
+    RIGHT_MARKING = 'right_marking'
+    SYMBOL_NAME = 'symbol_name'
+
+Script 1:
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Pre_Join AS
+SELECT
+    A.database_name,
+    A.dynamic_class,
+    A.object_identifier,
+    B.ModelNo,
+    B.Manufacturer,
+    A.IOType,
+    A.Class,
+    A.ChannelNumber
+FROM
+    Sigraph_silver.S_Itemfunction A
+INNER JOIN
+    Sigraph_silver.S_Item_Function_Model B
+ON
+    A.database_name=B.database_name AND
+    A.Item_Dynamic_Class=B.Item_Dynamic_Class AND
+    A.Item_Object_identifier=B.Item_Object_identifier AND
+    A.Dynamic_Class=B.Dynamic_Class AND
+    A.Object_Identifier=B.Object_Identifier
+WHERE
+    B.Type='IO Module' AND
+    A.ChannelNumber IS NOT NULL AND
+    A.ChannelNumber <> '0' AND
+    A.ChannelNumber <> '';
+
+Script 2: Distinct Operation
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Distinct AS
+SELECT DISTINCT *
+FROM VW_IOCard_Pre_Join;
+
+Script 3: Window Function
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Window AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    ModelNo,
+    CONCAT(COUNT(ChannelNumber) OVER (PARTITION BY database_name, IOType, object_identifier), ' - Channel -', Manufacturer) AS Description,
+    MAX(Manufacturer) OVER (PARTITION BY ModelNo) as Manufacturer_Max,
+    ChannelNumber,
+    IOType,
+    Class,
+    COUNT(ChannelNumber) OVER (PARTITION BY database_name, IOType, object_identifier) as NoOfPoints
+FROM
+    VW_IOCard_Distinct;
+
+Script 4: Final Script with Column Renaming
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Prep_Query AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    ModelNo AS Model_Number,
+    Description,
+    Manufacturer_Max AS Manufacturer,
+    ChannelNumber,
+    IOType,
+    Class,
+    NoOfPoints
+FROM
+    VW_IOCard_Window;
+This final script renames the columns and uses the results from the previous scripts. The operations are separated into their own scripts, and each script is dependent on the previous script's output. This makes the entire process more modular and easier to understand.

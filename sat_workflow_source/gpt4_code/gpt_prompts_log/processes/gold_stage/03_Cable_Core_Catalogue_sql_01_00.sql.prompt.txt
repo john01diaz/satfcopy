@@ -1,0 +1,134 @@
+Convert the following Databricks SQL statement into  python code.
+
+
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Complete all the lists and arrays - don't stop in the middle.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+Use the enums listed below in the code but don't define them in the script itself as they will be imported.
+There is no need to filter the dataframes according to the enums
+For join statements: before doing any merge, reduce the size of the data to be merged by filtering dataframes to the columns required in the "on" clause, the "where" clause and the "select" clause.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start,
+
+You can treat the input columns in different ways - modularise these different ways if possible.
+Sometimes a column will be passed through without any modification.
+Sometimes a columnn will be simply mapped to a column with a new name - note that the same column may be mapped several times
+Sometimes a new columnn will be added with a constant value
+Sometimes a columnn will be mapped to a column using  more complex calculations
+
+To convert the SQL clause DENSE_RANK() OVER (PARTITION BY CM.CatalogueNo ORDER BY CM.database_name, CM.Cable_Object_Identifier) into python, use the groupby function in combination with the rank function. As pandas doesn't support multiple column sort in the rank method, create a new column concatenating database_name and Cable_Object_Identifier and then apply rank on it.
+
+Refer to the following enums when using column names. Assume that the lower_case column names from the dataframes are a subset of the corresponding enum values.
+
+This is the output enum:
+
+class Cable_Core_Catalogue(
+        Enum):
+    CATALOGUENO = 'catalogueno'
+    DESCRIPTION = 'description'
+    GROUP_MARKING = 'group_marking'
+    GROUP_MARKING_SEQUENCE = 'group_marking_sequence'
+    CORE_MARKINGS = 'core_markings'
+    CORE_MARKINGS_CORE_TYPE = 'core_markings_core_type'
+
+These are the input enum:
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+class S_CableCatalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    ARMOURED = 'armoured'
+    CLASS = 'class'
+    COLOUR1 = 'colour1'
+    COLOUR2 = 'colour2'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DRUMLENGTH = 'drumlength'
+    EARTH_CORE_SIZE = 'earth_core_size'
+    EARTHCORE = 'earthcore'
+    GROUPSCR = 'groupscr'
+    GROUPTYPE = 'grouptype'
+    LINETYPE = 'linetype'
+    LINETYPEARROWHEAD = 'linetypearrowhead'
+    LINETYPECOLOR = 'linetypecolor'
+    LINETYPEWIDTH = 'linetypewidth'
+    MANUFACTURER = 'manufacturer'
+    MATERIAL = 'material'
+    NOOFGROUPS = 'noofgroups'
+    OASCR = 'oascr'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OD = 'od'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    REMARKS = 'remarks'
+    SIZE = 'size'
+    VOLTAGE = 'voltage'
+
+class S_CableCatalogueNumber_Master(
+        Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CATALOGUENO = 'catalogueno'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+
+class S_CableCoreCatalogue(
+        Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CORE_MARKINGS = 'core_markings'
+    CORE_MARKINGS_CORE_TYPE = 'core_markings_core_type'
+    DATABASE_NAME = 'database_name'
+    GROUP_MARKING = 'group_marking'
+    GROUP_MARKING_SEQUENCE = 'group_marking_sequence'
+    ISVALIDCABLEANDCORE = 'isvalidcableandcore'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+
+This is the sql statement called 03_Cable_Core_Catalogue_sql_01_00.sql
+
+-- Databricks notebook source
+-- MAGIC %run /Users/p.abhishek@shell.com/01_Instrumentation_ETL_Scripts/03_Silver_Layer/01_Data_Loaders_Functions
+
+-- COMMAND ----------
+
+-- Cable Core Catalogue Extract
+
+Select
+CM.CatalogueNo
+,CM.Description
+,CM.Group_Marking
+,CM.Group_Marking_Sequence
+,CM.Core_Markings
+,CM.Core_Markings_Core_Type
+From (
+Select
+C.*
+,CC.Description
+,CM.CatalogueNo
+,Dense_Rank() Over(Partition by CM.CatalogueNo order by CM.database_name,CM.Cable_Object_Identifier) as RNT
+From sigraph_silver.S_CableCoreCatalogue C
+-- Catalogue Master
+Inner join sigraph_silver.S_CableCatalogueNumber_Master CM
+ON CM.database_name=C.database_name
+and CM.Cable_Object_Identifier = C.Cable_Object_Identifier
+-- Cable Catalogue
+Inner join sigraph_silver.S_CableCatalogue CC
+ON CC.database_name=C.database_name
+and CC.Object_Identifier = C.Cable_Object_Identifier
+Where CC.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and  C.database_name in (Select Database_name from VW_Database_names)
+) as CM
+
+Where RNT=1

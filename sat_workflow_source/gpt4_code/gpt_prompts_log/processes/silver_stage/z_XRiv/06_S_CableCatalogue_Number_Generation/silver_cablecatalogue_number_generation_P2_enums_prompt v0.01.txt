@@ -1,0 +1,55 @@
+This is stage 1. The following enums are for the input tables S_CableCoreCatalogue and S_CableCatalogue.
+
+class S_CableCoreCatalogue(
+        Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CORE_MARKINGS = 'core_markings'
+    CORE_MARKINGS_CORE_TYPE = 'core_markings_core_type'
+    DATABASE_NAME = 'database_name'
+    GROUP_MARKING = 'group_marking'
+    GROUP_MARKING_SEQUENCE = 'group_marking_sequence'
+    ISVALIDCABLEANDCORE = 'isvalidcableandcore'
+    OBJECT_IDENTIFIER = 'object_identifier'
+
+
+class S_CableCatalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    ARMOURED = 'armoured'
+    CLASS = 'class'
+    COLOUR1 = 'colour1'
+    COLOUR2 = 'colour2'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DRUMLENGTH = 'drumlength'
+    EARTH_CORE_SIZE = 'earth_core_size'
+    EARTHCORE = 'earthcore'
+    GROUPSCR = 'groupscr'
+    GROUPTYPE = 'grouptype'
+    LINETYPE = 'linetype'
+    LINETYPEARROWHEAD = 'linetypearrowhead'
+    LINETYPECOLOR = 'linetypecolor'
+    LINETYPEWIDTH = 'linetypewidth'
+    MANUFACTURER = 'manufacturer'
+    MATERIAL = 'material'
+    NOOFGROUPS = 'noofgroups'
+    OASCR = 'oascr'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OD = 'od'
+    REMARKS = 'remarks'
+    SIZE = 'size'
+    VOLTAGE = 'voltage'
+
+
+
+
+This is stage 2. This is the enum for the output table S_CableCatalogueNumber_Master.
+
+class S_CableCatalogueNumber_Master(
+        Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CATALOGUENO = 'catalogueno'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+
+

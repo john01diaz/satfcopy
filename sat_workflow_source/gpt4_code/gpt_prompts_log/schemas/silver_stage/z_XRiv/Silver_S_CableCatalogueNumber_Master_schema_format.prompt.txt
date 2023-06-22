@@ -1,0 +1,30 @@
+
+S_CableCatalogueNumber_Master_schema_format.prompt.txt
+
+This is the schema for a table called S_CableCatalogueNumber_Master. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+can you convert all the column names to lowercase.
+
+S_CableCatalogueNumber_Master	CatalogueNo
+S_CableCatalogueNumber_Master	parquet_file_relative_path
+S_CableCatalogueNumber_Master	Database_name
+S_CableCatalogueNumber_Master	Description
+S_CableCatalogueNumber_Master	Cable_Object_Identifier
+
+S_CableCatalogueNumber_Master Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_CableCatalogueNumberMasterColumns(Enum):
+    catalogue_no = "catalogue_no"
+    parquet_file_relative_path = "parquet_file_relative_path"
+    database_name = "database_name"
+    description = "description"
+    cable_object_identifier = "cable_object_identifier"
+    object_identifier = "object_identifier"
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Now you can use the S_CableCatalogueNumberMasterColumns enum to refer to the column names in a type-safe manner. For example, if you want to access the column "catalogue_no", you can use S_CableCatalogueNumberMasterColumns.catalogue_no.value.

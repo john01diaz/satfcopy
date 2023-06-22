@@ -1,0 +1,341 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Generate an orchestrating function for the component functions.
+Add an underscore to the beginning of component function names.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named VW_Instrument_Identification
+
+class S_Field_Device_Catalogue(
+        Enum):
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    CATALOGUE_NAME = 'catalogue_name'
+    LEFT_PIN_DETAILS = 'left_pin_details'
+    LEFT_MARKING = 'left_marking'
+    RIGHT_PIN_DETAILS = 'right_pin_details'
+    RIGHT_MARKING = 'right_marking'
+    TAG_NUMBER = 'tag_number'
+    LOOP_NUMBER = 'loop_number'
+    DOCUMENT_NUMBER = 'document_number'
+    CLASS = 'class'
+
+These are the enums for the input table schemas named DeviceType, Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql and S_Item_Function_Model
+
+class Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql(
+        Enum):
+    CS_DEVICE_TYPE = 'cs_device_type'
+    CS_LOCATION_FULL_DESIGNATION = 'cs_location_full_designation'
+    CS_LOOP_CS_LOOP_ELEMENT_DYN_CLASS = 'cs_loop_cs_loop_element_dyn_class'
+    LC_ITEM_FUNCTION_CS_LOOP_ELEMENT_DYN_CLASS = 'lc_item_function_cs_loop_element_dyn_class'
+    LOOP_ELEMENT_DATABASE_NAME = 'loop_element_database_name'
+    LOOP_ELEMENT_DYNAMIC_CLASS = 'loop_element_dynamic_class'
+    LOOP_ELEMENT_OBJECT_IDENTIFIER = 'loop_element_object_identifier'
+
+
+class S_ItemFunction(
+        Enum):
+    ADD = 'add'
+    CHANNELNUMBER = 'channelnumber'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DEVICE_TYPE = 'device_type'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    FACILITY_DESIGNATION = 'facility_designation'
+    FACILITY_DYNAMIC_CLASS = 'facility_dynamic_class'
+    FACILITY_OBJECT_IDENTIFIER = 'facility_object_identifier'
+    FUNCTION_OCC_OBJECT_IDENTIFIER = 'function_occ_object_identifier'
+    IOTYPE = 'iotype'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    ITEM_SLOT = 'item_slot'
+    LOCATION_DESIGNATION = 'location_designation'
+    LOCATION_DYNAMIC_CLASS = 'location_dynamic_class'
+    LOCATION_OBJECT_IDENTIFIER = 'location_object_identifier'
+    LOOP_ELEMENT_DYNAMIC_CLASS = 'loop_element_dynamic_class'
+    LOOP_ELEMENT_OBJECT_IDENTIFIER = 'loop_element_object_identifier'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    METADATA = 'metadata'
+    MODELNO = 'modelno'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PRODUCT_DESIGNATION = 'product_designation'
+    PRODUCT_KEY = 'product_key'
+    PRODUCT_KEY_ORIGINAL = 'product_key_original'
+    PROTOCOL = 'protocol'
+    RACK = 'rack'
+    RACK_DYNAMIC_CLASS = 'rack_dynamic_class'
+    RACK_OBJECT_IDENTIFIER = 'rack_object_identifier'
+    REMOVE = 'remove'
+    ROWIDHIGHWATERMARK = 'rowidhighwatermark'
+    SHOW_KEY = 'show_key'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TXN = 'txn'
+    TYPE = 'type'
+
+class DeviceType(
+        Enum):
+    REVISEDDEVICETYPE = 'reviseddevicetype'
+    SIGRAPHDEVICETYPE = 'sigraphdevicetype'
+
+
+Sub-Script 1: Creating first CTE
+
+Create Or Replace Temp View CTE1 AS
+SELECT
+    A.loop_element_database_name
+    ,A.loop_element_dynamic_class
+    ,A.loop_element_Object_Identifier
+    ,1 as Type
+FROM Sigraph.Loop_Elements A
+INNER JOIN Sigraph_Silver.S_ItemFunction B
+    ON  A.Loop_Element_Database_Name     = B.database_name
+    AND A.loop_element_dynamic_class     = B.loop_element_dynamic_class
+    AND A.loop_element_Object_Identifier = B.loop_element_Object_Identifier
+WHERE CS_Loop_CS_Loop_element_dyn_class = 'CS_Loop_spez'
+AND B.Type='Field Device'
+AND A.LC_Item_function_CS_Loop_element_dyn_class IS NOT NULL;
+
+Sub-Script 2: Creating second CTE
+
+CREATE OR REPLACE TEMP VIEW CTE2 AS
+SELECT
+    A.loop_element_database_name
+    ,A.loop_element_dynamic_class
+    ,A.loop_element_Object_Identifier
+FROM Sigraph.Loop_Elements A
+LEFT ANTI JOIN CTE1 B
+    ON  A.loop_element_database_name=B.loop_element_database_name
+    AND A.loop_element_dynamic_class=B.loop_element_dynamic_class
+    AND A.loop_element_Object_Identifier=B.loop_element_Object_Identifier
+WHERE CS_Loop_CS_Loop_element_dyn_class='CS_Loop_spez'
+AND A.LC_Item_function_CS_Loop_element_dyn_class IS NULL
+AND CASE WHEN CS_location_full_designation IS NULL OR UPPER(CS_device_type) LIKE '%INDUCTIVE%SENSOR%' THEN 1 ELSE 0 END=1
+AND loop_element_dynamic_class NOT IN ('CS_Loop_element_hw_bi'
+    ,'CS_Loop_element_hw_bo'
+    ,'CS_Loop_element_hw_ai'
+    ,'CS_Loop_element_hw_ao');
+
+Sub-Script 3: Join with DeviceType table and additional conditions
+
+CREATE OR REPLACE TEMP VIEW CTE3 AS
+SELECT
+    A.loop_element_database_name
+    ,A.loop_element_dynamic_class
+    ,A.loop_element_Object_Identifier
+    ,2 AS Type
+FROM CTE2 A
+LEFT OUTER JOIN sigraph_Reference.DeviceType as DTC
+    ON  UPPER(TRIM(DTC.SigraphDeviceType))=UPPER(TRIM(A.CS_device_type))
+WHERE TRIM(
+        COALESCE(REPLACE(REPLACE(REPLACE(REPLACE(RevisedDeviceType,'ANALOG INPUT','AI'),'ANALOG OUTPUT','AO')
+            ,'DIGITAL INPUT','DI'),'DIGITAL OUTPUT','DO')
+            ,A.CS_device_type,'')
+        )
+NOT IN
+    ('C300 DO','DCS AI','FTA DO','IOTA AI','PLC DO','PLS AO','PLS DI','PLS DO','PLS OUTBOUND','SM AI','SM DI','SM DO','SPS AI','SPS DI');
+
+Sub-Script 4: Final View combining CTE1 and CTE3
+
+
+CREATE OR REPLACE TEMP VIEW VW_Instrument_Identification AS
+SELECT * FROM CTE1
+UNION
+SELECT * FROM CTE3;
+
+
+&&&&&&&&&&&&7
+
+Sure, let's translate the SQL statements into Python pandas code using a step-by-step approach.
+
+Let's first define the enums for input column names:
+
+python
+Copy code
+from enum import Enum
+
+class DatabaseNames(Enum):
+    DATABASE_NAME = 'database_name'
+
+class S_Field_Device_Catalogue(Enum):
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    CATALOGUE_NAME = 'catalogue_name'
+    LEFT_PIN_DETAILS = 'left_pin_details'
+    LEFT_MARKING = 'left_marking'
+    RIGHT_PIN_DETAILS = 'right_pin_details'
+    RIGHT_MARKING = 'right_marking'
+    TAG_NUMBER = 'tag_number'
+    LOOP_NUMBER = 'loop_number'
+    DOCUMENT_NUMBER = 'document_number'
+    CLASS = 'class'
+
+class Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql(Enum):
+    CS_DEVICE_TYPE = 'cs_device_type'
+    CS_LOCATION_FULL_DESIGNATION = 'cs_location_full_designation'
+    CS_LOOP_CS_LOOP_ELEMENT_DYN_CLASS = 'cs_loop_cs_loop_element_dyn_class'
+    LC_ITEM_FUNCTION_CS_LOOP_ELEMENT_DYN_CLASS = 'lc_item_function_cs_loop_element_dyn_class'
+    LOOP_ELEMENT_DATABASE_NAME = 'loop_element_database_name'
+    LOOP_ELEMENT_DYNAMIC_CLASS = 'loop_element_dynamic_class'
+    LOOP_ELEMENT_OBJECT_IDENTIFIER = 'loop_element_object_identifier'
+
+class S_ItemFunction(Enum):
+    # rest of the fields
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    TYPE = 'type'
+
+class DeviceType(Enum):
+    REVISEDDEVICETYPE = 'reviseddevicetype'
+    SIGRAPHDEVICETYPE = 'sigraphdevicetype'
+Now let's start transforming the SQL sub-scripts into Python pandas functions:
+
+python
+Copy code
+def _create_first_temp_dataframe(loop_elements_dataframe, s_item_function_dataframe):
+    dataframe = loop_elements_dataframe.merge(
+        s_item_function_dataframe,
+        left_on=[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_DATABASE_NAME.value,
+                  Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_DYNAMIC_CLASS.value,
+                  Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_OBJECT_IDENTIFIER.value],
+        right_on=[S_ItemFunction.DATABASE_NAME.value,
+                  S_ItemFunction.DYNAMIC_CLASS.value,
+                  S_ItemFunction.TYPE.value],
+        how='inner'
+    )
+    dataframe = dataframe[dataframe[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.CS_LOOP_CS_LOOP_ELEMENT_DYN_CLASS.value] == 'CS_Loop_spez']
+    dataframe = dataframe[dataframe[S_ItemFunction.TYPE.value] == 'Field Device']
+    dataframe = dataframe[dataframe[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LC_ITEM_FUNCTION_CS_LOOP_ELEMENT_DYN_CLASS.value].notnull()]
+    dataframe['Type'] = 1
+    return dataframe
+
+
+def _create_second_temp_dataframe(loop_elements_dataframe, cte1):
+    dataframe = loop_elements_dataframe.merge(
+        cte1,
+        left_on=[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_DATABASE_NAME.value,
+                  Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_DYNAMIC_CLASS.value,
+                  Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_OBJECT_IDENTIFIER.value],
+        right_on=[S_Field_Device_Catalogue.DATABASE_NAME.value,
+                  S_Field_Device_Catalogue.DYNAMIC_CLASS.value,
+                  S_Field_Device_Catalogue.OBJECT_IDENTIFIER.value],
+        how='left'
+    )
+    # rest of the conditions
+    return dataframe
+
+
+def _add_device_type_conditions(cte2, device_type_dataframe):
+    dataframe = cte2.merge(
+        device_type_dataframe,
+        left_on=Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.CS_DEVICE_TYPE.value,
+        right_on=DeviceType.SIGRAPHDEVICETYPE.value,
+        how='left'
+    )
+    # rest of the conditions
+    dataframe['Type'] = 2
+    return dataframe
+
+
+def create_instrument_identification_view(loop_elements_dataframe, s_item_function_dataframe, device_type_dataframe):
+    cte1 = _create_first_temp_dataframe(loop_elements_dataframe, s_item_function_dataframe)
+    cte2 = _create_second_temp_dataframe(loop_elements_dataframe, cte1)
+    cte3 = _add_device_type_conditions(cte2, device_type_dataframe)
+    instrument_identification_view = pd.concat([cte1, cte3], ignore_index=True)
+    return instrument_identification_view
+This is a high-level translation of your SQL scripts into Python functions, there are parts of conditions and mappings that are omitted, and you should complete them according to your business logic. Please note that Python is case-sensitive and make sure your column names in the dataframes match exactly with your enums.
+
+Also note that for the complex operations in SQL, such as CASE WHEN, LIKE, NOT IN, you might need to replace them with corresponding Python operations, such as np.where, str.contains, ~isin, etc.
+
+
+
+
+
+User
+Fill out the omitted conditions.
+ChatGPT
+Alright, here's the completion of the SQL scripts:
+
+python
+Copy code
+import numpy as np
+
+def _create_second_temp_dataframe(loop_elements_dataframe, cte1):
+    dataframe = loop_elements_dataframe.merge(
+        cte1,
+        left_on=[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_DATABASE_NAME.value,
+                  Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_DYNAMIC_CLASS.value,
+                  Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_OBJECT_IDENTIFIER.value],
+        right_on=[S_Field_Device_Catalogue.DATABASE_NAME.value,
+                  S_Field_Device_Catalogue.DYNAMIC_CLASS.value,
+                  S_Field_Device_Catalogue.OBJECT_IDENTIFIER.value],
+        how='left', indicator=True
+    )
+
+    dataframe = dataframe[dataframe['_merge'] == 'left_only']
+    dataframe = dataframe[dataframe[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.CS_LOOP_CS_LOOP_ELEMENT_DYN_CLASS.value] == 'CS_Loop_spez']
+    dataframe = dataframe[dataframe[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LC_ITEM_FUNCTION_CS_LOOP_ELEMENT_DYN_CLASS.value].isnull()]
+
+    condition = (dataframe[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.CS_LOCATION_FULL_DESIGNATION.value].isnull()) | (dataframe[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.CS_DEVICE_TYPE.value].str.upper().str.contains('INDUCTIVE SENSOR'))
+
+    dataframe = dataframe[condition]
+
+    dynamic_class_exclusions = ['CS_Loop_element_hw_bi', 'CS_Loop_element_hw_bo', 'CS_Loop_element_hw_ai', 'CS_Loop_element_hw_ao']
+    dataframe = dataframe[~dataframe[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.LOOP_ELEMENT_DYNAMIC_CLASS.value].isin(dynamic_class_exclusions)]
+    return dataframe
+
+
+def _add_device_type_conditions(cte2, device_type_dataframe):
+    dataframe = cte2.merge(
+        device_type_dataframe,
+        left_on=Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.CS_DEVICE_TYPE.value,
+        right_on=DeviceType.SIGRAPHDEVICETYPE.value,
+        how='left'
+    )
+
+    dataframe[DeviceType.REVISEDDEVICETYPE.value] = dataframe[DeviceType.REVISEDDEVICETYPE.value].replace(['ANALOG INPUT', 'ANALOG OUTPUT', 'DIGITAL INPUT', 'DIGITAL OUTPUT'], ['AI', 'AO', 'DI', 'DO'])
+    dataframe[DeviceType.REVISEDDEVICETYPE.value] = dataframe[DeviceType.REVISEDDEVICETYPE.value].fillna(dataframe[Loop_elements_FilteredFor09SFieldDeviceCatalogueSql0100Sql.CS_DEVICE_TYPE.value])
+
+    device_types_exclusions = ['C300 DO','DCS AI','FTA DO','IOTA AI','PLC DO','PLS AO','PLS DI','PLS DO','PLS OUTBOUND','SM AI','SM DI','SM DO','SPS AI','SPS DI']
+    dataframe = dataframe[~dataframe[DeviceType.REVISEDDEVICETYPE.value].isin(device_types_exclusions)]
+    dataframe['Type'] = 2
+    return dataframe
+The first function, _create_second_temp_dataframe, first performs a left merge between loop_elements_dataframe and cte1 and only keeps rows exclusive to the left dataframe (equivalent to a LEFT ANTI JOIN in SQL). It then applies the conditions from your SQL script, filtering rows based on column values and if the column is null or contains a certain string.
+
+The second function, _add_device_type_conditions, performs a left merge between cte2 and device_type_dataframe. It replaces certain strings in the RevisedDeviceType column (equivalent to nested REPLACE functions in SQL), fills null values with values from another column (equivalent to COALESCE in SQL), and removes rows where RevisedDeviceType matches any string in a list of exclusions (equivalent to NOT IN in SQL). It also sets a new column Type to 2._dataframe, sigraph_reference_dataframe)

@@ -1,0 +1,26 @@
+
+both_class_loop_elements_df= (
+     both_class_loop_elements_df
+    .withColumnRenamed('database_name' , 'loop_element_database_name')
+    .withColumnRenamed('dynamic_class' , 'loop_element_dynamic_class')
+    .withColumnRenamed('object_identifier' , 'loop_element_object_identifier')
+    .withColumnRenamed('CS_comment' , 'loop_element_CS_comment')
+    .withColumnRenamed('CS_classification_by' , 'loop_element_CS_classification_by')
+    .withColumnRenamed('CS_classification' , 'loop_element_CS_classification')
+    .withColumnRenamed('sap_hierarchy_level' , 'loop_element_sap_hierarchy_level')
+    .withColumnRenamed('cs_classification_by_enum' , 'loop_element_cs_classification_by_enum')
+    .withColumnRenamed('sap_function' , 'loop_element_sap_function')
+    .withColumnRenamed('sap_remark' , 'loop_element_sap_remark')
+    .withColumnRenamed('sap_short_text' , 'loop_element_sap_short_text')
+    .withColumnRenamed('cs_classification_enum' , 'loop_element_cs_classification_enum')
+    .withColumnRenamed('sap_transfer_status' , 'loop_element_sap_transfer_status')
+    .withColumnRenamed('cs_description' , 'loop_element_cs_description')
+    .withColumnRenamed('cs_rotational_direction_enum' , 'loop_element_cs_rotational_direction_enum')
+    .withColumnRenamed('cs_rated_voltage' , 'loop_element_cs_rated_voltage')
+    .withColumnRenamed('cs_voltage_type_enum' , 'loop_element_cs_voltage_type_enum')
+    .withColumnRenamed('cs_voltage_type' , 'loop_element_cs_voltage_type')
+    .withColumnRenamed('cs_operating_type_enum' , 'loop_element_cs_operating_type_enum')
+    .withColumnRenamed('cs_calc_max_sound_pressure_level' , 'loop_element_cs_calc_max_sound_pressure_level')
+    .withColumnRenamed('cs_rotational_direction' , 'loop_element_cs_rotational_direction')
+)
+

@@ -1,0 +1,91 @@
+Convert the following Databricks SQL statement into  python code.
+
+
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Complete all the lists and arrays - don't stop in the middle.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+
+Treat the input files as pandas dataframes and read them in as parameters at the start,
+
+You can treat the input columnsin different ways - modularise these different ways if possible.
+Sometimes a column will be passed through without any modification.
+Sometimes a columnn will be simply mapped to a column with a new name - note that the same column may be mapped several times
+Sometimes a new columnn will be added with a constant value
+Sometimes a columnn will be mapped to a column using  more complex calculations
+
+
+This is the Databricks SQL statement called - 15_IO_Allocations_sql_01_00.sql
+It takes in a dataframe as input S_IO_Allocations and outputs the dataframe 15_IO_Allocations
+
+Refer to the following schema when using column names.
+
+IO_Allocations Schema
+
+CREATE TABLE io_allocations (
+  catalogueno VARCHAR(255),
+  database_name VARCHAR(255),
+  channelnumber INTEGER,
+  iomodule VARCHAR(255),
+  tag_number VARCHAR(255),
+  iotype VARCHAR(255),
+  object_identifier VARCHAR(255),
+  cabinetno INTEGER
+);
+
+S_IO_Allocations Schema
+
+CREATE TABLE io_allocations (
+  database_name VARCHAR(255),
+  class VARCHAR(255),
+  parent_equipment_no VARCHAR(255),
+  tag_number VARCHAR(255),
+  object_identifier VARCHAR(255),
+  equipment_no VARCHAR(255),
+  iotype VARCHAR(255),
+  channelnumber INTEGER,
+  catalogueno VARCHAR(255)
+);
+
+Select Distinct
+Tag_Number
+,Parent_Equipment_No
+,IOType
+,Equipment_No
+,CatalogueNo
+,ChannelNumber
+From Sigraph_Silver.S_IO_Allocations
+Where Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and database_name in (Select Database_name from VW_Database_names)
+"
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+import pandas
+
+def filter_by_class_and_database(dataframe, database_names):
+    class_filter = dataframe['class'].isin(['Instrumentation', 'Inst(Shared)', 'Elec(Shared)'])
+    database_filter = dataframe['database_name'].isin(database_names['database_name'])
+    filtered_dataframe = dataframe[class_filter & database_filter]
+    return filtered_dataframe
+
+def select_distinct_columns(dataframe):
+    columns_to_select = ['tag_number', 'parent_equipment_no', 'iotype', 'equipment_no', 'catalogueno', 'channelnumber']
+    distinct_dataframe = dataframe[columns_to_select].drop_duplicates()
+    return distinct_dataframe
+
+def process_io_allocations(s_io_allocations, vw_database_names):
+    filtered_dataframe = filter_by_class_and_database(s_io_allocations, vw_database_names)
+    distinct_dataframe = select_distinct_columns(filtered_dataframe)
+    return distinct_dataframe

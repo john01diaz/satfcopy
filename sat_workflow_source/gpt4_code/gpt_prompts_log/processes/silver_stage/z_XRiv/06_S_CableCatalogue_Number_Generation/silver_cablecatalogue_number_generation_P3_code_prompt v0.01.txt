@@ -1,0 +1,58 @@
+This is stage 3.
+
+Convert the following Spark sql code into python code using pandas library.
+
+
+The general instructions are:
+
+Use the enums from stage 1 and stage 2 for the column names.
+Do not value brevity in this conversion.
+Call the output dataframe 'loop_index'.
+Use single quotes rather than double quotes for strings.
+Assume all column names of all dataframes used in the code are lowercase but keep the original case of the rest of the strings.
+Make the code as modular as possible.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+Perform the JOIN operations before the column transformations and mappings
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways, modularise these different ways if possible.
+A column will be passed through without any modification.
+A columnn will be simply mapped to a column with a new name, sometimes multiple times.
+A new columnn will be added with a constant value
+A columnn will be mapped to a column using  more complex calculations
+
+
+This is the code that needs conversion:
+
+Create Or Replace Temp View VW_CatalogueNo
+As
+
+Select 
+Concat('SHRH_CABLE_',2000+Dense_Rank() Over(order by Description,Markings)) as CatalogueNo
+,Description
+,Database_name
+,Cable_Object_Identifier
+From (
+      Select Distinct
+        C.Database_name
+        ,C.Cable_Object_Identifier
+        ,TRIM(Replace(Replace(
+          Replace(Replace(Replace(CC.Description,'% GRAU MMA',''),' BLAU MMA',''),' BLAU',''),' GRAU',''),' ROT','')) 
+          as Description
+        ,concat_ws(',',
+        to_get_sort(collect_list(C.Core_Markings) Over(partition by C.database_name,C.Cable_Object_Identifier))) as Markings
+      From sigraph_silver.S_CableCoreCatalogue C
+      inner join sigraph_silver.S_CableCatalogue CC
+      on C.database_name == CC.database_name
+      and C.Cable_object_identifier == CC.Object_identifier
+      Where Cable_Object_Identifier is not null
+) as A
+

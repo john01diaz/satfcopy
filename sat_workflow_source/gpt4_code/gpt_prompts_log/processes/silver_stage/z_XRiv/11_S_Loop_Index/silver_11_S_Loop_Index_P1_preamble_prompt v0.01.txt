@@ -1,0 +1,7 @@
+You will be converting a Spark SQL file to python. I am going to give you the information you need in several stages.
+
+stage 1 will be several enums corresponding to the schemas of the input tables named layer, loop and PBS_Table (code to be provided later).
+
+stage 2 will be an enum corresponding to the schema of the output table named S_Loop_Index (code to be provided later).
+
+stage 3 will contain the SQL script along with specific instructions for conversion.

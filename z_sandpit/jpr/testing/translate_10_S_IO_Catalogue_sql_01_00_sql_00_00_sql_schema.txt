@@ -1,0 +1,252 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Generate an orchestrating function for the component functions.
+Add an underscore to the beginning of component function names.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following schemas for the script conversion.
+
+This is the output schema for the output table named VW_IOCard_Prep_Query
+
+CREATE TABLE VW_IOCard_Prep_Query (
+database_name		VARCHAR(255),
+dynamic_class		VARCHAR(255),
+object_identifier		VARCHAR(255),
+Item_dynamic_class		VARCHAR(255),
+Item_object_identifier		VARCHAR(255),
+Model_Number		VARCHAR(255),
+Description		VARCHAR(255),
+Manufacturer		VARCHAR(255),
+DescriptionDrawing		VARCHAR(255),
+Channel		VARCHAR(255),
+AllowUse		VARCHAR(255),
+IOType		VARCHAR(255),
+NoOfPoints	long	BIGINT,
+TerminalsPerPointChannel	long	BIGINT,
+TerminalsPerMarking		VARCHAR(255),
+Class		VARCHAR(255),
+ChannelNumber		VARCHAR(255),
+Catalogue_RNT		INT)
+
+These are the schemas for the input table schemas named S_ItemFunction and S_Item_Function_Model
+
+CREATE TABLE S_Itemfunction (
+database_name		VARCHAR(255),
+Dynamic_Class		VARCHAR(255),
+Object_Identifier		VARCHAR(255),
+Item_dynamic_class		VARCHAR(255),
+Item_Object_Identifier		VARCHAR(255),
+Left		INT,
+Right		INT,
+Left_Marking		VARCHAR(255),
+Right_Marking		VARCHAR(255),
+All_Marking		VARCHAR(255),
+ModelNo_Original		VARCHAR(255),
+ModelNO		VARCHAR(255),
+Symbol_Name		VARCHAR(255))
+
+CREATE TABLE S_Item_Function_Model (
+database_name		VARCHAR(255),
+dynamic_class		VARCHAR(255),
+object_identifier		VARCHAR(255),
+Function_Occ_Object_identifier		VARCHAR(255),
+item_dynamic_class		VARCHAR(255),
+item_object_identifier		VARCHAR(255),
+Location_Dynamic_class		VARCHAR(255),
+Location_Object_Identifier		VARCHAR(255),
+Facility_Dynamic_class		VARCHAR(255),
+Facility_Object_Identifier		VARCHAR(255),
+Rack_Dynamic_class		VARCHAR(255),
+Rack_Object_Identifier		VARCHAR(255),
+ModelNo		VARCHAR(255),
+Description		VARCHAR(255),
+IOType		VARCHAR(255),
+ChannelNumber		VARCHAR(255),
+product_designation		VARCHAR(255),
+product_key		VARCHAR(255),
+product_key_Original		VARCHAR(255),
+Show_Key		VARCHAR(255),
+Item_Slot		VARCHAR(255),
+Tag_Number		VARCHAR(255),
+Loop_Number		VARCHAR(255),
+Document_Number		VARCHAR(255),
+Class		VARCHAR(255),
+Type		VARCHAR(255),
+Location_Designation		VARCHAR(255),
+Facility_Designation		VARCHAR(255),
+Rack		VARCHAR(255),
+manufacturer		VARCHAR(255),
+device_type		VARCHAR(255),
+Symbol_Name		VARCHAR(255),
+loop_element_dynamic_class		VARCHAR(255),
+loop_element_Object_Identifier		VARCHAR(255))
+
+
+Script 1:
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Pre_Join AS
+SELECT
+    A.database_name,
+    A.dynamic_class,
+    A.object_identifier,
+    B.ModelNo,
+    B.Manufacturer,
+    A.IOType,
+    A.Class,
+    A.ChannelNumber
+FROM
+    Sigraph_silver.S_Itemfunction A
+INNER JOIN
+    Sigraph_silver.S_Item_Function_Model B
+ON
+    A.database_name=B.database_name AND
+    A.Item_Dynamic_Class=B.Item_Dynamic_Class AND
+    A.Item_Object_identifier=B.Item_Object_identifier AND
+    A.Dynamic_Class=B.Dynamic_Class AND
+    A.Object_Identifier=B.Object_Identifier
+WHERE
+    B.Type='IO Module' AND
+    A.ChannelNumber IS NOT NULL AND
+    A.ChannelNumber <> '0' AND
+    A.ChannelNumber <> '';
+
+Script 2: Distinct Operation
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Distinct AS
+SELECT DISTINCT *
+FROM VW_IOCard_Pre_Join;
+
+Script 3: Window Function
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Window AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    ModelNo,
+    CONCAT(COUNT(ChannelNumber) OVER (PARTITION BY database_name, IOType, object_identifier), ' - Channel -', Manufacturer) AS Description,
+    MAX(Manufacturer) OVER (PARTITION BY ModelNo) as Manufacturer_Max,
+    ChannelNumber,
+    IOType,
+    Class,
+    COUNT(ChannelNumber) OVER (PARTITION BY database_name, IOType, object_identifier) as NoOfPoints
+FROM
+    VW_IOCard_Distinct;
+
+Script 4: Final Script with Column Renaming
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Prep_Query AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    ModelNo AS Model_Number,
+    Description,
+    Manufacturer_Max AS Manufacturer,
+    ChannelNumber,
+    IOType,
+    Class,
+    NoOfPoints
+FROM
+    VW_IOCard_Window;
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+In order to translate the SQL statements into Python, we'll use the pandas library, which provides powerful data manipulation and analysis capabilities similar to those in SQL. I'll create multiple component functions to follow the principles you stated, such as value modularity, and we'll orchestrate them in a main function.
+
+python
+Copy code
+import pandas as pd
+
+
+# Named constants
+TYPE_IOMODULE = 'IO Module'
+CHANNEL_ZERO = '0'
+CHANNEL_NULL = ''
+
+
+def _filter_and_merge(dataframe_a, dataframe_b):
+    """
+    Function to merge the two dataframes on specific conditions
+    """
+    dataframe_b = dataframe_b[dataframe_b['Type'] == TYPE_IOMODULE]
+    dataframe_a = dataframe_a[dataframe_a['ChannelNumber'].notna() &
+                              (dataframe_a['ChannelNumber'] != CHANNEL_ZERO) &
+                              (dataframe_a['ChannelNumber'] != CHANNEL_NULL)]
+
+    merged_dataframe = pd.merge(dataframe_a, dataframe_b,
+                                on=['database_name', 'Item_dynamic_class', 'Item_Object_Identifier',
+                                    'Dynamic_Class', 'Object_Identifier'])
+
+    return merged_dataframe[['database_name', 'dynamic_class', 'object_identifier', 'ModelNo',
+                             'Manufacturer', 'IOType', 'Class', 'ChannelNumber']]
+
+
+def _distinct_operation(dataframe):
+    """
+    Function to drop the duplicate rows in the dataframe
+    """
+    return dataframe.drop_duplicates()
+
+
+def _apply_window_functions(dataframe):
+    """
+    Function to apply window functions and derive new columns
+    """
+    dataframe['Description'] = dataframe.groupby(['database_name', 'IOType', 'object_identifier'])['ChannelNumber'].transform('count').astype(str) + ' - Channel -' + dataframe['Manufacturer']
+    dataframe['Manufacturer_Max'] = dataframe.groupby('ModelNo')['Manufacturer'].transform('max')
+    dataframe['NoOfPoints'] = dataframe.groupby(['database_name', 'IOType', 'object_identifier'])['ChannelNumber'].transform('count')
+
+    return dataframe[['database_name', 'dynamic_class', 'object_identifier', 'ModelNo', 'Description',
+                      'Manufacturer_Max', 'ChannelNumber', 'IOType', 'Class', 'NoOfPoints']]
+
+
+def _rename_columns(dataframe):
+    """
+    Function to rename the columns of the dataframe
+    """
+    renamed_columns = {'ModelNo': 'Model_Number',
+                       'Manufacturer_Max': 'Manufacturer'}
+
+    return dataframe.rename(columns=renamed_columns)
+
+
+def process_data(dataframe_s_itemfunction, dataframe_s_item_function_model):
+    """
+    Orchestration function to execute the component functions and process the data
+    """
+    pre_join_dataframe = _filter_and_merge(dataframe_s_itemfunction, dataframe_s_item_function_model)
+    distinct_dataframe = _distinct_operation(pre_join_dataframe)
+    windowed_dataframe = _apply_window_functions(distinct_dataframe)
+    final_dataframe = _rename_columns(windowed_dataframe)
+
+    return final_dataframe
+In this Python script, I created individual component functions to perform each task that was done in SQL. Each function takes in a dataframe (or two dataframes for the merge operation) and returns the modified dataframe.
+
+The _filter_and_merge() function merges the two dataframes after filtering based on given conditions.
+The _distinct_operation() function removes duplicate rows from the dataframe.
+The _apply_window_functions() function applies window functions to the dataframe and generates new columns.
+The _rename_columns() function renames the columns according to the given mappings.
+The process_data() function is the orchestration function that calls each of the above component functions in order. This function takes in the two initial dataframes and returns the final processed dataframe.

@@ -1,0 +1,272 @@
+Convert the following Databricks SQL statement into python code.
+
+Do not value brevity.
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start. You can assume that the dataframes exist.
+
+Treat the input columns in different ways, modularise these different ways if possible.
+A column will be passed through without any modification.
+A columnn will be simply mapped to a column with a new name, sometimes multiple times.
+A new columnn will be added with a constant value
+A columnn will be mapped to a column using  more complex calculations
+
+Do not concatenate pandas Series objects with a string ('-').
+For join statements: before doing any merge, reduce the size of the data to be merged by filtering dataframes to the columns required.
+Make sure to not set a value on a copy of a slice from a DataFrame.
+
+Do not generate the enums. Refer to the following enums when using column names.
+
+These are the enum schemas for the input tables
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+
+class S_LoopIndex(
+        Enum):
+    DATABASE_NAME = 'database_name'
+    STANDARD_LOOP_ID = 'standard_loop_id'
+    DYNAMIC_CLASS = 'dynamic_class'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    NAME = 'name'
+    LOOPNO = 'loopno'
+    AREA = 'area'
+    NUMBER = 'number'
+    SUFFIX = 'suffix'
+    FORMATNAME = 'formatname'
+    AREAPATH = 'areapath'
+    FUNCTION = 'function'
+    REMARKS = 'remarks'
+    LOOP_SERVICE_1 = 'loop_service_1'
+    FUNC_DESCRIPTION = 'func_description'
+    RESP_WORK_CENTER = 'resp_work_center'
+    AIR_DISTRIBUTOR = 'air_distributor'
+    VAR_PART_OF_DRAWING_NO = 'var_part_of_drawing_no'
+    SUPPL_CHAR_1 = 'suppl_char_1'
+    VISUAL_INSPECTION = 'visual_inspection'
+    Y_COORD = 'y_coord'
+    ET_STRUCTURE = 'et_structure'
+    X_COORD = 'x_coord'
+    FIELD_DISTRIB_OUTPUT = 'field_distrib_output'
+    SUPPL_CHAR_3 = 'suppl_char_3'
+    SUPPL_CHAR_2 = 'suppl_char_2'
+    PLANNING_GROUP = 'planning_group'
+    TESTED_BY = 'tested_by'
+    TEST_ACC_TO_TEST_CATALOG = 'test_acc_to_test_catalog'
+    TEST_ACC_BY_TEST_CATALOG = 'test_acc_by_test_catalog'
+    LOGIC_DIAG_TYPICAL = 'logic_diag_typical'
+    PURPOSE_OF_INSPECTION = 'purpose_of_inspection'
+    INSPECTION_INTERVAL = 'inspection_interval'
+    UNIT = 'unit'
+    ACCOMP_DOCUMENTS = 'accomp_documents'
+    FIELD_DISTRIB_INPUT = 'field_distrib_input'
+    REALIZATION_POS = 'realization_pos'
+    FUNCTION_TEST = 'function_test'
+    LOOP_SERVICE_3 = 'loop_service_3'
+    GRAPHICAL_TYPICAL = 'graphical_typical'
+    LOOP_SERVICE_2 = 'loop_service_2'
+    STATUS_REMARK = 'status_remark'
+    LOOP_NO = 'loop_no'
+    LOOP_FUNCTION = 'loop_function'
+    CLASS = 'class'
+    STATUS = 'status'
+    EP_ORIGIN = 'ep_origin'
+    CLASSIFICATION = 'classification'
+    RELATED_REPORT = 'related_report'
+    ROOT_EXTRACTION_POINT = 'root_extraction_point'
+    SPECIAL_REQ_1 = 'special_req_1'
+    SPECIAL_REQ_2 = 'special_req_2'
+    SPECIAL_REQ_3 = 'special_req_3'
+    CLASSIFICATION_BY = 'classification_by'
+    SIFPRO_RELEVANT = 'sifpro_relevant'
+
+This is the enum schema for the output table
+
+class Loop_Index(
+        Enum):
+    ACCOMP_DOCUMENTS = 'accomp documents'
+    AIR_DISTRIBUTOR = 'air distributor'
+    AREA = 'area'
+    AREAPATH = 'areapath'
+    CLASSIFICATION = 'classification'
+    CLASSIFICATION_BY = 'classification by'
+    CLASSNAME = 'classname'
+    DRAWING = 'drawing'
+    EP_ORIGIN = 'ep origin'
+    ET_STRUCTURE = 'et structure'
+    FIELD_DISTRIB_INPUT = 'field distrib input'
+    FIELD_DISTRIB_OUTPUT = 'field distrib output'
+    FORMATNAME = 'formatname'
+    FUNC_DESCRIPTION = 'func description'
+    FUNCTION = 'function'
+    FUNCTION_TEST = 'function test'
+    GRAPHICAL_TYPICAL = 'graphical typical'
+    INSPECTION_INTERVAL = 'inspection interval'
+    LOGIC_DIAG_TYPICAL = 'logic diag typical'
+    LOOP_FUNCTION = 'loop function'
+    LOOP_NO = 'loop no'
+    LOOP_SERVICE_1 = 'loop service-1'
+    LOOP_SERVICE_2 = 'loop service-2'
+    LOOP_SERVICE_3 = 'loop service-3'
+    NUMBER = 'number'
+    PLANNING_GROUP = 'planning group'
+    PURPOSE_OF_INSPECTION = 'purpose of inspection'
+    REALIZATION_POS = 'realization pos'
+    RELATED_REPORT = 'related report'
+    REMARKS = 'remarks'
+    RESP_WORK_CENTER = 'resp work center'
+    ROOT_EXTRACTION_POINT = 'root extraction point'
+    SIFPRO_RELEVANT = 'sifpro relevant'
+    SPECIAL_REQ_1 = 'special req 1'
+    SPECIAL_REQ_2 = 'special req 2'
+    SPECIAL_REQ_3 = 'special req 3'
+    STANDARD_LOOP_ID = 'standard loop id'
+    STATUS = 'status'
+    STATUS_REMARK = 'status remark'
+    SUFFIX = 'suffix'
+    SUPPL_CHAR_1 = 'suppl char 1'
+    SUPPL_CHAR_2 = 'suppl char 2'
+    SUPPL_CHAR_3 = 'suppl char 3'
+    TEST_ACC_BY_TEST_CATALOG = 'test acc by test catalog'
+    TEST_ACC_TO_TEST_CATALOG = 'test acc to test catalog'
+    TESTED_BY = 'tested by'
+    UNIT = 'unit'
+    VAR_PART_OF_DRAWING_NO = 'var part of drawing no'
+    VISUAL_INSPECTION = 'visual inspection'
+    WIRED = 'wired'
+    X_COORD = 'x coord.'
+    Y_COORD = 'y coord.'
+
+This is the SQL statement named 07_Loop_Index_sql_01_00.sql
+
+-- Databricks notebook source
+-- MAGIC %run /Users/p.abhishek@shell.com/01_Instrumentation_ETL_Scripts/06_ETL_Execution_Packages/Databases_Configuration
+
+-- COMMAND ----------
+
+Select distinct
+Area
+,LoopNo as `Loop No`
+,Function
+,Number
+,Suffix
+,Loop_Service_1 as `Loop Service-1`
+,Status
+,"TRUE" as Wired
+,"TRUE" as Drawing
+,Remarks
+,"ILP" as ClassName
+,FormatName
+,AreaPath
+,Loop_Function as `Loop Function`
+,Loop_Service_2  As `Loop Service-2`
+,Loop_Service_3  As `Loop Service-3`
+,SIFpro_Relevant  As `SIFpro Relevant`
+,Func_Description  As `Func Description`
+,Resp_Work_Center  As `Resp Work Center`
+,Air_Distributor  As `Air Distributor`
+,Var_Part_of_Drawing_No  As `Var Part of Drawing No`
+,Classification_by  As `Classification by`
+,Suppl_char_1  As `Suppl char 1`
+,Visual_Inspection  As `Visual Inspection`
+FROM sigraph_silver.S_LOOP_INDEX loop
+Where Class='Instrumentation' and database_name in (Select Database_name from VW_Database_names)
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+def generate_loop_index(s_loop_index_dataframe, database_names_dataframe):
+    # Defining the simple column mappings
+    simple_column_mapping = {
+        S_LoopIndex.AREA.value: Loop_Index.AREA.value,
+        S_LoopIndex.LOOPNO.value: Loop_Index.LOOP_NO.value,
+        S_LoopIndex.FUNCTION.value: Loop_Index.FUNCTION.value,
+        S_LoopIndex.NUMBER.value: Loop_Index.NUMBER.value,
+        S_LoopIndex.SUFFIX.value: Loop_Index.SUFFIX.value,
+        S_LoopIndex.LOOP_SERVICE_1.value: Loop_Index.LOOP_SERVICE_1.value,
+        S_LoopIndex.STATUS.value: Loop_Index.STATUS.value,
+        S_LoopIndex.REMARKS.value: Loop_Index.REMARKS.value,
+        S_LoopIndex.FORMATNAME.value: Loop_Index.FORMATNAME.value,
+        S_LoopIndex.AREAPATH.value: Loop_Index.AREAPATH.value,
+        S_LoopIndex.LOOP_FUNCTION.value: Loop_Index.LOOP_FUNCTION.value,
+        S_LoopIndex.LOOP_SERVICE_2.value: Loop_Index.LOOP_SERVICE_2.value,
+        S_LoopIndex.LOOP_SERVICE_3.value: Loop_Index.LOOP_SERVICE_3.value,
+        S_LoopIndex.SIFPRO_RELEVANT.value: Loop_Index.SIFPRO_RELEVANT.value,
+        S_LoopIndex.FUNC_DESCRIPTION.value: Loop_Index.FUNC_DESCRIPTION.value,
+        S_LoopIndex.RESP_WORK_CENTER.value: Loop_Index.RESP_WORK_CENTER.value,
+        S_LoopIndex.AIR_DISTRIBUTOR.value: Loop_Index.AIR_DISTRIBUTOR.value,
+        S_LoopIndex.VAR_PART_OF_DRAWING_NO.value: Loop_Index.VAR_PART_OF_DRAWING_NO.value,
+        S_LoopIndex.CLASSIFICATION_BY.value: Loop_Index.CLASSIFICATION_BY.value,
+        S_LoopIndex.SUPPL_CHAR_1.value: Loop_Index.SUPPL_CHAR_1.value,
+        S_LoopIndex.VISUAL_INSPECTION.value: Loop_Index.VISUAL_INSPECTION.value,
+    }
+
+    # Defining the constant value assignments
+    constant_value_assignments = {
+        Loop_Index.WIRED.value: 'TRUE',
+        Loop_Index.DRAWING.value: 'TRUE',
+        Loop_Index.CLASSNAME.value: 'ILP'
+    }
+
+    # Order of columns as per the SQL script
+    column_order = [
+        Loop_Index.AREA.value,
+        Loop_Index.LOOP_NO.value,
+        Loop_Index.FUNCTION.value,
+        Loop_Index.NUMBER.value,
+        Loop_Index.SUFFIX.value,
+        Loop_Index.LOOP_SERVICE_1.value,
+        Loop_Index.STATUS.value,
+        Loop_Index.WIRED.value,
+        Loop_Index.DRAWING.value,
+        Loop_Index.REMARKS.value,
+        Loop_Index.CLASSNAME.value,
+        Loop_Index.FORMATNAME.value,
+        Loop_Index.AREAPATH.value,
+        Loop_Index.LOOP_FUNCTION.value,
+        Loop_Index.LOOP_SERVICE_2.value,
+        Loop_Index.LOOP_SERVICE_3.value,
+        Loop_Index.SIFPRO_RELEVANT.value,
+        Loop_Index.FUNC_DESCRIPTION.value,
+        Loop_Index.RESP_WORK_CENTER.value,
+        Loop_Index.AIR_DISTRIBUTOR.value,
+        Loop_Index.VAR_PART_OF_DRAWING_NO.value,
+        Loop_Index.CLASSIFICATION_BY.value,
+        Loop_Index.SUPPL_CHAR_1.value,
+        Loop_Index.VISUAL_INSPECTION.value,
+    ]
+
+    # Reducing the dataframes to necessary columns
+    s_loop_index_dataframe = s_loop_index_dataframe[list(simple_column_mapping.keys()) + [S_LoopIndex.CLASS.value, S_LoopIndex.DATABASE_NAME.value]].copy()
+    database_names_dataframe = database_names_dataframe[[DatabaseNames.DATABASE_NAME.value]].copy()
+
+    # Add columns with constant values
+    for column, value in constant_value_assignments.items():
+        s_loop_index_dataframe.loc[:, column] = value
+
+    # Renaming the columns as per the simple mappings
+    s_loop_index_dataframe.rename(columns=simple_column_mapping, inplace=True)
+
+    # Filter rows where CLASS is 'Instrumentation' and DATABASE_NAME is in database_names_dataframe
+    filter_class = s_loop_index_dataframe[S_LoopIndex.CLASS.value] == 'Instrumentation'
+    filter_database_name = s_loop_index_dataframe[S_LoopIndex.DATABASE_NAME.value].isin(database_names_dataframe[DatabaseNames.DATABASE_NAME.value])
+    s_loop_index_dataframe = s_loop_index_dataframe[filter_class & filter_database_name]
+
+    # Reordering the columns as per the SQL script
+    s_loop_index_dataframe = s_loop_index_dataframe.reindex(columns=column_order)
+
+    return s_loop_index_dataframe

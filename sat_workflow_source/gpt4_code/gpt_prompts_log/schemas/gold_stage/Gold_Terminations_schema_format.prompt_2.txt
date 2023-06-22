@@ -1,0 +1,29 @@
+This is the schema for a table called Terminations.
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'Terminations'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+13_Terminations	Parent_Equipment_No
+13_Terminations	Equipment_No
+13_Terminations	CableNumber
+13_Terminations	Core_Markings
+13_Terminations	Marking
+13_Terminations	Left_Right
+
+
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class Terminations(Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENT_NO = 'equipment_no'
+    CABLENUMBER = 'cablenumber'
+    CORE_MARKINGS = 'core_markings'
+    MARKING = 'marking'
+    LEFT_RIGHT = 'left_right'

@@ -1,0 +1,128 @@
+You are a Spark SQL expert. Decompose the provided SQL script into self-contained sub-scripts. Improve the modularity and readability of the code.
+
+Each sub-script should contain at most one "JOIN" operation.
+Identify and isolate any common table expressions (CTEs) within the code.
+Separate any renaming of columns within "SELECT" statements (e.g., "SELECT XXX AS YYY").
+
+Create Or Replace Temp View VW_Instrument_Identification
+As
+With CTE
+ (loop_element_database_name
+,loop_element_dynamic_class
+,loop_element_Object_Identifier
+,Type
+)
+As (
+Select
+A.loop_element_database_name
+,A.loop_element_dynamic_class
+,A.loop_element_Object_Identifier
+,1 as Type
+from Sigraph.Loop_Elements A
+Inner join Sigraph_Silver.S_ItemFunction B
+On  A.Loop_Element_Database_Name     = B.database_name
+and A.loop_element_dynamic_class     = B.loop_element_dynamic_class
+and A.loop_element_Object_Identifier = B.loop_element_Object_Identifier
+Where CS_Loop_CS_Loop_element_dyn_class = 'CS_Loop_spez'
+and B.Type='Field Device'
+and A.LC_Item_function_CS_Loop_element_dyn_class is not null
+)
+Select * from CTE
+UNION
+Select
+A.loop_element_database_name
+,A.loop_element_dynamic_class
+,A.loop_element_Object_Identifier
+,2 as Type
+from Sigraph.Loop_Elements A
+LEFT ANTI JOIN CTE B ON A.loop_element_database_name=B.loop_element_database_name
+and A.loop_element_dynamic_class=B.loop_element_dynamic_class
+and A.loop_element_Object_Identifier=B.loop_element_Object_Identifier
+left outer join sigraph_Reference.DeviceType as DTC ON  UPPER(TRIM(DTC.SigraphDeviceType))=UPPER(TRIM(A.CS_device_type))
+Where CS_Loop_CS_Loop_element_dyn_class='CS_Loop_spez'
+and A.LC_Item_function_CS_Loop_element_dyn_class is null
+and Case When CS_location_full_designation is null Or UPPER(CS_device_type) like '%INDUCTIVE%SENSOR%' Then 1 else 0 End=1
+and loop_element_dynamic_class not in ('CS_Loop_element_hw_bi'
+,'CS_Loop_element_hw_bo'
+,'CS_Loop_element_hw_ai'
+,'CS_Loop_element_hw_ao')
+and TRIM(
+       Coalesce(Replace(Replace(Replace(Replace(RevisedDeviceType,'ANALOG INPUT','AI'),'ANALOG OUTPUT','AO')
+                 ,'DIGITAL INPUT','DI'),'DIGITAL OUTPUT','DO')
+        ,A.CS_device_type,'')
+        )
+Not in
+ ('C300 DO','DCS AI','FTA DO','IOTA AI','PLC DO','PLS AO','PLS DI','PLS DO','PLS OUTBOUND','SM AI','SM DI','SM DO','SPS AI','SPS DI')
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Certainly, I will break this script into multiple self-contained sub-scripts.
+
+Sub-Script 1: Creating first CTE
+
+sql
+Copy code
+Create Or Replace Temp View CTE1 AS
+SELECT
+    A.loop_element_database_name
+    ,A.loop_element_dynamic_class
+    ,A.loop_element_Object_Identifier
+    ,1 as Type
+FROM Sigraph.Loop_Elements A
+INNER JOIN Sigraph_Silver.S_ItemFunction B
+    ON  A.Loop_Element_Database_Name     = B.database_name
+    AND A.loop_element_dynamic_class     = B.loop_element_dynamic_class
+    AND A.loop_element_Object_Identifier = B.loop_element_Object_Identifier
+WHERE CS_Loop_CS_Loop_element_dyn_class = 'CS_Loop_spez'
+AND B.Type='Field Device'
+AND A.LC_Item_function_CS_Loop_element_dyn_class IS NOT NULL;
+Sub-Script 2: Creating second CTE
+
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW CTE2 AS
+SELECT
+    A.loop_element_database_name
+    ,A.loop_element_dynamic_class
+    ,A.loop_element_Object_Identifier
+FROM Sigraph.Loop_Elements A
+LEFT ANTI JOIN CTE1 B
+    ON  A.loop_element_database_name=B.loop_element_database_name
+    AND A.loop_element_dynamic_class=B.loop_element_dynamic_class
+    AND A.loop_element_Object_Identifier=B.loop_element_Object_Identifier
+WHERE CS_Loop_CS_Loop_element_dyn_class='CS_Loop_spez'
+AND A.LC_Item_function_CS_Loop_element_dyn_class IS NULL
+AND CASE WHEN CS_location_full_designation IS NULL OR UPPER(CS_device_type) LIKE '%INDUCTIVE%SENSOR%' THEN 1 ELSE 0 END=1
+AND loop_element_dynamic_class NOT IN ('CS_Loop_element_hw_bi'
+    ,'CS_Loop_element_hw_bo'
+    ,'CS_Loop_element_hw_ai'
+    ,'CS_Loop_element_hw_ao');
+Sub-Script 3: Join with DeviceType table and additional conditions
+
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW CTE3 AS
+SELECT
+    A.loop_element_database_name
+    ,A.loop_element_dynamic_class
+    ,A.loop_element_Object_Identifier
+    ,2 AS Type
+FROM CTE2 A
+LEFT OUTER JOIN sigraph_Reference.DeviceType as DTC
+    ON  UPPER(TRIM(DTC.SigraphDeviceType))=UPPER(TRIM(A.CS_device_type))
+WHERE TRIM(
+        COALESCE(REPLACE(REPLACE(REPLACE(REPLACE(RevisedDeviceType,'ANALOG INPUT','AI'),'ANALOG OUTPUT','AO')
+            ,'DIGITAL INPUT','DI'),'DIGITAL OUTPUT','DO')
+            ,A.CS_device_type,'')
+        )
+NOT IN
+    ('C300 DO','DCS AI','FTA DO','IOTA AI','PLC DO','PLS AO','PLS DI','PLS DO','PLS OUTBOUND','SM AI','SM DI','SM DO','SPS AI','SPS DI');
+Sub-Script 4: Final View combining CTE1 and CTE3
+
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW VW_Instrument_Identification AS
+SELECT * FROM CTE1
+UNION
+SELECT * FROM CTE3;
+Note: If CTE1 and CTE3 are needed to be used in different scripts, you may consider changing them into TEMP VIEW in the respective sub-scripts. Please ensure you execute the scripts in the correct order to satisfy dependencies.ach script is dependent on the previous script's output. This makes the entire process more modular and easier to understand.

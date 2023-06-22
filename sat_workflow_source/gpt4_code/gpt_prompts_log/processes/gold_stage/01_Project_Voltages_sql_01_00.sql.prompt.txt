@@ -1,0 +1,60 @@
+Convert the following Databricks SQL statement into python code.
+
+Do not value brevity.
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways, modularise these different ways if possible.
+A column will be passed through without any modification.
+A columnn will be simply mapped to a column with a new name, sometimes multiple times.
+A new columnn will be added with a constant value
+A columnn will be mapped to a column using  more complex calculations
+
+
+Do not generate the enums. Refer to the following enums when using column names.
+
+These are the enum schemas for the input tables
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+class CS_Layer_Loop_Loop_elements_FilteredForProjectVoltages(
+        Enum):
+    LOOP_ELEMENT_CS_VOLTAGE_TYPE = 'loop_element_cs_voltage_type'
+    CS_VOLTAGE = 'cs_voltage'
+
+This is the enum schema for the output table
+
+class Project_Voltages(
+        Enum):
+    VOLTAGE_TYPE = 'voltage_type'
+    VOLTAGE = 'voltage'
+
+
+This is the SQL statement named 01_Project_Voltages_sql_01_00.sql
+
+Select
+  Distinct loop_element_cs_voltage_type as Voltage_Type,
+  CS_voltage as Voltage
+from
+  Sigraph.CS_Layer_Loop_Loop_elements
+Where
+  loop_element_CS_voltage_type is not null
+--   and loop_database_name in (select * from VW_Database_names)
+  and loop_element_CS_voltage_type <> '_empty_'
+  and loop_element_CS_voltage_type != " "
+  and CS_voltage <> '+0'

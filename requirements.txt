@@ -1,0 +1,14 @@
+git+https://ElBloqueReadOnly:qgqvrjLgcLTbvmN6BR5C@bitbucket.org/nf_py_g6_team/nf_common.git
+pandas
+pyarrow
+openpyxl
+psutil
+kafka-python
+setuptools
+scipy
+deltalake
+pyodbc
+pyspark
+xlsxwriter
+easygui
+msaccessdb

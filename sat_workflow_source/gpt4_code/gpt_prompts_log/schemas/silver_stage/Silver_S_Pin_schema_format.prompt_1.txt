@@ -1,0 +1,65 @@
+This is the schema for a table called S_Pin.
+It is a list of column names for S_Pin
+Create a python Enum for these column names.
+Name the class 'S_Pin'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_Pin Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+add
+Component_Function_Designation
+Database_Name
+Dynamic_Class
+Function_Dynamic_class
+Function_Object_Identifier
+Group_Overview
+Internal_Pin_Number
+metaData
+Object_Identifier
+Overview_Pin_Number
+Pin_Designation
+Pin_Group
+Pin_Type
+Potential
+protocol
+remove
+rowIdHighWaterMark
+Terminal_Marking
+Terminal_Side
+txn
+
+
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_Pin(Enum):
+    ADD = 'add'
+    COMPONENT_FUNCTION_DESIGNATION = 'component_function_designation'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    FUNCTION_DYNAMIC_CLASS = 'function_dynamic_class'
+    FUNCTION_OBJECT_IDENTIFIER = 'function_object_identifier'
+    GROUP_OVERVIEW = 'group_overview'
+    INTERNAL_PIN_NUMBER = 'internal_pin_number'
+    METADATA = 'metadata'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OVERVIEW_PIN_NUMBER = 'overview_pin_number'
+    PIN_DESIGNATION = 'pin_designation'
+    PIN_GROUP = 'pin_group'
+    PIN_TYPE = 'pin_type'
+    POTENTIAL = 'potential'
+    PROTOCOL = 'protocol'
+    REMOVE = 'remove'
+    ROWIDHIGHWATERMARK = 'rowidhighwatermark'
+    TERMINAL_MARKING = 'terminal_marking'
+    TERMINAL_SIDE = 'terminal_side'
+    TXN = 'txn'
+
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Please note that the enum names are in uppercase and don't have any quotes, while the column names are in lowercase and enclosed in single quotes as requested.

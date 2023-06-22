@@ -1,0 +1,42 @@
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'S_IO_Allocations'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+class S_IO_Allocations(Enum):
+
+--- the column names go here.
+
+S_IO_Allocations Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+S_IO_Allocations	CatalogueNo
+S_IO_Allocations	ChannelNumber
+S_IO_Allocations	Class
+S_IO_Allocations	database_name
+S_IO_Allocations	Equipment_No
+S_IO_Allocations	IOType
+S_IO_Allocations	object_identifier
+S_IO_Allocations	Parent_Equipment_No
+S_IO_Allocations	parquet_file_relative_path
+S_IO_Allocations	Tag_Number
+
+&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_IO_Allocations(Enum):
+    CATALOGUENO = 'catalogueno'
+    CHANNELNUMBER = 'channelnumber'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    EQUIPMENT_NO = 'equipment_no'
+    IOTYPE = 'iotype'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    TAG_NUMBER = 'tag_number'
+

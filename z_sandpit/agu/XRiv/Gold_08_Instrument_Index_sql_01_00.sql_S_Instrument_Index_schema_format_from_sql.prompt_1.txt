@@ -1,0 +1,1032 @@
+We want to find which columns of the table S_Instrument_Index are used in a Databricks SQL script.
+I am going to give you the information you need in several stages.
+stage 1: I'm going to give you the first part of a python enum class that defines the columns in the S_Instrument_Index table as constants.
+stage 2: I'm going to give you the second part of the python enum class that defines the columns in the S_Instrument_Index table as constants.
+stage 3: I'm going to give you the first part of the SQL script
+stage 4: I'm going to give you the second part of the SQL script
+stage 5: I'm going to give you instructions.
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+stage 1: first part of a python enum class that defines the columns in the S_Instrument_Index table as constants
+class S_Instrument_Index(
+        Enum):
+    ACCURACY_SPEED_OUTPUT = 'accuracy_speed_output'
+    ACTUATING_TIME = 'actuating_time'
+    ACTUATOR_INSTALLATION_POSITION = 'actuator_installation_position'
+    ANALYZER_90_TIME_OR_LENGTH_OF_ANALYSIS = 'analyzer_90_time_or_length_of_analysis'
+    ANALYZER_CALIBRATION_CURVE = 'analyzer_calibration_curve'
+    ANALYZER_ERROR_TOLERANCE = 'analyzer_error_tolerance'
+    ANALYZER_RANGE_OF_TEMPERATURE_COMPENSATION = 'analyzer_range_of_temperature_compensation'
+    APERTURE_ANGLE_VENTURI_TUBE = 'aperture_angle_venturi_tube'
+    APERTURE_DIAMETER_D = 'aperture_diameter_d'
+    AREA = 'area'
+    AREAPATH = 'areapath'
+    ASSEMBLY_CATEGORY = 'assembly_category'
+    ASSEMBLY_IDENTIFIER = 'assembly_identifier'
+    ASSEMBLY_LOCATION = 'assembly_location'
+    AUXILIARY_MATERIALS = 'auxiliary_materials'
+    AUXILIARY_POWER_SIZE = 'auxiliary_power_size'
+    AUXILIARY_POWER_TYPE = 'auxiliary_power_type'
+    AVERAGE_ANNUAL_TEMPERATURE = 'average_annual_temperature'
+    BLUFF_BODY_FORM = 'bluff_body_form'
+    BLUFF_BODY_MATERIAL = 'bluff_body_material'
+    BREAKDOWN_TORQUE_RATIO_MK_MN = 'breakdown_torque_ratio_mk_mn'
+    BYPASS_AMOUNT_MAXIMUM = 'bypass_amount_maximum'
+    BYPASS_AMOUNT_MINIMUM = 'bypass_amount_minimum'
+    BYPASS_FOR_MOTOR_NETWORK_OPERATION = 'bypass_for_motor_network_operation'
+    CABLE_LENGTH_SYSTEM = 'cable_length_system'
+    CALCULATED_KV_VALUE = 'calculated_kv_value'
+    CALCULATED_MAXIMUM_SOUND_PRESSURE_LEVEL = 'calculated_maximum_sound_pressure_level'
+    CALIBRATION_FROM = 'calibration_from'
+    CALIBRATION_TO = 'calibration_to'
+    CAPILLARY_LENGTH = 'capillary_length'
+    CAPILLARY_LIQUID = 'capillary_liquid'
+    CERTIFICATE = 'certificate'
+    CHARACTERISTIC = 'characteristic'
+    CHARACTERISTIC_LINE = 'characteristic_line'
+    CHARACTERISTIC_NOISE_VALUE_ZY = 'characteristic_noise_value_zy'
+    CHARACTERISTIC_POSITIONER = 'characteristic_positioner'
+    CIRCUIT_ARRANGEMENT = 'circuit_arrangement'
+    CIRCUIT_ARRANGEMENT2 = 'circuit_arrangement2'
+    CIRCUIT_TYPE_OUTPUT = 'circuit_type_output'
+    CLASS = 'class'
+    CLASSIFICATION = 'classification'
+    CLASSIFICATION_BY = 'classification_by'
+    CLASSNAME = 'classname'
+    COMMENT = 'comment'
+    CONE_MATERIAL = 'cone_material'
+    CONE_TYPE = 'cone_type'
+    CONSTRUCTION_YEAR = 'construction_year'
+    CONTACT_DESIGN = 'contact_design'
+    CONTROL_CABLE_HEATING = 'control_cable_heating'
+    CONTROL_CABLE_LENGTH_HEATING = 'control_cable_length_heating'
+    CONTROL_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLETS = 'control_cable_maximum_number_of_cable_inlets'
+    CONTROL_CABLE_MAXIMUM_WIRE_CROSS_SECTION = 'control_cable_maximum_wire_cross_section'
+    CONTROL_CABLE_SREWED_JOINT = 'control_cable_srewed_joint'
+    CONTROL_DEVICE_DESIGN = 'control_device_design'
+    CONTROL_INPUT_RANGE = 'control_input_range'
+    CONTROL_TRIPPING_VOLTAGE = 'control_tripping_voltage'
+    CONTROL_VALVE_CERTIFICATION = 'control_valve_certification'
+    CONTROLLER_MAXIMUM = 'controller_maximum'
+    CONTROLLER_MINIMUM = 'controller_minimum'
+    CONTROLLERS_MAXIMUM_NUMBER_OF_CABLE_INLETS = 'controllers_maximum_number_of_cable_inlets'
+    CONTROLLERS_MAXIMUM_WIRE_CROSS_SECTION = 'controllers_maximum_wire_cross_section'
+    COOLING_FINS = 'cooling_fins'
+    COUNTER = 'counter'
+    COUNTER_DESIGN = 'counter_design'
+    COUNTER_TYPE = 'counter_type'
+    CUT_OUT_TORQUE = 'cut_out_torque'
+    DATABASE_NAME = 'database_name'
+    DCSIO = 'dcsio'
+    DEFAULT_COMPONENT_NAME = 'default_component_name'
+    DEFAULT_SYMBOL = 'default_symbol'
+    DEFAULT_SYMBOL_LIBRARY = 'default_symbol_library'
+    DENSITY_AT_15C = 'density_at_15c'
+    DESIGN = 'design'
+    DESIGN_GAUGE_PRESSURE = 'design_gauge_pressure'
+    DESIGNATION = 'designation'
+    DETECTION_TYPE = 'detection_type'
+    DETONATION_HAZARD_PROTECTION_TYPE_HEATER = 'detonation_hazard_protection_type_heater'
+    DETONATION_HAZARD_PROTECTION_TYPE_MOTOR = 'detonation_hazard_protection_type_motor'
+    DEVICE_TYPE = 'device_type'
+    DEVICE_TYPE_MACHINE_MONITORING = 'device_type_machine_monitoring'
+    DIFFERENTIAL_PRESSURE_RANGE = 'differential_pressure_range'
+    DIGITAL_FUNCTION = 'digital_function'
+    DISPLAY_TYPE = 'display_type'
+    DN = 'dn'
+    DP_ARMATURE_CHARACTERISTIC_XT = 'dp_armature_characteristic_xt'
+    DRIVE_SYSTEM_FOR = 'drive_system_for'
+    DRIVE_WITH_HEATING = 'drive_with_heating'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EDGE_CHANGE = 'edge_change'
+    EFFECT_OF_DP = 'effect_of_dp'
+    EFFECTIVE_DIRECTION = 'effective_direction'
+    EFFICIENCY_AT_NOMINAL_LOAD = 'efficiency_at_nominal_load'
+    EFFICIENCY_AT_NOMINAL_POWER_AND_MINIMUM_ROTATIONAL_SPEED = \
+        'efficiency_at_nominal_power_and_minimum_rotational_speed'
+    EFFICIENCY_AT_NOMINAL_POWER_AND_NOMINAL_ROTATIONAL_SPEED = \
+        'efficiency_at_nominal_power_and_nominal_rotational_speed'
+    ELECTRICAL_CONNECTION_DESIGN = 'electrical_connection_design'
+    ELEMENT_FRACTURE = 'element_fracture'
+    ELEMENT_TYPE = 'element_type'
+    ENCLOSURE_TYPE_CLASS = 'enclosure_type_class'
+    ENGINE_IDENTIFICATION_NUMBER = 'engine_identification_number'
+    EX_I = 'ex_i'
+    EX_ID = 'ex_id'
+    EXTENSION = 'extension'
+    EXTERNAL_SETPOINT_SPECIFICATION = 'external_setpoint_specification'
+    FACILITY_BLOCK_DEFAULT = 'facility_block_default'
+    FAIL_SAFE = 'fail_safe'
+    FD_OUTPUT_SIGNAL = 'fd_output_signal'
+    FILLING_MEDIUM_FOR_ATTENUATION = 'filling_medium_for_attenuation'
+    FILTER_FOR_HARMONIC_CURRENTS = 'filter_for_harmonic_currents'
+    FINAL_ACCEPTANCES = 'final_acceptances'
+    FINE_ADJUSTMENT_VALVE = 'fine_adjustment_valve'
+    FLASH_SIGNALING = 'flash_signaling'
+    FLOAT_TYPE_FORM = 'float_type_form'
+    FLOAT_TYPE_MATERIAL = 'float_type_material'
+    FLOW_DIRECTION = 'flow_direction'
+    FLOW_MAXIMUM = 'flow_maximum'
+    FLOW_MINIMUM = 'flow_minimum'
+    FOR_PRE_POST_PRESSURE_OSCILLATION = 'for_pre_post_pressure_oscillation'
+    FORMATNAME = 'formatname'
+    FRAME_SIZE = 'frame_size'
+    FUNCTION = 'function'
+    FUNCTION_AT_MAXIMUM = 'function_at_maximum'
+    FUNCTION_AT_MINIMUM = 'function_at_minimum'
+    GALVANIC_SEPARATION = 'galvanic_separation'
+    GLAND_NUT_LUBRICATION = 'gland_nut_lubrication'
+    GLAND_NUT_MATERIAL = 'gland_nut_material'
+    GLAND_NUT_TYPE = 'gland_nut_type'
+    HANDWHEEL_POSITION = 'handwheel_position'
+    HEAD_END_MATERIAL = 'head_end_material'
+    HEAT_GENERATOR_INSTALLATION_POSITION = 'heat_generator_installation_position'
+    HEATING = 'heating'
+    HEATING_BUNDLE_DIAMETER = 'heating_bundle_diameter'
+    HEATING_LIMITER = 'heating_limiter'
+    HEATING_REMARK = 'heating_remark'
+    HEATING_SETTINGS_ANTIFREEZE = 'heating_settings_antifreeze'
+    HOOK_UP_FIGURE = 'hook_up_figure'
+    HOUSING_MATERIAL = 'housing_material'
+    HOUSING_PRESSURE_STAGE = 'housing_pressure_stage'
+    HOUSING_TYPE = 'housing_type'
+    IMPULSE_FACTOR = 'impulse_factor'
+    INPUT_SIGNAL = 'input_signal'
+    INPUT_SIGNAL_EXPLOSION_PROTECTION = 'input_signal_explosion_protection'
+    INSERT_LENGTH = 'insert_length'
+    INSTALLATION_LAYER = 'installation_layer'
+    INSTALLATION_LENGTH = 'installation_length'
+    INSTALLATION_SITE = 'installation_site'
+    INSTRUMENT_LAYOUT = 'instrument_layout'
+    INSTRUMENT_LAYOUT_PAGE_NUMBER = 'instrument_layout_page_number'
+    INSTRUMENT_SERVICE = 'instrument_service'
+    INSULATION_CLASS = 'insulation_class'
+    INTERRUPTING_CURRENT_LIMIT_XIN = 'interrupting_current_limit_xin'
+    INTRINSIC_SAFETY_CAPACITY = 'intrinsic_safety_capacity'
+    INTRINSIC_SAFETY_CURRENT = 'intrinsic_safety_current'
+    INTRINSIC_SAFETY_DEVICE_TYPE = 'intrinsic_safety_device_type'
+    INTRINSIC_SAFETY_INDUCTIVITY = 'intrinsic_safety_inductivity'
+    INTRINSIC_SAFETY_POWER = 'intrinsic_safety_power'
+    INTRINSIC_SAFETY_VOLTAGE = 'intrinsic_safety_voltage'
+    ISALOCATION = 'isalocation'
+    ITEM_DESIGNATION_BLOCK_DEFAULT = 'item_designation_block_default'
+    JUNCTION_BOX = 'junction_box'
+    KV_VALUE_AT_KVS_NOMINAL_STROKE = 'kv_value_at_kvs_nominal_stroke'
+    KVS_VALUE = 'kvs_value'
+    LEAKAGE_RATE_OF_KVS = 'leakage_rate_of_kvs'
+    LENGTH_CONNECTION_CABLE = 'length_connection_cable'
+    LENGTH_OF_DISPLACER = 'length_of_displacer'
+    LENGTH_OF_SUSPENSION_DEVICE = 'length_of_suspension_device'
+    LENGTH_OF_TRACE_HEATING = 'length_of_trace_heating'
+    LIMIT_SWITCH_CLOSE = 'limit_switch_close'
+    LIMIT_SWITCH_OPEN = 'limit_switch_open'
+    LIMIT_SWITCH_SIGNALLED = 'limit_switch_signaled'
+    LIMIT_SWITCH_SV = 'limit_switch_sv'
+    LIMITER_RELEASE = 'limiter_release'
+    LOOP_DIAGRAM_LEVEL = 'loop_diagram_level'
+    LOOPDWGCODE = 'loopdwgcode'
+    LOOPFUNC = 'loopfunc'
+    LOOPNO = 'loopno'
+    LSERVICE1 = 'lservice1'
+    MACHINE_TYPE = 'machine_type'
+    MANUAL_ACTUATION = 'manual_actuation'
+    MANUAL_OPERATION = 'manual_operation'
+    MANUFACTURER = 'manufacturer'
+    MASS_LIMITATION_BEFORE_AGR = 'mass_limitation_before_agr'
+    MAXIMUM_CABLE_LENGTH_OF_CONVERTER_MOTOR = 'maximum_cable_length_of_converter_motor'
+    MAXIMUM_COOLANT_REQUIREMENTS_AT_NOMINAL_LOAD = 'maximum_coolant_requirements_at_nominal_load'
+    MAXIMUM_MOTOR_POWER_IN_CONVERTER_OPERATION = 'maximum_motor_power_in_converter_operation'
+    MAXIMUM_NUMBER_OF_CABLE_INLETS = 'maximum_number_of_cable_inlets'
+    MAXIMUM_OF_HARMONIC_VOLTAGE = 'maximum_of_harmonic_voltage'
+    MAXIMUM_PERMISSIBLE_SOUND_PRESSURE_LEVEL = 'maximum_permissible_sound_pressure_level'
+    MAXIMUM_POWER_LOSS = 'maximum_power_loss'
+    MAXIMUM_RATED_MOTOR_CURRENT = 'maximum_rated_motor_current'
+    MAXIMUM_RATED_MOTOR_VOLTAGE = 'maximum_rated_motor_voltage'
+    MAXIMUM_WIRE_CROSS_SECTION = 'maximum_wire_cross_section'
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+stage 2: second part of a python enum class that defines the columns in the S_Instrument_Index table as constants
+
+MEASURED_QUANTITY = 'measured_quantity'
+    MEASURED_VALUE_DISPLAY = 'measured_value_display'
+    MEASURING_PROCEDURE = 'measuring_procedure'
+    MEASURING_RANGE = 'measuring_range'
+    MEASURING_RANGE_FROM = 'measuring_range_from'
+    MEASURING_RANGE_TO = 'measuring_range_to'
+    MEDIUM_CONNECTION_DESIGN = 'medium_connection_design'
+    METER_METERING_ELEMENT_MATERIAL = 'meter_metering_element_material'
+    METER_TYPE = 'meter_type'
+    METERING_CONE_LENGTH = 'metering_cone_length'
+    METERING_CONE_MATERIAL = 'metering_cone_material'
+    METHOD_OF_CONNECTION = 'method_of_connection'
+    METHOD_OF_MEASUREMENT_MACHINE_MONITORING = 'method_of_measurement_machine_monitoring'
+    MINIMUM_AMOUNT_FOR_SALE = 'minimum_amount_for_sale'
+    MINIMUM_DESIGN_TEMPERATURE = 'minimum_design_temperature'
+    MODEL = 'model'
+    MODULE_NAME = 'module_name'
+    MOTOR_PROTECTION_IN_CONVERTER_OPERATION = 'motor_protection_in_converter_operation'
+    MOTOR_PROTECTION_IN_NETWORK_OPERATION = 'motor_protection_in_network_operation'
+    MT_HEAD_ASSEMBLY = 'mt_head_assembly'
+    NETWORK_PROTECTION = 'network_protection'
+    NOISE_PROTECTION_MEASURES = 'noise_protection_measures'
+    NOMINAL_POWER = 'nominal_power'
+    NOMINAL_TORQUE = 'nominal_torque'
+    NTH_TIME = 'nth_time'
+    NUMBER = 'number'
+    NUMBER_OF_SWITCHING_CONTACTS = 'number_of_switching_contacts'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OCCUPATION_DENSITY = 'occupation_density'
+    ON_STATE_LIMIT_VALUE_1 = 'on_state_limit_value_1'
+    ON_STATE_LIMIT_VALUE_2 = 'on_state_limit_value_2'
+    OPENING_CLOSING_TIMES = 'opening_closing_times'
+    OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_MAXIMUM = 'operating_pressure_at_feedback_location_maximum'
+    OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_NORMAL = 'operating_pressure_at_feedback_location_normal'
+    OPERATINGPRINC = 'operatingprinc'
+    ORIFICE_FILLING_MEDIUM = 'orifice_filling_medium'
+    OUTPUT_FREQUENCY_CONTROL_RANGE_FROM = 'output_frequency_control_range_from'
+    OUTPUT_FREQUENCY_CONTROL_RANGE_TO = 'output_frequency_control_range_to'
+    OUTPUT_POSITIONER_ = 'output_positioner_'
+    OUTPUT_SIGNAL_EXPLOSION_PROTECTION = 'output_signal_explosion_protection'
+    OUTPUT_SPEED = 'output_speed'
+    OVERALL_HEIGHT = 'overall_height'
+    OVERALL_LENGTH = 'overall_length'
+    PA_BUS_CURRENT_INPUT = 'pa_bus_current_input'
+    PA_BUS_MAX_SHORT_CIRCUIT_CURRENT = 'pa_bus_max_short_circuit_current'
+    PA_BUS_TERMINAL = 'pa_bus_terminal'
+    PARTS_CODE = 'parts_code'
+    PERFORMANCE_FACTOR_AT_FULL_LOAD = 'performance_factor_at_full_load'
+    PIDNO = 'pidno'
+    POSITION = 'position'
+    POSITION_FEEDBACK_ANALOG = 'position_feedback_analog'
+    POSITION_WITHOUT_POWER = 'position_without_power'
+    POWER_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLET = 'power_cable_maximum_number_of_cable_inlet'
+    POWER_CABLE_MAXIMUM_WIRE_CROSS_SECTION = 'power_cable_maximum_wire_cross_section'
+    POWER_CABLE_SCREWED_JOINT = 'power_cable_screwed_joint'
+    POWER_CONSUMPTION = 'power_consumption'
+    POWER_SUPPLY_FROM_MODULE = 'power_supply_from_module'
+    PRESSURE_GAUGE_SHUT_OFF = 'pressure_gauge_shut_off'
+    PRESSURE_LEVEL = 'pressure_level'
+    PRESSURE_RECOVER_FACTOR_FL = 'pressure_recover_factor_fl'
+    PRIMARY_PRESSURE_REDUCER = 'primary_pressure_reducer'
+    PROBE_LENGTH = 'probe_length'
+    PROBE_LENGTH_LEVEL = 'probe_length_level'
+    PROCESSEQUIPMENT = 'processequipment'
+    PROCESSLINES = 'processlines'
+    PTB_NUMBER = 'ptb_number'
+    PTC_THERMISTOR_TEMPERATURE_SENSOR = 'ptc_thermistor_temperature_sensor'
+    PULSE_NUMBER_INPUT_LINE_SIDE_GR = 'pulse_number_input_line_side_gr'
+    PULSE_NUMBER_OUTPUT_TO_MOTOR_WR = 'pulse_number_output_to_motor_wr'
+    PUMP_FOR_SAMPLE = 'pump_for_sample'
+    PUMP_FOR_SAMPLE_PREPARATION = 'pump_for_sample_preparation'
+    QUARTER_CIRCLE_NOZZLE_RADIUS_R = 'quarter_circle_nozzle_radius_r'
+    RADIO_INTERFERENCE_LEVEL = 'radio_interference_level'
+    RATED_APPARENT_POWER = 'rated_apparent_power'
+    RATED_ASYNCHRONOUS_SPEED = 'rated_asynchronous_speed'
+    RATED_CURRENT = 'rated_current'
+    RATED_CURRENT_OF_DRIVE = 'rated_current_of_drive'
+    RATED_POWER = 'rated_power'
+    RATED_POWER_AT_NOMINAL_OPERATION = 'rated_power_at_nominal_operation'
+    RATED_POWER_OF_DRIVE = 'rated_power_of_drive'
+    RATED_POWER_PER_METER = 'rated_power_per_meter'
+    RATED_TORQUE_MN = 'rated_torque_mn'
+    RED_MARKING_DESIGN = 'red_marking_design'
+    RED_MARKING_SETTING = 'red_marking_setting'
+    REFERENCE_TEMPERATURE = 'reference_temperature'
+    REFERENCE_VESSEL_MATERIAL = 'reference_vessel_material'
+    REMARKS = 'remarks'
+    REQUIRED_INLET_LENGTH = 'required_inlet_length'
+    RESISTANCE_THERMOCOUPLE_TYPE = 'resistance_thermocouple_type'
+    RESTRICTION_ORIFICE_DIAMETER = 'restriction_orifice_diameter'
+    RESTRICTION_ORIFICE_MATERIAL = 'restriction_orifice_material'
+    RESTRICTOR_DESIGN = 'restrictor_design'
+    RING_CHAMBER_DIMENSION_A = 'ring_chamber_dimension_a'
+    RING_CHAMBER_DIMENSION_D = 'ring_chamber_dimension_d'
+    RING_CHAMBER_DIMENSION_E = 'ring_chamber_dimension_e'
+    RING_CHAMBER_MATERIAL = 'ring_chamber_material'
+    ROTATIONAL_SPEED_OF_DRIVE = 'rotational_speed_of_drive'
+    ROTATIONAL_SPEED_RANGE_FROM = 'rotational_speed_range_from'
+    ROTATIONAL_SPEED_RANGE_TO = 'rotational_speed_range_to'
+    RUN_OUT_LENGTH = 'run_out_length'
+    SAMPLE_PIPELINE_DIAMETER = 'sample_pipeline_diameter'
+    SAMPLE_PIPELINE_LENGTH = 'sample_pipeline_length'
+    SAMPLE_PIPELINE_MATERIAL = 'sample_pipeline_material'
+    SAMPLE_PIPELINE_TYPE = 'sample_pipeline_type'
+    SAMPLE_PREPARATION_BACK_PRESSURE_REGULATOR = 'sample_preparation_back_pressure_regulator'
+    SAMPLE_PREPARATION_CHEMICAL_TEMPLATE = 'sample_preparation_chemical_template'
+    SAMPLE_PREPARATION_FILTER = 'sample_preparation_filter'
+    SAMPLE_PREPARATION_FLOW_COUNTER = 'sample_preparation_flow_counter'
+    SAMPLE_PREPARATION_MEASURING_PRODUCT_COOLER = 'sample_preparation_measuring_product_cooler'
+    SAMPLE_PREPARATION_MISCELLANEOUS = 'sample_preparation_miscellaneous'
+    SAMPLE_PREPARATION_OUTPUT_PRESSURE_MAXIMUM = 'sample_preparation_output_pressure_maximum'
+    SAMPLE_PREPARATION_OUTPUT_PRESSURE_NORMAL = 'sample_preparation_output_pressure_normal'
+    SAMPLE_PREPARATION_REDUCTION_STATION = 'sample_preparation_reduction_station'
+    SAMPLE_PREPARATION_RETENTION_TIME = 'sample_preparation_retention_time'
+    SAMPLE_PREPARATION_SEPARATOR = 'sample_preparation_separator'
+    SAMPLE_PREPARATION_TUBE_FURNACE = 'sample_preparation_tube_furnace'
+    SAMPLE_PREPARATION_VAPORIZER = 'sample_preparation_vaporizer'
+    SAMPLE_PROBE_DELAY_TIME = 'sample_probe_delay_time'
+    SAMPLE_SENSOR = 'sample_sensor'
+    SAMPLE_TYPE = 'sample_type'
+    SCALE_CLASSIFICATION = 'scale_classification'
+    SCREWED_JOINT = 'screwed_joint'
+    SEAT_DIAMETER = 'seat_diameter'
+    SEAT_MATERIAL = 'seat_material'
+    SEAT_SEALING = 'seat_sealing'
+    SELF_RETAINING_DRIVE = 'self_retaining_drive'
+    SERIAL_NUMBER = 'serial_number'
+    SETTING_RANGE_MAXIMUM = 'setting_range_maximum'
+    SETTING_RANGE_MINIMUM = 'setting_range_minimum'
+    SHORT_CIRCUIT_PROOF = 'short_circuit_proof'
+    SIGNAL_DIRECTION = 'signal_direction'
+    SIGNAL_RANGE = 'signal_range'
+    SIGNAL_RANGE_RESISTANCE = 'signal_range_resistance'
+    SIGNAL_TYPE = 'signal_type'
+    SIGNAL_VOLTAGE_INPUT = 'signal_voltage_input'
+    SIGNAL_VOLTAGE_OUTPUT = 'signal_voltage_output'
+    SIZE = 'size'
+    SOLENOID_VALVE = 'solenoid_valve'
+    SOLENOID_VALVE_DESIGN = 'solenoid_valve_design'
+    SOUND_PRESSURE_LEVEL_AT_NO_LOAD = 'sound_pressure_level_at_no_load'
+    SOUND_PRESSURE_LEVEL_AT_NOMINAL_LOAD = 'sound_pressure_level_at_nominal_load'
+    SPECIAL_PAINT = 'special_paint'
+    SPECIAL_REQUIREMENTS_ = 'special_requirements_'
+    SPECIALREMARKS = 'specialremarks'
+    SPINDLE_BUSHING = 'spindle_bushing'
+    SPINDLE_MATERIAL = 'spindle_material'
+    STANDARD_ORIFICE_NOZZLE_MATERIAL = 'standard_orifice_nozzle_material'
+    STARTING_CURRENT_RATIO_IA_IN = 'starting_current_ratio_ia_in'
+    STARTING_TORQUE_RATIO_MA_MN = 'starting_torque_ratio_ma_mn'
+    STATUS = 'status'
+    STELLITING = 'stelliting'
+    STROKE_HEIGHT = 'stroke_height'
+    SUFFIX = 'suffix'
+    SUPPL_CHAR_3_FOR_LOOP_ELEMENTS = 'suppl_char_3_for_loop_elements'
+    SUPPL_CHAR_FOR_INSTR_ELEMENTS_1 = 'suppl_char_for_instr_elements_1'
+    SUPPL_CHAR_FOR_INSTR_ELEMENTS_2 = 'suppl_char_for_instr_elements_2'
+    SWITCH_STATE_AT_REQUIRED_END_POSITION = 'switch_state_at_required_end_position'
+    SYMBOL_NAME = 'symbol_name'
+    TAGNO = 'tagno'
+    TANDEM_SWITCH = 'tandem_switch'
+    TAPPING_MATERIAL = 'tapping_material'
+    TEMPERATURE_CONTROLLER = 'temperature_controller'
+    TEMPERATURE_LIMITER = 'temperature_limiter'
+    TEMPLATE_PROTECTION_FLUID = 'template_protection_fluid'
+    TERMINAL_BOX_POSITION_TO_DRIVE_END_OF_MOTOR = 'terminal_box_position_to_drive_end_of_motor'
+    THEORETICAL_RATIO_KVS_KVO = 'theoretical_ratio_kvs_kvo'
+    THERMOCOUPLE = 'thermocouple'
+    THERMOMETER_DESIGN = 'thermometer_design'
+    TMU = 'tmu'
+    TORQUE_DEPENDENT = 'torque_dependent'
+    TORQUE_LIMIT_SWITCH_CLOSE = 'torque_limit_switch_close'
+    TORQUE_LIMIT_SWITCH_OPEN = 'torque_limit_switch_open'
+    TOTAL_DIMENSIONS_HEIGHT = 'total_dimensions_height'
+    TOTAL_DIMENSIONS_LENGTH = 'total_dimensions_length'
+    TOTAL_DIMENSIONS_WIDTH = 'total_dimensions_width'
+    TOTAL_WEIGHT = 'total_weight'
+    TOTAL_WEIGHT_OF_MOTOR = 'total_weight_of_motor'
+    TRANSFER_TO_SAP = 'transfer_to_sap'
+    TRANSMITTER_PROTECTIVE_BOX = 'transmitter_protective_box'
+    TRAVEL_RANGE = 'travel_range'
+    TYPE_OF_COOLING = 'type_of_cooling'
+    TYPE_OF_DRIVE = 'type_of_drive'
+    TYPE_OF_STARTING = 'type_of_starting'
+    VALVE_NUMBER = 'valve_number'
+    VALVE_SIZING_FACTOR_B = 'valve_sizing_factor_b'
+    VARIANTS_IN_PARTS = 'variants_in_parts'
+    VOLTAGE = 'voltage'
+    VOLTAGE_TYPE = 'voltage_type'
+    WEIGHT_FOR_CHOKE = 'weight_for_choke'
+    WEIGHT_FOR_CONVERTER = 'weight_for_converter'
+    WETTED_BODY_MATERIAL = 'wetted_body_material'
+    WINDING_CIRCUIT = 'winding_circuit'
+    WIRING_CONFIG = 'wiring_config'
+    YEAR_OF_CONSTRUCTION = 'year_of_construction'
+    ZERO_ELEVATION = 'zero_elevation'
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+stage 3: first part of the Databricks SQL script
+
+Select Distinct
+ClassName
+,LoopNo
+,LoopFunc
+,LService1
+,Remarks
+,Status
+,AreaPath
+,Size
+,PIDNo
+,TagNo
+,FormatName
+,Area
+,Function
+,Number
+,suffix
+,Device_Type
+,OperatingPrinc
+,DCSIO
+,LoopDwgCode
+,ProcessEquipment
+,ProcessLines
+,ISALocation
+
+,Ex_ID As `Ex-ID`
+,Certificate As `Certificate`
+,Parts_Code As `Parts Code`
+,Facility_Block_Default As `Facility Block Default`
+,Location_Block_Default as `Location Block Def.`
+,CS_description As `description`
+,Model As `Model`
+,Suppl_Char_for_Instr_Elements_1 As `Suppl. Char. for Instr. Elements 1`
+,Intrinsic_safety_current As `Intrinsic safety current`
+,Intrinsic_safety_inductivity As `Intrinsic safety inductivity`
+,Intrinsic_safety_capacity As `Intrinsic safety capacity`
+,Heating_Settings_Antifreeze As `Heating Settings Antifreeze`
+,Suppl_Char_for_Instr_Elements_2 As `Suppl. Char. for Instr. Elements 2`
+,Intrinsic_safety_voltage As `Intrinsic safety voltage`
+,Intrinsic_safety_power As `Intrinsic safety power`
+,Hook_Up_Figure As `Hook-Up Figure`
+,Variants_in_Parts As `Variants in Parts`
+,Operating_Pressure_at_Feedback_Location_Maximum As `Operating Pressure at Feedback Location Maximum`
+,Special_Requirements_ As `Special Requirements`
+,Module_Name As `Module Name`
+,Installation_Site As `Installation Site`
+,Position As `Position`
+,Intrinsic_Safety_Device_Type As `Intrinsic Safety Device Type`
+,Sample_Sensor As `Sample Sensor`
+,Sample_Pipeline_Length As `Sample Pipeline Length`
+,Valve_Number As `Valve Number`
+,Opening_Closing_Times As `Opening/Closing Times`
+,Manufacturer As `Manufacturer`
+,Item_Designation_Block_Default As `Item Designation Block Default`
+,Run_Out_Length As `Run-Out Length`
+,Heating_Limiter As `Heating Limiter`
+,Heating_Remark As `Heating Remark`
+,Comment As `Comment`
+,Overall_Length As `Overall Length`
+,dp_Armature_Characteristic_XT As `dp Armature Characteristic XT`
+,Number_of_Switching_Contacts As `Number of Switching Contacts`
+,Zero_Elevation As `Zero Elevation`
+,Differential_Pressure_Range As `Differential Pressure Range`
+,Restriction_Orifice_Diameter As `Restriction Orifice Diameter`
+,Metering_Cone_Length As `Metering Cone Length`
+,Minimum_Design_Temperature As `Minimum Design Temperature`
+,Valve_Sizing_Factor_b As `Valve Sizing Factor b`
+,Required_Inlet_Length As `Required Inlet Length`
+,Red_Marking_Setting As `Red Marking Setting`
+,Control_Cable_Length_Heating As `Control Cable Length Heating`
+,Capillary_Length As `Capillary Length`
+,Pressure_Recover_Factor_FL As `Pressure Recover Factor FL`
+,Designation As `Designation`
+,Cable_Length_System As `Cable Length System`
+,Quarter_Circle_Nozzle_Radius_r As `Quarter Circle Nozzle Radius r`
+,Theoretical_Ratio_Kvs_Kvo As `Theoretical Ratio Kvs/Kvo`
+,Solenoid_Valve_Design As `Solenoid Valve Design`
+,Sample_Probe_Delay_Time As `Sample Probe Delay Time`
+,Sample_Preparation_Retention_Time As `Sample Preparation Retention Time`
+,Sample_Preparation_Output_Pressure_Normal As `Sample Preparation Output Pressure Normal`
+,Sample_Preparation_Output_Pressure_Maximum As `Sample Preparation Output Pressure Maximum`
+,Sample_Pipeline_Diameter As `Sample Pipeline Diameter`
+,Bypass_Amount_Minimum As `Bypass Amount Minimum`
+,Bypass_Amount_Maximum As `Bypass Amount Maximum`
+,Analyzer_Range_of_Temperature_Compensation As `Analyzer Range of Temperature Compensation`
+,Analyzer_Error_Tolerance As `Analyzer Error Tolerance`
+,Calibration_from As `Calibration from`
+,PA_Bus_max_Short_Circuit_Current As `PA Bus max. Short-Circuit Current`
+,PA_Bus_Current_Input As `PA Bus Current Input`
+,Characteristic_Noise_Value_Zy As `Characteristic Noise Value Zy`
+,Design_Gauge_Pressure As `Design Gauge Pressure`
+,Stroke_Height As `Stroke/Height`
+,Effect_of_dp As `Effect of dp`
+,Voltage As `Voltage`
+,Power_Consumption As `Power Consumption`
+,Measuring_Range_from As `Measuring Range from`
+,Leakage_Rate_of_Kvs As `Leakage Rate (% of Kvs)`
+,Installation_Length As `Installation Length`
+,Kv_Value_at_Kvs_Nominal_Stroke As `Kv Value at Kvs Nominal Stroke`
+,Measuring_Procedure As `Measuring Procedure`
+,Calculated_Maximum_Sound_Pressure_Level As `Calculated Maximum Sound Pressure Level`
+,Final_Acceptances As `Final Acceptances`
+,Output_Speed As `Output Speed`
+,Restrictor_Design As `Restrictor Design`
+,Seat_Diameter As `Seat Diameter`
+,Insert_Length As `Insert Length`
+,Ring_Chamber_Dimension_D As `Ring Chamber Dimension D`
+,Control_Device_Design As `Control Device Design`
+,Control_Valve_Certification As `Control Valve Certification`
+,Kvs_Value As `Kvs-Value`
+,Measuring_Range_to As `Measuring Range to`
+,Overall_Height As `Overall Height`
+,Control_Input_Range As `Control Input Range`
+,Calculated_Kv_Value As `Calculated Kv-Value`
+,Aperture_Diameter_d As `Aperture Diameter d`
+,Calibration_to As `Calibration to`
+,Type_of_Drive As `Type of Drive`
+,Fail_Safe As `Fail Safe`
+,EX_i As `EX (i)`
+,Transfer_to_SAP As `Transfer to SAP`
+,Circuit_Type_Output As `Circuit Type`
+,Power_Supply_from_Module As `Power Supply from Module`
+,Classification As `Classification`
+,Signal_range_resistance As `Signal range/resistance`
+,Method_of_Connection As `Method of Connection`
+,Signal_range As `Signal range`
+,Signal_Voltage_Input As `Signal Voltage Input`
+,Voltage_type As `Voltage type`
+,Classification_by As `Classification by`
+,Edge_change As `Edge change`
+,Signal_Voltage_Output As `Signal Voltage Output`
+,Accuracy_Speed_Output As `Accuracy Speed Output ±`
+,Actuating_Time As `Actuating Time`
+,Actuator_Installation_Position As `Actuator Installation Position`
+,Analyzer_Calibration_Curve As `Analyzer Calibration Curve`
+,Analyzer_90_time_or_Length_of_Analysis As `Analyzer 90 Percentage time or Length of Analysis`
+,Aperture_Angle_Venturi_Tube As `Aperture Angle Venturi Tube`
+,Assembly_Category As `Assembly Category`
+,Assembly_Identifier As `Assembly Identifier`
+,Assembly_Location As `Assembly Location`
+,Auxiliary_Materials As `Auxiliary Materials`
+,Average_Annual_Temperature As `Average Annual Temperature`
+,Bluff_Body_Form As `Bluff Body Form`
+,Breakdown_Torque_Ratio_MK_MN As `Breakdown Torque Ratio MK Per MN`
+,PTB_Number As `PTB Number`
+,Characteristic_Line As `Characteristic Line`
+,Length_Connection_Cable As `Length Connection Cable`
+,Construction_Year As `Construction Year`
+,Control_Cable_Maximum_Number_of_Cable_Inlets As `Control Cable Maximum Number of Cable Inlets`
+,Control_Cable_Maximum_Wire_Cross_Section As `Control Cable Maximum Wire Cross Section`
+,Controllers_Maximum_Number_of_Cable_Inlets As `Controllers Maximum Number of Cable Inlets`
+,Controllers_Maximum_Wire_Cross_Section As `Controllers Maximum Wire Cross Section`
+,Control_Tripping_Voltage As `Control Tripping Voltage`
+,Controller_Maximum As `Controller Maximum`
+,Controller_Minimum As `Controller Minimum`
+,Counter As `Counter`
+,DN As `DN`
+,Cut_Out_Torque As `Cut Out Torque`
+,Density_at_15C As `Density at 15C`
+,Detonation_Hazard_Protection_Type_Heater As `Detonation Hazard Protection Type Heater`
+,Detonation_Hazard_Protection_Type_Motor As `Detonation Hazard Protection Type Motor`
+,Rated_Current_of_Drive As `Rated Current of Drive`
+,Rated_Power_of_Drive As `Rated Power of Drive`
+,Drive_System_for As `Drive System for`
+,Efficiency_at_Nominal_Load As `Efficiency at Nominal Load`
+,Efficiency_at_Nominal_Power_and_Minimum_Rotational_Speed As `Efficiency at Nominal Power and Minimum Rotational Speed`
+,Efficiency_at_Nominal_Power_and_Nominal_Rotational_Speed As `Efficiency at Nominal Power and Nominal Rotational Speed`
+,Engine_Identification_Number As `Engine Identification Number`
+,Default_Component_Name As `Default Component Name`
+,Float_Type_Form As `Float Type Form`
+,Frame_Size As `Frame Size`
+,Default_Symbol_Library As `Default Symbol Library`
+,Default_Symbol As `Default Symbol`
+,Heating_Bundle_Diameter As `Heating Bundle Diameter`
+,Impulse_Factor As `Impulse Factor`
+,Instrument_Layout As `Instrument Layout`
+,Instrument_Layout_Page_Number As `Instrument Layout Page Number`
+,Interrupting_Current_Limit_xIn As `Interrupting Current Limit xIn`
+,Length_of_Displacer As `Length of Displacer`
+,Length_of_Suspension_Device As `Length of Suspension Device`
+,Length_of_Trace_Heating As `Length of Trace Heating`
+,ON_State_Limit_Value_1 As `ON State Limit Value 1`
+,ON_State_Limit_Value_2 As `ON State Limit Value 2`
+,Limiter_Release As `Limiter Release`
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+stage 4: second part of the Databricks SQL script
+
+,Setting_Range_Maximum As `Setting Range Maximum`
+,Setting_Range_Minimum As `Setting Range Minimum`
+,Suppl_char_3_for_loop_elements As `Suppl char 3 for loop elements`
+,Sample_Type As `Sample Type`
+,Maximum_Cable_Length_of_Converter_Motor As `Maximum Cable Length of Converter Motor`
+,Maximum_Coolant_Requirements_at_Nominal_Load As `Maximum Coolant Requirements at Nominal Load`
+,Flow_Maximum As `Flow Maximum`
+,Maximum_Motor_Power_in_Converter_Operation As `Maximum Motor Power in Converter Operation`
+,Maximum_Number_of_Cable_Inlets As `Maximum Number of Cable Inlets`
+,Maximum_Power_Loss As `Maximum Power Loss`
+,Maximum_Rated_Motor_Current As `Maximum Rated Motor Current`
+,Maximum_Rated_Motor_Voltage As `Maximum Rated Motor Voltage`
+,Maximum_Permissible_Sound_Pressure_Level As `Maximum Permissible Sound Pressure Level`
+,Maximum_Wire_Cross_Section As `Maximum Wire Cross Section`
+,Measuring_Range As `Measuring Range`
+,Flow_Minimum As `Flow Minimum`
+,Minimum_Amount_for_Sale As `Minimum Amount for Sale`
+,Motor_Protection_in_Converter_Operation As `Motor Protection in Converter Operation`
+,Motor_Protection_in_Network_Operation As `Motor Protection in Network Operation`
+,Network_Protection As `Network Protection`
+,Noise_Protection_Measures As `Noise Protection Measures`
+,Nominal_Power As `Nominal Power`
+,Nominal_Torque As `Nominal Torque`
+,Maximum_of_Harmonic_Voltage As `Maximum of Harmonic Voltage`
+,nth_Time As `nth Time`
+,Occupation_Density As `Occupation Density`
+,Operating_Pressure_at_Feedback_Location_Normal As `Operating Pressure at Feedback Location Normal`
+,Output_Frequency_Control_Range_from As `Output Frequency Control Range from`
+,Output_Frequency_Control_Range_to As `Output Frequency Control Range to`
+,output_positioner_ As `Output Signal`
+,Power_Cable_Maximum_Number_of_Cable_Inlet As `Power Cable Maximum Number of Cable Inlet`
+,Power_Cable_Maximum_Wire_Cross_Section As `Power Cable Maximum Wire Cross Section`
+,Performance_Factor_at_Full_Load As `Performance Factor at Full Load`
+,For_Pre_Post_Pressure_Oscillation As `For Pre Or Post Pressure Oscillation`
+,Pressure_Level As `Pressure Level`
+,Probe_Length As `Probe Length`
+,probe_length_level As `probe length level`
+,PTC_Thermistor_Temperature_Sensor As `PTC Thermistor Temperature Sensor`
+,Pulse_Number_Input_Line_Side_GR As `Pulse Number Input Line Side GR`
+,Pulse_Number_Output_to_Motor_WR As `Pulse Number Output to Motor WR`
+,Radio_Interference_Level As `Radio Interference Level`
+,Rated_Apparent_Power As `Rated Apparent Power`
+,Rated_Current As `Rated Current`
+,Rated_Power As `Rated Power`
+,Rated_Power_at_Nominal_Operation As `Rated Power at Nominal Operation`
+,Rated_Power_per_Meter As `Rated Power per Meter`
+,Rated_Asynchronous_Speed As `Rated Asynchronous Speed`
+,Rated_Torque_MN As `Rated Torque MN`
+,Reference_Temperature As `Reference Temperature`
+,Ring_Chamber_Dimension_A As `Ring Chamber Dimension A`
+,Ring_Chamber_Dimension_E As `Ring Chamber Dimension E`
+,Rotational_Speed_of_Drive As `Rotational Speed of Drive`
+,Rotational_Speed_Range_from As `Rotational Speed Range from`
+,Sample_Pipeline_Type As `Sample Pipeline Type`
+,Sample_Preparation_Back_Pressure_Regulator As `Sample Preparation Back Pressure Regulator`
+,Sample_Preparation_Chemical_Template As `Sample Preparation Chemical Template`
+,Sample_Preparation_Filter As `Sample Preparation Filter`
+,Sample_Preparation_Flow_Counter As `Sample Preparation Flow Counter`
+,Sample_Preparation_Measuring_Product_Cooler As `Sample Preparation Measuring Product Cooler`
+,Sample_Preparation_Miscellaneous As `Sample Preparation Miscellaneous`
+,Sample_Preparation_Reduction_Station As `Sample Preparation Reduction Station`
+,Sample_Preparation_Separator As `Sample Preparation Separator`
+,Sample_Preparation_Tube_Furnace As `Sample Preparation Tube Furnace`
+,Sample_Preparation_Vaporizer As `Sample Preparation Vaporizer`
+,Serial_Number As `Serial Number`
+,Sound_Pressure_Level_at_No_Load As `Sound Pressure Level at No Load`
+,Sound_Pressure_Level_at_Nominal_Load As `Sound Pressure Level at Nominal Load`
+,Special_Paint As `Special Paint`
+,Rotational_Speed_Range_to As `Rotational Speed Range to`
+,Starting_Current_Ratio_IA_IN As `Starting Current Ratio IA Per IN`
+,Starting_Torque_Ratio_MA_MN As `Starting Torque Ratio MA Per MN`
+,Default_Symbol_Library As `Symbol Library`
+,Symbol_Name As `Symbol Name`
+,TMU As `TMU`
+,Total_Dimensions_Height As `Total Dimensions Height`
+,Total_Dimensions_Length As `Total Dimensions Length`
+,Total_Dimensions_Width As `Total Dimensions Width`
+,Total_Weight As `Total Weight`
+,Total_Weight_of_Motor As `Total Weight of Motor`
+
+,Travel_Range As `Travel Range`
+,Type_of_Cooling As `Type of Cooling`
+,Weight_for_Choke As `Weight for Choke`
+,Weight_for_Converter As `Weight for Converter`
+,Winding_Circuit As `Winding Circuit`
+,Year_of_Construction As `Year of Construction`
+,Screwed_Joint As `Screwed Joint`
+,Sample_Pipeline_Material As `Sample Pipeline Material`
+,Drive_with_Heating As `Drive with Heating`
+,Bluff_Body_Material As `Bluff Body Material`
+,Seat_Material As `Seat Material`
+,Housing_Material As `Housing Material`
+,Gland_Nut_Lubrication As `Gland Nut Lubrication`
+,Cooling_Fins As `Cooling Fins`
+,Standard_Orifice_Nozzle_Material As `Standard Orifice/Nozzle Material`
+,Tapping_Material As `Tapping Material`
+,Solenoid_Valve As `Solenoid Valve`
+,Function_at_Minimum As `Function at Minimum`
+,Function_at_Maximum As `Function at Maximum`
+,Pressure_Gauge_Shut_Off As `Pressure Gauge Shut-Off`
+,Meter_Metering_Element_Material As `Meter/Metering Element Material`
+,PA_Bus_Terminal As `PA Bus Terminal`
+,Reference_Vessel_Material As `Reference Vessel Material`
+,Head_End_Material As `Head End Material`
+,Short_Circuit_Proof As `Short-Circuit-Proof`
+,Output_Signal_Explosion_Protection As `Output Signal Explosion Protection`
+,Input_Signal_Explosion_Protection As `Input Signal Explosion Protection`
+,FD_Output_Signal As `FD Output Signal`
+,Manual_Actuation As `Manual Actuation`
+,Limit_Switch_sv As `Limit Switch`
+,Wetted_Body_Material As `Wetted Body Material`
+,MT_Head_Assembly As `MT Head Assembly`
+,Spindle_Material As `Spindle Material`
+,Template_Protection_Fluid As `Template Protection Fluid`
+,Restriction_Orifice_Material As `Restriction Orifice Material`
+,Metering_Cone_Material As `Metering Cone Material`
+,Float_Type_Material As `Float-Type Material`
+,Transmitter_Protective_Box As `Transmitter Protective Box`
+,Fine_Adjustment_Valve As `Fine Adjustment Valve`
+,Pump_for_Sample As `Pump for Sample`
+,Pump_for_Sample_Preparation As `Pump for Sample Preparation`
+,Primary_Pressure_Reducer As `Primary Pressure Reducer`
+,Mass_Limitation_before_AGR As `Mass Limitation before AGR`
+,Medium_Connection_Design As `Medium Connection Design`
+,Position_without_Power As `Position without Power`
+,Loop_Diagram_Level As `Loop Diagram Level`
+,Element_type As `Element type`
+,Handwheel_Position As `Handwheel Position`
+,Measured_Quantity As `Measured Quantity`
+,Housing_Type As `Housing Type`
+,Signal_type As `Signal type`
+,Limit_Switch_signaled As `Limit Switch signaled`
+,Digital_Function As `Digital Function`
+,Ring_Chamber_Material As `Ring Chamber Material`
+,characteristic As `characteristic`
+,Auxiliary_power_type As `Auxiliary power type`
+,Flow_Direction As `Flow Direction`
+,Spindle_Bushing As `Spindle Bushing`
+,Resistance_Thermocouple_Type As `Resistance Thermocouple Type`
+,Thermometer_Design As `Thermometer Design`
+,Extension As `Extension`
+,Stelliting As `Stelliting`
+,Thermocouple As `Thermocouple`
+,Housing_Pressure_Stage As `Housing Pressure Stage`
+,Gland_Nut_Type As `Gland Nut Type`
+,Input_Signal As `Input Signal`
+,Galvanic_Separation As `Galvanic Separation`
+,Effective_Direction As `Effective Direction`
+,Cone_Type As `Cone Type`
+,Electrical_Connection_Design As `Electrical Connection Design`
+,Element_fracture As `Element fracture`
+,Seat_Sealing As `Seat Sealing`
+,Gland_Nut_Material As `Gland Nut Material`
+,Auxiliary_Power_Size As `Auxiliary Power Size`
+,Cone_Material As `Cone Material`
+,Switch_State_at_Required_End_Position As `Switch State at Required End Position`
+,Contact_design As `Contact design`
+,Orifice_Filling_medium As `Orifice Filling medium`
+,Counter_Type As `Counter Type`
+,Counter_Design As `Counter Design`
+,Control_Cable_Heating As `Control Cable Heating`
+,Signal_direction As `Signal direction`
+,Scale_Classification As `Scale Classification`
+,Meter_Type As `Meter Type`
+,Display_type As `Display type`
+,Heating As `Heating`
+,Filling_Medium_for_Attenuation As `Filling Medium for Attenuation`
+,Bypass_for_Motor_Network_Operation As `Bypass for Motor Network Operation`
+,Capillary_Liquid As `Capillary Liquid`
+,characteristic_positioner As `characteristic positioner`
+,Circuit_Arrangement As `Circuit Arrangement`
+,Control_Cable_Srewed_Joint As `Control Cable Srewed Joint`
+,Detection_Type As `Detection Type`
+,Device_Type_Machine_Monitoring As `Device Type Machine Monitoring`
+,Enclosure_Type_Class As `Enclosure Type Class`
+,External_Setpoint_Specification As `External Setpoint Specification`
+,Filter_for_Harmonic_Currents As `Filter for Harmonic Currents`
+,Flash_Signaling As `Flash Signaling`
+,Heat_Generator_Installation_Position As `Heat Generator Installation Position`
+,Installation_Layer As `Installation Layer`
+,Insulation_Class As `Insulation Class`
+,Limit_Switch_Close As `Limit Switch Close`
+,Limit_Switch_Open As `Limit Switch Open`
+,Method_of_Measurement_Machine_Monitoring As `Method of Measurement Machine Monitoring`
+,Machine_Type As `Machine Type`
+,Manual_Operation As `Manual Operation`
+,Measured_Value_Display As `Measured Value Display`
+,Design As `Design`
+,Position_Feedback_Analog As `Position Feedback Analog`
+,Power_Cable_Screwed_Joint As `Power Cable Screwed Joint`
+,Red_Marking_Design As `Red Marking Design`
+,Self_Retaining_Drive As `Self-Retaining Drive`
+,Tandem_Switch As `Tandem Switch`
+,Temperature_Controller As `Temperature Controller`
+,Temperature_Limiter As `Temperature Limiter`
+,Terminal_Box_Position_to_drive_end_of_motor As `Terminal Box Position (to drive end of motor)`
+,Circuit_Arrangement2 As `Circuit Arrangement2`
+,Torque_Dependent As `Torque Dependent`
+,Torque_Limit_Switch_Close As `Torque Limit Switch Close`
+,Torque_Limit_Switch_Open As `Torque Limit Switch Open`
+,Type_of_Starting As `Type of Starting`
+,Wiring_Config
+,junction_box
+,SpecialRemarks
+From Sigraph_Silver.S_Instrument_Index
+Where Class='Instrumentation' and database_name in (Select Database_name from VW_Database_names)
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+stage 5: instructions
+list the columns used in the script I gave you in stages 3 and 4, using the constants in the enum I gave you in stages 1 and 2.
+provide a comprehensive list of all columns used
+output the result as an Enum class format. Your output should look like this:
+class ColumnsUsed(Enum):
+    DEVICE_NUMBER = 'Device_Number'
+
+ChatGPT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class ColumnsUsed(Enum):
+    DEVICE_NUMBER = 'device_number'
+    MATERIAL_TYPE = 'material_type'
+    OPERATION_STATUS = 'operation_status'
+    READING_TYPE = 'reading_type'
+    REMARKS = 'remarks'
+    SETTING_RANGE_MAXIMUM = 'setting_range_maximum'
+    SETTING_RANGE_MINIMUM = 'setting_range_minimum'
+    SUPPL_CHAR_3_FOR_LOOP_ELEMENTS = 'suppl_char_3_for_loop_elements'
+    SAMPLE_TYPE = 'sample_type'
+    MAXIMUM_CABLE_LENGTH_OF_CONVERTER_MOTOR = 'maximum_cable_length_of_converter_motor'
+    MAXIMUM_COOLANT_REQUIREMENTS_AT_NOMINAL_LOAD = 'maximum_coolant_requirements_at_nominal_load'
+    FLOW_MAXIMUM = 'flow_maximum'
+    MAXIMUM_MOTOR_POWER_IN_CONVERTER_OPERATION = 'maximum_motor_power_in_converter_operation'
+    MAXIMUM_NUMBER_OF_CABLE_INLETS = 'maximum_number_of_cable_inlets'
+    MAXIMUM_POWER_LOSS = 'maximum_power_loss'
+    MAXIMUM_RATED_MOTOR_CURRENT = 'maximum_rated_motor_current'
+    MAXIMUM_RATED_MOTOR_VOLTAGE = 'maximum_rated_motor_voltage'
+    MAXIMUM_PERMISSIBLE_SOUND_PRESSURE_LEVEL = 'maximum_permissible_sound_pressure_level'
+    MAXIMUM_WIRE_CROSS_SECTION = 'maximum_wire_cross_section'
+    MEASURING_RANGE = 'measuring_range'
+    FLOW_MINIMUM = 'flow_minimum'
+    MINIMUM_AMOUNT_FOR_SALE = 'minimum_amount_for_sale'
+    MOTOR_PROTECTION_IN_CONVERTER_OPERATION = 'motor_protection_in_converter_operation'
+    MOTOR_PROTECTION_IN_NETWORK_OPERATION = 'motor_protection_in_network_operation'
+    NETWORK_PROTECTION = 'network_protection'
+    NOISE_PROTECTION_MEASURES = 'noise_protection_measures'
+    NOMINAL_POWER = 'nominal_power'
+    NOMINAL_TORQUE = 'nominal_torque'
+    NTH_TIME = 'nth_time'
+    NUMBER = 'number'
+    NUMBER_OF_SWITCHING_CONTACTS = 'number_of_switching_contacts'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OCCUPATION_DENSITY = 'occupation_density'
+    ON_STATE_LIMIT_VALUE_1 = 'on_state_limit_value_1'
+    ON_STATE_LIMIT_VALUE_2 = 'on_state_limit_value_2'
+    OPENING_CLOSING_TIMES = 'opening_closing_times'
+    OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_MAXIMUM = 'operating_pressure_at_feedback_location_maximum'
+    OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_NORMAL = 'operating_pressure_at_feedback_location_normal'
+    OPERATINGPRINC = 'operatingprinc'
+    ORIFICE_FILLING_MEDIUM = 'orifice_filling_medium'
+    OUTPUT_FREQUENCY_CONTROL_RANGE_FROM = 'output_frequency_control_range_from'
+    OUTPUT_FREQUENCY_CONTROL_RANGE_TO = 'output_frequency_control_range_to'
+    OUTPUT_POSITIONER_ = 'output_positioner_'
+    OUTPUT_SIGNAL_EXPLOSION_PROTECTION = 'output_signal_explosion_protection'
+    OUTPUT_SPEED = 'output_speed'
+    OVERALL_HEIGHT = 'overall_height'
+    OVERALL_LENGTH = 'overall_length'
+    PA_BUS_CURRENT_INPUT = 'pa_bus_current_input'
+    PA_BUS_MAX_SHORT_CIRCUIT_CURRENT = 'pa_bus_max_short_circuit_current'
+    PA_BUS_TERMINAL = 'pa_bus_terminal'
+    PARTS_CODE = 'parts_code'
+    PERFORMANCE_FACTOR_AT_FULL_LOAD = 'performance_factor_at_full_load'
+    PIDNO = 'pidno'
+    POSITION = 'position'
+    POSITION_FEEDBACK_ANALOG = 'position_feedback_analog'
+    POSITION_WITHOUT_POWER = 'position_without_power'
+    POWER_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLET = 'power_cable_maximum_number_of_cable_inlet'
+    POWER_CABLE_MAXIMUM_WIRE_CROSS_SECTION = 'power_cable_maximum_wire_cross_section'
+    POWER_CABLE_SCREWED_JOINT = 'power_cable_screwed_joint'
+    POWER_CONSUMPTION = 'power_consumption'
+    POWER_SUPPLY_FROM_MODULE = 'power_supply_from_module'
+    PRESSURE_GAUGE_SHUT_OFF = 'pressure_gauge_shut_off'
+    PRESSURE_LEVEL = 'pressure_level'
+    PRESSURE_RECOVER_FACTOR_FL = 'pressure_recover_factor_fl'
+    PRIMARY_PRESSURE_REDUCER = 'primary_pressure_reducer'
+    PROBE_LENGTH = 'probe_length'
+    PROBE_LENGTH_LEVEL = 'probe_length_level'
+    PROCESSEQUIPMENT = 'processequipment'
+    PROCESSLINES = 'processlines'
+    PTB_NUMBER = 'ptb_number'
+    PTC_THERMISTOR_TEMPERATURE_SENSOR = 'ptc_thermistor_temperature_sensor'
+    PULSE_NUMBER_INPUT_LINE_SIDE_GR = 'pulse_number_input_line_side_gr'
+    PULSE_NUMBER_OUTPUT_TO_MOTOR_WR = 'pulse_number_output_to_motor_wr'
+    PUMP_FOR_SAMPLE = 'pump_for_sample'
+    PUMP_FOR_SAMPLE_PREPARATION = 'pump_for_sample_preparation'
+    QUARTER_CIRCLE_NOZZLE_RADIUS_R = 'quarter_circle_nozzle_radius_r'
+    RADIO_INTERFERENCE_LEVEL = 'radio_interference_level'
+    RATED_APPARENT_POWER = 'rated_apparent_power'
+    RATED_ASYNCHRONOUS_SPEED = 'rated_asynchronous_speed'
+    RATED_CURRENT = 'rated_current'
+    RATED_CURRENT_OF_DRIVE = 'rated_current_of_drive'
+    RATED_POWER = 'rated_power'
+    RATED_POWER_AT_NOMINAL_OPERATION = 'rated_power_at_nominal_operation'
+    RATED_POWER_OF_DRIVE = 'rated_power_of_drive'
+    RATED_POWER_PER_METER = 'rated_power_per_meter'
+    RATED_TORQUE_MN = 'rated_torque_mn'
+    RED_MARKING_DESIGN = 'red_marking_design'
+    RED_MARKING_SETTING = 'red_marking_setting'
+    REFERENCE_TEMPERATURE = 'reference_temperature'
+    REFERENCE_VESSEL_MATERIAL = 'reference_vessel_material'
+    REMARKS = 'remarks'
+    REQUIRED_INLET_LENGTH = 'required_inlet_length'
+    RESISTANCE_THERMOCOUPLE_TYPE = 'resistance_thermocouple_type'
+    RESTRICTION_ORIFICE_DIAMETER = 'restriction_orifice_diameter'
+    RESTRICTION_ORIFICE_MATERIAL = 'restriction_orifice_material'
+    RESTRICTOR_DESIGN = 'restrictor_design'
+    RING_CHAMBER_DIMENSION_A = 'ring_chamber_dimension_a'
+    RING_CHAMBER_DIMENSION_D = 'ring_chamber_dimension_d'
+    RING_CHAMBER_DIMENSION_E = 'ring_chamber_dimension_e'
+    RING_CHAMBER_MATERIAL = 'ring_chamber_material'
+    ROTATIONAL_SPEED_OF_DRIVE = 'rotational_speed_of_drive'
+    ROTATIONAL_SPEED_RANGE_FROM = 'rotational_speed_range_from'
+    ROTATIONAL_SPEED_RANGE_TO = 'rotational_speed_range_to'
+    RUN_OUT_LENGTH = 'run_out_length'
+    SAMPLE_PIPELINE_DIAMETER = 'sample_pipeline_diameter'
+    SAMPLE_PIPELINE_LENGTH = 'sample_pipeline_length'
+    SAMPLE_PIPELINE_MATERIAL = 'sample_pipeline_material'
+    SAMPLE_PIPELINE_TYPE = 'sample_pipeline_type'
+    SAMPLE_PREPARATION_BACK_PRESSURE_REGULATOR = 'sample_preparation_back_pressure_regulator'
+    SAMPLE_PREPARATION_CHEMICAL_TEMPLATE = 'sample_preparation_chemical_template'
+    SAMPLE_PREPARATION_FILTER = 'sample_preparation_filter'
+    SAMPLE_PREPARATION_FLOW_COUNTER = 'sample_preparation_flow_counter'
+    SAMPLE_PREPARATION_MEASURING_PRODUCT_COOLER = 'sample_preparation_measuring_product_cooler'
+    SAMPLE_PREPARATION_MISCELLANEOUS = 'sample_preparation_miscellaneous'
+    SAMPLE_PREPARATION_OUTPUT_PRESSURE_MAXIMUM = 'sample_preparation_output_pressure_maximum'
+    SAMPLE_PREPARATION_OUTPUT_PRESSURE_NORMAL = 'sample_preparation_output_pressure_normal'
+    SAMPLE_PREPARATION_REDUCTION_STATION = 'sample_preparation_reduction_station'
+    SAMPLE_PREPARATION_RETENTION_TIME = 'sample_preparation_retention_time'
+    SAMPLE_PREPARATION_SEPARATOR = 'sample_preparation_separator'
+    SAMPLE_PREPARATION_TUBE_FURNACE = 'sample_preparation_tube_furnace'
+    SAMPLE_PREPARATION_VAPORIZER = 'sample_preparation_vaporizer'
+    SAMPLE_PROBE_DELAY_TIME = 'sample_probe_delay_time'
+    SAMPLE_SENSOR = 'sample_sensor'
+    SAMPLE_TYPE = 'sample_type'
+    SCALE_CLASSIFICATION = 'scale_classification'
+    SCREWED_JOINT = 'screwed_joint'
+    SEAT_DIAMETER = 'seat_diameter'
+    SEAT_MATERIAL = 'seat_material'
+    SEAT_SEALING = 'seat_sealing'
+    SELF_RETAINING_DRIVE = 'self_retaining_drive'
+    SERIAL_NUMBER = 'serial_number'
+    SETTING_RANGE_MAXIMUM = 'setting_range_maximum'
+    SETTING_RANGE_MINIMUM = 'setting_range_minimum'
+    SHORT_CIRCUIT_PROOF = 'short_circuit_proof'
+    SIGNAL_DIRECTION = 'signal_direction'
+    SIGNAL_RANGE = 'signal_range'
+    SIGNAL_RANGE_RESISTANCE = 'signal_range_resistance'
+    SIGNAL_TYPE = 'signal_type'
+    SIGNAL_VOLTAGE_INPUT = 'signal_voltage_input'
+    SIGNAL_VOLTAGE_OUTPUT = 'signal_voltage_output'
+    SIZE = 'size'
+    SOLENOID_VALVE = 'solenoid_valve'
+    SOLENOID_VALVE_DESIGN = 'solenoid_valve_design'
+    SOUND_PRESSURE_LEVEL_AT_NO_LOAD = 'sound_pressure_level_at_no_load'
+    SOUND_PRESSURE_LEVEL_AT_NOMINAL_LOAD = 'sound_pressure_level_at_nominal_load'
+    SPECIAL_PAINT = 'special_paint'
+    SPECIAL_REQUIREMENTS_ = 'special_requirements_'
+    SPECIALREMARKS = 'specialremarks'
+    SPINDLE_BUSHING = 'spindle_bushing'
+    SPINDLE_MATERIAL = 'spindle_material'
+    STANDARD_ORIFICE_NOZZLE_MATERIAL = 'standard_orifice_nozzle_material'
+    STARTING_CURRENT_RATIO_IA_IN = 'starting_current_ratio_ia_in'
+    STARTING_TORQUE_RATIO_MA_MN = 'starting_torque_ratio_ma_mn'
+    STATUS = 'status'
+    STELLITING = 'stelliting'
+    STROKE_HEIGHT = 'stroke_height'
+    SUFFIX = 'suffix'
+    SUPPL_CHAR_3_FOR_LOOP_ELEMENTS = 'suppl_char_3_for_loop_elements'
+    SUPPL_CHAR_FOR_INSTR_ELEMENTS_1 = 'suppl_char_for_instr_elements_1'
+    SUPPL_CHAR_FOR_INSTR_ELEMENTS_2 = 'suppl_char_for_instr_elements_2'
+    SWITCH_STATE_AT_REQUIRED_END_POSITION = 'switch_state_at_required_end_position'
+    SYMBOL_NAME = 'symbol_name'
+    TAGNO = 'tagno'
+    TANDEM_SWITCH = 'tandem_switch'
+    TAPPING_MATERIAL = 'tapping_material'
+    TEMPERATURE_CONTROLLER = 'temperature_controller'
+    TEMPERATURE_LIMITER = 'temperature_limiter'
+    TEMPLATE_PROTECTION_FLUID = 'template_protection_fluid'
+    TERMINAL_BOX_POSITION_TO_DRIVE_END_OF_MOTOR = 'terminal_box_position_to_drive_end_of_motor'
+    THERMOCOUPLE = 'thermocouple'
+    THERMOCOUPLE_ELEMENT = 'thermocouple_element'
+    THERMOMETER_DESIGN = 'thermometer_design'
+    THERMOMETER_INSERTION_LENGTH = 'thermometer_insertion_length'
+    THERMOMETER_MATERIAL = 'thermometer_material'
+    THERMOMETER_TYPE = 'thermometer_type'
+    TIGHTENING_TORQUE = 'tightening_torque'
+    TIME_CONSTANT = 'time_constant'
+    TMU = 'tmu'
+    TOTAL_DIMENSIONS_HEIGHT = 'total_dimensions_height'
+    TOTAL_DIMENSIONS_LENGTH = 'total_dimensions_length'
+    TOTAL_DIMENSIONS_WIDTH = 'total_dimensions_width'
+    TOTAL_WEIGHT = 'total_weight'
+    TOTAL_WEIGHT_OF_MOTOR = 'total_weight_of_motor'
+    TRAVEL_RANGE = 'travel_range'
+    TRAVEL_RANGE_STOP = 'travel_range_stop'
+    TYPE_OF_COOLING = 'type_of_cooling'
+    TYPE_OF_DRIVE = 'type_of_drive'
+    TYPE_OF_STARTING = 'type_of_starting'
+    TYPE_OF_SYSTEM = 'type_of_system'
+    UNIT = 'unit'
+    UNIT_DIAPHRAGM_DESIGN = 'unit_diaphragm_design'
+    UPPER_ELEMENT = 'upper_element'
+    VALVE_DIAMETER = 'valve_diameter'
+    VALVE_END_CONNECTION = 'valve_end_connection'
+    VALVE_HEIGHT = 'valve_height'
+    VALVE_MATERIAL = 'valve_material'
+    VALVE_OPENING = 'valve_opening'
+    VALVE_STEM_DIAMETER = 'valve_stem_diameter'
+    VALVE_TYPE = 'valve_type'
+    VALVE_WEIGHT = 'valve_weight'
+    VALVE_WIDTH = 'valve_width'
+    VELOCITY = 'velocity'
+    VESSEL_INLET_SIZE = 'vessel_inlet_size'
+    VIBRATION_SWITCH = 'vibration_switch'
+    VISUALIZATION_SYSTEM = 'visualization_system'
+    VOLTAGE = 'voltage'
+    VOLTAGE_VALUE = 'voltage_value'
+    VOLUME_FLOW = 'volume_flow'
+    WETTED_BODY_MATERIAL = 'wetted_body_material'
+    WINDING_CIRCUIT = 'winding_circuit'
+    WIRING_CONFIG = 'wiring_config'
+    YEAR_OF_CONSTRUCTION = 'year_of_construction'

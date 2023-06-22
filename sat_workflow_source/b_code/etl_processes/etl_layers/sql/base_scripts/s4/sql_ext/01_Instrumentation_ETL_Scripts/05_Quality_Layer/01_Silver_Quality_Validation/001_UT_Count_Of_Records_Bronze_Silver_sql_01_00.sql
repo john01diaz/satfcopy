@@ -1,0 +1,2 @@
+
+DELETE FROM SIGRAPH_SILVER.UNIT_TEST_RESULTS WHERE Loader_Name=="Silver_Derived_Tables"

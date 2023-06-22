@@ -1,0 +1,106 @@
+
+S_ItemFunction_schema_format.prompt.txt
+
+This is the schema for a table called S_ItemFunction. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+can you convert all the column names to lowercase.
+
+
+
+
+S_ItemFunction Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+S_ItemFunction	Document_Number
+S_ItemFunction	Class
+S_ItemFunction	Type
+S_ItemFunction	Location_Designation
+S_ItemFunction	Facility_Designation
+S_ItemFunction	Rack
+S_ItemFunction	manufacturer
+S_ItemFunction	device_type
+S_ItemFunction	Symbol_Name
+S_ItemFunction	loop_element_dynamic_class
+S_ItemFunction	loop_element_Object_Identifier
+S_ItemFunction	parquet_file_relative_path
+S_ItemFunction	database_name
+S_ItemFunction	dynamic_class
+S_ItemFunction	object_identifier
+S_ItemFunction	Function_Occ_Object_identifier
+S_ItemFunction	item_dynamic_class
+S_ItemFunction	item_object_identifier
+S_ItemFunction	Location_Dynamic_class
+S_ItemFunction	Location_Object_Identifier
+S_ItemFunction	Facility_Dynamic_class
+S_ItemFunction	Facility_Object_Identifier
+S_ItemFunction	Rack_Dynamic_class
+S_ItemFunction	Rack_Object_Identifier
+S_ItemFunction	ModelNo
+S_ItemFunction	Description
+S_ItemFunction	IOType
+S_ItemFunction	ChannelNumber
+S_ItemFunction	product_designation
+S_ItemFunction	product_key
+S_ItemFunction	product_key_Original
+S_ItemFunction	Show_Key
+S_ItemFunction	Item_Slot
+S_ItemFunction	Tag_Number
+S_ItemFunction	Loop_Number
+S_ItemFunction	txn
+S_ItemFunction	add
+S_ItemFunction	remove
+S_ItemFunction	metaData
+S_ItemFunction	protocol
+S_ItemFunction	rowIdHighWaterMark
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_ItemFunctionColumns(Enum):
+    document_number = "document_number"
+    class_ = "class"
+    xtype = "type"  // renamed type to xtype - type is reserved
+    location_designation = "location_designation"
+    facility_designation = "facility_designation"
+    rack = "rack"
+    manufacturer = "manufacturer"
+    device_type = "device_type"
+    symbol_name = "symbol_name"
+    loop_element_dynamic_class = "loop_element_dynamic_class"
+    loop_element_object_identifier = "loop_element_object_identifier"
+    parquet_file_relative_path = "parquet_file_relative_path"
+    database_name = "database_name"
+    dynamic_class = "dynamic_class"
+    object_identifier = "object_identifier"
+    function_occ_object_identifier = "function_occ_object_identifier"
+    item_dynamic_class = "item_dynamic_class"
+    item_object_identifier = "item_object_identifier"
+    location_dynamic_class = "location_dynamic_class"
+    location_object_identifier = "location_object_identifier"
+    facility_dynamic_class = "facility_dynamic_class"
+    facility_object_identifier = "facility_object_identifier"
+    rack_dynamic_class = "rack_dynamic_class"
+    rack_object_identifier = "rack_object_identifier"
+    modelno = "modelno"
+    description = "description"
+    iotype = "iotype"
+    channelnumber = "channelnumber"
+    product_designation = "product_designation"
+    product_key = "product_key"
+    product_key_original = "product_key_original"
+    show_key = "show_key"
+    item_slot = "item_slot"
+    tag_number = "tag_number"
+    loop_number = "loop_number"
+    txn = "txn"
+    add = "add"
+    remove = "remove"
+    metadata = "metadata"
+    protocol = "protocol"
+    rowidhighwatermark = "rowidhighwatermark"
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

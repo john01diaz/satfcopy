@@ -1,0 +1,6 @@
+as an expert in sql, using the following Azure sql statements,
+Can you list the different tables or views used in the following sql script?
+For each table or view, can you identify whether the views or tables are created or selected from and also the database they come from?
+create the result in three columns, component, type and, table_view name; column 1,  component is <NAME_to_be _added>, column 2, type column is  either create or select (as discovered earlier), the columns 3, table_view is name of view or table discoverd
+
+ 

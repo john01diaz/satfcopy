@@ -1,0 +1,48 @@
+Silver_S_Item_Function_Model_schema_format.prompt_1.txt
+
+This is the schema for a table called S_Item_Function_Model.
+It is a list of column names for S_Item_Function_Model
+Create a python Enum for these column names.
+Name the class 'S_Item_Function_Model'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_Item_Function_Model Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+All_Marking
+database_name
+Dynamic_Class
+Item_dynamic_class
+Item_Object_Identifier
+Left
+Left_Marking
+ModelNO
+ModelNo_Original
+Object_Identifier
+parquet_file_relative_path
+Right
+Right_Marking
+Symbol_Name
+
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+class S_Item_Function_Model(Enum):
+ALL_MARKING = 'all_marking'
+DATABASE_NAME = 'database_name'
+DYNAMIC_CLASS = 'dynamic_class'
+ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+LEFT = 'left'
+LEFT_MARKING = 'left_marking'
+MODELNO = 'modelno'
+MODELNO_ORIGINAL = 'modelno_original'
+OBJECT_IDENTIFIER = 'object_identifier'
+PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+RIGHT = 'right'
+RIGHT_MARKING = 'right_marking'
+SYMBOL_NAME = 'symbol_name'
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

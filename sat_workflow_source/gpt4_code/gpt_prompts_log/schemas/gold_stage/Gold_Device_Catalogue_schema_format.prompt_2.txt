@@ -1,0 +1,48 @@
+This is the schema for a table called Device_Catalogue.
+It is a list of column names for Device_Catalogue
+Create a python Enum for these column names.
+Name the class 'Device_Catalogue'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+AllowUse
+Class
+Description
+Document_Number
+Left
+Left_Marking
+Loop_Number
+Manufacturer
+ModelNo
+Product_Key
+Right
+Right_Marking
+Symbol_name
+Tag_Number
+Type
+
+
+&&&&&&&&&&&&&&&&&&
+Sure, here's the Python Enum for the column names:
+
+from enum import Enum
+
+class Device_Catalogue(Enum):
+    ALLOWUSE = 'allowuse'
+    CLASS = 'class'
+    DESCRIPTION = 'description'
+    DOCUMENT_NUMBER = 'document_number'
+    LEFT = 'left'
+    LEFT_MARKING = 'left_marking'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    MODELNO = 'modelno'
+    PRODUCT_KEY = 'product_key'
+    RIGHT = 'right'
+    RIGHT_MARKING = 'right_marking'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TYPE = 'type'
+    
+This Python Enum, named 'Device_Catalogue', has capitalized names as you requested and the values are in lowercase. To access the values of this Enum you would do something like Device_Catalogue.ALLOWUSE.value. This would give you the string 'allowuse'.ames as you requested and the values are in lowercase. To access the values of this Enum you would do something like Instrument_Index.ALLOWUSE.value. This would give you the string 'allowuse'.zed names as you requested and the values are in lowercase. To access the values of this Enum you would do something like Instrument_Index.CATALOGUE_NAME.value. This would give you the string 'catalogue_name'.

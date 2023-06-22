@@ -1,0 +1,278 @@
+
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code
+Generate an orchastrating function for the component functions.
+Append an underscore to the component function names.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named VW_IO_TerminalMarking
+
+
+class S_IO_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CHANNEL = 'channel'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    DYNAMIC_CLASS = 'dynamic_class'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+    Here ar ethe enums for the input tables named S_Itemfunction and
+
+    class S_Pin(
+        Enum):
+    ADD = 'add'
+    COMPONENT_FUNCTION_DESIGNATION = 'component_function_designation'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    FUNCTION_DYNAMIC_CLASS = 'function_dynamic_class'
+    FUNCTION_OBJECT_IDENTIFIER = 'function_object_identifier'
+    GROUP_OVERVIEW = 'group_overview'
+    INTERNAL_PIN_NUMBER = 'internal_pin_number'
+    METADATA = 'metadata'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OVERVIEW_PIN_NUMBER = 'overview_pin_number'
+    PIN_DESIGNATION = 'pin_designation'
+    PIN_GROUP = 'pin_group'
+    PIN_TYPE = 'pin_type'
+    POTENTIAL = 'potential'
+    PROTOCOL = 'protocol'
+    REMOVE = 'remove'
+    ROWIDHIGHWATERMARK = 'rowidhighwatermark'
+    TERMINAL_MARKING = 'terminal_marking'
+    TERMINAL_SIDE = 'terminal_side'
+    TXN = 'txn'
+
+from enum import Enum
+
+
+class S_ItemFunction(
+        Enum):
+    ADD = 'add'
+    CHANNELNUMBER = 'channelnumber'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DEVICE_TYPE = 'device_type'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    FACILITY_DESIGNATION = 'facility_designation'
+    FACILITY_DYNAMIC_CLASS = 'facility_dynamic_class'
+    FACILITY_OBJECT_IDENTIFIER = 'facility_object_identifier'
+    FUNCTION_OCC_OBJECT_IDENTIFIER = 'function_occ_object_identifier'
+    IOTYPE = 'iotype'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    ITEM_SLOT = 'item_slot'
+    LOCATION_DESIGNATION = 'location_designation'
+    LOCATION_DYNAMIC_CLASS = 'location_dynamic_class'
+    LOCATION_OBJECT_IDENTIFIER = 'location_object_identifier'
+    LOOP_ELEMENT_DYNAMIC_CLASS = 'loop_element_dynamic_class'
+    LOOP_ELEMENT_OBJECT_IDENTIFIER = 'loop_element_object_identifier'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    METADATA = 'metadata'
+    MODELNO = 'modelno'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PRODUCT_DESIGNATION = 'product_designation'
+    PRODUCT_KEY = 'product_key'
+    PRODUCT_KEY_ORIGINAL = 'product_key_original'
+    PROTOCOL = 'protocol'
+    RACK = 'rack'
+    RACK_DYNAMIC_CLASS = 'rack_dynamic_class'
+    RACK_OBJECT_IDENTIFIER = 'rack_object_identifier'
+    REMOVE = 'remove'
+    ROWIDHIGHWATERMARK = 'rowidhighwatermark'
+    SHOW_KEY = 'show_key'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TXN = 'txn'
+    TYPE = 'type'
+
+
+
+Sub-Script 1:
+
+sql
+Copy code
+Create Or Replace Temp View VW_IO_TerminalMarking_1
+As
+Select
+    A.database_name,
+    A.dynamic_class,
+    A.object_identifier,
+    PM.Terminal_Marking
+From Sigraph_Silver.S_ItemFunction as A
+Inner join Sigraph_silver.S_Pin as PM
+On A.database_name=PM.database_name
+and A.Dynamic_Class=PM.Function_Dynamic_Class
+and A.Object_Identifier=PM.Function_Object_Identifier
+and PM.Pin_Type='EL_PIN'
+Where A.Type='IO Module'
+Sub-Script 2:
+
+sql
+Copy code
+Create Or Replace Temp View VW_IO_TerminalMarking_2
+As
+Select
+    A.database_name,
+    A.dynamic_class,
+    A.object_identifier,
+    A.ChannelNumber
+from sigraph_silver.S_Itemfunction A
+Where Type='IO Module'
+and A.ChannelNumber is not null
+and A.ChannelNumber<>''
+and A.ChannelNumber<>'0'
+and Case When Type='IO Module' and (Coalesce(ChannelNumber,'')='' OR ChannelNumber='0') Then 0 Else 1 End=1
+Sub-Script 3:
+
+sql
+Copy code
+Create Or Replace Temp View VW_IO_TerminalMarking_3
+As
+Select
+    A.database_name,
+    A.dynamic_class,
+    A.object_identifier,
+    A.ChannelNumber
+from sigraph_silver.S_Itemfunction A
+Where Type='IO Module'
+and A.ChannelNumber is not null
+and A.ChannelNumber<>''
+and A.ChannelNumber<>'0'
+and Case When Type='IO Module' and (Coalesce(ChannelNumber,'')='' OR ChannelNumber='0') Then 0 Else 1 End=1
+Then, you can consolidate these sub-scripts into your final view, and rename the columns in this final step:
+
+sql
+Copy code
+Create Or Replace Temp View VW_IO_TerminalMarking
+As
+Select
+    database_name,
+    dynamic_class,
+    object_identifier,
+    Terminal_Marking as TerminalsPerMarking
+From VW_IO_TerminalMarking_1
+UNION
+Select
+    database_name,
+    dynamic_class,
+    object_identifier,
+    Concat(ChannelNumber,'+')  as TerminalsPerMarking
+From VW_IO_TerminalMarking_2
+UNION
+Select
+    database_name,
+    dynamic_class,
+    object_identifier,
+    Concat(ChannelNumber,'-')  as TerminalsPerMarking
+From VW_IO_TerminalMarking_3
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+Sub-Script 1:
+
+python
+Copy code
+def create_temp_view_vw_io_terminal_marking_1_(itemfunction_dataframe, pin_dataframe):
+    merged_dataframe = pd.merge(
+        itemfunction_dataframe,
+        pin_dataframe,
+        left_on=[DatabaseNames.DATABASE_NAME.value, S_ItemFunction.DYNAMIC_CLASS.value, S_ItemFunction.OBJECT_IDENTIFIER.value],
+        right_on=[DatabaseNames.DATABASE_NAME.value, S_Pin.FUNCTION_DYNAMIC_CLASS.value, S_Pin.FUNCTION_OBJECT_IDENTIFIER.value]
+    )
+
+    filtered_dataframe = merged_dataframe.loc[
+        (merged_dataframe[S_ItemFunction.TYPE.value] == 'IO Module') &
+        (merged_dataframe[S_Pin.PIN_TYPE.value] == 'EL_PIN'),
+        [
+            DatabaseNames.DATABASE_NAME.value,
+            S_ItemFunction.DYNAMIC_CLASS.value,
+            S_ItemFunction.OBJECT_IDENTIFIER.value,
+            S_Pin.TERMINAL_MARKING.value
+        ]
+    ]
+
+    return filtered_dataframe.rename(columns={S_Pin.TERMINAL_MARKING.value: S_IO_Catalogue.TERMINALSPERMARKING.value})
+Sub-Script 2 and 3:
+
+python
+Copy code
+def create_temp_view_vw_io_terminal_marking_2_and_3_(itemfunction_dataframe):
+    filtered_dataframe = itemfunction_dataframe.loc[
+        (itemfunction_dataframe[S_ItemFunction.TYPE.value] == 'IO Module') &
+        (itemfunction_dataframe[S_ItemFunction.CHANNELNUMBER.value].notnull()) &
+        (itemfunction_dataframe[S_ItemFunction.CHANNELNUMBER.value] != '') &
+        (itemfunction_dataframe[S_ItemFunction.CHANNELNUMBER.value] != '0')
+    ]
+
+    filtered_dataframe = filtered_dataframe.loc[
+        filtered_dataframe.apply(
+            lambda row: row[S_ItemFunction.TYPE.value] != 'IO Module' or row[S_ItemFunction.CHANNELNUMBER.value] not in ('', '0'),
+            axis=1
+        ),
+        [
+            DatabaseNames.DATABASE_NAME.value,
+            S_ItemFunction.DYNAMIC_CLASS.value,
+            S_ItemFunction.OBJECT_IDENTIFIER.value,
+            S_ItemFunction.CHANNELNUMBER.value
+        ]
+    ]
+
+    return filtered_dataframe
+Now, let's create an orchestrating function that uses these component functions to create the final dataframe:
+
+python
+Copy code
+def create_final_dataframe_(itemfunction_dataframe, pin_dataframe):
+    dataframe_1 = create_temp_view_vw_io_terminal_marking_1_(itemfunction_dataframe, pin_dataframe)
+    dataframe_2 = create_temp_view_vw_io_terminal_marking_2_and_3_(itemfunction_dataframe)
+    dataframe_3 = create_temp_view_vw_io_terminal_marking_2_and_3_(itemfunction_dataframe)
+
+    dataframe_2[S_IO_Catalogue.TERMINALSPERMARKING.value] = dataframe_2[S_ItemFunction.CHANNELNUMBER.value] + '+'
+    dataframe_3[S_IO_Catalogue.TERMINALSPERMARKING.value] = dataframe_3[S_ItemFunction.CHANNELNUMBER.value] + '-'
+
+    final_dataframe = pd.concat([dataframe_1, dataframe_2, dataframe_3])
+
+    return final_dataframe
+    uestions or clarifications, feel free to ask!

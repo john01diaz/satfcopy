@@ -1,0 +1,51 @@
+
+S_Item_Function_Model_schema_format.prompt.txt
+
+This is the schema for a table called S_Item_Function_Model. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+can you convert all the column names to lowercase.
+
+
+S_Item_Function_Model  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+S_Item_Function_Model	database_name
+S_Item_Function_Model	Dynamic_Class
+S_Item_Function_Model	Object_Identifier
+S_Item_Function_Model	Item_dynamic_class
+S_Item_Function_Model	Item_Object_Identifier
+S_Item_Function_Model	Left
+S_Item_Function_Model	Right
+S_Item_Function_Model	Left_Marking
+S_Item_Function_Model	Right_Marking
+S_Item_Function_Model	All_Marking
+S_Item_Function_Model	ModelNo_Original
+S_Item_Function_Model	ModelNO
+S_Item_Function_Model	Symbol_Name
+S_Item_Function_Model	parquet_file_relative_path
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_ItemFunctionModelColumns(Enum):
+    database_name = "database_name"
+    dynamic_class = "dynamic_class"
+    object_identifier = "object_identifier"
+    item_dynamic_class = "item_dynamic_class"
+    item_object_identifier = "item_object_identifier"
+    left = "left"
+    right = "right"
+    left_marking = "left_marking"
+    right_marking = "right_marking"
+    all_marking = "all_marking"
+    modelno_original = "modelno_original"
+    modelno = "modelno"
+    symbol_name = "symbol_name"
+    parquet_file_relative_path = "parquet_file_relative_path"
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

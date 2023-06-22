@@ -1,0 +1,416 @@
+
+Bronze_Loop_schema_format.prompt_1.txt
+
+This is the schema for a table called Loop.
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'Loop'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+Loop  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class Loop(Enum):
+
+--- the column names go here.
+
+Loop Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Loop	CS_accompanying_documents
+Loop	CS_air_distributor
+Loop	CS_ambient_temperature_max
+Loop	CS_ambient_temperature_max_dyn_class
+Loop	CS_ambient_temperature_max_href
+Loop	CS_ambient_temperature_min
+Loop	CS_ambient_temperature_min_dyn_class
+Loop	CS_ambient_temperature_min_href
+Loop	CS_comment_mounting_condition
+Loop	CS_comment_mounting_condition_dyn_class
+Loop	CS_comment_mounting_condition_href
+Loop	CS_comment_network
+Loop	CS_comment_network_dyn_class
+Loop	CS_comment_network_href
+Loop	CS_consumer_type
+Loop	CS_consumer_type_enum
+Loop	CS_danger_zone
+Loop	CS_danger_zone_dyn_class
+Loop	CS_danger_zone_enum
+Loop	CS_danger_zone_href
+Loop	CS_description_dyn_class
+Loop	CS_description_href
+Loop	CS_detonation_hazard_protection_type
+Loop	CS_detonation_hazard_protection_type_dyn_class
+Loop	CS_detonation_hazard_protection_type_href
+Loop	CS_Electrical_load_CS_Mounting_conditions_dyn_class
+Loop	CS_Electrical_load_CS_Mounting_conditions_href
+Loop	CS_Electrical_load_CS_Network_type_dyn_class
+Loop	CS_Electrical_load_CS_Network_type_href
+Loop	CS_electrical_load_machine_type
+Loop	CS_et_node_path
+Loop	CS_explosion_group
+Loop	CS_explosion_group_dyn_class
+Loop	CS_explosion_group_href
+Loop	CS_failsafe
+Loop	CS_failsafe_dyn_class
+Loop	CS_failsafe_enum
+Loop	CS_failsafe_href
+Loop	CS_field_distributor_input_id
+Loop	CS_field_distributor_output_id
+Loop	CS_frequency_tolerance
+Loop	CS_frequency_tolerance_dyn_class
+Loop	CS_frequency_tolerance_href
+Loop	CS_function_description
+Loop	CS_function_test
+Loop	CS_graphic_typical
+Loop	CS_heavy_starting
+Loop	CS_heavy_starting_enum
+Loop	CS_inertia_torque_complete
+Loop	CS_inspection_interval
+Loop	CS_inspection_purpose
+Loop	CS_load_type
+Loop	CS_load_type_enum
+Loop	CS_logic_diagram_typical
+Loop	CS_Loop_CS_Intrinsic_safety_loop
+Loop	CS_Loop_CS_Key_dyn_class
+Loop	CS_Loop_CS_Key_href
+Loop	CS_Loop_CS_Loop_element
+Loop	CS_Loop_CS_Loop_subfunction
+Loop	CS_Loop_CS_Mechanical_data
+Loop	CS_Loop_CS_Process_data
+Loop	CS_Loop_CS_Process_flow_diagram
+Loop	CS_Loop_CS_Process_flow_diagram_dyn_class
+Loop	CS_Loop_CS_Process_flow_diagram_href
+Loop	CS_Loop_CS_Terminal_level
+Loop	CS_loop_description_1
+Loop	CS_loop_description_2
+Loop	CS_loop_description_3
+Loop	CS_Loop_DM_Document
+Loop	CS_Loop_element_hw_control_valve_CS_Loop_spez_dyn_class
+Loop	CS_Loop_element_hw_control_valve_CS_Loop_spez_href
+Loop	CS_loop_function
+Loop	CS_loop_id
+Loop	CS_loop_id_1
+Loop	CS_loop_id_2
+Loop	CS_loop_id_3
+Loop	CS_loop_id_dyn_class
+Loop	CS_loop_id_href
+Loop	CS_loop_kat_id
+Loop	CS_loop_lfd_nr
+Loop	CS_loop_status
+Loop	CS_loop_status_enum
+Loop	CS_loop_status_remark
+Loop	CS_loop_unit_dyn_class
+Loop	CS_loop_unit_href
+Loop	CS_machine_id
+Loop	CS_machine_manufacturer
+Loop	CS_motor_operation_mode
+Loop	CS_motor_operation_mode_enum
+Loop	CS_mounting_area
+Loop	CS_mounting_area_dyn_class
+Loop	CS_mounting_area_href
+Loop	CS_mounting_height
+Loop	CS_mounting_height_dyn_class
+Loop	CS_mounting_height_href
+Loop	CS_network_neutral_point
+Loop	CS_network_neutral_point_dyn_class
+Loop	CS_network_neutral_point_enum
+Loop	CS_network_neutral_point_href
+Loop	CS_network_type_id
+Loop	CS_network_type_id_dyn_class
+Loop	CS_network_type_id_href
+Loop	CS_operating_type
+Loop	CS_phases_conductors_arrangement
+Loop	CS_phases_conductors_arrangement_dyn_class
+Loop	CS_phases_conductors_arrangement_href
+Loop	CS_PI_data_CS_Loop
+Loop	CS_power_transmission
+Loop	CS_power_transmission_enum
+Loop	CS_rated_frequency
+Loop	CS_rated_frequency_dyn_class
+Loop	CS_rated_frequency_href
+Loop	CS_rated_motor_power_max
+Loop	CS_rated_motor_power_max_dyn_class
+Loop	CS_rated_motor_power_max_href
+Loop	CS_rated_motor_power_min
+Loop	CS_rated_motor_power_min_dyn_class
+Loop	CS_rated_motor_power_min_href
+Loop	CS_rated_power_pn_requested_1
+Loop	CS_rated_power_pn_requested_2
+Loop	CS_rated_power_pn_requested_3
+Loop	CS_rated_voltage_dyn_class
+Loop	CS_rated_voltage_href
+Loop	CS_realization_position
+Loop	CS_related_report
+Loop	CS_related_report_enum
+Loop	CS_relative_humidity
+Loop	CS_relative_humidity_dyn_class
+Loop	CS_relative_humidity_href
+Loop	CS_root_extraction_point
+Loop	CS_root_extraction_point_enum
+Loop	CS_rotational_speed_max
+Loop	CS_rotational_speed_min
+Loop	CS_rotational_speed_requested_1
+Loop	CS_rotational_speed_requested_2
+Loop	CS_rotational_speed_requested_3
+Loop	CS_shaft_power_100_percent_1
+Loop	CS_shaft_power_100_percent_2
+Loop	CS_shaft_power_100_percent_3
+Loop	CS_shaft_power_required_1
+Loop	CS_shaft_power_required_2
+Loop	CS_shaft_power_required_3
+Loop	CS_short_circuit_power_sk_min
+Loop	CS_short_circuit_power_sk_min_dyn_class
+Loop	CS_short_circuit_power_sk_min_href
+Loop	CS_sifpro_relevant
+Loop	CS_sifpro_relevant_enum
+Loop	CS_simultaneity_factor
+Loop	CS_source
+Loop	CS_source_enum
+Loop	CS_special_motor
+Loop	CS_special_requirements_1
+Loop	CS_special_requirements_1_enum
+Loop	CS_special_requirements_2
+Loop	CS_special_requirements_2_enum
+Loop	CS_special_requirements_3
+Loop	CS_special_requirements_3_enum
+Loop	CS_standard_loop_id
+Loop	CS_temperature_class
+Loop	CS_temperature_class_dyn_class
+Loop	CS_temperature_class_enum
+Loop	CS_temperature_class_href
+Loop	CS_test_acc_by_test_catalog
+Loop	CS_test_acc_to_test_catalog
+Loop	CS_test_section
+Loop	CS_tested_by
+Loop	CS_torque_characteristic_machine
+Loop	CS_torque_required_1
+Loop	CS_torque_required_2
+Loop	CS_torque_required_3
+Loop	CS_variable_part_drawing_number
+Loop	CS_visual_inspection
+Loop	CS_voltage_deviation_static_to_10s_dyn_class
+Loop	CS_voltage_deviation_static_to_10s_href
+Loop	CS_voltage_deviation_stationary
+Loop	CS_voltage_deviation_stationary_dyn_class
+Loop	CS_voltage_deviation_stationary_href
+Loop	CS_voltage_deviation_temp_to_24h_dyn_class
+Loop	CS_voltage_deviation_temp_to_24h_href
+Loop	CS_voltage_type_dyn_class
+Loop	CS_voltage_type_href
+Loop	CS_x_coordinate_pi_data
+Loop	CS_y_coordinate_pi_data
+Loop	DM_Document_Number
+Loop	Layer_CS_Loop_dyn_class
+Loop	Layer_CS_Loop_href
+Loop	Layer_CS_Loop_REF_dyn_class
+Loop	Layer_CS_Loop_REF_href
+Loop	loop_cs_calc_max_sound_pressure_level
+Loop	loop_CS_classification
+Loop	loop_CS_classification_by
+Loop	loop_cs_classification_by_enum
+Loop	loop_cs_classification_enum
+Loop	loop_CS_comment
+Loop	loop_cs_description
+Loop	loop_CS_loop_unit
+Loop	loop_cs_operating_type_enum
+Loop	loop_cs_rated_voltage
+Loop	loop_cs_rotational_direction
+Loop	loop_cs_rotational_direction_enum
+Loop	loop_cs_voltage_type
+Loop	loop_cs_voltage_type_enum
+Loop	loop_database_name
+Loop	loop_dynamic_class
+Loop	loop_object_identifier
+Loop	loop_sap_function
+Loop	loop_sap_hierarchy_level
+Loop	loop_sap_remark
+Loop	loop_sap_short_text
+Loop	loop_sap_transfer_status
+Loop	PA_checked_out
+Loop	parquet_file_relative_path
+Loop	PDM_Abs_et_node_CS_Loop_Rel_dyn_class
+Loop	PDM_Abs_et_node_CS_Loop_Rel_href
+Loop	SAP_department
+Loop	SAP_functional_location_level_4
+Loop	SAP_planning_group
+Loop	SAP_plant_section
+Loop	SAP_responsible_work_center
+Loop	SAP_superior_functional_location
+Loop	SAP_transfer_remark
+
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class Loop(Enum):
+    CS_ACCOMPANYING_DOCUMENTS = 'cs_accompanying_documents'
+    CS_AIR_DISTRIBUTOR = 'cs_air_distributor'
+    CS_AMBIENT_TEMPERATURE_MAX = 'cs_ambient_temperature_max'
+    CS_AMBIENT_TEMPERATURE_MAX_DYN_CLASS = 'cs_ambient_temperature_max_dyn_class'
+    CS_AMBIENT_TEMPERATURE_MAX_HREF = 'cs_ambient_temperature_max_href'
+    CS_AMBIENT_TEMPERATURE_MIN = 'cs_ambient_temperature_min'
+    CS_AMBIENT_TEMPERATURE_MIN_DYN_CLASS = 'cs_ambient_temperature_min_dyn_class'
+    CS_AMBIENT_TEMPERATURE_MIN_HREF = 'cs_ambient_temperature_min_href'
+    CS_COMMENT_MOUNTING_CONDITION = 'cs_comment_mounting_condition'
+    CS_COMMENT_MOUNTING_CONDITION_DYN_CLASS = 'cs_comment_mounting_condition_dyn_class'
+    CS_COMMENT_MOUNTING_CONDITION_HREF = 'cs_comment_mounting_condition_href'
+    CS_COMMENT_NETWORK = 'cs_comment_network'
+    CS_COMMENT_NETWORK_DYN_CLASS = 'cs_comment_network_dyn_class'
+    CS_COMMENT_NETWORK_HREF = 'cs_comment_network_href'
+    CS_CONSUMER_TYPE = 'cs_consumer_type'
+    CS_CONSUMER_TYPE_ENUM = 'cs_consumer_type_enum'
+    CS_DANGER_ZONE = 'cs_danger_zone'
+    CS_DANGER_ZONE_DYN_CLASS = 'cs_danger_zone_dyn_class'
+    CS_DANGER_ZONE_ENUM = 'cs_danger_zone_enum'
+    CS_DANGER_ZONE_HREF = 'cs_danger_zone_href'
+    CS_DESCRIPTION_DYN_CLASS = 'cs_description_dyn_class'
+    CS_DESCRIPTION_HREF = 'cs_description_href'
+    CS_DETONATION_HAZARD_PROTECTION_TYPE = 'cs_detonation_hazard_protection_type'
+    CS_DETONATION_HAZARD_PROTECTION_TYPE_DYN_CLASS = 'cs_detonation_hazard_protection_type_dyn_class'
+    CS_DETONATION_HAZARD_PROTECTION_TYPE_HREF = 'cs_detonation_hazard_protection_type_href'
+    CS_ELECTRICAL_LOAD_CS_MOUNTING_CONDITIONS_DYN_CLASS = 'cs_electrical_load_cs_mounting_conditions_dyn_class'
+    CS_ELECTRICAL_LOAD_CS_MOUNTING_CONDITIONS_HREF = 'cs_electrical_load_cs_mounting_conditions_href'
+    CS_ELECTRICAL_LOAD_CS_NETWORK_TYPE_DYN_CLASS = 'cs_electrical_load_cs_network_type_dyn_class'
+    CS_ELECTRICAL_LOAD_CS_NETWORK_TYPE_HREF = 'cs_electrical_load_cs_network_type_href'
+    CS_ELECTRICAL_LOAD_MACHINE_TYPE = 'cs_electrical_load_machine_type'
+    CS_ET_NODE_PATH = 'cs_et_node_path'
+    CS_EXPLOSION_GROUP = 'cs_explosion_group'
+    CS_EXPLOSION_GROUP_DYN_CLASS = 'cs_explosion_group_dyn_class'
+    CS_EXPLOSION_GROUP_HREF = 'cs_explosion_group_href'
+    CS_FAILSAFE = 'cs_failsafe'
+    CS_FAILSAFE_DYN_CLASS = 'cs_failsafe_dyn_class'
+    CS_FAILSAFE_ENUM = 'cs_failsafe_enum'
+    CS_FAILSAFE_HREF = 'cs_failsafe_href'
+    CS_FIELD_DISTRIBUTOR_INPUT_ID = 'cs_field_distributor_input_id'
+    CS_FIELD_DISTRIBUTOR_OUTPUT_ID = 'cs_field_distributor_output_id'
+    CS_FREQUENCY_TOLERANCE = 'cs_frequency_tolerance'
+    CS_FREQUENCY_TOLERANCE_DYN_CLASS = 'cs_frequency_tolerance_dyn_class'
+    CS_FREQUENCY_TOLERANCE_HREF = 'cs_frequency_tolerance_href'
+    CS_FUNCTION_DESCRIPTION = 'cs_function_description'
+    CS_FUNCTION_TEST = 'cs_function_test'
+    CS_GRAPHIC_TYPICAL = 'cs_graphic_typical'
+    CS_HEAVY_STARTING = 'cs_heavy_starting'
+    CS_HEAVY_STARTING_ENUM = 'cs_heavy_starting_enum'
+    CS_INERTIA_TORQUE_COMPLETE = 'cs_inertia_torque_complete'
+    CS_INSPECTION_INTERVAL = 'cs_inspection_interval'
+    CS_INSPECTION_PURPOSE = 'cs_inspection_purpose'
+    CS_LOAD_TYPE = 'cs_load_type'
+    CS_LOAD_TYPE_ENUM = 'cs_load_type_enum'
+    CS_LOGIC_DIAGRAM_TYPICAL = 'cs_logic_diagram_typical'
+    CS_LOOP_CS_INTRINSIC_SAFETY_LOOP = 'cs_loop_cs_intrinsic_safety_loop'
+    CS_LOOP_CS_KEY_DYN_CLASS = 'cs_loop_cs_key_dyn_class'
+    CS_LOOP_CS_KEY_HREF = 'cs_loop_cs_key_href'
+    CS_LOOP_CS_LOOP_ELEMENT = 'cs_loop_cs_loop_element'
+    CS_LOOP_CS_LOOP_SUBFUNCTION = 'cs_loop_cs_loop_subfunction'
+    CS_LOOP_CS_MECHANICAL_DATA = 'cs_loop_cs_mechanical_data'
+    CS_LOOP_CS_PROCESS_DATA = 'cs_loop_cs_process_data'
+    CS_LOOP_CS_PROCESS_FLOW_DIAGRAM = 'cs_loop_cs_process_flow_diagram'
+    CS_LOOP_CS_PROCESS_FLOW_DIAGRAM_DYN_CLASS = 'cs_loop_cs_process_flow_diagram_dyn_class'
+    CS_LOOP_CS_PROCESS_FLOW_DIAGRAM_HREF = 'cs_loop_cs_process_flow_diagram_href'
+    CS_LOOP_CS_TERMINAL_LEVEL = 'cs_loop_cs_terminal_level'
+    CS_LOOP_DESCRIPTION_1 = 'cs_loop_description_1'
+    CS_LOOP_DESCRIPTION_2 = 'cs_loop_description_2'
+    CS_LOOP_DESCRIPTION_3 = 'cs_loop_description_3'
+    CS_LOOP_DM_DOCUMENT = 'cs_loop_dm_document'
+    CS_LOOP_ELEMENT_HW_CONTROL_VALVE_CS_LOOP_SPEZ_DYN_CLASS = 'cs_loop_element_hw_control_valve_cs_loop_spez_dyn_class'
+    CS_LOOP_ELEMENT_HW_CONTROL_VALVE_CS_LOOP_SPEZ_HREF = 'cs_loop_element_hw_control_valve_cs_loop_spez_href'
+    CS_LOOP_FUNCTION = 'cs_loop_function'
+    CS_LOOP_ID = 'cs_loop_id'
+    CS_LOOP_ID_1 = 'cs_loop_id_1'
+    CS_LOOP_ID_2 = 'cs_loop_id_2'
+    CS_LOOP_ID_3 = 'cs_loop_id_3'
+    CS_LOOP_ID_DYN_CLASS = 'cs_loop_id_dyn_class'
+    CS_LOOP_ID_HREF = 'cs_loop_id_href'
+    CS_LOOP_KAT_ID = 'cs_loop_kat_id'
+    CS_LOOP_LFD_NR = 'cs_loop_lfd_nr'
+    CS_LOOP_STATUS = 'cs_loop_status'
+    CS_LOOP_STATUS_ENUM = 'cs_loop_status_enum'
+    CS_LOOP_STATUS_REMARK = 'cs_loop_status_remark'
+    CS_LOOP_UNIT_DYN_CLASS = 'cs_loop_unit_dyn_class'
+    CS_LOOP_UNIT_HREF = 'cs_loop_unit_href'
+    CS_MACHINE_ID = 'cs_machine_id'
+    CS_MACHINE_MANUFACTURER = 'cs_machine_manufacturer'
+    CS_MOTOR_OPERATION_MODE = 'cs_motor_operation_mode'
+    CS_MOTOR_OPERATION_MODE_ENUM = 'cs_motor_operation_mode_enum'
+    CS_MOUNTING_AREA = 'cs_mounting_area'
+    CS_MOUNTING_AREA_DYN_CLASS = 'cs_mounting_area_dyn_class'
+    CS_MOUNTING_AREA_HREF = 'cs_mounting_area_href'
+    CS_MOUNTING_HEIGHT = 'cs_mounting_height'
+    CS_MOUNTING_HEIGHT_DYN_CLASS = 'cs_mounting_height_dyn_class'
+    CS_MOUNTING_HEIGHT_HREF = 'cs_mounting_height_href'
+    CS_NETWORK_NEUTRAL_POINT = 'cs_network_neutral_point'
+    CS_NETWORK_NEUTRAL_POINT_DYN_CLASS = 'cs_network_neutral_point_dyn_class'
+    CS_NETWORK_NEUTRAL_POINT_ENUM = 'cs_network_neutral_point_enum'
+    CS_NETWORK_NEUTRAL_POINT_HREF = 'cs_network_neutral_point_href'
+    CS_NETWORK_TYPE_ID = 'cs_network_type_id'
+    CS_NETWORK_TYPE_ID_DYN_CLASS = 'cs_network_type_id_dyn_class'
+    CS_NETWORK_TYPE_ID_HREF = 'cs_network_type_id_href'
+    CS_OPERATING_TYPE = 'cs_operating_type'
+    CS_PHASES_CONDUCTORS_ARRANGEMENT = 'cs_phases_conductors_arrangement'
+    CS_PHASES_CONDUCTORS_ARRANGEMENT_DYN_CLASS = 'cs_phases_conductors_arrangement_dyn_class'
+    CS_PHASES_CONDUCTORS_ARRANGEMENT_HREF = 'cs_phases_conductors_arrangement_href'
+    CS_PI_DATA_CS_LOOP = 'cs_pi_data_cs_loop'
+    CS_POWER_TRANSMISSION = 'cs_power_transmission'
+    CS_POWER_TRANSMISSION_ENUM = 'cs_power_transmission_enum'
+    CS_RATED_FREQUENCY = 'cs_rated_frequency'
+    CS_RATED_FREQUENCY_DYN_CLASS = 'cs_rated_frequency_dyn_class'
+    CS_RATED_FREQUENCY_HREF = 'cs_rated_frequency_href'
+    CS_RATED_MOTOR_POWER_MAX = 'cs_rated_motor_power_max'
+    CS_RATED_MOTOR_POWER_MAX_DYN_CLASS = 'cs_rated_motor_power_max_dyn_class'
+    CS_RATED_MOTOR_POWER_MAX_HREF = 'cs_rated_motor_power_max_href'
+    CS_RATED_MOTOR_POWER_MIN = 'cs_rated_motor_power_min'
+    CS_RATED_MOTOR_POWER_MIN_DYN_CLASS = 'cs_rated_motor_power_min_dyn_class'
+    CS_RATED_MOTOR_POWER_MIN_HREF = 'cs_rated_motor_power_min_href'
+    CS_RATED_POWER_PN_REQUESTED_1 = 'cs_rated_power_pn_requested_1'
+    CS_RATED_POWER_PN_REQUESTED_2 = 'cs_rated_power_pn_requested_2'
+    CS_RATED_POWER_PN_REQUESTED_3 = 'cs_rated_power_pn_requested_3'
+    CS_RATED_VOLTAGE_DYN_CLASS = 'cs_rated_voltage_dyn_class'
+    CS_RATED_VOLTAGE_HREF = 'cs_rated_voltage_href'
+    CS_REALIZATION_POSITION = 'cs_realization_position'
+    CS_RELATED_REPORT = 'cs_related_report'
+    CS_RELATED_REPORT_ENUM = 'cs_related_report_enum'
+    CS_RELATIVE_HUMIDITY = 'cs_relative_humidity'
+    CS_RELATIVE_HUMIDITY_DYN_CLASS = 'cs_relative_humidity_dyn_class'
+    CS_RELATIVE_HUMIDITY_HREF = 'cs_relative_humidity_href'
+    CS_ROOT_EXTRACTION_POINT = 'cs_root_extraction_point'
+    CS_ROOT_EXTRACTION_POINT_ENUM = 'cs_root_extraction_point_enum'
+    CS_ROTATIONAL_SPEED_MAX = 'cs_rotational_speed_max'
+    CS_ROTATIONAL_SPEED_MIN = 'cs_rotational_speed_min'
+    CS_ROTATIONAL_SPEED_REQUESTED_1 = 'cs_rotational_speed_requested_1'
+    CS_ROTATIONAL_SPEED_REQUESTED_2 = 'cs_rotational_speed_requested_2'
+    CS_ROTATIONAL_SPEED_REQUESTED_3 = 'cs_rotational_speed_requested_3'
+    CS_SHAFT_POWER_100_PERCENT_1 = 'cs_shaft_power_100_percent_1'
+    CS_SHAFT_POWER_100_PERCENT_2 = 'cs_shaft_power_100_percent_2'
+    CS_SHAFT_POWER_100_PERCENT_3 = 'cs_shaft_power_100_percent_3'
+    CS_SHAFT_POWER_DELTA = 'cs_shaft_power_delta'
+    CS_STARTING_MODE = 'cs_starting_mode'
+    CS_STARTING_MODE_ENUM = 'cs_starting_mode_enum'
+    CS_STATIC_INERTIA = 'cs_static_inertia'
+    CS_TEMPERATURE_CLASS = 'cs_temperature_class'
+    CS_TEMPERATURE_CLASS_DYN_CLASS = 'cs_temperature_class_dyn_class'
+    CS_TEMPERATURE_CLASS_HREF = 'cs_temperature_class_href'
+    CS_TEMPERATURE_INFLUENCE_FACTOR = 'cs_temperature_influence_factor'
+    CS_TEMPORARY_FOR_EXPORT = 'cs_temporary_for_export'
+    CS_THERMAL_CLASS = 'cs_thermal_class'
+    CS_THERMAL_CLASS_DYN_CLASS = 'cs_thermal_class_dyn_class'
+    CS_THERMAL_CLASS_HREF = 'cs_thermal_class_href'
+    CS_TORQUE_CONTROL = 'cs_torque_control'
+    CS_TORQUE_CONTROL_ENUM = 'cs_torque_control_enum'
+    CS_TRANSIENT_INERTIA = 'cs_transient_inertia'
+    CS_UTILIZATION_CATEGORY = 'cs_utilization_category'
+    CS_UTILIZATION_CATEGORY_ENUM = 'cs_utilization_category_enum'
+    CS_VOLTAGE_TOLERANCE = 'cs_voltage_tolerance'
+    CS_VOLTAGE_TOLERANCE_DYN_CLASS = 'cs_voltage_tolerance_dyn_class'
+    CS_VOLTAGE_TOLERANCE_HREF = 'cs_voltage_tolerance_href'
+
+
+
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+This python code creates an Enum class named Loop where each column name is converted into a Python-valid identifier. Please be aware that each enum identifier is made all-uppercase, which is a common Python convention for enum identifiers. Also note that Enum identifiers in Python must be valid Python identifiers, which means they can't contain certain special characters (like space, hyphen, etc.) or start with a digit. Any necessary substitutions to accommodate these restrictions must be handled manually.

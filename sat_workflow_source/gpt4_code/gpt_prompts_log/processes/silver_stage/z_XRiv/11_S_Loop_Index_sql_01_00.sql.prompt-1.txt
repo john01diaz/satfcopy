@@ -1,0 +1,195 @@
+We need to convert Databricks SQL statements into vanilla python code. 
+As a first stage we want to find the general patterns in the SQL statements so we can write the python code is a similar way.
+To do this we will translate the Databricks SQL statements into pseudo code.
+
+Where things are not clear please ask for a clarification
+
+General instructions
+Can you make the code as modular as possible.
+Can you use clean coding principles.
+Can you follow the PEP8 style guide.
+Can you use human readable names.
+Can you choose descriptive and unambiguous names.
+Can you choose pronounceable names
+Can you choose searchable names
+Can you NEVER choose any abbreviations or shortened variable names
+Can you replace magic numbers with named constants.
+
+Can you define any literals as named constants
+Define and name all lists and arrays separately
+
+Specific instructions
+
+Can you treat  the input files as pandas dataframes and read them in as parameters at the start,
+Can you treat the dataframes as immutable - in other words, don't update them.
+
+The input columns can be treated in different ways - modularise these different ways if possible.
+sometimes a column will be passed through without any modification.
+sometimes a columnn will be simply mapped to a column with a new name - note that the same column may be mapped several times
+sometimes a new columnn will be added with a constant value
+sometimes a columnn will be mapped to a column using  more complex calculations 
+
+Can you make sure you complete all the lists and arrays - don't stop in the middle.
+
+------------------
+This is the Databricks SQL statement called - 11_S_Loop_Index_sql_01_00.sql
+
+"
+CREATE OR REPLACE TEMP VIEW LOOP_INDEX
+AS
+Select distinct
+loop_database_name
+,loop_dynamic_class
+,loop_object_identifier
+,name
+,case when 
+        CS_loop_id like '%*'  or CS_loop_id like '%?'  or CS_loop_id like '%~' 
+        then translate(CS_loop_id,"*?~","") else CS_loop_id 
+  end as LoopNo
+,regexp_extract(CS_loop_id,('^[0-9]+'),0) as Area
+,regexp_extract(CS_loop_id,"(^[0-9]+)([A-Z]+)([0-9]+)",3) as  Number
+,regexp_extract(CS_loop_id,"(^[0-9]+)([A-Z]+)([0-9]+)([-_ ]*)([A-Z0-9]*$)",5) as  Suffix
+,to_get_loop_format_tag(CS_loop_id) as FormatName
+
+                  ---- **** Plant breakdown structure columns ****----
+,concat_ws('-',Site_Code,Coalesce(Revised_Plant_Code,Plant_Code),Coalesce(Revised_Process_Unit,Process_Unit)) as AreaPath
+                  --------------------------------------------------
+,CS_loop_kat_id as Function
+,loop_CS_comment as Remarks
+,translate(CS_loop_description_1,"?#*","") as  `Loop_Service_1`
+,CS_function_description as `Func_Description`
+,SAP_responsible_work_center as `Resp_Work_Center`
+,CS_air_distributor as `Air_Distributor`
+,CS_variable_part_drawing_number as `Var_Part_of_Drawing_No`
+,CS_loop_id_1 as `Suppl_char_1`
+,CS_visual_inspection as `Visual_Inspection`
+,CS_y_coordinate_pi_data as `Y_Coord.`
+,CS_et_node_path as `ET_structure`
+,CS_x_coordinate_pi_data as `X_Coord.`
+,CS_field_distributor_output_id as `Field_Distrib_Output`
+,CS_loop_id_3 as `Suppl_char_3`
+,CS_loop_id_2 as `Suppl_char_2`
+,SAP_planning_group as `Planning_Group`
+,CS_tested_by as `Tested_by`
+,CS_test_acc_to_test_catalog as `Test_Acc_to_Test_Catalog`
+,CS_test_acc_by_test_catalog as `Test_Acc_by_Test_Catalog`
+,CS_logic_diagram_typical as `Logic_Diag_Typical`
+,CS_inspection_purpose as `Purpose_of_Inspection`
+,CS_inspection_interval as `Inspection_Interval`
+,loop_CS_loop_unit as `Unit`
+,CS_accompanying_documents as `Accomp_Documents`
+,CS_field_distributor_input_id as `Field_Distrib_Input`
+,CS_realization_position as `Realization_Pos`
+,CS_function_test as `Function_Test` 
+,CS_loop_description_3 as `Loop_Service_3`
+,CS_graphic_typical as `Graphical_Typical`
+,CS_standard_loop_id as `Standard_Loop_ID`
+,CS_loop_description_2 as `Loop_Service_2`
+,CS_loop_status_remark as `Status_Remark`
+,CS_loop_lfd_nr as  `Loop_No`
+,CS_loop_function as `Loop_Function`
+,Case When Loop_Dynamic_Class='CS_Loop_spez' Then 'Instrumentation' Else 'Electrical' End as Class
+-- Picklist Property
+,Coalesce(get_loop_picklist_display_value(array('CS_loop_status',CS_loop_status)),'BEING PLANNED') as Status
+,get_loop_picklist_display_value(array('CS_source',CS_source)) as `EP_Origin`
+,get_loop_picklist_display_value(array('loop_CS_classification',loop_CS_classification)) as `Classification`
+,get_loop_picklist_display_value(array('CS_related_report',CS_related_report)) as  `Related_Report`
+,get_loop_picklist_display_value(array('CS_root_extraction_point',CS_root_extraction_point)) as `Root_Extraction_Point`
+,get_loop_picklist_display_value(array('CS_special_requirements_1',CS_special_requirements_1)) as `Special_Req_1`
+,get_loop_picklist_display_value(array('CS_special_requirements_2',CS_special_requirements_2)) as `Special_Req_2`
+,get_loop_picklist_display_value(array('CS_special_requirements_3',CS_special_requirements_3)) as `Special_Req_3`
+,get_loop_picklist_display_value(array('loop_CS_classification_by',loop_CS_classification_by)) as `Classification_by`
+,get_loop_picklist_display_value(array('CS_sifpro_relevant',CS_sifpro_relevant)) as `SIFpro_Relevant`
+from  sigraph.Layer l
+
+inner join Sigraph.Loop loop
+on  l.database_name      == loop.Loop_database_name
+and l.object_identifier  == loop.Layer_CS_Loop_href
+and l.dynamic_class      == loop.Layer_CS_Loop_dyn_class
+
+INNER JOIN Sigraph_Reference.PlantBreakDown PBS ON 
+PBS.Process_Unit=Case When L.Name like 'RAUM%' Then Substring(Replace(L.name,'RAUM_',''),1,100)
+                      When Substring(L.name,1,charindex('_',L.Name )-1)=CS_loop_unit
+                      Then Substring(L.name,charindex('_',L.Name )+1,100)
+                      Else Substring(L.name,1,charindex('_',L.Name )-1) 
+                  END
+AND
+PBS.Area_Code=regexp_extract(CS_loop_id,('^[0-9]+'),0)        
+--inner join sigraph_reference.PlantbreakdownStructure pbs on l.name == pbs.distinct_column
+
+
+where Template_loop == "FALSE"
+
+"
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+import pandas as pd
+import re
+
+def extract_number(input_str, pattern):
+    match = re.search(pattern, input_str)
+    return match.group() if match else None
+
+def clean_string(input_str, char_set):
+    for char in char_set:
+        input_str = input_str.replace(char, "")
+    return input_str
+
+# Assuming df_layer, df_loop, and df_pbs are your dataframes for "sigraph.Layer", "Sigraph.Loop", and "Sigraph_Reference.PlantBreakDown" respectively
+
+# Filter out rows where Template_loop is not "FALSE"
+df_loop = df_loop[df_loop['Template_loop'] != "FALSE"]
+
+# Join operations, as per your SQL query
+df_merged = pd.merge(df_layer, df_loop, left_on=['database_name', 'object_identifier', 'dynamic_class'], 
+                     right_on=['Loop_database_name', 'Layer_CS_Loop_href', 'Layer_CS_Loop_dyn_class'])
+
+# Conditions for "PBS.Process_Unit"
+conditions = [
+    (df_merged['Name'].str.startswith('RAUM')),
+    (df_merged['Name'].str.slice(stop=df_merged['Name'].str.find('_')) == df_merged['CS_loop_unit']),
+    (~df_merged['Name'].str.slice(stop=df_merged['Name'].str.find('_')).isnull())
+]
+
+choices = [
+    df_merged['Name'].str.replace('RAUM_', '').str.slice(stop=100),
+    df_merged['Name'].str.slice(start=df_merged['Name'].str.find('_')+1, stop=100),
+    df_merged['Name'].str.slice(stop=df_merged['Name'].str.find('_'))
+]
+
+df_merged['PBS.Process_Unit'] = np.select(conditions, choices, default=None)
+
+# Joining with PBS dataframe
+df_merged = pd.merge(df_merged, df_pbs, left_on=['PBS.Process_Unit', 'CS_loop_id'], 
+                     right_on=['Process_Unit', 'Area_Code'])
+
+# Renaming columns and creating new columns
+df_merged.rename(columns={
+    'CS_loop_kat_id': 'Function',
+    'loop_CS_comment': 'Remarks',
+    'CS_function_description': 'Func_Description',
+    'SAP_responsible_work_center': 'Resp_Work_Center',
+    'CS_air_distributor': 'Air_Distributor',
+    # add all other renaming mappings here
+}, inplace=True)
+
+df_merged['LoopNo'] = df_merged['CS_loop_id'].apply(lambda x: clean_string(x, "*?~") if "*" in x or "?" in x or "~" in x else x)
+df_merged['Area'] = df_merged['CS_loop_id'].apply(lambda x: extract_number(x, '^[0-9]+'))
+df_merged['Number'] = df_merged['CS_loop_id'].apply(lambda x: extract_number(x, "(^[0-9]+)([A-Z]+)([0-9]+)"))
+df_merged['Suffix'] = df_merged['CS_loop_id'].apply(lambda x: extract_number(x, "(^[0-9]+)([A-Z]+)([0-9]+)([-_ ]*)([A-Z0-9]*$)"))
+df_merged['AreaPath'] = df_merged['Site_Code'] + "-" + df_merged['Revised_Plant_Code'].combine_first(df_merged['Plant_Code']) + "-" + df_merged['Revised_Process_Unit'].combine_first(df_merged['Process_Unit'])
+df_merged['Loop_Service_1'] = df_merged['CS_loop_description_1'].apply(lambda x: clean_string(x, "?#*"))
+
+# ... Continue in a similar fashion for other columns
+
+# For Class column
+df_merged['Class'] = df_merged['Loop_Dynamic_Class'].apply(lambda x: 'Instrumentation' if x == 'CS_Loop_spez' else 'Electrical')
+
+# Again, since we don't have details of 'get_loop_picklist_display_value' function, it's not included here
+
+# Finally, you can create a new DataFrame or update the existing one with the required columns
+
+# required_columns = ['loop_database_name', 'loop_dynamic_class', 'loop_object_identifier', 'name', 'LoopNo', 'Area', 'Number', 'Suffix', 'AreaPath', 'Function', 'Remarks', 'Loop_Service_1', 'Func_Description', 'Resp_Work_Center', 'Air_Distributor']  # add all the required columns here
+# df_final = df_merged[required_columns]

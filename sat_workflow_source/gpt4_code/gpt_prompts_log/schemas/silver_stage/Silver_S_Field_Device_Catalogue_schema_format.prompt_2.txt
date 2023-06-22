@@ -1,0 +1,21 @@
+This is the schema for a table called S_Field_Device_Catalogue.
+It is a list of column names for Instrument_Index
+Create a python Enum for these column names.
+Name the class 'S_Field_Device_Catalogue'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+database_name
+dynamic_class
+Catalogue_RNT
+object_identifier
+Catalogue_Name
+Left_pin_details
+Left_Marking
+Right_pin_details
+Right_Marking
+Tag_Number
+Loop_Number
+Document_number
+Class

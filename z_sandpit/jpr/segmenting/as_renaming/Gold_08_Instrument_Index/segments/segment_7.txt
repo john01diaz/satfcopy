@@ -1,0 +1,235 @@
+Convert the following SQL column renames into a python dictionary.
+Use the following python enums to refer to the column names.
+Use enum value attribute when you generate the dictionary.
+
+This is the output schema.
+Instrument_Index(Enum)
+EFFECTIVE_DIRECTION = 'effective direction'
+CONE_TYPE = 'cone type'
+ELECTRICAL_CONNECTION_DESIGN = 'electrical connection design'
+ELEMENT_FRACTURE = 'element fracture'
+SEAT_SEALING = 'seat sealing'
+GLAND_NUT_MATERIAL = 'gland nut material'
+AUXILIARY_POWER_SIZE = 'auxiliary power size'
+CONE_MATERIAL = 'cone material'
+SWITCH_STATE_AT_REQUIRED_END_POSITION = 'switch state at required end position'
+CONTACT_DESIGN = 'contact design'
+ORIFICE_FILLING_MEDIUM = 'orifice filling medium'
+COUNTER_TYPE = 'counter type'
+COUNTER_DESIGN = 'counter design'
+CONTROL_CABLE_HEATING = 'control cable heating'
+SIGNAL_DIRECTION = 'signal direction'
+SCALE_CLASSIFICATION = 'scale classification'
+METER_TYPE = 'meter type'
+DISPLAY_TYPE = 'display type'
+HEATING = 'heating'
+FILLING_MEDIUM_FOR_ATTENUATION = 'filling medium for attenuation'
+BYPASS_FOR_MOTOR_NETWORK_OPERATION = 'bypass for motor network operation'
+CAPILLARY_LIQUID = 'capillary liquid'
+CHARACTERISTIC_POSITIONER = 'characteristic positioner'
+CIRCUIT_ARRANGEMENT = 'circuit arrangement'
+CONTROL_CABLE_SREWED_JOINT = 'control cable srewed joint'
+DETECTION_TYPE = 'detection type'
+DEVICE_TYPE_MACHINE_MONITORING = 'device type machine monitoring'
+ENCLOSURE_TYPE_CLASS = 'enclosure type class'
+EXTERNAL_SETPOINT_SPECIFICATION = 'external setpoint specification'
+FILTER_FOR_HARMONIC_CURRENTS = 'filter for harmonic currents'
+FLASH_SIGNALING = 'flash signaling'
+HEAT_GENERATOR_INSTALLATION_POSITION = 'heat generator installation position'
+INSTALLATION_LAYER = 'installation layer'
+INSULATION_CLASS = 'insulation class'
+LIMIT_SWITCH_CLOSE = 'limit switch close'
+LIMIT_SWITCH_OPEN = 'limit switch open'
+METHOD_OF_MEASUREMENT_MACHINE_MONITORING = 'method of measurement machine monitoring'
+MACHINE_TYPE = 'machine type'
+MANUAL_OPERATION = 'manual operation'
+MEASURED_VALUE_DISPLAY = 'measured value display'
+DESIGN = 'design'
+POSITION_FEEDBACK_ANALOG = 'position feedback analog'
+POWER_CABLE_SCREWED_JOINT = 'power cable screwed joint'
+RED_MARKING_DESIGN = 'red marking design'
+SELF_RETAINING_DRIVE = 'self-retaining drive'
+TANDEM_SWITCH = 'tandem switch'
+TEMPERATURE_CONTROLLER = 'temperature controller'
+TEMPERATURE_LIMITER = 'temperature limiter'
+TERMINAL_BOX_POSITION_TO_DRIVE_END_OF_MOTOR = 'terminal box position (to drive end of motor)'
+CIRCUIT_ARRANGEMENT2 = 'circuit arrangement2'
+TORQUE_DEPENDENT = 'torque dependent'
+TORQUE_LIMIT_SWITCH_CLOSE = 'torque limit switch close'
+TORQUE_LIMIT_SWITCH_OPEN = 'torque limit switch open'
+TYPE_OF_STARTING = 'type of starting'
+
+
+This is the input schema.
+S_Instrument_Index(Enum)
+EFFECTIVE_DIRECTION = 'effective_direction'
+CONE_TYPE = 'cone_type'
+ELECTRICAL_CONNECTION_DESIGN = 'electrical_connection_design'
+ELEMENT_FRACTURE = 'element_fracture'
+SEAT_SEALING = 'seat_sealing'
+GLAND_NUT_MATERIAL = 'gland_nut_material'
+AUXILIARY_POWER_SIZE = 'auxiliary_power_size'
+CONE_MATERIAL = 'cone_material'
+SWITCH_STATE_AT_REQUIRED_END_POSITION = 'switch_state_at_required_end_position'
+CONTACT_DESIGN = 'contact_design'
+ORIFICE_FILLING_MEDIUM = 'orifice_filling_medium'
+COUNTER_TYPE = 'counter_type'
+COUNTER_DESIGN = 'counter_design'
+CONTROL_CABLE_HEATING = 'control_cable_heating'
+SIGNAL_DIRECTION = 'signal_direction'
+SCALE_CLASSIFICATION = 'scale_classification'
+METER_TYPE = 'meter_type'
+DISPLAY_TYPE = 'display_type'
+HEATING = 'heating'
+FILLING_MEDIUM_FOR_ATTENUATION = 'filling_medium_for_attenuation'
+BYPASS_FOR_MOTOR_NETWORK_OPERATION = 'bypass_for_motor_network_operation'
+CAPILLARY_LIQUID = 'capillary_liquid'
+CHARACTERISTIC_POSITIONER = 'characteristic_positioner'
+CIRCUIT_ARRANGEMENT = 'circuit_arrangement'
+CONTROL_CABLE_SREWED_JOINT = 'control_cable_srewed_joint'
+DETECTION_TYPE = 'detection_type'
+DEVICE_TYPE_MACHINE_MONITORING = 'device_type_machine_monitoring'
+ENCLOSURE_TYPE_CLASS = 'enclosure_type_class'
+EXTERNAL_SETPOINT_SPECIFICATION = 'external_setpoint_specification'
+FILTER_FOR_HARMONIC_CURRENTS = 'filter_for_harmonic_currents'
+FLASH_SIGNALING = 'flash_signaling'
+HEAT_GENERATOR_INSTALLATION_POSITION = 'heat_generator_installation_position'
+INSTALLATION_LAYER = 'installation_layer'
+INSULATION_CLASS = 'insulation_class'
+LIMIT_SWITCH_CLOSE = 'limit_switch_close'
+LIMIT_SWITCH_OPEN = 'limit_switch_open'
+METHOD_OF_MEASUREMENT_MACHINE_MONITORING = 'method_of_measurement_machine_monitoring'
+MACHINE_TYPE = 'machine_type'
+MANUAL_OPERATION = 'manual_operation'
+MEASURED_VALUE_DISPLAY = 'measured_value_display'
+DESIGN = 'design'
+POSITION_FEEDBACK_ANALOG = 'position_feedback_analog'
+POWER_CABLE_SCREWED_JOINT = 'power_cable_screwed_joint'
+RED_MARKING_DESIGN = 'red_marking_design'
+SELF_RETAINING_DRIVE = 'self_retaining_drive'
+TANDEM_SWITCH = 'tandem_switch'
+TEMPERATURE_CONTROLLER = 'temperature_controller'
+TEMPERATURE_LIMITER = 'temperature_limiter'
+TERMINAL_BOX_POSITION_TO_DRIVE_END_OF_MOTOR = 'terminal_box_position_to_drive_end_of_motor'
+CIRCUIT_ARRANGEMENT2 = 'circuit_arrangement2'
+TORQUE_DEPENDENT = 'torque_dependent'
+TORQUE_LIMIT_SWITCH_CLOSE = 'torque_limit_switch_close'
+TORQUE_LIMIT_SWITCH_OPEN = 'torque_limit_switch_open'
+TYPE_OF_STARTING = 'type_of_starting'
+
+This is the SQL rename Instrument_Index_Segment_7.
+
+Effective_Direction As Effective Direction
+Cone_Type As Cone Type
+Electrical_Connection_Design As Electrical Connection Design
+Element_fracture As Element fracture
+Seat_Sealing As Seat Sealing
+Gland_Nut_Material As Gland Nut Material
+Auxiliary_Power_Size As Auxiliary Power Size
+Cone_Material As Cone Material
+Switch_State_at_Required_End_Position As Switch State at Required End Position
+Contact_design As Contact design
+Orifice_Filling_medium As Orifice Filling medium
+Counter_Type As Counter Type
+Counter_Design As Counter Design
+Control_Cable_Heating As Control Cable Heating
+Signal_direction As Signal direction
+Scale_Classification As Scale Classification
+Meter_Type As Meter Type
+Display_type As Display type
+Heating As Heating
+Filling_Medium_for_Attenuation As Filling Medium for Attenuation
+Bypass_for_Motor_Network_Operation As Bypass for Motor Network Operation
+Capillary_Liquid As Capillary Liquid
+characteristic_positioner As characteristic positioner
+Circuit_Arrangement As Circuit Arrangement
+Control_Cable_Srewed_Joint As Control Cable Srewed Joint
+Detection_Type As Detection Type
+Device_Type_Machine_Monitoring As Device Type Machine Monitoring
+Enclosure_Type_Class As Enclosure Type Class
+External_Setpoint_Specification As External Setpoint Specification
+Filter_for_Harmonic_Currents As Filter for Harmonic Currents
+Flash_Signaling As Flash Signaling
+Heat_Generator_Installation_Position As Heat Generator Installation Position
+Installation_Layer As Installation Layer
+Insulation_Class As Insulation Class
+Limit_Switch_Close As Limit Switch Close
+Limit_Switch_Open As Limit Switch Open
+Method_of_Measurement_Machine_Monitoring As Method of Measurement Machine Monitoring
+Machine_Type As Machine Type
+Manual_Operation As Manual Operation
+Measured_Value_Display As Measured Value Display
+Design As Design
+Position_Feedback_Analog As Position Feedback Analog
+Power_Cable_Screwed_Joint As Power Cable Screwed Joint
+Red_Marking_Design As Red Marking Design
+Self_Retaining_Drive As Self-Retaining Drive
+Tandem_Switch As Tandem Switch
+Temperature_Controller As Temperature Controller
+Temperature_Limiter As Temperature Limiter
+Terminal_Box_Position_to_drive_end_of_motor As Terminal Box Position (to drive end of motor)
+Circuit_Arrangement2 As Circuit Arrangement2
+Torque_Dependent As Torque Dependent
+Torque_Limit_Switch_Close As Torque Limit Switch Close
+Torque_Limit_Switch_Open As Torque Limit Switch Open
+Type_of_Starting As Type of Starting
+
+
+&&&&&&&&&&&&&&&&&&&
+
+sql_to_python = {
+    S_Instrument_Index.EFFECTIVE_DIRECTION.value: Instrument_Index.EFFECTIVE_DIRECTION.value,
+    S_Instrument_Index.CONE_TYPE.value: Instrument_Index.CONE_TYPE.value,
+    S_Instrument_Index.ELECTRICAL_CONNECTION_DESIGN.value: Instrument_Index.ELECTRICAL_CONNECTION_DESIGN.value,
+    S_Instrument_Index.ELEMENT_FRACTURE.value: Instrument_Index.ELEMENT_FRACTURE.value,
+    S_Instrument_Index.SEAT_SEALING.value: Instrument_Index.SEAT_SEALING.value,
+    S_Instrument_Index.GLAND_NUT_MATERIAL.value: Instrument_Index.GLAND_NUT_MATERIAL.value,
+    S_Instrument_Index.AUXILIARY_POWER_SIZE.value: Instrument_Index.AUXILIARY_POWER_SIZE.value,
+    S_Instrument_Index.CONE_MATERIAL.value: Instrument_Index.CONE_MATERIAL.value,
+    S_Instrument_Index.SWITCH_STATE_AT_REQUIRED_END_POSITION.value: Instrument_Index.SWITCH_STATE_AT_REQUIRED_END_POSITION.value,
+    S_Instrument_Index.CONTACT_DESIGN.value: Instrument_Index.CONTACT_DESIGN.value,
+    S_Instrument_Index.ORIFICE_FILLING_MEDIUM.value: Instrument_Index.ORIFICE_FILLING_MEDIUM.value,
+    S_Instrument_Index.COUNTER_TYPE.value: Instrument_Index.COUNTER_TYPE.value,
+    S_Instrument_Index.COUNTER_DESIGN.value: Instrument_Index.COUNTER_DESIGN.value,
+    S_Instrument_Index.CONTROL_CABLE_HEATING.value: Instrument_Index.CONTROL_CABLE_HEATING.value,
+    S_Instrument_Index.SIGNAL_DIRECTION.value: Instrument_Index.SIGNAL_DIRECTION.value,
+    S_Instrument_Index.SCALE_CLASSIFICATION.value: Instrument_Index.SCALE_CLASSIFICATION.value,
+    S_Instrument_Index.METER_TYPE.value: Instrument_Index.METER_TYPE.value,
+    S_Instrument_Index.DISPLAY_TYPE.value: Instrument_Index.DISPLAY_TYPE.value,
+    S_Instrument_Index.HEATING.value: Instrument_Index.HEATING.value,
+    S_Instrument_Index.FILLING_MEDIUM_FOR_ATTENUATION.value: Instrument_Index.FILLING_MEDIUM_FOR_ATTENUATION.value,
+    S_Instrument_Index.BYPASS_FOR_MOTOR_NETWORK_OPERATION.value: Instrument_Index.BYPASS_FOR_MOTOR_NETWORK_OPERATION.value,
+    S_Instrument_Index.CAPILLARY_LIQUID.value: Instrument_Index.CAPILLARY_LIQUID.value,
+    S_Instrument_Index.CHARACTERISTIC_POSITIONER.value: Instrument_Index.CHARACTERISTIC_POSITIONER.value,
+    S_Instrument_Index.CIRCUIT_ARRANGEMENT.value: Instrument_Index.CIRCUIT_ARRANGEMENT.value,
+    S_Instrument_Index.CONTROL_CABLE_SREWED_JOINT.value: Instrument_Index.CONTROL_CABLE_SREWED_JOINT.value,
+    S_Instrument_Index.DETECTION_TYPE.value: Instrument_Index.DETECTION_TYPE.value,
+    S_Instrument_Index.DEVICE_TYPE_MACHINE_MONITORING.value: Instrument_Index.DEVICE_TYPE_MACHINE_MONITORING.value,
+    S_Instrument_Index.ENCLOSURE_TYPE_CLASS.value: Instrument_Index.ENCLOSURE_TYPE_CLASS.value,
+    S_Instrument_Index.EXTERNAL_SETPOINT_SPECIFICATION.value: Instrument_Index.EXTERNAL_SETPOINT_SPECIFICATION.value,
+    S_Instrument_Index.FILTER_FOR_HARMONIC_CURRENTS.value: Instrument_Index.FILTER_FOR_HARMONIC_CURRENTS.value,
+    S_Instrument_Index.FLASH_SIGNALING.value: Instrument_Index.FLASH_SIGNALING.value,
+    S_Instrument_Index.HEAT_GENERATOR_INSTALLATION_POSITION.value: Instrument_Index.HEAT_GENERATOR_INSTALLATION_POSITION.value,
+    S_Instrument_Index.INSTALLATION_LAYER.value: Instrument_Index.INSTALLATION_LAYER.value,
+    S_Instrument_Index.INSULATION_CLASS.value: Instrument_Index.INSULATION_CLASS.value,
+    S_Instrument_Index.LIMIT_SWITCH_CLOSE.value: Instrument_Index.LIMIT_SWITCH_CLOSE.value,
+    S_Instrument_Index.LIMIT_SWITCH_OPEN.value: Instrument_Index.LIMIT_SWITCH_OPEN.value,
+    S_Instrument_Index.METHOD_OF_MEASUREMENT_MACHINE_MONITORING.value: Instrument_Index.METHOD_OF_MEASUREMENT_MACHINE_MONITORING.value,
+    S_Instrument_Index.MACHINE_TYPE.value: Instrument_Index.MACHINE_TYPE.value,
+    S_Instrument_Index.MANUAL_OPERATION.value: Instrument_Index.MANUAL_OPERATION.value,
+    S_Instrument_Index.MEASURED_VALUE_DISPLAY.value: Instrument_Index.MEASURED_VALUE_DISPLAY.value,
+    S_Instrument_Index.DESIGN.value: Instrument_Index.DESIGN.value,
+    S_Instrument_Index.POSITION_FEEDBACK_ANALOG.value: Instrument_Index.POSITION_FEEDBACK_ANALOG.value,
+    S_Instrument_Index.POWER_CABLE_SCREWED_JOINT.value: Instrument_Index.POWER_CABLE_SCREWED_JOINT.value,
+    S_Instrument_Index.RED_MARKING_DESIGN.value: Instrument_Index.RED_MARKING_DESIGN.value,
+    S_Instrument_Index.SELF_RETAINING_DRIVE.value: Instrument_Index.SELF_RETAINING_DRIVE.value,
+    S_Instrument_Index.TANDEM_SWITCH.value: Instrument_Index.TANDEM_SWITCH.value,
+    S_Instrument_Index.TEMPERATURE_CONTROLLER.value: Instrument_Index.TEMPERATURE_CONTROLLER.value,
+    S_Instrument_Index.TEMPERATURE_LIMITER.value: Instrument_Index.TEMPERATURE_LIMITER.value,
+    S_Instrument_Index.TERMINAL_BOX_POSITION_TO_DRIVE_END_OF_MOTOR.value: Instrument_Index.TERMINAL_BOX_POSITION_TO_DRIVE_END_OF_MOTOR.value,
+    S_Instrument_Index.CIRCUIT_ARRANGEMENT2.value: Instrument_Index.CIRCUIT_ARRANGEMENT2.value,
+    S_Instrument_Index.TORQUE_DEPENDENT.value: Instrument_Index.TORQUE_DEPENDENT.value,
+    S_Instrument_Index.TORQUE_LIMIT_SWITCH_CLOSE.value: Instrument_Index.TORQUE_LIMIT_SWITCH_CLOSE.value,
+    S_Instrument_Index.TORQUE_LIMIT_SWITCH_OPEN.value: Instrument_Index.TORQUE_LIMIT_SWITCH_OPEN.value,
+    S_Instrument_Index.TYPE_OF_STARTING.value: Instrument_Index.TYPE_OF_STARTING.value,
+}

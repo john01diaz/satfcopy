@@ -1,0 +1,128 @@
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'S_CableSchedule'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+class S_CableSchedule(Enum):
+
+--- the column names go here.
+
+S_CableSchedule Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+S_CableSchedule	Adapter_From
+S_CableSchedule	Adapter_To
+S_CableSchedule	Bending_radius
+S_CableSchedule	Body_length
+S_CableSchedule	Cable_Drum_Number
+S_CableSchedule	Cable_Set
+S_CableSchedule	CableNumber
+S_CableSchedule	Capacitance_per_km
+S_CableSchedule	CatalogueNo
+S_CableSchedule	Component_description_1
+S_CableSchedule	Conductor_type
+S_CableSchedule	database_name
+S_CableSchedule	Discipline
+S_CableSchedule	dynamic_class
+S_CableSchedule	EAN_number
+S_CableSchedule	Estimated_Length
+S_CableSchedule	External_document_of_item
+S_CableSchedule	From_Location
+S_CableSchedule	Function_text_1
+S_CableSchedule	Gland_From
+S_CableSchedule	Gland_To
+S_CableSchedule	Inductance_per_km
+S_CableSchedule	Installation_Date
+S_CableSchedule	Installed_Length
+S_CableSchedule	Insulating_material
+S_CableSchedule	Laying_Corner_Point
+S_CableSchedule	Length
+S_CableSchedule	Level_of_Installation
+S_CableSchedule	List_price
+S_CableSchedule	Mass
+S_CableSchedule	max_ambient_temperature
+S_CableSchedule	Measure_unit_qualifier
+S_CableSchedule	min_ambient_temperature
+S_CableSchedule	Mounting_feature
+S_CableSchedule	object_identifier
+S_CableSchedule	Outside_diameter
+S_CableSchedule	parquet_file_relative_path
+S_CableSchedule	Precious_metal_factor_1
+S_CableSchedule	Precious_metal_factor_2
+S_CableSchedule	ProjectStatus
+S_CableSchedule	Quantity_unit
+S_CableSchedule	Range
+S_CableSchedule	Rated_temperature
+S_CableSchedule	Rated_voltage_U
+S_CableSchedule	Rated_voltage_Uo
+S_CableSchedule	Remarks
+S_CableSchedule	Selection_key
+S_CableSchedule	Shield
+S_CableSchedule	Shield_number
+S_CableSchedule	Subassembly_information
+S_CableSchedule	Suppliers_article_no
+S_CableSchedule	To_Location
+S_CableSchedule	Wire_number
+S_CableSchedule	Wire_type
+
+&&&&&&&&&&&&&&&&&&&&&&&&&
+from enum import Enum
+
+class S_CableSchedule(Enum):
+    ADAPTER_FROM = 'adapter_from'
+    ADAPTER_TO = 'adapter_to'
+    BENDING_RADIUS = 'bending_radius'
+    BODY_LENGTH = 'body_length'
+    CABLE_DRUM_NUMBER = 'cable_drum_number'
+    CABLE_SET = 'cable_set'
+    CABLENUMBER = 'cablenumber'
+    CAPACITANCE_PER_KM = 'capacitance_per_km'
+    CATALOGUENO = 'catalogueno'
+    COMPONENT_DESCRIPTION_1 = 'component_description_1'
+    CONDUCTOR_TYPE = 'conductor_type'
+    DATABASE_NAME = 'database_name'
+    DISCIPLINE = 'discipline'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EAN_NUMBER = 'ean_number'
+    ESTIMATED_LENGTH = 'estimated_length'
+    EXTERNAL_DOCUMENT_OF_ITEM = 'external_document_of_item'
+    FROM_LOCATION = 'from_location'
+    FUNCTION_TEXT_1 = 'function_text_1'
+    GLAND_FROM = 'gland_from'
+    GLAND_TO = 'gland_to'
+    INDUCTANCE_PER_KM = 'inductance_per_km'
+    INSTALLATION_DATE = 'installation_date'
+    INSTALLED_LENGTH = 'installed_length'
+    INSULATING_MATERIAL = 'insulating_material'
+    LAYING_CORNER_POINT = 'laying_corner_point'
+    LENGTH = 'length'
+    LEVEL_OF_INSTALLATION = 'level_of_installation'
+    LIST_PRICE = 'list_price'
+    MASS = 'mass'
+    MAX_AMBIENT_TEMPERATURE = 'max_ambient_temperature'
+    MEASURE_UNIT_QUALIFIER = 'measure_unit_qualifier'
+    MIN_AMBIENT_TEMPERATURE = 'min_ambient_temperature'
+    MOUNTING_FEATURE = 'mounting_feature'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OUTSIDE_DIAMETER = 'outside_diameter'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    PRECIOUS_METAL_FACTOR_1 = 'precious_metal_factor_1'
+    PRECIOUS_METAL_FACTOR_2 = 'precious_metal_factor_2'
+    PROJECTSTATUS = 'projectstatus'
+    QUANTITY_UNIT = 'quantity_unit'
+    RANGE = 'range'
+    RATED_TEMPERATURE = 'rated_temperature'
+    RATED_VOLTAGE_U = 'rated_voltage_u'
+    RATED_VOLTAGE_UO = 'rated_voltage_uo'
+    REMARKS = 'remarks'
+    SELECTION_KEY = 'selection_key'
+    SHIELD = 'shield'
+    SHIELD_NUMBER = 'shield_number'
+    SUBASSEMBLY_INFORMATION = 'subassembly_information'
+    SUPPLIERS_ARTICLE_NO = 'suppliers_article_no'
+    TO_LOCATION = 'to_location'
+    WIRE_NUMBER = 'wire_number'
+    WIRE_TYPE = 'wire_type'

@@ -1,0 +1,34 @@
+
+S_CableCatalogueNumber_Master_schema_format.prompt.txt
+
+This is the schema for a table called S_CableCatalogueNumber_Master. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names using a sub-class of Enum called ColumnTypes.
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+
+S_CableCatalogueNumber_Master	CatalogueNo
+S_CableCatalogueNumber_Master	parquet_file_relative_path
+S_CableCatalogueNumber_Master	Database_name
+S_CableCatalogueNumber_Master	Description
+S_CableCatalogueNumber_Master	Cable_Object_Identifier
+
+S_CableCatalogueNumber_Master Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class ColumnTypes(Enum):
+    pass
+
+class S_CableCatalogueNumberMasterColumns(ColumnTypes):
+    CATALOGUE_NO = "catalogueno"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+    DATABASE_NAME = "database_name"
+    DESCRIPTION = "description"
+    CABLE_OBJECT_IDENTIFIER = "cable_object_identifier"
+
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+In this case, ColumnTypes is a superclass Enum and S_CableCatalogueNumberMasterColumns is a subclass of this Enum. All the Enum member names are uppercase, as you requested, and all the associated values are lowercase.

@@ -1,0 +1,13 @@
+You will be converting a Spark SQL file to python. I am going to give you the information you need in several stages.
+
+ 
+
+stage 1 will be several enum corresponding to the schemas of the input tables named S_CableCoreCatalogue and S_CableCatalogue (code to be provided later).
+
+ 
+
+stage 2 will be an enum corresponding to the schema of the output table named S_CableCatalogueNumber_Master (code to be provided later).
+
+ 
+
+stage 3 will contain the SQL script along with specific instructions for conversion.

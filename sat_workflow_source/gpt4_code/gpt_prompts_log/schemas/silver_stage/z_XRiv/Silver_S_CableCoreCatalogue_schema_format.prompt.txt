@@ -1,0 +1,39 @@
+
+S_CableCoreCatalogue_schema_format.prompt.txt
+
+This is the schema for a table called S_CableCoreCatalogue. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names using a sub-class of Enum called ColumnTypes.
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+
+
+S_CableCoreCatalogue	object_identifier		
+S_CableCoreCatalogue	database_name		
+S_CableCoreCatalogue	Cable_Object_Identifier		
+S_CableCoreCatalogue	Group_Marking		
+S_CableCoreCatalogue	Core_Markings		
+S_CableCoreCatalogue	Group_Marking_Sequence		
+S_CableCoreCatalogue	Core_Markings_Core_Type		
+S_CableCoreCatalogue	IsValidCableAndCore		
+S_CableCoreCatalogue	parquet_file_relative_path		
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_CableCoreCatalogueColumns(Enum):
+    object_identifier = "object_identifier"
+    database_name = "database_name"
+    cable_object_identifier = "cable_object_identifier"
+    group_marking = "group_marking"
+    core_markings = "core_markings"
+    group_marking_sequence = "group_marking_sequence"
+    core_markings_core_type = "core_markings_core_type"
+    isvalidcableandcore = "isvalidcableandcore"
+    parquet_file_relative_path = "parquet_file_relative_path"
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Now you can use the S_CableCoreCatalogueColumns enum to refer to the column names in a type-safe manner. For example, if you want to access the column "object_identifier", you can use S_CableCoreCatalogueColumns.object_identifier.value.

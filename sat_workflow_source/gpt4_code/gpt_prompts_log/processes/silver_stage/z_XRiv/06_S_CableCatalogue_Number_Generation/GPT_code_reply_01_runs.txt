@@ -1,0 +1,27 @@
+    # Define column mappings
+    catalogue_no_prefix = 'SHRH_CABLE_'
+    description_suffixes = ['% GRAU MMA', ' BLAU MMA', ' BLAU', ' GRAU', ' ROT']
+
+    # Perform JOIN operation
+    df_merged = s_cablecorecatalogue_dataframe.merge(s_cablecatalogue_dataframe, left_on=['database_name', 'cable_object_identifier'],
+                                              right_on=['database_name', 'object_identifier'], how='inner')
+
+    # Apply column transformations and mappings
+    df_merged['description'] = df_merged['description'].str.replace('|'.join(description_suffixes), '').str.strip()
+    df_merged['markings'] = df_merged.groupby(['database_name', 'cable_object_identifier'])['core_markings'].transform(
+        lambda x: ', '.join(x))
+    df_output = df_merged[['description', 'database_name', 'cable_object_identifier', 'markings']].copy()
+    df_output['catalogueno'] = catalogue_no_prefix + (
+                df_output.groupby(['description', 'markings']).ngroup() + 2000).astype(str)
+
+    # Rename columns using enums from stage 2
+    df_output.rename(columns={
+        'description': S_CableCatalogueNumber_Master.DESCRIPTION.value,
+        'database_name': S_CableCatalogueNumber_Master.DATABASE_NAME.value,
+        'cable_object_identifier': S_CableCatalogueNumber_Master.CABLE_OBJECT_IDENTIFIER.value,
+        'markings': 'markings',  # Original GPT code - 'markings': S_CableCatalogueNumber_Master.MARKINGS.value,
+        'catalogueno': S_CableCatalogueNumber_Master.CATALOGUENO.value
+    }, inplace=True)
+
+    # Create temporary view
+    catalogue_master_dataframe = df_output.copy()

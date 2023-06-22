@@ -1,0 +1,61 @@
+
+Silver_S_Field_Device_Catalogue_schema_format.prompt_1.txt
+
+This is the schema for a table called S_Field_Device_Catalogue. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'S_Field_Device_Catalogue'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+S_Field_Device_Catalogue  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_Field_Device_Catalogue(Enum):
+
+--- the column names go here.
+
+S_Field_Device_Catalogue Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+S_Field_Device_Catalogue	Catalogue_Name
+S_Field_Device_Catalogue	Catalogue_RNT
+S_Field_Device_Catalogue	Class
+S_Field_Device_Catalogue	database_name
+S_Field_Device_Catalogue	Document_number
+S_Field_Device_Catalogue	dynamic_class
+S_Field_Device_Catalogue	Left_Marking
+S_Field_Device_Catalogue	Left_pin_details
+S_Field_Device_Catalogue	Loop_Number
+S_Field_Device_Catalogue	object_identifier
+S_Field_Device_Catalogue	parquet_file_relative_path
+S_Field_Device_Catalogue	Right_Marking
+S_Field_Device_Catalogue	Right_pin_details
+S_Field_Device_Catalogue	Tag_Number
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_Field_Device_Catalogue(Enum):
+    CATALOGUE_NAME = 'catalogue_name'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    LEFT_MARKING = 'left_marking'
+    LEFT_PIN_DETAILS = 'left_pin_details'
+    LOOP_NUMBER = 'loop_number'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    RIGHT_MARKING = 'right_marking'
+    RIGHT_PIN_DETAILS = 'right_pin_details'
+    TAG_NUMBER = 'tag_number'
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+In this code, the class name is S_Field_Device_Catalogue, as requested. The column names are all in lowercase, enclosed in single quotes, and converted to uppercase in the Enum members.

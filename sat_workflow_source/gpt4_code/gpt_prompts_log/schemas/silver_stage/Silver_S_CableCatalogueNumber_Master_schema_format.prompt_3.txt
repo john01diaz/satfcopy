@@ -1,0 +1,31 @@
+Silver_S_CableCatalogueNumber_Master_schema_format.prompt_3.txt
+
+This is the schema for a table called S_CableCatalogueNumber_Master.
+It is a list of column names for S_CableCatalogueNumber_Master
+Create a python Enum for these column names.
+Name the class 'S_CableCatalogueNumber_Master'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_CableCatalogueNumber_Master Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Cable_Object_Identifier
+CatalogueNo
+Database_name
+Description
+parquet_file_relative_path
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+class S_CableCatalogueNumber_Master(Enum):
+CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+CATALOGUENO = 'catalogueno'
+DATABASE_NAME = 'database_name'
+DESCRIPTION = 'description'
+PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

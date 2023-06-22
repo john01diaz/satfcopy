@@ -1,0 +1,12 @@
+You will be converting a Spark SQL file to python. I am going to give you the information you need in several stages.
+
+stage 1a will be the first part of the enum corresponding to the schema of the input table named S_Instrument_Index.
+stage 1b will be its second part.
+
+stage 2a will be the first part of the enum corresponding to the schema of the output table named Instrument_Index.
+stage 2b will be its second part.
+
+stage 3a will be the first part of the SQL script to convert
+stage 3b will be the second part of the SQL script to convert.
+
+stage 4 will be the specific instructions for conversion.

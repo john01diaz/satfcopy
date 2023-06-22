@@ -1,0 +1,73 @@
+
+Gold_3_Cable_Catalogue_schema_format.prompt_1.txt
+
+This is the schema for a table called Cable_Catalogue.
+It is a list of column names for Cable_Catalogue
+Create a python Enum for these column names.
+Name the class 'Cable_Catalogue'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+so the code will start as follows
+
+Cable_Catalogue Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+CatalogueNo
+Remarks
+Manufacturer
+Class
+Description
+GroupType
+NoOfGroups
+Armoured
+OAScr
+GroupScr
+EarthCore
+Voltage
+Size
+Earth_Core_Size
+OD
+Material
+Colour1
+Colour2
+AllowUse
+DrumLength
+LineType
+LineTypeColor
+LineTypeWidth
+LineTypeArrowHead
+
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+class Cable_Catalogue(Enum):
+    CATALOGUENO = 'catalogueno'
+    REMARKS = 'remarks'
+    MANUFACTURER = 'manufacturer'
+    CLASS = 'class'
+    DESCRIPTION = 'description'
+    GROUPTYPE = 'grouptype'
+    NOOFGROUPS = 'noofgroups'
+    ARMOURED = 'armoured'
+    OASCR = 'oascr'
+    GROUPSCR = 'groupscr'
+    EARTHCORE = 'earthcore'
+    VOLTAGE = 'voltage'
+    SIZE = 'size'
+    EARTH_CORE_SIZE = 'earth_core_size'
+    OD = 'od'
+    MATERIAL = 'material'
+    COLOUR1 = 'colour1'
+    COLOUR2 = 'colour2'
+    ALLOWUSE = 'allowuse'
+    DRUMLENGTH = 'drumlength'
+    LINETYPE = 'linetype'
+    LINETYPECOLOR = 'linetypecolor'
+    LINETYPEWIDTH = 'linetypewidth'
+    LINETYPEARROWHEAD = 'linetypearrowhead'
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

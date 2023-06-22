@@ -1,0 +1,180 @@
+
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code
+Generate an orchastrating function for the component functions.
+Add an underscore to the beginning of component function names.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the input and output s named class S_IO_Catalogue
+
+
+class S_IO_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CHANNEL = 'channel'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    DYNAMIC_CLASS = 'dynamic_class'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+CREATE OR REPLACE TEMP VIEW VW_IO_CATALOGUE_RAW AS
+SELECT
+    A.database_name,
+    A.dynamic_class,
+    A.object_identifier,
+    A.Model_Number,
+    A.Description,
+    A.Manufacturer,
+    A.IOType,
+    A.NoOfPoints,
+    B.TerminalsPerMarking,
+    A.Class,
+    Row_Number() Over(Partition by A.Model_Number,A.NoOfPoints,B.TerminalsPerMarking
+              order by A.object_identifier) as Catalogue_RNT
+FROM VW_IOCard_Prep_Query A
+INNER JOIN VW_IO_TerminalMarking B ON A.database_name=B.database_name AND A.dynamic_Class=B.dynamic_Class
+AND A.Object_identifier=B.Object_identifier
+
+
+CREATE OR REPLACE TEMP VIEW VW_IO_CATALOGUE AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    Model_Number,
+    Description,
+    Manufacturer,
+    '' AS DescriptionDrawing,
+    '' AS Channel,
+    'True' AS AllowUse,
+    IOType,
+    NoOfPoints,
+    2 AS TerminalsPerPointChannel,
+    TerminalsPerMarking,
+    Class,
+    Catalogue_RNT
+FROM VW_IO_CATALOGUE_RAW
+ORDER BY Model_Number,NoOfPoints,CAST(ChannelNumber AS BIGINT)
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+from enum import Enum
+import pandas as pd
+
+class DatabaseNames(Enum):
+    DATABASE_NAME = 'database_name'
+
+class S_IO_Catalogue(Enum):
+    ALLOWUSE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CHANNEL = 'channel'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    DYNAMIC_CLASS = 'dynamic_class'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+def _filter_dataframe_before_merge(dataframe, columns_to_keep):
+    dataframe_filtered = dataframe[columns_to_keep]
+    return dataframe_filtered
+
+def _create_catalogue_raw(dataframe_io_card_prep_query, dataframe_io_terminal_marking):
+    columns_to_keep_io_card_prep_query = [
+        DatabaseNames.DATABASE_NAME.value,
+        S_IO_Catalogue.DYNAMIC_CLASS.value,
+        S_IO_Catalogue.OBJECT_IDENTIFIER.value,
+        S_IO_Catalogue.MODEL_NUMBER.value,
+        S_IO_Catalogue.DESCRIPTION.value,
+        S_IO_Catalogue.MANUFACTURER.value,
+        S_IO_Catalogue.IOTYPE.value,
+        S_IO_Catalogue.NOOFPOINTS.value,
+        S_IO_Catalogue.CLASS.value
+    ]
+    columns_to_keep_io_terminal_marking = [
+        DatabaseNames.DATABASE_NAME.value,
+        S_IO_Catalogue.DYNAMIC_CLASS.value,
+        S_IO_Catalogue.OBJECT_IDENTIFIER.value,
+        S_IO_Catalogue.TERMINALSPERMARKING.value
+    ]
+    dataframe_io_card_prep_query_filtered = _filter_dataframe_before_merge(dataframe_io_card_prep_query, columns_to_keep_io_card_prep_query)
+    dataframe_io_terminal_marking_filtered = _filter_dataframe_before_merge(dataframe_io_terminal_marking, columns_to_keep_io_terminal_marking)
+
+    # Joining the filtered dataframes
+    dataframe_io_catalogue_raw = pd.merge(
+        dataframe_io_card_prep_query_filtered,
+        dataframe_io_terminal_marking_filtered,
+        how='inner',
+        on=[DatabaseNames.DATABASE_NAME.value, S_IO_Catalogue.DYNAMIC_CLASS.value, S_IO_Catalogue.OBJECT_IDENTIFIER.value]
+    )
+
+    # Creating a new column 'Catalogue_RNT' as the row number over the partition of 'Model_Number', 'NoOfPoints', 'TerminalsPerMarking'
+    dataframe_io_catalogue_raw[S_IO_Catalogue.CATALOGUE_RNT.value] = dataframe_io_catalogue_raw.sort_values(
+        [S_IO_Catalogue.MODEL_NUMBER.value, S_IO_Catalogue.NOOFPOINTS.value, S_IO_Catalogue.TERMINALSPERMARKING.value]
+    ).groupby([S_IO_Catalogue.MODEL_NUMBER.value, S_IO_Catalogue.NOOFPOINTS.value, S_IO_Catalogue.TERMINALSPERMARKING.value]).cumcount() + 1
+
+    return dataframe_io_catalogue_raw
+
+def _create_io_catalogue(dataframe_io_catalogue_raw):
+    dataframe_io_catalogue = dataframe_io_catalogue_raw.copy()
+
+    # Adding new columns with constant values
+    dataframe_io_catalogue[S_IO_Catalogue.DESCRIPTIONDRAWING.value] = ''
+    dataframe_io_catalogue[S_IO_Catalogue.CHANNEL.value] = ''
+    dataframe_io_catalogue[S_IO_Catalogue.ALLOWUSE.value] = 'True'
+    dataframe_io_catalogue[S_IO_Catalogue.TERMINALSPERPOINTCHANNEL.value] = 2
+
+    # Ordering by 'Model_Number', 'NoOfPoints', 'ChannelNumber'
+    dataframe_io_catalogue = dataframe_io_catalogue.sort_values(
+        [S_IO_Catalogue.MODEL_NUMBER.value, S_IO_Catalogue.NOOFPOINTS.value, S_IO_Catalogue.CHANNEL.value]
+    )
+
+    return dataframe_io_catalogue
+
+def orchestrate_io_catalogue_creation(dataframe_io_card_prep_query, dataframe_io_terminal_marking):
+    dataframe_io_catalogue_raw = _create_catalogue_raw(dataframe_io_card_prep_query, dataframe_io_terminal_marking)
+    dataframe_io_catalogue = _create_io_catalogue(dataframe_io_catalogue_raw)
+
+    return dataframe_io_catalogue

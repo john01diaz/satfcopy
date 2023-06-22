@@ -1,0 +1,36 @@
+This is the schema for a table called Field_Device_Catalogue.
+It is a list of column names for Instrument_Index
+Create a python Enum for these column names.
+Name the class 'Field_Device_Catalogue'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+Catalogue_Name
+Left_pin_details
+Left_Marking
+Right_pin_details
+Right_Marking
+Tag_Number
+Loop_Number
+Document_number
+
+
+&&&&&&&&&&&&&&&&&&
+
+Sure, here's the Python Enum for the column names:
+
+python
+Copy code
+from enum import Enum
+
+class Instrument_Index(Enum):
+    CATALOGUE_NAME = 'catalogue_name'
+    LEFT_PIN_DETAILS = 'left_pin_details'
+    LEFT_MARKING = 'left_marking'
+    RIGHT_PIN_DETAILS = 'right_pin_details'
+    RIGHT_MARKING = 'right_marking'
+    TAG_NUMBER = 'tag_number'
+    LOOP_NUMBER = 'loop_number'
+    DOCUMENT_NUMBER = 'document_number'
+This Python Enum, named 'Instrument_Index', has capitalized names as you requested and the values are in lowercase. To access the values of this Enum you would do something like Instrument_Index.CATALOGUE_NAME.value. This would give you the string 'catalogue_name'.

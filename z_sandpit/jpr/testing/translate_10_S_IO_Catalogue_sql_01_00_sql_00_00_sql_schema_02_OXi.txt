@@ -1,0 +1,244 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Generate an orchestrating function for the component functions.
+Add an underscore to the beginning of component function names.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following schemas for the script conversion.
+
+This is the output schema for the output table named VW_IOCard_Prep_Query
+
+CREATE TABLE VW_IOCard_Prep_Query (
+database_name		VARCHAR(255),
+dynamic_class		VARCHAR(255),
+object_identifier		VARCHAR(255),
+Item_dynamic_class		VARCHAR(255),
+Item_object_identifier		VARCHAR(255),
+Model_Number		VARCHAR(255),
+Description		VARCHAR(255),
+Manufacturer		VARCHAR(255),
+DescriptionDrawing		VARCHAR(255),
+Channel		VARCHAR(255),
+AllowUse		VARCHAR(255),
+IOType		VARCHAR(255),
+NoOfPoints	long	BIGINT,
+TerminalsPerPointChannel	long	BIGINT,
+TerminalsPerMarking		VARCHAR(255),
+Class		VARCHAR(255),
+ChannelNumber		VARCHAR(255),
+Catalogue_RNT		INT)
+
+These are the schemas for the input table schemas named S_ItemFunction and S_Item_Function_Model
+
+CREATE TABLE S_Itemfunction (
+database_name		VARCHAR(255),
+Dynamic_Class		VARCHAR(255),
+Object_Identifier		VARCHAR(255),
+Item_dynamic_class		VARCHAR(255),
+Item_Object_Identifier		VARCHAR(255),
+Left		INT,
+Right		INT,
+Left_Marking		VARCHAR(255),
+Right_Marking		VARCHAR(255),
+All_Marking		VARCHAR(255),
+ModelNo_Original		VARCHAR(255),
+ModelNO		VARCHAR(255),
+Symbol_Name		VARCHAR(255))
+
+CREATE TABLE S_Item_Function_Model (
+database_name		VARCHAR(255),
+dynamic_class		VARCHAR(255),
+object_identifier		VARCHAR(255),
+Function_Occ_Object_identifier		VARCHAR(255),
+item_dynamic_class		VARCHAR(255),
+item_object_identifier		VARCHAR(255),
+Location_Dynamic_class		VARCHAR(255),
+Location_Object_Identifier		VARCHAR(255),
+Facility_Dynamic_class		VARCHAR(255),
+Facility_Object_Identifier		VARCHAR(255),
+Rack_Dynamic_class		VARCHAR(255),
+Rack_Object_Identifier		VARCHAR(255),
+ModelNo		VARCHAR(255),
+Description		VARCHAR(255),
+IOType		VARCHAR(255),
+ChannelNumber		VARCHAR(255),
+product_designation		VARCHAR(255),
+product_key		VARCHAR(255),
+product_key_Original		VARCHAR(255),
+Show_Key		VARCHAR(255),
+Item_Slot		VARCHAR(255),
+Tag_Number		VARCHAR(255),
+Loop_Number		VARCHAR(255),
+Document_Number		VARCHAR(255),
+Class		VARCHAR(255),
+Type		VARCHAR(255),
+Location_Designation		VARCHAR(255),
+Facility_Designation		VARCHAR(255),
+Rack		VARCHAR(255),
+manufacturer		VARCHAR(255),
+device_type		VARCHAR(255),
+Symbol_Name		VARCHAR(255),
+loop_element_dynamic_class		VARCHAR(255),
+loop_element_Object_Identifier		VARCHAR(255))
+
+
+Script 1:
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Pre_Join AS
+SELECT
+    A.database_name,
+    A.dynamic_class,
+    A.object_identifier,
+    B.ModelNo,
+    B.Manufacturer,
+    A.IOType,
+    A.Class,
+    A.ChannelNumber
+FROM
+    Sigraph_silver.S_Itemfunction A
+INNER JOIN
+    Sigraph_silver.S_Item_Function_Model B
+ON
+    A.database_name=B.database_name AND
+    A.Item_Dynamic_Class=B.Item_Dynamic_Class AND
+    A.Item_Object_identifier=B.Item_Object_identifier AND
+    A.Dynamic_Class=B.Dynamic_Class AND
+    A.Object_Identifier=B.Object_Identifier
+WHERE
+    B.Type='IO Module' AND
+    A.ChannelNumber IS NOT NULL AND
+    A.ChannelNumber <> '0' AND
+    A.ChannelNumber <> '';
+
+Script 2: Distinct Operation
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Distinct AS
+SELECT DISTINCT *
+FROM VW_IOCard_Pre_Join;
+
+Script 3: Window Function
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Window AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    ModelNo,
+    CONCAT(COUNT(ChannelNumber) OVER (PARTITION BY database_name, IOType, object_identifier), ' - Channel -', Manufacturer) AS Description,
+    MAX(Manufacturer) OVER (PARTITION BY ModelNo) as Manufacturer_Max,
+    ChannelNumber,
+    IOType,
+    Class,
+    COUNT(ChannelNumber) OVER (PARTITION BY database_name, IOType, object_identifier) as NoOfPoints
+FROM
+    VW_IOCard_Distinct;
+
+Script 4: Final Script with Column Renaming
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Prep_Query AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    ModelNo AS Model_Number,
+    Description,
+    Manufacturer_Max AS Manufacturer,
+    ChannelNumber,
+    IOType,
+    Class,
+    NoOfPoints
+FROM
+    VW_IOCard_Window;
+
+import pandas as pd
+
+def _load_dataframes():
+    # Load data from wherever your data is stored.
+    # This might be a CSV file, a database, a cloud storage bucket, etc.
+    dataframe_itemfunction = pd.read_csv('itemfunction.csv')  # placeholder for your actual data source
+    dataframe_item_function_model = pd.read_csv('item_function_model.csv')  # placeholder for your actual data source
+
+    return dataframe_itemfunction, dataframe_item_function_model
+
+def _perform_inner_join(dataframe_itemfunction, dataframe_item_function_model):
+    # Perform inner join on multiple keys.
+    merged_dataframe = pd.merge(
+        dataframe_itemfunction,
+        dataframe_item_function_model,
+        on=['database_name', 'Item_Dynamic_Class', 'Item_Object_identifier', 'Dynamic_Class', 'Object_Identifier'],
+        suffixes=('_itemfunction', '_itemfunctionmodel')
+    )
+
+    # Apply filter
+    filtered_dataframe = merged_dataframe[
+        (merged_dataframe['Type'] == 'IO Module') &
+        (merged_dataframe['ChannelNumber_itemfunction'].notna()) &
+        (merged_dataframe['ChannelNumber_itemfunction'] != '0') &
+        (merged_dataframe['ChannelNumber_itemfunction'] != '')
+    ]
+
+    # Select required columns
+    selected_dataframe = filtered_dataframe[
+        ['database_name', 'dynamic_class_itemfunction', 'object_identifier_itemfunction',
+         'ModelNo_itemfunctionmodel', 'Manufacturer_itemfunctionmodel', 'IOType_itemfunction',
+         'Class_itemfunction', 'ChannelNumber_itemfunction']
+    ]
+
+    return selected_dataframe
+
+def _apply_distinct_operation(dataframe):
+    # Drop duplicates
+    distinct_dataframe = dataframe.drop_duplicates()
+
+    return distinct_dataframe
+
+def _apply_window_functions(dataframe):
+    # Apply window functions
+    dataframe['Description'] = dataframe.groupby(['database_name', 'IOType_itemfunction', 'object_identifier_itemfunction']).cumcount() + 1
+    dataframe['Description'] = dataframe['Description'].astype(str) + ' - Channel -' + dataframe['Manufacturer_itemfunctionmodel']
+    dataframe['Manufacturer_Max'] = dataframe.groupby(['ModelNo_itemfunctionmodel'])['Manufacturer_itemfunctionmodel'].transform('max')
+    dataframe['NoOfPoints'] = dataframe.groupby(['database_name', 'IOType_itemfunction', 'object_identifier_itemfunction']).cumcount() + 1
+
+    return dataframe
+
+def _rename_columns(dataframe):
+    # Rename columns
+    renamed_dataframe = dataframe.rename(columns={
+        'ModelNo_itemfunctionmodel': 'Model_Number',
+        'Manufacturer_Max': 'Manufacturer',
+        'ChannelNumber_itemfunction': 'ChannelNumber',
+        'IOType_itemfunction': 'IOType',
+        'Class_itemfunction': 'Class'
+    })
+
+    return renamed_dataframe
+
+def orchestrate_functions():
+    dataframe_itemfunction, dataframe_item_function_model = _load_dataframes()
+    joined_dataframe = _perform_inner_join(dataframe_itemfunction, dataframe_item_function_model)
+    distinct_dataframe = _apply_distinct_operation(joined_dataframe)
+    window_applied_dataframe = _apply_window_functions(distinct_dataframe)
+    final_dataframe = _rename_columns(window_applied_dataframe)
+
+    return final_dataframe

@@ -1,0 +1,286 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+For merge transformation, preserve the original column names.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named Cable_Schedule.
+
+class Cable_Schedule(
+        Enum):
+    CATALOGUENO = 'catalogueno'
+    REMARKS = 'remarks'
+    CABLENUMBER = 'cablenumber'
+    FROM_LOCATION = 'from_location'
+    TO_LOCATION = 'to_location'
+    LENGTH = 'length'
+    PROJECTSTATUS = 'projectstatus'
+    GLAND_FROM = 'gland_from'
+    GLAND_TO = 'gland_to'
+    ADAPTER_FROM = 'adapter_from'
+    ADAPTER_TO = 'adapter_to'
+    RANGE = 'range'
+    CABLE_DRUM_NUMBER = 'cable_drum_number'
+    LAYING_CORNER_POINT = 'laying_corner_point'
+    EXTERNAL_DOCUMENT_OF_ITEM = 'external_document_of_item'
+    INSTALLED_LENGTH = 'installed_length'
+    INSTALLATION_DATE = 'installation_date'
+    ESTIMATED_LENGTH = 'estimated_length'
+    FUNCTION_TEXT_1 = 'function_text_1'
+    LEVEL_OF_INSTALLATION = 'level_of_installation'
+    SHIELD_NUMBER = 'shield_number'
+    WIRE_NUMBER = 'wire_number'
+    CABLE_SET = 'cable_set'
+    WIRE_TYPE = 'wire_type'
+    CONDUCTOR_TYPE = 'conductor_type'
+    INSULATING_MATERIAL = 'insulating_material'
+    INDUCTANCE_PER_KM = 'inductance_per_km'
+    BENDING_RADIUS = 'bending_radius'
+    CAPACITANCE_PER_KM = 'capacitance_per_km'
+    SHIELD = 'shield'
+    RATED_VOLTAGE_UO = 'rated_voltage_uo'
+    RATED_VOLTAGE_U = 'rated_voltage_u'
+    PRECIOUS_METAL_FACTOR_2 = 'precious_metal_factor_2'
+    PRECIOUS_METAL_FACTOR_1 = 'precious_metal_factor_1'
+    SUPPLIERS_ARTICLE_NUMBER = 'suppliers_article_number'
+    MASS = 'mass'
+    COMPONENT_DESCRIPTION_1 = 'component_description_1'
+    SELECTION_KEY = 'selection_key'
+    OUTSIDE_DIAMETER = 'outside_diameter'
+    SUBASSEMBLY_INFORMATION = 'subassembly_information'
+    RATED_TEMPERATURE = 'rated_temperature'
+    QUANTITY_UNIT = 'quantity_unit'
+    MOUNTING_FEATURE = 'mounting_feature'
+    MINIMUM_AMBIENT_TEMPERATURE = 'minimum_ambient_temperature'
+    MEASURE_UNIT_QUALIFIER = 'measure_unit_qualifier'
+    MAXIMUM_AMBIENT_TEMPERATURE = 'maximum_ambient_temperature'
+    LIST_PRICE = 'list_price'
+    EAN_NUMBER = 'ean_number'
+    BODY_LENGTH = 'body_length'
+
+
+This is the enum schema for the input table named S_Cable_Schedule.
+
+class S_CableSchedule(
+        Enum):
+    ADAPTER_FROM = 'adapter_from'
+    ADAPTER_TO = 'adapter_to'
+    BENDING_RADIUS = 'bending_radius'
+    BODY_LENGTH = 'body_length'
+    CABLE_DRUM_NUMBER = 'cable_drum_number'
+    CABLE_SET = 'cable_set'
+    CABLENUMBER = 'cablenumber'
+    CAPACITANCE_PER_KM = 'capacitance_per_km'
+    CATALOGUENO = 'catalogueno'
+    COMPONENT_DESCRIPTION_1 = 'component_description_1'
+    CONDUCTOR_TYPE = 'conductor_type'
+    DATABASE_NAME = 'database_name'
+    DISCIPLINE = 'discipline'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EAN_NUMBER = 'ean_number'
+    ESTIMATED_LENGTH = 'estimated_length'
+    EXTERNAL_DOCUMENT_OF_ITEM = 'external_document_of_item'
+    FROM_LOCATION = 'from_location'
+    FUNCTION_TEXT_1 = 'function_text_1'
+    GLAND_FROM = 'gland_from'
+    GLAND_TO = 'gland_to'
+    INDUCTANCE_PER_KM = 'inductance_per_km'
+    INSTALLATION_DATE = 'installation_date'
+    INSTALLED_LENGTH = 'installed_length'
+    INSULATING_MATERIAL = 'insulating_material'
+    LAYING_CORNER_POINT = 'laying_corner_point'
+    LENGTH = 'length'
+    LEVEL_OF_INSTALLATION = 'level_of_installation'
+    LIST_PRICE = 'list_price'
+    MASS = 'mass'
+    MAX_AMBIENT_TEMPERATURE = 'max_ambient_temperature'
+    MEASURE_UNIT_QUALIFIER = 'measure_unit_qualifier'
+    MIN_AMBIENT_TEMPERATURE = 'min_ambient_temperature'
+    MOUNTING_FEATURE = 'mounting_feature'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OUTSIDE_DIAMETER = 'outside_diameter'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    PRECIOUS_METAL_FACTOR_1 = 'precious_metal_factor_1'
+    PRECIOUS_METAL_FACTOR_2 = 'precious_metal_factor_2'
+    PROJECTSTATUS = 'projectstatus'
+    QUANTITY_UNIT = 'quantity_unit'
+    RANGE = 'range'
+    RATED_TEMPERATURE = 'rated_temperature'
+    RATED_VOLTAGE_U = 'rated_voltage_u'
+    RATED_VOLTAGE_UO = 'rated_voltage_uo'
+    REMARKS = 'remarks'
+    SELECTION_KEY = 'selection_key'
+    SHIELD = 'shield'
+    SHIELD_NUMBER = 'shield_number'
+    SUBASSEMBLY_INFORMATION = 'subassembly_information'
+    SUPPLIERS_ARTICLE_NO = 'suppliers_article_no'
+    TO_LOCATION = 'to_location'
+    WIRE_NUMBER = 'wire_number'
+    WIRE_TYPE = 'wire_type'
+
+
+This is the SQL statement named 11_Cable_Schedule.
+
+
+Select Distinct
+ A.CableNumber
+,A.From_Location
+,A.To_Location
+,A.CatalogueNo
+,A.Length
+,A.ProjectStatus
+,A.Remarks
+,A.Gland_From
+,A.Gland_To
+,A.Adapter_From
+,A.Adapter_To
+,A.Range
+,A.Cable_Drum_Number as `Cable Drum Number`
+,A.Laying_Corner_Point as `Laying Corner Point`
+,A.External_document_of_item as `External document of item`
+,A.Installed_Length as `Installed Length`
+,A.Installation_Date as `Installation Date`
+,A.Estimated_Length As `Estimated Length`
+,A.Function_text_1 As `Function text 1`
+,A.Level_of_Installation As `Level of Installation`
+,A.Shield_number As `Shield number`
+,A.Wire_number As `Wire number`
+,A.Cable_Set As `Cable Set`
+,A.Wire_type As `Wire type`
+,A.Conductor_type As `Conductor type`
+,A.Insulating_material As `Insulating material`
+,A.Inductance_per_km As `Inductance Per km`
+,A.Bending_radius As `Bending radius`
+,A.Capacitance_per_km As `Capacitance Per km`
+,A.Shield As `Shield`
+,A.Rated_voltage_Uo As `Rated_voltage Uo`
+,A.Rated_voltage_U As `Rated_voltage U`
+,A.Precious_metal_factor_2 As `Precious metal factor 2`
+,A.Precious_metal_factor_1 As `Precious metal factor 1`
+,A.Suppliers_article_no As `Suppliers article number`
+,A.Mass As `Mass`
+,A.Component_description_1 As `Component description 1`
+,A.Selection_key As `Selection key`
+,A.Outside_diameter As `Outside diameter`
+,A.Subassembly_information As `Subassembly information`
+,A.Rated_temperature As `Rated temperature`
+,A.Quantity_unit As `Quantity unit`
+,A.Mounting_feature As `Mounting feature`
+,A.min_ambient_temperature As `minimum ambient temperature`
+,A.Measure_unit_qualifier As `Measure unit qualifier`
+,A.max_ambient_temperature As `maximum ambient temperature`
+,A.List_price As `List price`
+,A.EAN_number As `EAN number`
+,A.Body_length As `Body length`
+from Sigraph_Silver.S_CableSchedule A
+Where database_name in (Select Database_name from VW_Database_names)
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from typing import List
+import pandas as pd
+
+# Define enum classes for maintaining column names
+from enum import Enum
+
+class DatabaseNames(Enum):
+    DATABASE_NAME = 'database_name'
+
+class Cable_Schedule(Enum):
+    # all the columns as per the enum you provided
+
+class S_CableSchedule(Enum):
+    # all the columns as per the enum you provided
+
+
+# Define a function that performs the SQL equivalent operation using pandas
+def filter_and_rename_columns(s_cable_schedule_dataframe: pd.DataFrame,
+                              vw_database_names_dataframe: pd.DataFrame) -> pd.DataFrame:
+
+    # Create a dictionary for column renaming
+    rename_dict = {
+        S_CableSchedule.CABLE_DRUM_NUMBER.value: "Cable Drum Number",
+        S_CableSchedule.LAYING_CORNER_POINT.value: "Laying Corner Point",
+        S_CableSchedule.EXTERNAL_DOCUMENT_OF_ITEM.value: "External document of item",
+        S_CableSchedule.INSTALLED_LENGTH.value: "Installed Length",
+        S_CableSchedule.INSTALLATION_DATE.value: "Installation Date",
+        S_CableSchedule.ESTIMATED_LENGTH.value: "Estimated Length",
+        S_CableSchedule.FUNCTION_TEXT_1.value: "Function text 1",
+        S_CableSchedule.LEVEL_OF_INSTALLATION.value: "Level of Installation",
+        S_CableSchedule.SHIELD_NUMBER.value: "Shield number",
+        S_CableSchedule.WIRE_NUMBER.value: "Wire number",
+        S_CableSchedule.CABLE_SET.value: "Cable Set",
+        S_CableSchedule.WIRE_TYPE.value: "Wire type",
+        S_CableSchedule.CONDUCTOR_TYPE.value: "Conductor type",
+        S_CableSchedule.INSULATING_MATERIAL.value: "Insulating material",
+        S_CableSchedule.INDUCTANCE_PER_KM.value: "Inductance Per km",
+        S_CableSchedule.BENDING_RADIUS.value: "Bending radius",
+        S_CableSchedule.CAPACITANCE_PER_KM.value: "Capacitance Per km",
+        S_CableSchedule.SHIELD.value: "Shield",
+        S_CableSchedule.RATED_VOLTAGE_UO.value: "Rated_voltage Uo",
+        S_CableSchedule.RATED_VOLTAGE_U.value: "Rated_voltage U",
+        S_CableSchedule.PRECIOUS_METAL_FACTOR_2.value: "Precious metal factor 2",
+        S_CableSchedule.PRECIOUS_METAL_FACTOR_1.value: "Precious metal factor 1",
+        S_CableSchedule.SUPPLIERS_ARTICLE_NO.value: "Suppliers article number",
+        S_CableSchedule.MASS.value: "Mass",
+        S_CableSchedule.COMPONENT_DESCRIPTION_1.value: "Component description 1",
+        S_CableSchedule.SELECTION_KEY.value: "Selection key",
+        S_CableSchedule.OUTSIDE_DIAMETER.value: "Outside diameter",
+        S_CableSchedule.SUBASSEMBLY_INFORMATION.value: "Subassembly information",
+        S_CableSchedule.RATED_TEMPERATURE.value: "Rated temperature",
+        S_CableSchedule.QUANTITY_UNIT.value: "Quantity unit",
+        S_CableSchedule.MOUNTING_FEATURE.value: "Mounting feature",
+        S_CableSchedule.MIN_AMBIENT_TEMPERATURE.value: "minimum ambient temperature",
+        S_CableSchedule.MEASURE_UNIT_QUALIFIER.value: "Measure unit qualifier",
+        S_CableSchedule.MAX_AMBIENT_TEMPERATURE.value: "maximum ambient temperature",
+        S_CableSchedule.LIST_PRICE.value: "List price",
+        S_CableSchedule.EAN_NUMBER.value: "EAN number",
+        S_CableSchedule.BODY_LENGTH.value: "Body length"
+    }
+
+    # Filter the rows where database_name is in vw_database_names_dataframe
+    filtered_dataframe = s_cable_schedule_dataframe[
+        s_cable_schedule_dataframe[S_CableSchedule.DATABASE_NAME.value].isin(
+            vw_database_names_dataframe[DatabaseNames.DATABASE_NAME.value])
+    ]
+
+    # Drop duplicates
+    distinct_dataframe = filtered_dataframe.drop_duplicates()
+
+    # Rename the columns as per the rename_dict
+    renamed_dataframe = distinct_dataframe.rename(columns=rename_dict)
+
+    return renamed_dataframe
+
+# Call the function with your input dataframes
+result_dataframe = filter_and_rename_columns(s_cable_schedule_dataframe, vw_database_names_dataframe)

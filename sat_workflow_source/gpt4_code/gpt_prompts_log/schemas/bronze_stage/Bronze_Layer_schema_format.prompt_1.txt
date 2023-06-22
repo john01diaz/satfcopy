@@ -1,0 +1,71 @@
+
+Bronze_Layer_schema_format.prompt_1.txt
+
+This is the schema for a table called Layer.
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'Layer'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+Layer  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class Layer(Enum):
+
+--- the column names go here.
+
+Layer Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Layer	CS_cfc_structure_layer
+Layer	CS_loop_unit
+Layer	CS_production_unit
+Layer	database_name
+Layer	dynamic_class
+Layer	Layer_CS_Assembly_site
+Layer	Layer_CS_Loop
+Layer	Layer_CS_Loop_REF
+Layer	Layer_DM_Document
+Layer	master_dyn_class
+Layer	master_href
+Layer	name
+Layer	object_identifier
+Layer	parquet_file_relative_path
+Layer	PDM_invisible
+Layer	PV_description
+Layer	PV_segnr
+Layer	template_loop
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class Layer(Enum):
+    CS_CFC_STRUCTURE_LAYER = 'cs_cfc_structure_layer'
+    CS_LOOP_UNIT = 'cs_loop_unit'
+    CS_PRODUCTION_UNIT = 'cs_production_unit'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    LAYER_CS_ASSEMBLY_SITE = 'layer_cs_assembly_site'
+    LAYER_CS_LOOP = 'layer_cs_loop'
+    LAYER_CS_LOOP_REF = 'layer_cs_loop_ref'
+    LAYER_DM_DOCUMENT = 'layer_dm_document'
+    MASTER_DYN_CLASS = 'master_dyn_class'
+    MASTER_HREF = 'master_href'
+    NAME = 'name'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    PDM_INVISIBLE = 'pdm_invisible'
+    PV_DESCRIPTION = 'pv_description'
+    PV_SEGNR = 'pv_segnr'
+    TEMPLATE_LOOP = 'template_loop'
+
+
+
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+This Python Enum provides a clear, readable way to use these column names in your code, and ensures that the values are constant and can't be changed by mistake.

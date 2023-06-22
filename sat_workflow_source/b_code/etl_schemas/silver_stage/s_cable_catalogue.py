@@ -1,0 +1,30 @@
+from enum import Enum
+
+
+class S_CableCatalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    ARMOURED = 'armoured'
+    CLASS = 'class'
+    COLOUR1 = 'colour1'
+    COLOUR2 = 'colour2'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DRUMLENGTH = 'drumlength'
+    EARTH_CORE_SIZE = 'earth_core_size'
+    EARTHCORE = 'earthcore'
+    GROUPSCR = 'groupscr'
+    GROUPTYPE = 'grouptype'
+    LINETYPE = 'linetype'
+    LINETYPEARROWHEAD = 'linetypearrowhead'
+    LINETYPECOLOR = 'linetypecolor'
+    LINETYPEWIDTH = 'linetypewidth'
+    MANUFACTURER = 'manufacturer'
+    MATERIAL = 'material'
+    NOOFGROUPS = 'noofgroups'
+    OASCR = 'oascr'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OD = 'od'
+    REMARKS = 'remarks'
+    SIZE = 'size'
+    VOLTAGE = 'voltage'

@@ -1,0 +1,119 @@
+You are a Spark SQL expert. Decompose the provided SQL script into self-contained sub-scripts. Improve the modularity and readability of the code.
+
+Each sub-script should contain at most one "JOIN" operation.
+Identify and isolate any common table expressions (CTEs) within the code.
+Separate any renaming of columns within "SELECT" statements (e.g., "SELECT XXX AS YYY").
+
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Prep_Query
+As
+    Select Distinct
+     A.database_name
+    ,A.dynamic_class
+    ,A.object_identifier
+    ,B.ModelNo as Model_Number
+    ,CONCAT(Count(ChannelNumber) Over(Partition by A.Database_name,IOType,A.Item_Object_Identifier)
+            ,' - Channel -',Description) as Description
+    ,MAX(Manufacturer) Over(Partition by B.ModelNo) as Manufacturer
+    ,ChannelNumber
+    ,IOType	
+    ,A.Class
+     --,Tag_Number
+    --,Loop_Number
+    --,Document_Number
+    ,Count(ChannelNumber) Over(Partition by A.Database_name,IOType,A.Item_Object_Identifier) as NoOfPoints
+    from Sigraph_silver.S_Itemfunction A
+    Inner join Sigraph_silver.S_Item_Function_Model B
+    On A.database_name=B.database_name
+    and A.Item_Dynamic_Class=B.Item_Dynamic_Class
+    and A.Item_Object_identifier=B.Item_Object_identifier
+    and A.Dynamic_Class=B.Dynamic_Class
+    and A.Object_Identifier=B.Object_Identifier
+    Where Type='IO Module' 
+    and ChannelNumber is not null 
+    and ChannelNumber<>'0'
+    and ChannelNumber<>''
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+he first step is to isolate each operation from the main script. This operation will increase the modularity and readability of the SQL code.
+
+First, let's decompose the JOIN operation into its own script.
+Then, isolate the DISTINCT operation.
+Separate the renaming operations into different SELECT statements.
+Lastly, the window functions and aggregate functions used need to be in their separate scripts as well.
+Here's how the decomposed SQL script would look like:
+
+Script 1: Join Operation
+
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Pre_Join AS
+SELECT
+    A.database_name,
+    A.dynamic_class,
+    A.object_identifier,
+    B.ModelNo,
+    B.Manufacturer,
+    A.IOType,
+    A.Class,
+    A.ChannelNumber
+FROM
+    Sigraph_silver.S_Itemfunction A
+INNER JOIN
+    Sigraph_silver.S_Item_Function_Model B
+ON
+    A.database_name=B.database_name AND
+    A.Item_Dynamic_Class=B.Item_Dynamic_Class AND
+    A.Item_Object_identifier=B.Item_Object_identifier AND
+    A.Dynamic_Class=B.Dynamic_Class AND
+    A.Object_Identifier=B.Object_Identifier
+WHERE
+    B.Type='IO Module' AND
+    A.ChannelNumber IS NOT NULL AND
+    A.ChannelNumber <> '0' AND
+    A.ChannelNumber <> '';
+Script 2: Distinct Operation
+
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Distinct AS
+SELECT DISTINCT *
+FROM VW_IOCard_Pre_Join;
+Script 3: Window Function
+
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Window AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    ModelNo,
+    CONCAT(COUNT(ChannelNumber) OVER (PARTITION BY database_name, IOType, object_identifier), ' - Channel -', Manufacturer) AS Description,
+    MAX(Manufacturer) OVER (PARTITION BY ModelNo) as Manufacturer_Max,
+    ChannelNumber,
+    IOType,
+    Class,
+    COUNT(ChannelNumber) OVER (PARTITION BY database_name, IOType, object_identifier) as NoOfPoints
+FROM
+    VW_IOCard_Distinct;
+Script 4: Final Script with Column Renaming
+
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW VW_IOCard_Prep_Query AS
+SELECT
+    database_name,
+    dynamic_class,
+    object_identifier,
+    ModelNo AS Model_Number,
+    Description,
+    Manufacturer_Max AS Manufacturer,
+    ChannelNumber,
+    IOType,
+    Class,
+    NoOfPoints
+FROM
+    VW_IOCard_Window;
+This final script renames the columns and uses the results from the previous scripts. The operations are separated into their own scripts, and each script is dependent on the previous script's output. This makes the entire process more modular and easier to understand.

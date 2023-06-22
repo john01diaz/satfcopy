@@ -1,0 +1,115 @@
+This is the schema for a table called Cable_Schedule.
+It is a list of column names for Cable_Schedule
+Create a python Enum for these column names.
+Name the class 'Cable_Schedule'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+
+CatalogueNo
+Remarks
+CableNumber
+From_Location
+To_Location
+Length
+ProjectStatus
+Gland_From
+Gland_To
+Adapter_From
+Adapter_To
+Range
+Cable Drum Number
+Laying Corner Point
+External document of item
+Installed Length
+Installation Date
+Estimated Length
+Function text 1
+Level of Installation
+Shield number
+Wire number
+Cable Set
+Wire type
+Conductor type
+Insulating material
+Inductance Per km
+Bending radius
+Capacitance Per km
+Shield
+Rated_voltage Uo
+Rated_voltage U
+Precious metal factor 2
+Precious metal factor 1
+Suppliers article number
+Mass
+Component description 1
+Selection key
+Outside diameter
+Subassembly information
+Rated temperature
+Quantity unit
+Mounting feature
+minimum ambient temperature
+Measure unit qualifier
+maximum ambient temperature
+List price
+EAN number
+Body length
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class Cable_Schedule(Enum):
+    CATALOGUENO = 'catalogueno'
+    REMARKS = 'remarks'
+    CABLENUMBER = 'cablenumber'
+    FROM_LOCATION = 'from_location'
+    TO_LOCATION = 'to_location'
+    LENGTH = 'length'
+    PROJECTSTATUS = 'projectstatus'
+    GLAND_FROM = 'gland_from'
+    GLAND_TO = 'gland_to'
+    ADAPTER_FROM = 'adapter_from'
+    ADAPTER_TO = 'adapter_to'
+    RANGE = 'range'
+    CABLE_DRUM_NUMBER = 'cable_drum_number'
+    LAYING_CORNER_POINT = 'laying_corner_point'
+    EXTERNAL_DOCUMENT_OF_ITEM = 'external_document_of_item'
+    INSTALLED_LENGTH = 'installed_length'
+    INSTALLATION_DATE = 'installation_date'
+    ESTIMATED_LENGTH = 'estimated_length'
+    FUNCTION_TEXT_1 = 'function_text_1'
+    LEVEL_OF_INSTALLATION = 'level_of_installation'
+    SHIELD_NUMBER = 'shield_number'
+    WIRE_NUMBER = 'wire_number'
+    CABLE_SET = 'cable_set'
+    WIRE_TYPE = 'wire_type'
+    CONDUCTOR_TYPE = 'conductor_type'
+    INSULATING_MATERIAL = 'insulating_material'
+    INDUCTANCE_PER_KM = 'inductance_per_km'
+    BENDING_RADIUS = 'bending_radius'
+    CAPACITANCE_PER_KM = 'capacitance_per_km'
+    SHIELD = 'shield'
+    RATED_VOLTAGE_UO = 'rated_voltage_uo'
+    RATED_VOLTAGE_U = 'rated_voltage_u'
+    PRECIOUS_METAL_FACTOR_2 = 'precious_metal_factor_2'
+    PRECIOUS_METAL_FACTOR_1 = 'precious_metal_factor_1'
+    SUPPLIERS_ARTICLE_NUMBER = 'suppliers_article_number'
+    MASS = 'mass'
+    COMPONENT_DESCRIPTION_1 = 'component_description_1'
+    SELECTION_KEY = 'selection_key'
+    OUTSIDE_DIAMETER = 'outside_diameter'
+    SUBASSEMBLY_INFORMATION = 'subassembly_information'
+    RATED_TEMPERATURE = 'rated_temperature'
+    QUANTITY_UNIT = 'quantity_unit'
+    MOUNTING_FEATURE = 'mounting_feature'
+    MINIMUM_AMBIENT_TEMPERATURE = 'minimum_ambient_temperature'
+    MEASURE_UNIT_QUALIFIER = 'measure_unit_qualifier'
+    MAXIMUM_AMBIENT_TEMPERATURE = 'maximum_ambient_temperature'
+    LIST_PRICE = 'list_price'
+    EAN_NUMBER = 'ean_number'
+    BODY_LENGTH = 'body_length'
+

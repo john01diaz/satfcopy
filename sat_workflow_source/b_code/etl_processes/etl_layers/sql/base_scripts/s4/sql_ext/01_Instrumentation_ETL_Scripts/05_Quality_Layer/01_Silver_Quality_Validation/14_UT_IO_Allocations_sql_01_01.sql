@@ -1,0 +1,6 @@
+
+
+INSERT INTO SIGRAPH_SILVER.UNIT_TEST_RESULTS (Loader_Name,database_name,Object_Identifier,UT_ID,Test_Case)
+SELECT "IO_ALLOCATIONS" AS Loader_Name,
+*
+FROM UT_VW_IO_ALLOCATIONS

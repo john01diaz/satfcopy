@@ -1,0 +1,72 @@
+Silver_S_CableCatalogue_schema_format.prompt_3.txt
+
+This is the schema for a table called S_CableCatalogue.
+It is a list of column names for S_CableCatalogue
+Create a python Enum for these column names.
+Name the class 'S_CableCatalogue'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_CableCatalogue Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+AllowUse
+Armoured
+Class
+Colour1
+Colour2
+Database_name
+Description
+DrumLength
+Earth_Core_Size
+EarthCore
+GroupScr
+GroupType
+LineType
+LineTypeArrowHead
+LineTypeColor
+LineTypeWidth
+Manufacturer
+Material
+NoOfGroups
+OAScr
+Object_Identifier
+OD
+parquet_file_relative_path
+Remarks
+Size
+Voltage
+
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_CableCatalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    ARMOURED = 'armoured'
+    CLASS = 'class'
+    COLOUR1 = 'colour1'
+    COLOUR2 = 'colour2'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DRUMLENGTH = 'drumlength'
+    EARTH_CORE_SIZE = 'earth_core_size'
+    EARTHCORE = 'earthcore'
+    GROUPSCR = 'groupscr'
+    GROUPTYPE = 'grouptype'
+    LINETYPE = 'linetype'
+    LINETYPEARROWHEAD = 'linetypearrowhead'
+    LINETYPECOLOR = 'linetypecolor'
+    LINETYPEWIDTH = 'linetypewidth'
+    MANUFACTURER = 'manufacturer'
+    MATERIAL = 'material'
+    NOOFGROUPS = 'noofgroups'
+    OASCR = 'oascr'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OD = 'od'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    REMARKS = 'remarks'
+    SIZE = 'size'
+    VOLTAGE = 'voltage'
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

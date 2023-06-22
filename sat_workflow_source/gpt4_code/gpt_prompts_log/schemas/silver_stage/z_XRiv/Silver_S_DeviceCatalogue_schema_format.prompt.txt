@@ -1,0 +1,39 @@
+
+S_DeviceCatalogue_schema_format.prompt.txt
+
+This is the schema for a table called S_DeviceCatalogue. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+can you convert all the column names to lowercase.
+
+S_DeviceCatalogue	parquet_file_relative_path
+S_DeviceCatalogue	Catalogue_RNT
+S_DeviceCatalogue	Item_Dynamic_Class
+S_DeviceCatalogue	Object_Identifier
+S_DeviceCatalogue	Dynamic_Class
+S_DeviceCatalogue	Item_Object_Identifier
+S_DeviceCatalogue	database_name
+S_DeviceCatalogue	Product_Key
+S_DeviceCatalogue	Tag_Number
+S_DeviceCatalogue	Document_Number
+S_DeviceCatalogue	Loop_Number
+S_DeviceCatalogue	AllowUse
+S_DeviceCatalogue	Type
+S_DeviceCatalogue	Description
+S_DeviceCatalogue	Manufacturer
+S_DeviceCatalogue	ModelNo
+S_DeviceCatalogue	Class
+S_DeviceCatalogue	Left
+S_DeviceCatalogue	Right
+S_DeviceCatalogue	Left_Marking
+S_DeviceCatalogue	Right_Marking
+S_DeviceCatalogue	Symbol_name
+
+
+S_DeviceCatalogue Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

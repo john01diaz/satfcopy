@@ -1,0 +1,29 @@
+This is the schema for a table called IO_Allocations.
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'IO_Allocations'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+
+15_IO_Allocations	Parent_Equipment_No
+15_IO_Allocations	Equipment_No
+15_IO_Allocations	CatalogueNo
+15_IO_Allocations	Tag_Number
+15_IO_Allocations	IOType
+15_IO_Allocations	ChannelNumber
+
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class IO_Allocations(Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENT_NO = 'equipment_no'
+    CATALOGUENO = 'catalogueno'
+    TAG_NUMBER = 'tag_number'
+    IOTYPE = 'iotype'
+    CHANNELNUMBER = 'channelnumber'

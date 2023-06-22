@@ -1,0 +1,56 @@
+
+S_Item_Function_Model_schema_format.prompt.txt
+
+This is the schema for a table called S_Item_Function_Model. 
+the first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names using a sub-class of Enum called ColumnTypes.
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+
+
+S_Item_Function_Model Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+S_Item_Function_Model	database_name
+S_Item_Function_Model	Dynamic_Class
+S_Item_Function_Model	Object_Identifier
+S_Item_Function_Model	Item_dynamic_class
+S_Item_Function_Model	Item_Object_Identifier
+S_Item_Function_Model	Left
+S_Item_Function_Model	Right
+S_Item_Function_Model	Left_Marking
+S_Item_Function_Model	Right_Marking
+S_Item_Function_Model	All_Marking
+S_Item_Function_Model	ModelNo_Original
+S_Item_Function_Model	ModelNO
+S_Item_Function_Model	Symbol_Name
+S_Item_Function_Model	parquet_file_relative_path
+
+
+S_Item_Function_Model &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class ColumnTypes(Enum):
+    pass
+	
+class S_ItemFunctionModelColumns(ColumnTypes):
+    DATABASE_NAME = "database_name"
+    DYNAMIC_CLASS = "dynamic_class"
+    OBJECT_IDENTIFIER = "object_identifier"
+    ITEM_DYNAMIC_CLASS = "item_dynamic_class"
+    ITEM_OBJECT_IDENTIFIER = "item_object_identifier"
+    LEFT = "left"
+    RIGHT = "right"
+    LEFT_MARKING = "left_marking"
+    RIGHT_MARKING = "right_marking"
+    ALL_MARKING = "all_marking"
+    MODEL_NO_ORIGINAL = "modelno_original"
+    MODEL_NO = "modelno"
+    SYMBOL_NAME = "symbol_name"
+    PARQUET_FILE_RELATIVE_PATH = "parquet_file_relative_path"
+
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

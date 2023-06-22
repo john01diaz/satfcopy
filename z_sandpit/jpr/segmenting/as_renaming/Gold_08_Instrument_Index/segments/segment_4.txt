@@ -1,0 +1,222 @@
+Convert the following SQL column renames into a python dictionary.
+Use the following python enums to refer to the column names.
+Use enum value attribute when you generate the dictionary.
+
+This is the output schema.
+Instrument_Index(Enum)
+LENGTH_OF_SUSPENSION_DEVICE = 'length of suspension device'
+LENGTH_OF_TRACE_HEATING = 'length of trace heating'
+ON_STATE_LIMIT_VALUE_1 = 'on state limit value 1'
+ON_STATE_LIMIT_VALUE_2 = 'on state limit value 2'
+LIMITER_RELEASE = 'limiter release'
+SETTING_RANGE_MAXIMUM = 'setting range maximum'
+SETTING_RANGE_MINIMUM = 'setting range minimum'
+SUPPL_CHAR_3_FOR_LOOP_ELEMENTS = 'suppl char 3 for loop elements'
+SAMPLE_TYPE = 'sample type'
+MAXIMUM_CABLE_LENGTH_OF_CONVERTER_MOTOR = 'maximum cable length of converter motor'
+MAXIMUM_COOLANT_REQUIREMENTS_AT_NOMINAL_LOAD = 'maximum coolant requirements at nominal load'
+FLOW_MAXIMUM = 'flow maximum'
+MAXIMUM_MOTOR_POWER_IN_CONVERTER_OPERATION = 'maximum motor power in converter operation'
+MAXIMUM_NUMBER_OF_CABLE_INLETS = 'maximum number of cable inlets'
+MAXIMUM_POWER_LOSS = 'maximum power loss'
+MAXIMUM_RATED_MOTOR_CURRENT = 'maximum rated motor current'
+MAXIMUM_RATED_MOTOR_VOLTAGE = 'maximum rated motor voltage'
+MAXIMUM_PERMISSIBLE_SOUND_PRESSURE_LEVEL = 'maximum permissible sound pressure level'
+MAXIMUM_WIRE_CROSS_SECTION = 'maximum wire cross section'
+MEASURING_RANGE = 'measuring range'
+FLOW_MINIMUM = 'flow minimum'
+MINIMUM_AMOUNT_FOR_SALE = 'minimum amount for sale'
+MOTOR_PROTECTION_IN_CONVERTER_OPERATION = 'motor protection in converter operation'
+MOTOR_PROTECTION_IN_NETWORK_OPERATION = 'motor protection in network operation'
+NETWORK_PROTECTION = 'network protection'
+NOISE_PROTECTION_MEASURES = 'noise protection measures'
+NOMINAL_POWER = 'nominal power'
+NOMINAL_TORQUE = 'nominal torque'
+MAXIMUM_OF_HARMONIC_VOLTAGE = 'maximum of harmonic voltage'
+NTH_TIME = 'nth time'
+OCCUPATION_DENSITY = 'occupation density'
+OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_NORMAL = 'operating pressure at feedback location normal'
+OUTPUT_FREQUENCY_CONTROL_RANGE_FROM = 'output frequency control range from'
+OUTPUT_FREQUENCY_CONTROL_RANGE_TO = 'output frequency control range to'
+OUTPUT_SIGNAL = 'output signal'
+POWER_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLET = 'power cable maximum number of cable inlet'
+POWER_CABLE_MAXIMUM_WIRE_CROSS_SECTION = 'power cable maximum wire cross section'
+PERFORMANCE_FACTOR_AT_FULL_LOAD = 'performance factor at full load'
+FOR_PRE_OR_POST_PRESSURE_OSCILLATION = 'for pre or post pressure oscillation'
+PRESSURE_LEVEL = 'pressure level'
+PROBE_LENGTH = 'probe length'
+PROBE_LENGTH_LEVEL = 'probe length level'
+PTC_THERMISTOR_TEMPERATURE_SENSOR = 'ptc thermistor temperature sensor'
+PULSE_NUMBER_INPUT_LINE_SIDE_GR = 'pulse number input line side gr'
+PULSE_NUMBER_OUTPUT_TO_MOTOR_WR = 'pulse number output to motor wr'
+RADIO_INTERFERENCE_LEVEL = 'radio interference level'
+RATED_APPARENT_POWER = 'rated apparent power'
+RATED_CURRENT = 'rated current'
+RATED_POWER = 'rated power'
+RATED_POWER_AT_NOMINAL_OPERATION = 'rated power at nominal operation'
+
+
+This is the input schema.
+S_Instrument_Index(Enum)
+LENGTH_OF_SUSPENSION_DEVICE = 'length_of_suspension_device'
+LENGTH_OF_TRACE_HEATING = 'length_of_trace_heating'
+ON_STATE_LIMIT_VALUE_1 = 'on_state_limit_value_1'
+ON_STATE_LIMIT_VALUE_2 = 'on_state_limit_value_2'
+LIMITER_RELEASE = 'limiter_release'
+SETTING_RANGE_MAXIMUM = 'setting_range_maximum'
+SETTING_RANGE_MINIMUM = 'setting_range_minimum'
+SUPPL_CHAR_3_FOR_LOOP_ELEMENTS = 'suppl_char_3_for_loop_elements'
+SAMPLE_TYPE = 'sample_type'
+MAXIMUM_CABLE_LENGTH_OF_CONVERTER_MOTOR = 'maximum_cable_length_of_converter_motor'
+MAXIMUM_COOLANT_REQUIREMENTS_AT_NOMINAL_LOAD = 'maximum_coolant_requirements_at_nominal_load'
+FLOW_MAXIMUM = 'flow_maximum'
+MAXIMUM_MOTOR_POWER_IN_CONVERTER_OPERATION = 'maximum_motor_power_in_converter_operation'
+MAXIMUM_NUMBER_OF_CABLE_INLETS = 'maximum_number_of_cable_inlets'
+MAXIMUM_POWER_LOSS = 'maximum_power_loss'
+MAXIMUM_RATED_MOTOR_CURRENT = 'maximum_rated_motor_current'
+MAXIMUM_RATED_MOTOR_VOLTAGE = 'maximum_rated_motor_voltage'
+MAXIMUM_PERMISSIBLE_SOUND_PRESSURE_LEVEL = 'maximum_permissible_sound_pressure_level'
+MAXIMUM_WIRE_CROSS_SECTION = 'maximum_wire_cross_section'
+MEASURING_RANGE = 'measuring_range'
+FLOW_MINIMUM = 'flow_minimum'
+MINIMUM_AMOUNT_FOR_SALE = 'minimum_amount_for_sale'
+MOTOR_PROTECTION_IN_CONVERTER_OPERATION = 'motor_protection_in_converter_operation'
+MOTOR_PROTECTION_IN_NETWORK_OPERATION = 'motor_protection_in_network_operation'
+NETWORK_PROTECTION = 'network_protection'
+NOISE_PROTECTION_MEASURES = 'noise_protection_measures'
+NOMINAL_POWER = 'nominal_power'
+NOMINAL_TORQUE = 'nominal_torque'
+MAXIMUM_OF_HARMONIC_VOLTAGE = 'maximum_of_harmonic_voltage'
+NTH_TIME = 'nth_time'
+OCCUPATION_DENSITY = 'occupation_density'
+OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_NORMAL = 'operating_pressure_at_feedback_location_normal'
+OUTPUT_FREQUENCY_CONTROL_RANGE_FROM = 'output_frequency_control_range_from'
+OUTPUT_FREQUENCY_CONTROL_RANGE_TO = 'output_frequency_control_range_to'
+OUTPUT_POSITIONER_ = 'output_positioner_'
+POWER_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLET = 'power_cable_maximum_number_of_cable_inlet'
+POWER_CABLE_MAXIMUM_WIRE_CROSS_SECTION = 'power_cable_maximum_wire_cross_section'
+PERFORMANCE_FACTOR_AT_FULL_LOAD = 'performance_factor_at_full_load'
+FOR_PRE_POST_PRESSURE_OSCILLATION = 'for_pre_post_pressure_oscillation'
+PRESSURE_LEVEL = 'pressure_level'
+PROBE_LENGTH = 'probe_length'
+PROBE_LENGTH_LEVEL = 'probe_length_level'
+PTC_THERMISTOR_TEMPERATURE_SENSOR = 'ptc_thermistor_temperature_sensor'
+PULSE_NUMBER_INPUT_LINE_SIDE_GR = 'pulse_number_input_line_side_gr'
+PULSE_NUMBER_OUTPUT_TO_MOTOR_WR = 'pulse_number_output_to_motor_wr'
+RADIO_INTERFERENCE_LEVEL = 'radio_interference_level'
+RATED_APPARENT_POWER = 'rated_apparent_power'
+RATED_CURRENT = 'rated_current'
+RATED_POWER = 'rated_power'
+RATED_POWER_AT_NOMINAL_OPERATION = 'rated_power_at_nominal_operation'
+
+
+This is the SQL rename Instrument_Index_Segment_4.
+
+
+as_statement
+Length_of_Suspension_Device As Length of Suspension Device
+Length_of_Trace_Heating As Length of Trace Heating
+ON_State_Limit_Value_1 As ON State Limit Value 1
+ON_State_Limit_Value_2 As ON State Limit Value 2
+Limiter_Release As Limiter Release
+Setting_Range_Maximum As Setting Range Maximum
+Setting_Range_Minimum As Setting Range Minimum
+Suppl_char_3_for_loop_elements As Suppl char 3 for loop elements
+Sample_Type As Sample Type
+Maximum_Cable_Length_of_Converter_Motor As Maximum Cable Length of Converter Motor
+Maximum_Coolant_Requirements_at_Nominal_Load As Maximum Coolant Requirements at Nominal Load
+Flow_Maximum As Flow Maximum
+Maximum_Motor_Power_in_Converter_Operation As Maximum Motor Power in Converter Operation
+Maximum_Number_of_Cable_Inlets As Maximum Number of Cable Inlets
+Maximum_Power_Loss As Maximum Power Loss
+Maximum_Rated_Motor_Current As Maximum Rated Motor Current
+Maximum_Rated_Motor_Voltage As Maximum Rated Motor Voltage
+Maximum_Permissible_Sound_Pressure_Level As Maximum Permissible Sound Pressure Level
+Maximum_Wire_Cross_Section As Maximum Wire Cross Section
+Measuring_Range As Measuring Range
+Flow_Minimum As Flow Minimum
+Minimum_Amount_for_Sale As Minimum Amount for Sale
+Motor_Protection_in_Converter_Operation As Motor Protection in Converter Operation
+Motor_Protection_in_Network_Operation As Motor Protection in Network Operation
+Network_Protection As Network Protection
+Noise_Protection_Measures As Noise Protection Measures
+Nominal_Power As Nominal Power
+Nominal_Torque As Nominal Torque
+Maximum_of_Harmonic_Voltage As Maximum of Harmonic Voltage
+nth_Time As nth Time
+Occupation_Density As Occupation Density
+Operating_Pressure_at_Feedback_Location_Normal As Operating Pressure at Feedback Location Normal
+Output_Frequency_Control_Range_from As Output Frequency Control Range from
+Output_Frequency_Control_Range_to As Output Frequency Control Range to
+output_positioner_ As Output Signal
+Power_Cable_Maximum_Number_of_Cable_Inlet As Power Cable Maximum Number of Cable Inlet
+Power_Cable_Maximum_Wire_Cross_Section As Power Cable Maximum Wire Cross Section
+Performance_Factor_at_Full_Load As Performance Factor at Full Load
+For_Pre_Post_Pressure_Oscillation As For Pre Or Post Pressure Oscillation
+Pressure_Level As Pressure Level
+Probe_Length As Probe Length
+probe_length_level As probe length level
+PTC_Thermistor_Temperature_Sensor As PTC Thermistor Temperature Sensor
+Pulse_Number_Input_Line_Side_GR As Pulse Number Input Line Side GR
+Pulse_Number_Output_to_Motor_WR As Pulse Number Output to Motor WR
+Radio_Interference_Level As Radio Interference Level
+Rated_Apparent_Power As Rated Apparent Power
+Rated_Current As Rated Current
+Rated_Power As Rated Power
+Rated_Power_at_Nominal_Operation As Rated Power at Nominal Operation
+
+
+&&&&&&&&&&&&&&&&&&&
+
+sql_to_python = {
+    S_Instrument_Index.LENGTH_OF_SUSPENSION_DEVICE.value: Instrument_Index.LENGTH_OF_SUSPENSION_DEVICE.value,
+    S_Instrument_Index.LENGTH_OF_TRACE_HEATING.value: Instrument_Index.LENGTH_OF_TRACE_HEATING.value,
+    S_Instrument_Index.ON_STATE_LIMIT_VALUE_1.value: Instrument_Index.ON_STATE_LIMIT_VALUE_1.value,
+    S_Instrument_Index.ON_STATE_LIMIT_VALUE_2.value: Instrument_Index.ON_STATE_LIMIT_VALUE_2.value,
+    S_Instrument_Index.LIMITER_RELEASE.value: Instrument_Index.LIMITER_RELEASE.value,
+    S_Instrument_Index.SETTING_RANGE_MAXIMUM.value: Instrument_Index.SETTING_RANGE_MAXIMUM.value,
+    S_Instrument_Index.SETTING_RANGE_MINIMUM.value: Instrument_Index.SETTING_RANGE_MINIMUM.value,
+    S_Instrument_Index.SUPPL_CHAR_3_FOR_LOOP_ELEMENTS.value: Instrument_Index.SUPPL_CHAR_3_FOR_LOOP_ELEMENTS.value,
+    S_Instrument_Index.SAMPLE_TYPE.value: Instrument_Index.SAMPLE_TYPE.value,
+    S_Instrument_Index.MAXIMUM_CABLE_LENGTH_OF_CONVERTER_MOTOR.value: Instrument_Index.MAXIMUM_CABLE_LENGTH_OF_CONVERTER_MOTOR.value,
+    S_Instrument_Index.MAXIMUM_COOLANT_REQUIREMENTS_AT_NOMINAL_LOAD.value: Instrument_Index.MAXIMUM_COOLANT_REQUIREMENTS_AT_NOMINAL_LOAD.value,
+    S_Instrument_Index.FLOW_MAXIMUM.value: Instrument_Index.FLOW_MAXIMUM.value,
+    S_Instrument_Index.MAXIMUM_MOTOR_POWER_IN_CONVERTER_OPERATION.value: Instrument_Index.MAXIMUM_MOTOR_POWER_IN_CONVERTER_OPERATION.value,
+    S_Instrument_Index.MAXIMUM_NUMBER_OF_CABLE_INLETS.value: Instrument_Index.MAXIMUM_NUMBER_OF_CABLE_INLETS.value,
+    S_Instrument_Index.MAXIMUM_POWER_LOSS.value: Instrument_Index.MAXIMUM_POWER_LOSS.value,
+    S_Instrument_Index.MAXIMUM_RATED_MOTOR_CURRENT.value: Instrument_Index.MAXIMUM_RATED_MOTOR_CURRENT.value,
+    S_Instrument_Index.MAXIMUM_RATED_MOTOR_VOLTAGE.value: Instrument_Index.MAXIMUM_RATED_MOTOR_VOLTAGE.value,
+    S_Instrument_Index.MAXIMUM_PERMISSIBLE_SOUND_PRESSURE_LEVEL.value: Instrument_Index.MAXIMUM_PERMISSIBLE_SOUND_PRESSURE_LEVEL.value,
+    S_Instrument_Index.MAXIMUM_WIRE_CROSS_SECTION.value: Instrument_Index.MAXIMUM_WIRE_CROSS_SECTION.value,
+    S_Instrument_Index.MEASURING_RANGE.value: Instrument_Index.MEASURING_RANGE.value,
+    S_Instrument_Index.FLOW_MINIMUM.value: Instrument_Index.FLOW_MINIMUM.value,
+    S_Instrument_Index.MINIMUM_AMOUNT_FOR_SALE.value: Instrument_Index.MINIMUM_AMOUNT_FOR_SALE.value,
+    S_Instrument_Index.MOTOR_PROTECTION_IN_CONVERTER_OPERATION.value: Instrument_Index.MOTOR_PROTECTION_IN_CONVERTER_OPERATION.value,
+    S_Instrument_Index.MOTOR_PROTECTION_IN_NETWORK_OPERATION.value: Instrument_Index.MOTOR_PROTECTION_IN_NETWORK_OPERATION.value,
+    S_Instrument_Index.NETWORK_PROTECTION.value: Instrument_Index.NETWORK_PROTECTION.value,
+    S_Instrument_Index.NOISE_PROTECTION_MEASURES.value: Instrument_Index.NOISE_PROTECTION_MEASURES.value,
+    S_Instrument_Index.NOMINAL_POWER.value: Instrument_Index.NOMINAL_POWER.value,
+    S_Instrument_Index.NOMINAL_TORQUE.value: Instrument_Index.NOMINAL_TORQUE.value,
+    S_Instrument_Index.MAXIMUM_OF_HARMONIC_VOLTAGE.value: Instrument_Index.MAXIMUM_OF_HARMONIC_VOLTAGE.value,
+    S_Instrument_Index.NTH_TIME.value: Instrument_Index.NTH_TIME.value,
+    S_Instrument_Index.OCCUPATION_DENSITY.value: Instrument_Index.OCCUPATION_DENSITY.value,
+    S_Instrument_Index.OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_NORMAL.value: Instrument_Index.OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_NORMAL.value,
+    S_Instrument_Index.OUTPUT_FREQUENCY_CONTROL_RANGE_FROM.value: Instrument_Index.OUTPUT_FREQUENCY_CONTROL_RANGE_FROM.value,
+    S_Instrument_Index.OUTPUT_FREQUENCY_CONTROL_RANGE_TO.value: Instrument_Index.OUTPUT_FREQUENCY_CONTROL_RANGE_TO.value,
+    S_Instrument_Index.OUTPUT_POSITIONER_.value: Instrument_Index.OUTPUT_SIGNAL.value,
+    S_Instrument_Index.POWER_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLET.value: Instrument_Index.POWER_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLET.value,
+    S_Instrument_Index.POWER_CABLE_MAXIMUM_WIRE_CROSS_SECTION.value: Instrument_Index.POWER_CABLE_MAXIMUM_WIRE_CROSS_SECTION.value,
+    S_Instrument_Index.PERFORMANCE_FACTOR_AT_FULL_LOAD.value: Instrument_Index.PERFORMANCE_FACTOR_AT_FULL_LOAD.value,
+    S_Instrument_Index.FOR_PRE_POST_PRESSURE_OSCILLATION.value: Instrument_Index.FOR_PRE_OR_POST_PRESSURE_OSCILLATION.value,
+    S_Instrument_Index.PRESSURE_LEVEL.value: Instrument_Index.PRESSURE_LEVEL.value,
+    S_Instrument_Index.PROBE_LENGTH.value: Instrument_Index.PROBE_LENGTH.value,
+    S_Instrument_Index.PROBE_LENGTH_LEVEL.value: Instrument_Index.PROBE_LENGTH_LEVEL.value,
+    S_Instrument_Index.PTC_THERMISTOR_TEMPERATURE_SENSOR.value: Instrument_Index.PTC_THERMISTOR_TEMPERATURE_SENSOR.value,
+    S_Instrument_Index.PULSE_NUMBER_INPUT_LINE_SIDE_GR.value: Instrument_Index.PULSE_NUMBER_INPUT_LINE_SIDE_GR.value,
+    S_Instrument_Index.PULSE_NUMBER_OUTPUT_TO_MOTOR_WR.value: Instrument_Index.PULSE_NUMBER_OUTPUT_TO_MOTOR_WR.value,
+    S_Instrument_Index.RADIO_INTERFERENCE_LEVEL.value: Instrument_Index.RADIO_INTERFERENCE_LEVEL.value,
+    S_Instrument_Index.RATED_APPARENT_POWER.value: Instrument_Index.RATED_APPARENT_POWER.value,
+    S_Instrument_Index.RATED_CURRENT.value: Instrument_Index.RATED_CURRENT.value,
+    S_Instrument_Index.RATED_POWER.value: Instrument_Index.RATED_POWER.value,
+    S_Instrument_Index.RATED_POWER_AT_NOMINAL_OPERATION.value: Instrument_Index.RATED_POWER_AT_NOMINAL_OPERATION.value
+}

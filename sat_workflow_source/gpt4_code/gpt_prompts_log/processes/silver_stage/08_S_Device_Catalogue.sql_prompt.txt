@@ -1,0 +1,171 @@
+Convert the following Databricks SQL statement into python code.
+
+Do not value brevity.
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways, modularise these different ways if possible.
+A column will be passed through without any modification.
+A columnn will be simply mapped to a column with a new name, sometimes multiple times.
+A new columnn will be added with a constant value
+A columnn will be mapped to a column using  more complex calculations
+
+Do not concatenate pandas Series objects with a string ('-').
+For join statements: before doing any merge, reduce the size of the data to be merged by filtering dataframes to the columns required.
+Make sure to not set a value on a copy of a slice from a DataFrame.
+
+Do not generate the enums. Refer to the following enums when using column names.
+
+These are the enum schemas for the input tables
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+class S_Item_Function_Model(
+        Enum):
+    ALL_MARKING = 'all_marking'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    LEFT = 'left'
+    LEFT_MARKING = 'left_marking'
+    MODELNO = 'modelno'
+    MODELNO_ORIGINAL = 'modelno_original'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    RIGHT = 'right'
+    RIGHT_MARKING = 'right_marking'
+    SYMBOL_NAME = 'symbol_name'
+	
+
+class S_ItemFunction(
+        Enum):
+    ADD = 'add'
+    CHANNELNUMBER = 'channelnumber'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DEVICE_TYPE = 'device_type'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    FACILITY_DESIGNATION = 'facility_designation'
+    FACILITY_DYNAMIC_CLASS = 'facility_dynamic_class'
+    FACILITY_OBJECT_IDENTIFIER = 'facility_object_identifier'
+    FUNCTION_OCC_OBJECT_IDENTIFIER = 'function_occ_object_identifier'
+    IOTYPE = 'iotype'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    ITEM_SLOT = 'item_slot'
+    LOCATION_DESIGNATION = 'location_designation'
+    LOCATION_DYNAMIC_CLASS = 'location_dynamic_class'
+    LOCATION_OBJECT_IDENTIFIER = 'location_object_identifier'
+    LOOP_ELEMENT_DYNAMIC_CLASS = 'loop_element_dynamic_class'
+    LOOP_ELEMENT_OBJECT_IDENTIFIER = 'loop_element_object_identifier'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    METADATA = 'metadata'
+    MODELNO = 'modelno'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PRODUCT_DESIGNATION = 'product_designation'
+    PRODUCT_KEY = 'product_key'
+    PRODUCT_KEY_ORIGINAL = 'product_key_original'
+    PROTOCOL = 'protocol'
+    RACK = 'rack'
+    RACK_DYNAMIC_CLASS = 'rack_dynamic_class'
+    RACK_OBJECT_IDENTIFIER = 'rack_object_identifier'
+    REMOVE = 'remove'
+    ROWIDHIGHWATERMARK = 'rowidhighwatermark'
+    SHOW_KEY = 'show_key'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TXN = 'txn'
+    TYPE = 'type'
+
+This is the enum schema for the output table
+
+class S_DeviceCatalogue(
+        Enum):
+    ALLOW_USE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    LEFT = 'left'
+    LEFT_MARKING = 'left_marking'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NO = 'modelno'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PRODUCT_KEY = 'product_key'
+    RIGHT = 'right'
+    RIGHT_MARKING = 'right_marking'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TYPE = 'type'
+
+This is the SQL statement named 08_S_Device_Catalogue_sql_01_00.sql
+
+
+CREATE OR REPLACE TEMP VIEW VW_DeviceCatalogue_Extract
+As
+
+Select Distinct
+"TRUE" as AllowUse
+,VDV.Device_Type as Type
+-- if we have ModelNo blank in Sigraph. add Product Key, Document number and database name in description to validate this details and update with correct data in future - 2/28/2023 Discipline.
+,Coalesce(
+            Concat(Coalesce(VDV.Description,'')
+                  ,'-'
+                  ,Coalesce(VDV.Product_Key,'')
+                  ,'-'
+                  ,Coalesce(VDV.Document_Number,'')
+                  ,'-'
+                  ,Replace(VDV.Database_name,'_2016R3','')
+                  )
+              ,'RHLDD') as Description
+,Manufacturer as Manufacturer
+,VM.ModelNo
+,VDV.Class
+,VM.Left
+,VM.Right
+,VM.Left_Marking
+,VM.Right_Marking
+,VM.Symbol_name
+,VDV.Loop_Number
+,VDV.Tag_Number
+,VDV.Document_Number
+,VDV.Product_Key as Product_Key
+,VDV.database_name
+,VDV.Item_Object_Identifier
+,VDV.Item_Dynamic_Class
+,VDV.Object_Identifier
+,VDV.Dynamic_Class
+,Row_Number() Over(Partition by VM.ModelNo order by VDV.Item_Object_Identifier) as Catalogue_RNT
+from sigraph_silver.S_Itemfunction VDV
+Inner join sigraph_silver.S_Item_Function_Model VM
+On VDV.database_name=VM.database_name
+and VDV.Item_Dynamic_Class=VM.Item_Dynamic_Class
+and VDV.Item_Object_identifier=VM.Item_Object_identifier
+and VDV.Dynamic_Class=VM.Dynamic_Class
+and VDV.Object_Identifier=VM.Object_Identifier
+Where VDV.Type in ('Device','FTA') and VDV.location_designation is not null
+and (Coalesce(VM.Left,0)+Coalesce(VM.Right,0))>0
+

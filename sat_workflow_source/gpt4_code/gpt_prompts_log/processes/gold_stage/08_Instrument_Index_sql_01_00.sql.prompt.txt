@@ -1,0 +1,455 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table. Use this for the select statement.
+
+Instrument_Index(Enum)
+
+This is the SQL statement named 08_Instrument_Index.
+
+Select Distinct
+ClassName
+,LoopNo
+,LoopFunc
+,LService1
+,Remarks
+,Status
+,AreaPath
+,Size
+,PIDNo
+,TagNo
+,FormatName
+,Area
+,Function
+,Number
+,suffix
+,Device_Type
+,OperatingPrinc
+,DCSIO
+,LoopDwgCode
+,ProcessEquipment
+,ProcessLines
+,ISALocation
+,Wiring_Config
+,junction_box
+,SpecialRemarks
+From Sigraph_Silver.S_Instrument_Index
+Where Class='Instrumentation' and database_name in (Select Database_name from VW_Database_names)
+
+&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Here is the equivalent Python function using pandas to execute the SQL query:
+
+python
+Copy code
+def filter_and_rename_dataframe(
+    instrument_index_dataframe: pandas.DataFrame,
+    database_names_dataframe: pandas.DataFrame
+) -> pandas.DataFrame:
+
+    # Filter out rows where Class is not 'Instrumentation'
+    instrument_index_filtered = instrument_index_dataframe[
+        instrument_index_dataframe[S_Instrument_Index.CLASS.value] == 'Instrumentation']
+
+    # Keep only rows where database_name is in VW_Database_names
+    valid_database_names = set(database_names_dataframe[DatabaseNames.DATABASE_NAME.value])
+    instrument_index_filtered = instrument_index_filtered[
+        instrument_index_dataframe[DatabaseNames.DATABASE_NAME.value].isin(valid_database_names)]
+
+    # Keep only distinct rows
+    distinct_instrument_index = instrument_index_filtered.drop_duplicates()
+
+    # Rename columns
+ column_rename_mapping =
+    {
+    S_Instrument_Index.EX_ID.value: Instrument_Index.EX_ID.value,
+    S_Instrument_Index.CERTIFICATE.value: Instrument_Index.CERTIFICATE.value,
+    S_Instrument_Index.PARTS_CODE.value: Instrument_Index.PARTS_CODE.value,
+    S_Instrument_Index.FACILITY_BLOCK_DEFAULT.value: Instrument_Index.FACILITY_BLOCK_DEFAULT.value,
+    S_Instrument_Index.MODEL.value: Instrument_Index.MODEL.value,
+    S_Instrument_Index.SUPPL_CHAR_FOR_INSTR_ELEMENTS_1.value: Instrument_Index.SUPPL_CHAR_FOR_INSTR_ELEMENTS_1.value,
+    S_Instrument_Index.INTRINSIC_SAFETY_CURRENT.value: Instrument_Index.INTRINSIC_SAFETY_CURRENT.value,
+    S_Instrument_Index.INTRINSIC_SAFETY_INDUCTIVITY.value: Instrument_Index.INTRINSIC_SAFETY_INDUCTIVITY.value,
+    S_Instrument_Index.INTRINSIC_SAFETY_CAPACITY.value: Instrument_Index.INTRINSIC_SAFETY_CAPACITY.value,
+    S_Instrument_Index.HEATING_SETTINGS_ANTIFREEZE.value: Instrument_Index.HEATING_SETTINGS_ANTIFREEZE.value,
+    S_Instrument_Index.SUPPL_CHAR_FOR_INSTR_ELEMENTS_2.value: Instrument_Index.SUPPL_CHAR_FOR_INSTR_ELEMENTS_2.value,
+    S_Instrument_Index.INTRINSIC_SAFETY_VOLTAGE.value: Instrument_Index.INTRINSIC_SAFETY_VOLTAGE.value,
+    S_Instrument_Index.INTRINSIC_SAFETY_POWER.value: Instrument_Index.INTRINSIC_SAFETY_POWER.value,
+    S_Instrument_Index.HOOK_UP_FIGURE.value: Instrument_Index.HOOK_UP_FIGURE.value,
+    S_Instrument_Index.VARIANTS_IN_PARTS.value: Instrument_Index.VARIANTS_IN_PARTS.value,
+    S_Instrument_Index.OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_MAXIMUM.value: Instrument_Index.OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_MAXIMUM.value,
+    S_Instrument_Index.SPECIAL_REQUIREMENTS_.value: Instrument_Index.SPECIAL_REQUIREMENTS.value,
+    S_Instrument_Index.MODULE_NAME.value: Instrument_Index.MODULE_NAME.value,
+    S_Instrument_Index.INSTALLATION_SITE.value: Instrument_Index.INSTALLATION_SITE.value,
+    S_Instrument_Index.POSITION.value: Instrument_Index.POSITION.value,
+    S_Instrument_Index.INTRINSIC_SAFETY_DEVICE_TYPE.value: Instrument_Index.INTRINSIC_SAFETY_DEVICE_TYPE.value,
+    S_Instrument_Index.SAMPLE_SENSOR.value: Instrument_Index.SAMPLE_SENSOR.value,
+    S_Instrument_Index.SAMPLE_PIPELINE_LENGTH.value: Instrument_Index.SAMPLE_PIPELINE_LENGTH.value,
+    S_Instrument_Index.VALVE_NUMBER.value: Instrument_Index.VALVE_NUMBER.value,
+    S_Instrument_Index.OPENING_CLOSING_TIMES.value: Instrument_Index.OPENING_CLOSING_TIMES.value,
+    S_Instrument_Index.MANUFACTURER.value: Instrument_Index.MANUFACTURER.value,
+    S_Instrument_Index.ITEM_DESIGNATION_BLOCK_DEFAULT.value: Instrument_Index.ITEM_DESIGNATION_BLOCK_DEFAULT.value,
+    S_Instrument_Index.RUN_OUT_LENGTH.value: Instrument_Index.RUN_OUT_LENGTH.value,
+    S_Instrument_Index.HEATING_LIMITER.value: Instrument_Index.HEATING_LIMITER.value,
+    S_Instrument_Index.HEATING_REMARK.value: Instrument_Index.HEATING_REMARK.value,
+    S_Instrument_Index.COMMENT.value: Instrument_Index.COMMENT.value,
+    S_Instrument_Index.OVERALL_LENGTH.value: Instrument_Index.OVERALL_LENGTH.value,
+    S_Instrument_Index.DP_ARMATURE_CHARACTERISTIC_XT.value: Instrument_Index.DP_ARMATURE_CHARACTERISTIC_XT.value,
+    S_Instrument_Index.NUMBER_OF_SWITCHING_CONTACTS.value: Instrument_Index.NUMBER_OF_SWITCHING_CONTACTS.value,
+    S_Instrument_Index.ZERO_ELEVATION.value: Instrument_Index.ZERO_ELEVATION.value,
+    S_Instrument_Index.DIFFERENTIAL_PRESSURE_RANGE.value: Instrument_Index.DIFFERENTIAL_PRESSURE_RANGE.value,
+    S_Instrument_Index.RESTRICTION_ORIFICE_DIAMETER.value: Instrument_Index.RESTRICTION_ORIFICE_DIAMETER.value,
+    S_Instrument_Index.METERING_CONE_LENGTH.value: Instrument_Index.METERING_CONE_LENGTH.value,
+    S_Instrument_Index.MINIMUM_DESIGN_TEMPERATURE.value: Instrument_Index.MINIMUM_DESIGN_TEMPERATURE.value,
+    S_Instrument_Index.VALVE_SIZING_FACTOR_B.value: Instrument_Index.VALVE_SIZING_FACTOR_B.value,
+    S_Instrument_Index.REQUIRED_INLET_LENGTH.value: Instrument_Index.REQUIRED_INLET_LENGTH.value,
+    S_Instrument_Index.RED_MARKING_SETTING.value: Instrument_Index.RED_MARKING_SETTING.value,
+    S_Instrument_Index.CONTROL_CABLE_LENGTH_HEATING.value: Instrument_Index.CONTROL_CABLE_LENGTH_HEATING.value,
+    S_Instrument_Index.CAPILLARY_LENGTH.value: Instrument_Index.CAPILLARY_LENGTH.value,
+    S_Instrument_Index.PRESSURE_RECOVER_FACTOR_FL.value: Instrument_Index.PRESSURE_RECOVER_FACTOR_FL.value,
+    S_Instrument_Index.DESIGNATION.value: Instrument_Index.DESIGNATION.value,
+    S_Instrument_Index.CABLE_LENGTH_SYSTEM.value: Instrument_Index.CABLE_LENGTH_SYSTEM.value,
+    S_Instrument_Index.QUARTER_CIRCLE_NOZZLE_RADIUS_R.value: Instrument_Index.QUARTER_CIRCLE_NOZZLE_RADIUS_R.value,
+    S_Instrument_Index.THEORETICAL_RATIO_KVS_KVO.value: Instrument_Index.THEORETICAL_RATIO_KVS_KVO.value
+    S_Instrument_Index.SOLENOID_VALVE_DESIGN.value: Instrument_Index.SOLENOID_VALVE_DESIGN.value,
+    S_Instrument_Index.SAMPLE_PROBE_DELAY_TIME.value: Instrument_Index.SAMPLE_PROBE_DELAY_TIME.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_RETENTION_TIME.value: Instrument_Index.SAMPLE_PREPARATION_RETENTION_TIME.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_OUTPUT_PRESSURE_NORMAL.value: Instrument_Index.SAMPLE_PREPARATION_OUTPUT_PRESSURE_NORMAL.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_OUTPUT_PRESSURE_MAXIMUM.value: Instrument_Index.SAMPLE_PREPARATION_OUTPUT_PRESSURE_MAXIMUM.value,
+    S_Instrument_Index.SAMPLE_PIPELINE_DIAMETER.value: Instrument_Index.SAMPLE_PIPELINE_DIAMETER.value,
+    S_Instrument_Index.BYPASS_AMOUNT_MINIMUM.value: Instrument_Index.BYPASS_AMOUNT_MINIMUM.value,
+    S_Instrument_Index.BYPASS_AMOUNT_MAXIMUM.value: Instrument_Index.BYPASS_AMOUNT_MAXIMUM.value,
+    S_Instrument_Index.ANALYZER_RANGE_OF_TEMPERATURE_COMPENSATION.value: Instrument_Index.ANALYZER_RANGE_OF_TEMPERATURE_COMPENSATION.value,
+    S_Instrument_Index.ANALYZER_ERROR_TOLERANCE.value: Instrument_Index.ANALYZER_ERROR_TOLERANCE.value,
+    S_Instrument_Index.CALIBRATION_FROM.value: Instrument_Index.CALIBRATION_FROM.value,
+    S_Instrument_Index.PA_BUS_MAX_SHORT_CIRCUIT_CURRENT.value: Instrument_Index.PA_BUS_MAX_SHORT_CIRCUIT_CURRENT.value,
+    S_Instrument_Index.PA_BUS_CURRENT_INPUT.value: Instrument_Index.PA_BUS_CURRENT_INPUT.value,
+    S_Instrument_Index.CHARACTERISTIC_NOISE_VALUE_ZY.value: Instrument_Index.CHARACTERISTIC_NOISE_VALUE_ZY.value,
+    S_Instrument_Index.DESIGN_GAUGE_PRESSURE.value: Instrument_Index.DESIGN_GAUGE_PRESSURE.value,
+    S_Instrument_Index.STROKE_HEIGHT.value: Instrument_Index.STROKE_HEIGHT.value,
+    S_Instrument_Index.EFFECT_OF_DP.value: Instrument_Index.EFFECT_OF_DP.value,
+    S_Instrument_Index.VOLTAGE.value: Instrument_Index.VOLTAGE.value,
+    S_Instrument_Index.POWER_CONSUMPTION.value: Instrument_Index.POWER_CONSUMPTION.value,
+    S_Instrument_Index.MEASURING_RANGE_FROM.value: Instrument_Index.MEASURING_RANGE_FROM.value,
+    S_Instrument_Index.LEAKAGE_RATE_OF_KVS.value: Instrument_Index.LEAKAGE_RATE_PERCENT_OF_KVS.value,
+    S_Instrument_Index.INSTALLATION_LENGTH.value: Instrument_Index.INSTALLATION_LENGTH.value,
+    S_Instrument_Index.KV_VALUE_AT_KVS_NOMINAL_STROKE.value: Instrument_Index.KV_VALUE_AT_KVS_NOMINAL_STROKE.value,
+    S_Instrument_Index.MEASURING_PROCEDURE.value: Instrument_Index.MEASURING_PROCEDURE.value,
+    S_Instrument_Index.CALCULATED_MAXIMUM_SOUND_PRESSURE_LEVEL.value: Instrument_Index.CALCULATED_MAXIMUM_SOUND_PRESSURE_LEVEL.value,
+    S_Instrument_Index.FINAL_ACCEPTANCES.value: Instrument_Index.FINAL_ACCEPTANCES.value,
+    S_Instrument_Index.OUTPUT_SPEED.value: Instrument_Index.OUTPUT_SPEED.value,
+    S_Instrument_Index.RESTRICTOR_DESIGN.value: Instrument_Index.RESTRICTOR_DESIGN.value,
+    S_Instrument_Index.SEAT_DIAMETER.value: Instrument_Index.SEAT_DIAMETER.value,
+    S_Instrument_Index.INSERT_LENGTH.value: Instrument_Index.INSERT_LENGTH.value,
+    S_Instrument_Index.RING_CHAMBER_DIMENSION_D.value: Instrument_Index.RING_CHAMBER_DIMENSION_D.value,
+    S_Instrument_Index.CONTROL_DEVICE_DESIGN.value: Instrument_Index.CONTROL_DEVICE_DESIGN.value,
+    S_Instrument_Index.CONTROL_VALVE_CERTIFICATION.value: Instrument_Index.CONTROL_VALVE_CERTIFICATION.value,
+    S_Instrument_Index.KVS_VALUE.value: Instrument_Index.KVS_VALUE.value,
+    S_Instrument_Index.MEASURING_RANGE_TO.value: Instrument_Index.MEASURING_RANGE_TO.value,
+    S_Instrument_Index.OVERALL_HEIGHT.value: Instrument_Index.OVERALL_HEIGHT.value,
+    S_Instrument_Index.CONTROL_INPUT_RANGE.value: Instrument_Index.CONTROL_INPUT_RANGE.value,
+    S_Instrument_Index.CALCULATED_KV_VALUE.value: Instrument_Index.CALCULATED_KV_VALUE.value,
+    S_Instrument_Index.APERTURE_DIAMETER_D.value: Instrument_Index.APERTURE_DIAMETER_D.value,
+    S_Instrument_Index.CALIBRATION_TO.value: Instrument_Index.CALIBRATION_TO.value,
+    S_Instrument_Index.TYPE_OF_DRIVE.value: Instrument_Index.TYPE_OF_DRIVE.value,
+    S_Instrument_Index.FAIL_SAFE.value: Instrument_Index.FAIL_SAFE.value,
+    S_Instrument_Index.EX_I.value: Instrument_Index.EX_I.value,
+    S_Instrument_Index.TRANSFER_TO_SAP.value: Instrument_Index.TRANSFER_TO_SAP.value,
+    S_Instrument_Index.CIRCUIT_TYPE_OUTPUT.value: Instrument_Index.CIRCUIT_TYPE.value,
+    S_Instrument_Index.POWER_SUPPLY_FROM_MODULE.value: Instrument_Index.POWER_SUPPLY_FROM_MODULE.value,
+    S_Instrument_Index.CLASSIFICATION.value: Instrument_Index.CLASSIFICATION.value,
+    S_Instrument_Index.SIGNAL_RANGE_RESISTANCE.value: Instrument_Index.SIGNAL_RANGE_RESISTANCE.value,
+    S_Instrument_Index.METHOD_OF_CONNECTION.value: Instrument_Index.METHOD_OF_CONNECTION.value,
+    S_Instrument_Index.SIGNAL_RANGE.value: Instrument_Index.SIGNAL_RANGE.value,
+    S_Instrument_Index.SIGNAL_VOLTAGE_INPUT.value: Instrument_Index.SIGNAL_VOLTAGE_INPUT.value
+    S_Instrument_Index.VOLTAGE_TYPE.value: Instrument_Index.VOLTAGE_TYPE.value,
+    S_Instrument_Index.CLASSIFICATION_BY.value: Instrument_Index.CLASSIFICATION_BY.value,
+    S_Instrument_Index.EDGE_CHANGE.value: Instrument_Index.EDGE_CHANGE.value,
+    S_Instrument_Index.SIGNAL_VOLTAGE_OUTPUT.value: Instrument_Index.SIGNAL_VOLTAGE_OUTPUT.value,
+    S_Instrument_Index.ACCURACY_SPEED_OUTPUT.value: Instrument_Index.ACCURACY_SPEED_OUTPUT.value,
+    S_Instrument_Index.ACTUATING_TIME.value: Instrument_Index.ACTUATING_TIME.value,
+    S_Instrument_Index.ACTUATOR_INSTALLATION_POSITION.value: Instrument_Index.ACTUATOR_INSTALLATION_POSITION.value,
+    S_Instrument_Index.ANALYZER_CALIBRATION_CURVE.value: Instrument_Index.ANALYZER_CALIBRATION_CURVE.value,
+    S_Instrument_Index.ANALYZER_90_TIME_OR_LENGTH_OF_ANALYSIS.value: Instrument_Index.ANALYZER_90_PERCENTAGE_TIME_OR_LENGTH_OF_ANALYSIS.value,
+    S_Instrument_Index.APERTURE_ANGLE_VENTURI_TUBE.value: Instrument_Index.APERTURE_ANGLE_VENTURI_TUBE.value,
+    S_Instrument_Index.ASSEMBLY_CATEGORY.value: Instrument_Index.ASSEMBLY_CATEGORY.value,
+    S_Instrument_Index.ASSEMBLY_IDENTIFIER.value: Instrument_Index.ASSEMBLY_IDENTIFIER.value,
+    S_Instrument_Index.ASSEMBLY_LOCATION.value: Instrument_Index.ASSEMBLY_LOCATION.value,
+    S_Instrument_Index.AUXILIARY_MATERIALS.value: Instrument_Index.AUXILIARY_MATERIALS.value,
+    S_Instrument_Index.AVERAGE_ANNUAL_TEMPERATURE.value: Instrument_Index.AVERAGE_ANNUAL_TEMPERATURE.value,
+    S_Instrument_Index.BLUFF_BODY_FORM.value: Instrument_Index.BLUFF_BODY_FORM.value,
+    S_Instrument_Index.BREAKDOWN_TORQUE_RATIO_MK_MN.value: Instrument_Index.BREAKDOWN_TORQUE_RATIO_MK_PER_MN.value,
+    S_Instrument_Index.PTB_NUMBER.value: Instrument_Index.PTB_NUMBER.value,
+    S_Instrument_Index.CHARACTERISTIC_LINE.value: Instrument_Index.CHARACTERISTIC_LINE.value,
+    S_Instrument_Index.LENGTH_CONNECTION_CABLE.value: Instrument_Index.LENGTH_CONNECTION_CABLE.value,
+    S_Instrument_Index.CONSTRUCTION_YEAR.value: Instrument_Index.CONSTRUCTION_YEAR.value,
+    S_Instrument_Index.CONTROL_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLETS.value: Instrument_Index.CONTROL_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLETS.value,
+    S_Instrument_Index.CONTROL_CABLE_MAXIMUM_WIRE_CROSS_SECTION.value: Instrument_Index.CONTROL_CABLE_MAXIMUM_WIRE_CROSS_SECTION.value,
+    S_Instrument_Index.CONTROLLERS_MAXIMUM_NUMBER_OF_CABLE_INLETS.value: Instrument_Index.CONTROLLERS_MAXIMUM_NUMBER_OF_CABLE_INLETS.value,
+    S_Instrument_Index.CONTROLLERS_MAXIMUM_WIRE_CROSS_SECTION.value: Instrument_Index.CONTROLLERS_MAXIMUM_WIRE_CROSS_SECTION.value,
+    S_Instrument_Index.CONTROL_TRIPPING_VOLTAGE.value: Instrument_Index.CONTROL_TRIPPING_VOLTAGE.value,
+    S_Instrument_Index.CONTROLLER_MAXIMUM.value: Instrument_Index.CONTROLLER_MAXIMUM.value,
+    S_Instrument_Index.CONTROLLER_MINIMUM.value: Instrument_Index.CONTROLLER_MINIMUM.value,
+    S_Instrument_Index.COUNTER.value: Instrument_Index.COUNTER.value,
+    S_Instrument_Index.DN.value: Instrument_Index.DN.value,
+    S_Instrument_Index.CUT_OUT_TORQUE.value: Instrument_Index.CUT_OUT_TORQUE.value,
+    S_Instrument_Index.DENSITY_AT_15C.value: Instrument_Index.DENSITY_AT_15C.value,
+    S_Instrument_Index.DETONATION_HAZARD_PROTECTION_TYPE_HEATER.value: Instrument_Index.DETONATION_HAZARD_PROTECTION_TYPE_HEATER.value,
+    S_Instrument_Index.DETONATION_HAZARD_PROTECTION_TYPE_MOTOR.value: Instrument_Index.DETONATION_HAZARD_PROTECTION_TYPE_MOTOR.value,
+    S_Instrument_Index.RATED_CURRENT_OF_DRIVE.value: Instrument_Index.RATED_CURRENT_OF_DRIVE.value,
+    S_Instrument_Index.RATED_POWER_OF_DRIVE.value: Instrument_Index.RATED_POWER_OF_DRIVE.value,
+    S_Instrument_Index.DRIVE_SYSTEM_FOR.value: Instrument_Index.DRIVE_SYSTEM_FOR.value,
+    S_Instrument_Index.EFFICIENCY_AT_NOMINAL_LOAD.value: Instrument_Index.EFFICIENCY_AT_NOMINAL_LOAD.value,
+    S_Instrument_Index.ENGINE_IDENTIFICATION_NUMBER.value: Instrument_Index.ENGINE_IDENTIFICATION_NUMBER.value,
+    S_Instrument_Index.DEFAULT_COMPONENT_NAME.value: Instrument_Index.DEFAULT_COMPONENT_NAME.value,
+    S_Instrument_Index.FLOAT_TYPE_FORM.value: Instrument_Index.FLOAT_TYPE_FORM.value,
+    S_Instrument_Index.FRAME_SIZE.value: Instrument_Index.FRAME_SIZE.value,
+    S_Instrument_Index.DEFAULT_SYMBOL_LIBRARY.value: Instrument_Index.DEFAULT_SYMBOL_LIBRARY.value,
+    S_Instrument_Index.DEFAULT_SYMBOL.value: Instrument_Index.DEFAULT_SYMBOL.value,
+    S_Instrument_Index.HEATING_BUNDLE_DIAMETER.value: Instrument_Index.HEATING_BUNDLE_DIAMETER.value,
+    S_Instrument_Index.IMPULSE_FACTOR.value: Instrument_Index.IMPULSE_FACTOR.value,
+    S_Instrument_Index.INSTRUMENT_LAYOUT.value: Instrument_Index.INSTRUMENT_LAYOUT.value,
+    S_Instrument_Index.INSTRUMENT_LAYOUT_PAGE_NUMBER.value: Instrument_Index.INSTRUMENT_LAYOUT_PAGE_NUMBER.value,
+    S_Instrument_Index.INTERRUPTING_CURRENT_LIMIT_XIN.value: Instrument_Index.INTERRUPTING_CURRENT_LIMIT_XIN.value,
+    S_Instrument_Index.LENGTH_OF_DISPLACER.value: Instrument_Index.LENGTH_OF_DISPLACER.value
+    S_Instrument_Index.LENGTH_OF_SUSPENSION_DEVICE.value: Instrument_Index.LENGTH_OF_SUSPENSION_DEVICE.value,
+    S_Instrument_Index.LENGTH_OF_TRACE_HEATING.value: Instrument_Index.LENGTH_OF_TRACE_HEATING.value,
+    S_Instrument_Index.ON_STATE_LIMIT_VALUE_1.value: Instrument_Index.ON_STATE_LIMIT_VALUE_1.value,
+    S_Instrument_Index.ON_STATE_LIMIT_VALUE_2.value: Instrument_Index.ON_STATE_LIMIT_VALUE_2.value,
+    S_Instrument_Index.LIMITER_RELEASE.value: Instrument_Index.LIMITER_RELEASE.value,
+    S_Instrument_Index.SETTING_RANGE_MAXIMUM.value: Instrument_Index.SETTING_RANGE_MAXIMUM.value,
+    S_Instrument_Index.SETTING_RANGE_MINIMUM.value: Instrument_Index.SETTING_RANGE_MINIMUM.value,
+    S_Instrument_Index.SUPPL_CHAR_3_FOR_LOOP_ELEMENTS.value: Instrument_Index.SUPPL_CHAR_3_FOR_LOOP_ELEMENTS.value,
+    S_Instrument_Index.SAMPLE_TYPE.value: Instrument_Index.SAMPLE_TYPE.value,
+    S_Instrument_Index.MAXIMUM_CABLE_LENGTH_OF_CONVERTER_MOTOR.value: Instrument_Index.MAXIMUM_CABLE_LENGTH_OF_CONVERTER_MOTOR.value,
+    S_Instrument_Index.MAXIMUM_COOLANT_REQUIREMENTS_AT_NOMINAL_LOAD.value: Instrument_Index.MAXIMUM_COOLANT_REQUIREMENTS_AT_NOMINAL_LOAD.value,
+    S_Instrument_Index.FLOW_MAXIMUM.value: Instrument_Index.FLOW_MAXIMUM.value,
+    S_Instrument_Index.MAXIMUM_MOTOR_POWER_IN_CONVERTER_OPERATION.value: Instrument_Index.MAXIMUM_MOTOR_POWER_IN_CONVERTER_OPERATION.value,
+    S_Instrument_Index.MAXIMUM_NUMBER_OF_CABLE_INLETS.value: Instrument_Index.MAXIMUM_NUMBER_OF_CABLE_INLETS.value,
+    S_Instrument_Index.MAXIMUM_POWER_LOSS.value: Instrument_Index.MAXIMUM_POWER_LOSS.value,
+    S_Instrument_Index.MAXIMUM_RATED_MOTOR_CURRENT.value: Instrument_Index.MAXIMUM_RATED_MOTOR_CURRENT.value,
+    S_Instrument_Index.MAXIMUM_RATED_MOTOR_VOLTAGE.value: Instrument_Index.MAXIMUM_RATED_MOTOR_VOLTAGE.value,
+    S_Instrument_Index.MAXIMUM_PERMISSIBLE_SOUND_PRESSURE_LEVEL.value: Instrument_Index.MAXIMUM_PERMISSIBLE_SOUND_PRESSURE_LEVEL.value,
+    S_Instrument_Index.MAXIMUM_WIRE_CROSS_SECTION.value: Instrument_Index.MAXIMUM_WIRE_CROSS_SECTION.value,
+    S_Instrument_Index.MEASURING_RANGE.value: Instrument_Index.MEASURING_RANGE.value,
+    S_Instrument_Index.FLOW_MINIMUM.value: Instrument_Index.FLOW_MINIMUM.value,
+    S_Instrument_Index.MINIMUM_AMOUNT_FOR_SALE.value: Instrument_Index.MINIMUM_AMOUNT_FOR_SALE.value,
+    S_Instrument_Index.MOTOR_PROTECTION_IN_CONVERTER_OPERATION.value: Instrument_Index.MOTOR_PROTECTION_IN_CONVERTER_OPERATION.value,
+    S_Instrument_Index.MOTOR_PROTECTION_IN_NETWORK_OPERATION.value: Instrument_Index.MOTOR_PROTECTION_IN_NETWORK_OPERATION.value,
+    S_Instrument_Index.NETWORK_PROTECTION.value: Instrument_Index.NETWORK_PROTECTION.value,
+    S_Instrument_Index.NOISE_PROTECTION_MEASURES.value: Instrument_Index.NOISE_PROTECTION_MEASURES.value,
+    S_Instrument_Index.NOMINAL_POWER.value: Instrument_Index.NOMINAL_POWER.value,
+    S_Instrument_Index.NOMINAL_TORQUE.value: Instrument_Index.NOMINAL_TORQUE.value,
+    S_Instrument_Index.MAXIMUM_OF_HARMONIC_VOLTAGE.value: Instrument_Index.MAXIMUM_OF_HARMONIC_VOLTAGE.value,
+    S_Instrument_Index.NTH_TIME.value: Instrument_Index.NTH_TIME.value,
+    S_Instrument_Index.OCCUPATION_DENSITY.value: Instrument_Index.OCCUPATION_DENSITY.value,
+    S_Instrument_Index.OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_NORMAL.value: Instrument_Index.OPERATING_PRESSURE_AT_FEEDBACK_LOCATION_NORMAL.value,
+    S_Instrument_Index.OUTPUT_FREQUENCY_CONTROL_RANGE_FROM.value: Instrument_Index.OUTPUT_FREQUENCY_CONTROL_RANGE_FROM.value,
+    S_Instrument_Index.OUTPUT_FREQUENCY_CONTROL_RANGE_TO.value: Instrument_Index.OUTPUT_FREQUENCY_CONTROL_RANGE_TO.value,
+    S_Instrument_Index.OUTPUT_POSITIONER_.value: Instrument_Index.OUTPUT_SIGNAL.value,
+    S_Instrument_Index.POWER_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLET.value: Instrument_Index.POWER_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLET.value,
+    S_Instrument_Index.POWER_CABLE_MAXIMUM_WIRE_CROSS_SECTION.value: Instrument_Index.POWER_CABLE_MAXIMUM_WIRE_CROSS_SECTION.value,
+    S_Instrument_Index.PERFORMANCE_FACTOR_AT_FULL_LOAD.value: Instrument_Index.PERFORMANCE_FACTOR_AT_FULL_LOAD.value,
+    S_Instrument_Index.FOR_PRE_POST_PRESSURE_OSCILLATION.value: Instrument_Index.FOR_PRE_OR_POST_PRESSURE_OSCILLATION.value,
+    S_Instrument_Index.PRESSURE_LEVEL.value: Instrument_Index.PRESSURE_LEVEL.value,
+    S_Instrument_Index.PROBE_LENGTH.value: Instrument_Index.PROBE_LENGTH.value,
+    S_Instrument_Index.PROBE_LENGTH_LEVEL.value: Instrument_Index.PROBE_LENGTH_LEVEL.value,
+    S_Instrument_Index.PTC_THERMISTOR_TEMPERATURE_SENSOR.value: Instrument_Index.PTC_THERMISTOR_TEMPERATURE_SENSOR.value,
+    S_Instrument_Index.PULSE_NUMBER_INPUT_LINE_SIDE_GR.value: Instrument_Index.PULSE_NUMBER_INPUT_LINE_SIDE_GR.value,
+    S_Instrument_Index.PULSE_NUMBER_OUTPUT_TO_MOTOR_WR.value: Instrument_Index.PULSE_NUMBER_OUTPUT_TO_MOTOR_WR.value,
+    S_Instrument_Index.RADIO_INTERFERENCE_LEVEL.value: Instrument_Index.RADIO_INTERFERENCE_LEVEL.value,
+    S_Instrument_Index.RATED_APPARENT_POWER.value: Instrument_Index.RATED_APPARENT_POWER.value,
+    S_Instrument_Index.RATED_CURRENT.value: Instrument_Index.RATED_CURRENT.value,
+    S_Instrument_Index.RATED_POWER.value: Instrument_Index.RATED_POWER.value,
+    S_Instrument_Index.RATED_POWER_AT_NOMINAL_OPERATION.value: Instrument_Index.RATED_POWER_AT_NOMINAL_OPERATION.value
+    S_Instrument_Index.RATED_POWER_PER_METER.value: Instrument_Index.RATED_POWER_PER_METER.value,
+    S_Instrument_Index.RATED_ASYNCHRONOUS_SPEED.value: Instrument_Index.RATED_ASYNCHRONOUS_SPEED.value,
+    S_Instrument_Index.RATED_TORQUE_MN.value: Instrument_Index.RATED_TORQUE_MN.value,
+    S_Instrument_Index.REFERENCE_TEMPERATURE.value: Instrument_Index.REFERENCE_TEMPERATURE.value,
+    S_Instrument_Index.RING_CHAMBER_DIMENSION_A.value: Instrument_Index.RING_CHAMBER_DIMENSION_A.value,
+    S_Instrument_Index.RING_CHAMBER_DIMENSION_E.value: Instrument_Index.RING_CHAMBER_DIMENSION_E.value,
+    S_Instrument_Index.ROTATIONAL_SPEED_OF_DRIVE.value: Instrument_Index.ROTATIONAL_SPEED_OF_DRIVE.value,
+    S_Instrument_Index.ROTATIONAL_SPEED_RANGE_FROM.value: Instrument_Index.ROTATIONAL_SPEED_RANGE_FROM.value,
+    S_Instrument_Index.SAMPLE_PIPELINE_TYPE.value: Instrument_Index.SAMPLE_PIPELINE_TYPE.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_BACK_PRESSURE_REGULATOR.value: Instrument_Index.SAMPLE_PREPARATION_BACK_PRESSURE_REGULATOR.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_CHEMICAL_TEMPLATE.value: Instrument_Index.SAMPLE_PREPARATION_CHEMICAL_TEMPLATE.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_FILTER.value: Instrument_Index.SAMPLE_PREPARATION_FILTER.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_FLOW_COUNTER.value: Instrument_Index.SAMPLE_PREPARATION_FLOW_COUNTER.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_MEASURING_PRODUCT_COOLER.value: Instrument_Index.SAMPLE_PREPARATION_MEASURING_PRODUCT_COOLER.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_MISCELLANEOUS.value: Instrument_Index.SAMPLE_PREPARATION_MISCELLANEOUS.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_REDUCTION_STATION.value: Instrument_Index.SAMPLE_PREPARATION_REDUCTION_STATION.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_SEPARATOR.value: Instrument_Index.SAMPLE_PREPARATION_SEPARATOR.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_TUBE_FURNACE.value: Instrument_Index.SAMPLE_PREPARATION_TUBE_FURNACE.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_VAPORIZER.value: Instrument_Index.SAMPLE_PREPARATION_VAPORIZER.value,
+    S_Instrument_Index.SERIAL_NUMBER.value: Instrument_Index.SERIAL_NUMBER.value,
+    S_Instrument_Index.SOUND_PRESSURE_LEVEL_AT_NO_LOAD.value: Instrument_Index.SOUND_PRESSURE_LEVEL_AT_NO_LOAD.value,
+    S_Instrument_Index.SOUND_PRESSURE_LEVEL_AT_NOMINAL_LOAD.value: Instrument_Index.SOUND_PRESSURE_LEVEL_AT_NOMINAL_LOAD.value,
+    S_Instrument_Index.SPECIAL_PAINT.value: Instrument_Index.SPECIAL_PAINT.value,
+    S_Instrument_Index.ROTATIONAL_SPEED_RANGE_TO.value: Instrument_Index.ROTATIONAL_SPEED_RANGE_TO.value,
+    S_Instrument_Index.STARTING_CURRENT_RATIO_IA_IN.value: Instrument_Index.STARTING_CURRENT_RATIO_IA_PER_IN.value,
+    S_Instrument_Index.STARTING_TORQUE_RATIO_MA_MN.value: Instrument_Index.STARTING_TORQUE_RATIO_MA_PER_MN.value,
+    S_Instrument_Index.DEFAULT_SYMBOL_LIBRARY.value: Instrument_Index.SYMBOL_LIBRARY.value,
+    S_Instrument_Index.SYMBOL_NAME.value: Instrument_Index.SYMBOL_NAME.value,
+    S_Instrument_Index.TMU.value: Instrument_Index.TMU.value,
+    S_Instrument_Index.TOTAL_DIMENSIONS_HEIGHT.value: Instrument_Index.TOTAL_DIMENSIONS_HEIGHT.value,
+    S_Instrument_Index.TOTAL_DIMENSIONS_LENGTH.value: Instrument_Index.TOTAL_DIMENSIONS_LENGTH.value,
+    S_Instrument_Index.TOTAL_DIMENSIONS_WIDTH.value: Instrument_Index.TOTAL_DIMENSIONS_WIDTH.value,
+    S_Instrument_Index.TOTAL_WEIGHT.value: Instrument_Index.TOTAL_WEIGHT.value,
+    S_Instrument_Index.TOTAL_WEIGHT_OF_MOTOR.value: Instrument_Index.TOTAL_WEIGHT_OF_MOTOR.value,
+    S_Instrument_Index.TRAVEL_RANGE.value: Instrument_Index.TRAVEL_RANGE.value,
+    S_Instrument_Index.TYPE_OF_COOLING.value: Instrument_Index.TYPE_OF_COOLING.value,
+    S_Instrument_Index.WEIGHT_FOR_CHOKE.value: Instrument_Index.WEIGHT_FOR_CHOKE.value,
+    S_Instrument_Index.WEIGHT_FOR_CONVERTER.value: Instrument_Index.WEIGHT_FOR_CONVERTER.value,
+    S_Instrument_Index.WINDING_CIRCUIT.value: Instrument_Index.WINDING_CIRCUIT.value,
+    S_Instrument_Index.YEAR_OF_CONSTRUCTION.value: Instrument_Index.YEAR_OF_CONSTRUCTION.value,
+    S_Instrument_Index.SCREWED_JOINT.value: Instrument_Index.SCREWED_JOINT.value,
+    S_Instrument_Index.SAMPLE_PIPELINE_MATERIAL.value: Instrument_Index.SAMPLE_PIPELINE_MATERIAL.value,
+    S_Instrument_Index.DRIVE_WITH_HEATING.value: Instrument_Index.DRIVE_WITH_HEATING.value,
+    S_Instrument_Index.BLUFF_BODY_MATERIAL.value: Instrument_Index.BLUFF_BODY_MATERIAL.value,
+    S_Instrument_Index.SEAT_MATERIAL.value: Instrument_Index.SEAT_MATERIAL.value,
+    S_Instrument_Index.HOUSING_MATERIAL.value: Instrument_Index.HOUSING_MATERIAL.value,
+    S_Instrument_Index.GLAND_NUT_LUBRICATION.value: Instrument_Index.GLAND_NUT_LUBRICATION.value,
+    S_Instrument_Index.COOLING_FINS.value: Instrument_Index.COOLING_FINS.value,
+    S_Instrument_Index.STANDARD_ORIFICE_NOZZLE_MATERIAL.value: Instrument_Index.STANDARD_ORIFICE_NOZZLE_MATERIAL.value,
+    S_Instrument_Index.TAPPING_MATERIAL.value: Instrument_Index.TAPPING_MATERIAL.value
+    S_Instrument_Index.SOLENOID_VALVE.value: Instrument_Index.SOLENOID_VALVE.value,
+    S_Instrument_Index.FUNCTION_AT_MINIMUM.value: Instrument_Index.FUNCTION_AT_MINIMUM.value,
+    S_Instrument_Index.FUNCTION_AT_MAXIMUM.value: Instrument_Index.FUNCTION_AT_MAXIMUM.value,
+    S_Instrument_Index.PRESSURE_GAUGE_SHUT_OFF.value: Instrument_Index.PRESSURE_GAUGE_SHUT_OFF.value,
+    S_Instrument_Index.METER_METERING_ELEMENT_MATERIAL.value: Instrument_Index.METER_METERING_ELEMENT_MATERIAL.value,
+    S_Instrument_Index.PA_BUS_TERMINAL.value: Instrument_Index.PA_BUS_TERMINAL.value,
+    S_Instrument_Index.REFERENCE_VESSEL_MATERIAL.value: Instrument_Index.REFERENCE_VESSEL_MATERIAL.value,
+    S_Instrument_Index.HEAD_END_MATERIAL.value: Instrument_Index.HEAD_END_MATERIAL.value,
+    S_Instrument_Index.SHORT_CIRCUIT_PROOF.value: Instrument_Index.SHORT_CIRCUIT_PROOF.value,
+    S_Instrument_Index.OUTPUT_SIGNAL_EXPLOSION_PROTECTION.value: Instrument_Index.OUTPUT_SIGNAL_EXPLOSION_PROTECTION.value,
+    S_Instrument_Index.FD_OUTPUT_SIGNAL.value: Instrument_Index.FD_OUTPUT_SIGNAL.value,
+    S_Instrument_Index.MANUAL_ACTUATION.value: Instrument_Index.MANUAL_ACTUATION.value,
+    S_Instrument_Index.LIMIT_SWITCH_SV.value: Instrument_Index.LIMIT_SWITCH.value,
+    S_Instrument_Index.WETTED_BODY_MATERIAL.value: Instrument_Index.WETTED_BODY_MATERIAL.value,
+    S_Instrument_Index.MT_HEAD_ASSEMBLY.value: Instrument_Index.MT_HEAD_ASSEMBLY.value,
+    S_Instrument_Index.SPINDLE_MATERIAL.value: Instrument_Index.SPINDLE_MATERIAL.value,
+    S_Instrument_Index.TEMPLATE_PROTECTION_FLUID.value: Instrument_Index.TEMPLATE_PROTECTION_FLUID.value,
+    S_Instrument_Index.RESTRICTION_ORIFICE_MATERIAL.value: Instrument_Index.RESTRICTION_ORIFICE_MATERIAL.value,
+    S_Instrument_Index.METERING_CONE_MATERIAL.value: Instrument_Index.METERING_CONE_MATERIAL.value,
+    S_Instrument_Index.FLOAT_TYPE_MATERIAL.value: Instrument_Index.FLOAT_TYPE_MATERIAL.value,
+    S_Instrument_Index.TRANSMITTER_PROTECTIVE_BOX.value: Instrument_Index.TRANSMITTER_PROTECTIVE_BOX.value,
+    S_Instrument_Index.FINE_ADJUSTMENT_VALVE.value: Instrument_Index.FINE_ADJUSTMENT_VALVE.value,
+    S_Instrument_Index.PUMP_FOR_SAMPLE.value: Instrument_Index.PUMP_FOR_SAMPLE.value,
+    S_Instrument_Index.PUMP_FOR_SAMPLE_PREPARATION.value: Instrument_Index.PUMP_FOR_SAMPLE_PREPARATION.value,
+    S_Instrument_Index.PRIMARY_PRESSURE_REDUCER.value: Instrument_Index.PRIMARY_PRESSURE_REDUCER.value,
+    S_Instrument_Index.MASS_LIMITATION_BEFORE_AGR.value: Instrument_Index.MASS_LIMITATION_BEFORE_AGR.value,
+    S_Instrument_Index.MEDIUM_CONNECTION_DESIGN.value: Instrument_Index.MEDIUM_CONNECTION_DESIGN.value,
+    S_Instrument_Index.POSITION_WITHOUT_POWER.value: Instrument_Index.POSITION_WITHOUT_POWER.value,
+    S_Instrument_Index.LOOP_DIAGRAM_LEVEL.value: Instrument_Index.LOOP_DIAGRAM_LEVEL.value,
+    S_Instrument_Index.ELEMENT_TYPE.value: Instrument_Index.ELEMENT_TYPE.value,
+    S_Instrument_Index.HANDWHEEL_POSITION.value: Instrument_Index.HANDWHEEL_POSITION.value,
+    S_Instrument_Index.MEASURED_QUANTITY.value: Instrument_Index.MEASURED_QUANTITY.value,
+    S_Instrument_Index.HOUSING_TYPE.value: Instrument_Index.HOUSING_TYPE.value,
+    S_Instrument_Index.SIGNAL_TYPE.value: Instrument_Index.SIGNAL_TYPE.value,
+    S_Instrument_Index.LIMIT_SWITCH_SIGNALLED.value: Instrument_Index.LIMIT_SWITCH_SIGNALED.value,
+    S_Instrument_Index.DIGITAL_FUNCTION.value: Instrument_Index.DIGITAL_FUNCTION.value,
+    S_Instrument_Index.RING_CHAMBER_MATERIAL.value: Instrument_Index.RING_CHAMBER_MATERIAL.value,
+    S_Instrument_Index.CHARACTERISTIC.value: Instrument_Index.CHARACTERISTIC.value,
+    S_Instrument_Index.AUXILIARY_POWER_TYPE.value: Instrument_Index.AUXILIARY_POWER_TYPE.value,
+    S_Instrument_Index.FLOW_DIRECTION.value: Instrument_Index.FLOW_DIRECTION.value,
+    S_Instrument_Index.SPINDLE_BUSHING.value: Instrument_Index.SPINDLE_BUSHING.value,
+    S_Instrument_Index.RESISTANCE_THERMOCOUPLE_TYPE.value: Instrument_Index.RESISTANCE_THERMOCOUPLE_TYPE.value,
+    S_Instrument_Index.THERMOMETER_DESIGN.value: Instrument_Index.THERMOMETER_DESIGN.value,
+    S_Instrument_Index.EXTENSION.value: Instrument_Index.EXTENSION.value,
+    S_Instrument_Index.STELLITING.value: Instrument_Index.STELLITING.value,
+    S_Instrument_Index.THERMOCOUPLE.value: Instrument_Index.THERMOCOUPLE.value,
+    S_Instrument_Index.HOUSING_PRESSURE_STAGE.value: Instrument_Index.HOUSING_PRESSURE_STAGE.value,
+    S_Instrument_Index.GLAND_NUT_TYPE.value: Instrument_Index.GLAND_NUT_TYPE.value,
+    S_Instrument_Index.INPUT_SIGNAL.value: Instrument_Index.INPUT_SIGNAL.value,
+    S_Instrument_Index.GALVANIC_SEPARATION.value: Instrument_Index.GALVANIC_SEPARATION.value,
+    S_Instrument_Index.EFFECTIVE_DIRECTION.value: Instrument_Index.EFFECTIVE_DIRECTION.value,
+    S_Instrument_Index.CONE_TYPE.value: Instrument_Index.CONE_TYPE.value,
+    S_Instrument_Index.ELECTRICAL_CONNECTION_DESIGN.value: Instrument_Index.ELECTRICAL_CONNECTION_DESIGN.value,
+    S_Instrument_Index.ELEMENT_FRACTURE.value: Instrument_Index.ELEMENT_FRACTURE.value,
+    S_Instrument_Index.SEAT_SEALING.value: Instrument_Index.SEAT_SEALING.value,
+    S_Instrument_Index.GLAND_NUT_MATERIAL.value: Instrument_Index.GLAND_NUT_MATERIAL.value,
+    S_Instrument_Index.AUXILIARY_POWER_SIZE.value: Instrument_Index.AUXILIARY_POWER_SIZE.value,
+    S_Instrument_Index.CONE_MATERIAL.value: Instrument_Index.CONE_MATERIAL.value,
+    S_Instrument_Index.SWITCH_STATE_AT_REQUIRED_END_POSITION.value: Instrument_Index.SWITCH_STATE_AT_REQUIRED_END_POSITION.value,
+    S_Instrument_Index.CONTACT_DESIGN.value: Instrument_Index.CONTACT_DESIGN.value,
+    S_Instrument_Index.ORIFICE_FILLING_MEDIUM.value: Instrument_Index.ORIFICE_FILLING_MEDIUM.value,
+    S_Instrument_Index.COUNTER_TYPE.value: Instrument_Index.COUNTER_TYPE.value,
+    S_Instrument_Index.COUNTER_DESIGN.value: Instrument_Index.COUNTER_DESIGN.value,
+    S_Instrument_Index.CONTROL_CABLE_HEATING.value: Instrument_Index.CONTROL_CABLE_HEATING.value,
+    S_Instrument_Index.SIGNAL_DIRECTION.value: Instrument_Index.SIGNAL_DIRECTION.value,
+    S_Instrument_Index.SCALE_CLASSIFICATION.value: Instrument_Index.SCALE_CLASSIFICATION.value,
+    S_Instrument_Index.METER_TYPE.value: Instrument_Index.METER_TYPE.value,
+    S_Instrument_Index.DISPLAY_TYPE.value: Instrument_Index.DISPLAY_TYPE.value,
+    S_Instrument_Index.HEATING.value: Instrument_Index.HEATING.value,
+    S_Instrument_Index.FILLING_MEDIUM_FOR_ATTENUATION.value: Instrument_Index.FILLING_MEDIUM_FOR_ATTENUATION.value,
+    S_Instrument_Index.BYPASS_FOR_MOTOR_NETWORK_OPERATION.value: Instrument_Index.BYPASS_FOR_MOTOR_NETWORK_OPERATION.value,
+    S_Instrument_Index.CAPILLARY_LIQUID.value: Instrument_Index.CAPILLARY_LIQUID.value,
+    S_Instrument_Index.CHARACTERISTIC_POSITIONER.value: Instrument_Index.CHARACTERISTIC_POSITIONER.value,
+    S_Instrument_Index.CIRCUIT_ARRANGEMENT.value: Instrument_Index.CIRCUIT_ARRANGEMENT.value,
+    S_Instrument_Index.CONTROL_CABLE_SREWED_JOINT.value: Instrument_Index.CONTROL_CABLE_SREWED_JOINT.value,
+    S_Instrument_Index.DETECTION_TYPE.value: Instrument_Index.DETECTION_TYPE.value,
+    S_Instrument_Index.DEVICE_TYPE_MACHINE_MONITORING.value: Instrument_Index.DEVICE_TYPE_MACHINE_MONITORING.value,
+    S_Instrument_Index.ENCLOSURE_TYPE_CLASS.value: Instrument_Index.ENCLOSURE_TYPE_CLASS.value,
+    S_Instrument_Index.EXTERNAL_SETPOINT_SPECIFICATION.value: Instrument_Index.EXTERNAL_SETPOINT_SPECIFICATION.value,
+    S_Instrument_Index.FILTER_FOR_HARMONIC_CURRENTS.value: Instrument_Index.FILTER_FOR_HARMONIC_CURRENTS.value,
+    S_Instrument_Index.FLASH_SIGNALING.value: Instrument_Index.FLASH_SIGNALING.value,
+    S_Instrument_Index.HEAT_GENERATOR_INSTALLATION_POSITION.value: Instrument_Index.HEAT_GENERATOR_INSTALLATION_POSITION.value,
+    S_Instrument_Index.INSTALLATION_LAYER.value: Instrument_Index.INSTALLATION_LAYER.value,
+    S_Instrument_Index.INSULATION_CLASS.value: Instrument_Index.INSULATION_CLASS.value,
+    S_Instrument_Index.LIMIT_SWITCH_CLOSE.value: Instrument_Index.LIMIT_SWITCH_CLOSE.value,
+    S_Instrument_Index.LIMIT_SWITCH_OPEN.value: Instrument_Index.LIMIT_SWITCH_OPEN.value,
+    S_Instrument_Index.METHOD_OF_MEASUREMENT_MACHINE_MONITORING.value: Instrument_Index.METHOD_OF_MEASUREMENT_MACHINE_MONITORING.value,
+    S_Instrument_Index.MACHINE_TYPE.value: Instrument_Index.MACHINE_TYPE.value,
+    S_Instrument_Index.MANUAL_OPERATION.value: Instrument_Index.MANUAL_OPERATION.value,
+    S_Instrument_Index.MEASURED_VALUE_DISPLAY.value: Instrument_Index.MEASURED_VALUE_DISPLAY.value,
+    S_Instrument_Index.DESIGN.value: Instrument_Index.DESIGN.value,
+    S_Instrument_Index.POSITION_FEEDBACK_ANALOG.value: Instrument_Index.POSITION_FEEDBACK_ANALOG.value,
+    S_Instrument_Index.POWER_CABLE_SCREWED_JOINT.value: Instrument_Index.POWER_CABLE_SCREWED_JOINT.value,
+    S_Instrument_Index.RED_MARKING_DESIGN.value: Instrument_Index.RED_MARKING_DESIGN.value,
+    S_Instrument_Index.SELF_RETAINING_DRIVE.value: Instrument_Index.SELF_RETAINING_DRIVE.value,
+    S_Instrument_Index.TANDEM_SWITCH.value: Instrument_Index.TANDEM_SWITCH.value,
+    S_Instrument_Index.TEMPERATURE_CONTROLLER.value: Instrument_Index.TEMPERATURE_CONTROLLER.value,
+    S_Instrument_Index.TEMPERATURE_LIMITER.value: Instrument_Index.TEMPERATURE_LIMITER.value,
+    S_Instrument_Index.TERMINAL_BOX_POSITION_TO_DRIVE_END_OF_MOTOR.value: Instrument_Index.TERMINAL_BOX_POSITION_TO_DRIVE_END_OF_MOTOR.value,
+    S_Instrument_Index.CIRCUIT_ARRANGEMENT2.value: Instrument_Index.CIRCUIT_ARRANGEMENT2.value,
+    S_Instrument_Index.TORQUE_DEPENDENT.value: Instrument_Index.TORQUE_DEPENDENT.value,
+    S_Instrument_Index.TORQUE_LIMIT_SWITCH_CLOSE.value: Instrument_Index.TORQUE_LIMIT_SWITCH_CLOSE.value,
+    S_Instrument_Index.TORQUE_LIMIT_SWITCH_OPEN.value: Instrument_Index.TORQUE_LIMIT_SWITCH_OPEN.value,
+    S_Instrument_Index.TYPE_OF_STARTING.value: Instrument_Index.TYPE_OF_STARTING.value,
+}
+    renamed_instrument_index = distinct_instrument_index.rename(columns=column_rename_mapping)
+
+    selected_columns = [column.value for column in Instrument_Index]
+    selected_instrument_index = renamed_instrument_index[selected_columns]
+    return selected_instrument_index
+This function applies the filter conditions from the WHERE clause, removes duplicates to mimic the SELECT DISTINCT and renames the columns according to the Instrument_Index Enum. The input dataframes are the equivalents of the tables in your SQL database.

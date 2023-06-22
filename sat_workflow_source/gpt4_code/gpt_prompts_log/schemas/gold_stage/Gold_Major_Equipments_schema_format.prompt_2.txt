@@ -1,0 +1,42 @@
+This is the schema for a table called Major_Equipments.
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'Major_Equipments'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+9_Major_Equipments	Parent_Equipment_No
+9_Major_Equipments	EquipmentType
+9_Major_Equipments	Area
+9_Major_Equipments	Description
+9_Major_Equipments	VendorSupplied
+9_Major_Equipments	DwgRequired
+9_Major_Equipments	Status
+9_Major_Equipments	AreaPath
+9_Major_Equipments	Type
+9_Major_Equipments	Designation
+9_Major_Equipments	Comment
+9_Major_Equipments	Installation site
+9_Major_Equipments	Category
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class Major_Equipments(Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENTTYPE = 'equipmenttype'
+    AREA = 'area'
+    DESCRIPTION = 'description'
+    VENDORSUPPLIED = 'vendorsupplied'
+    DWGREQUIRED = 'dwgrequired'
+    STATUS = 'status'
+    AREAPATH = 'areapath'
+    TYPE = 'type'
+    DESIGNATION = 'designation'
+    COMMENT = 'comment'
+    INSTALLATION_SITE = 'installation_site'
+    CATEGORY = 'category'
+

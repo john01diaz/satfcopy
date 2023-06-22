@@ -1,0 +1,128 @@
+Convert the following Databricks SQL statement into python code.
+
+Do not value brevity.
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named IO_Catalogue
+
+class IO_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CHANNEL = 'channel'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+
+This is the enum schema for the input table named S_IO_Catalogue
+
+class S_IO_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CHANNEL = 'channel'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    DYNAMIC_CLASS = 'dynamic_class'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+This is the SQL statement named 06_S_IO_Allocations. Fully generate the mappings.
+
+
+SELECT Distinct
+Model_Number
+,Description
+,Manufacturer
+,DescriptionDrawing
+,Channel
+,AllowUse
+,IOType
+,NoOfPoints
+,TerminalsPerPointChannel
+,TerminalsPerMarking
+FROM SIGRAPH_SILVER.S_IO_CATALOGUE
+Where Catalogue_RNT=1
+and database_name in (Select Database_name from VW_Database_names)
+order by Model_Number,Cast(Replace(Replace(TerminalsPerMarking,'+',''),'-','') as BIGINT)
+
+&&&&&&&&&&&&&&&&&&&&&
+CATALOGUE_RNT_VALUE = 1
+
+
+def execute_query(s_io_catalogue_dataframe, database_names_dataframe):
+    """
+    Function to execute the SQL query equivalent in Python
+
+    Parameters:
+    s_io_catalogue_dataframe (pandas.DataFrame): Dataframe equivalent to SIGRAPH_SILVER.S_IO_CATALOGUE
+    database_names_dataframe (pandas.DataFrame): Dataframe equivalent to VW_Database_names
+
+    Returns:
+    pandas.DataFrame: Result of the query execution
+    """
+
+    # Filtering data where Catalogue_RNT = 1
+    catalogue_rnt_filtered_dataframe = s_io_catalogue_dataframe[
+        s_io_catalogue_dataframe[S_IO_Catalogue.CATALOGUE_RNT.value] == CATALOGUE_RNT_VALUE]
+
+    # Further filtering where database_name is in database_names_dataframe
+    database_names_filtered_dataframe = catalogue_rnt_filtered_dataframe[
+        catalogue_rnt_filtered_dataframe[S_IO_Catalogue.DATABASE_NAME.value].isin(
+            database_names_dataframe[DatabaseNames.DATABASE_NAME.value])]
+
+    # Removing '+' and '-' from TerminalsPerMarking column and casting it to BIGINT
+    database_names_filtered_dataframe[S_IO_Catalogue.TERMINALSPERMARKING.value] = (
+        database_names_filtered_dataframe[S_IO_Catalogue.TERMINALSPERMARKING.value]
+        .replace(['+', '-'], '', regex=True).astype('int64')
+    )
+
+    # Sorting by Model_Number and TerminalsPerMarking
+    sorted_dataframe = database_names_filtered_dataframe.sort_values(
+        by=[S_IO_Catalogue.MODEL_NUMBER.value, S_IO_Catalogue.TERMINALSPERMARKING.value])
+
+    # Selecting distinct rows
+    distinct_dataframe = sorted_dataframe.drop_duplicates()
+
+    return distinct_dataframe. If the data doesn't include any of the mentioned columns, this script will fail. It also assumes that the replacement in 'TerminalsPerMarking' produces valid integers - if this is not the case, you'll need to handle exceptions.on is used in place of the SQL DISTINCT keyword. It will return a dataframe with duplicate rows removed.

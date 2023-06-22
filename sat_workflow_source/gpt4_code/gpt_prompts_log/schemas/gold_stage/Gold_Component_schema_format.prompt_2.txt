@@ -1,0 +1,29 @@
+This is the schema for a table called Component.
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'Component'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+10_Component	Parent_Equipment_No
+10_Component	Equipment_No
+10_Component	EquipmentType
+10_Component	CatalogueNo
+10_Component	DinRail
+10_Component	Sequence
+10_Component	Remarks
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class Component(Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENT_NO = 'equipment_no'
+    EQUIPMENTTYPE = 'equipmenttype'
+    CATALOGUENO = 'catalogueno'
+    DINRAIL = 'dinrail'
+    SEQUENCE = 'sequence'
+    REMARKS = 'remarks'
+

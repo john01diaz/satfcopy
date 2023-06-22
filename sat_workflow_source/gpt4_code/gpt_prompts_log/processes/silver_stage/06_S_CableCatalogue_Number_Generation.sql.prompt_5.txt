@@ -1,0 +1,112 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations.
+
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named S_CableCatalogueNumber_Master.
+
+class S_CableCatalogueNumber_Master(
+        Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CATALOGUENO = 'catalogueno'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+
+These are the enums for the input tbales named S_CableCoreCatalogue and S_CableCatalogue.
+
+class S_CableCoreCatalogue(
+        Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CORE_MARKINGS = 'core_markings'
+    CORE_MARKINGS_CORE_TYPE = 'core_markings_core_type'
+    DATABASE_NAME = 'database_name'
+    GROUP_MARKING = 'group_marking'
+    GROUP_MARKING_SEQUENCE = 'group_marking_sequence'
+    ISVALIDCABLEANDCORE = 'isvalidcableandcore'
+    OBJECT_IDENTIFIER = 'object_identifier'
+
+
+class S_CableCatalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    ARMOURED = 'armoured'
+    CLASS = 'class'
+    COLOUR1 = 'colour1'
+    COLOUR2 = 'colour2'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DRUMLENGTH = 'drumlength'
+    EARTH_CORE_SIZE = 'earth_core_size'
+    EARTHCORE = 'earthcore'
+    GROUPSCR = 'groupscr'
+    GROUPTYPE = 'grouptype'
+    LINETYPE = 'linetype'
+    LINETYPEARROWHEAD = 'linetypearrowhead'
+    LINETYPECOLOR = 'linetypecolor'
+    LINETYPEWIDTH = 'linetypewidth'
+    MANUFACTURER = 'manufacturer'
+    MATERIAL = 'material'
+    NOOFGROUPS = 'noofgroups'
+    OASCR = 'oascr'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OD = 'od'
+    REMARKS = 'remarks'
+    SIZE = 'size'
+    VOLTAGE = 'voltage'
+
+This is the SQL statement for conversion.
+
+Create Or Replace Temp View VW_CatalogueNo
+As
+
+Select
+Concat('SHRH_CABLE_',2000+Dense_Rank() Over(order by Description,Markings)) as CatalogueNo
+,Description
+,Database_name
+,Cable_Object_Identifier
+From (
+      Select Distinct
+        C.Database_name
+        ,C.Cable_Object_Identifier
+        ,TRIM(Replace(Replace(
+          Replace(Replace(Replace(CC.Description,'% GRAU MMA',''),' BLAU MMA',''),' BLAU',''),' GRAU',''),' ROT',''))
+          as Description
+        ,concat_ws(',',
+        to_get_sort(collect_list(C.Core_Markings) Over(partition by C.database_name,C.Cable_Object_Identifier))) as Markings
+      From sigraph_silver.S_CableCoreCatalogue C
+      inner join sigraph_silver.S_CableCatalogue CC
+      on C.database_name == CC.database_name
+      and C.Cable_object_identifier == CC.Object_identifier
+      Where Cable_Object_Identifier is not null
+) as A
+
+

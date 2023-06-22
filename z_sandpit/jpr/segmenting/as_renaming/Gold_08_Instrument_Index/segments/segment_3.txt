@@ -1,0 +1,223 @@
+Convert the following SQL column renames into a python dictionary.
+Use the following python enums to refer to the column names.
+Use enum value attribute when you generate the dictionary.
+
+This is the output schema.
+Instrument_Index(Enum)
+VOLTAGE_TYPE = 'voltage type'
+CLASSIFICATION_BY = 'classification by'
+EDGE_CHANGE = 'edge change'
+SIGNAL_VOLTAGE_OUTPUT = 'signal voltage output'
+ACCURACY_SPEED_OUTPUT = 'accuracy speed output ±'
+ACTUATING_TIME = 'actuating time'
+ACTUATOR_INSTALLATION_POSITION = 'actuator installation position'
+ANALYZER_CALIBRATION_CURVE = 'analyzer calibration curve'
+ANALYZER_90_PERCENTAGE_TIME_OR_LENGTH_OF_ANALYSIS = 'analyzer 90 percentage time or length of analysis'
+APERTURE_ANGLE_VENTURI_TUBE = 'aperture angle venturi tube'
+ASSEMBLY_CATEGORY = 'assembly category'
+ASSEMBLY_IDENTIFIER = 'assembly identifier'
+ASSEMBLY_LOCATION = 'assembly location'
+AUXILIARY_MATERIALS = 'auxiliary materials'
+AVERAGE_ANNUAL_TEMPERATURE = 'average annual temperature'
+BLUFF_BODY_FORM = 'bluff body form'
+BREAKDOWN_TORQUE_RATIO_MK_PER_MN = 'breakdown torque ratio mk per mn'
+PTB_NUMBER = 'ptb number'
+CHARACTERISTIC_LINE = 'characteristic line'
+LENGTH_CONNECTION_CABLE = 'length connection cable'
+CONSTRUCTION_YEAR = 'construction year'
+CONTROL_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLETS = 'control cable maximum number of cable inlets'
+CONTROL_CABLE_MAXIMUM_WIRE_CROSS_SECTION = 'control cable maximum wire cross section'
+CONTROLLERS_MAXIMUM_NUMBER_OF_CABLE_INLETS = 'controllers maximum number of cable inlets'
+CONTROLLERS_MAXIMUM_WIRE_CROSS_SECTION = 'controllers maximum wire cross section'
+CONTROL_TRIPPING_VOLTAGE = 'control tripping voltage'
+CONTROLLER_MAXIMUM = 'controller maximum'
+CONTROLLER_MINIMUM = 'controller minimum'
+COUNTER = 'counter'
+DN = 'dn'
+CUT_OUT_TORQUE = 'cut out torque'
+DENSITY_AT_15C = 'density at 15c'
+DETONATION_HAZARD_PROTECTION_TYPE_HEATER = 'detonation hazard protection type heater'
+DETONATION_HAZARD_PROTECTION_TYPE_MOTOR = 'detonation hazard protection type motor'
+RATED_CURRENT_OF_DRIVE = 'rated current of drive'
+RATED_POWER_OF_DRIVE = 'rated power of drive'
+DRIVE_SYSTEM_FOR = 'drive system for'
+EFFICIENCY_AT_NOMINAL_LOAD = 'efficiency at nominal load'
+ENGINE_IDENTIFICATION_NUMBER = 'engine identification number'
+DEFAULT_COMPONENT_NAME = 'default component name'
+FLOAT_TYPE_FORM = 'float type form'
+FRAME_SIZE = 'frame size'
+DEFAULT_SYMBOL_LIBRARY = 'default symbol library'
+DEFAULT_SYMBOL = 'default symbol'
+HEATING_BUNDLE_DIAMETER = 'heating bundle diameter'
+IMPULSE_FACTOR = 'impulse factor'
+INSTRUMENT_LAYOUT = 'instrument layout'
+INSTRUMENT_LAYOUT_PAGE_NUMBER = 'instrument layout page number'
+INTERRUPTING_CURRENT_LIMIT_XIN = 'interrupting current limit xin'
+LENGTH_OF_DISPLACER = 'length of displacer'
+
+
+
+This is the input schema.
+S_Instrument_Index(Enum)
+VOLTAGE_TYPE = 'voltage_type'
+CLASSIFICATION_BY = 'classification_by'
+EDGE_CHANGE = 'edge_change'
+SIGNAL_VOLTAGE_OUTPUT = 'signal_voltage_output'
+ACCURACY_SPEED_OUTPUT = 'accuracy_speed_output'
+ACTUATING_TIME = 'actuating_time'
+ACTUATOR_INSTALLATION_POSITION = 'actuator_installation_position'
+ANALYZER_CALIBRATION_CURVE = 'analyzer_calibration_curve'
+ANALYZER_90_TIME_OR_LENGTH_OF_ANALYSIS = 'analyzer_90_time_or_length_of_analysis'
+APERTURE_ANGLE_VENTURI_TUBE = 'aperture_angle_venturi_tube'
+ASSEMBLY_CATEGORY = 'assembly_category'
+ASSEMBLY_IDENTIFIER = 'assembly_identifier'
+ASSEMBLY_LOCATION = 'assembly_location'
+AUXILIARY_MATERIALS = 'auxiliary_materials'
+AVERAGE_ANNUAL_TEMPERATURE = 'average_annual_temperature'
+BLUFF_BODY_FORM = 'bluff_body_form'
+BREAKDOWN_TORQUE_RATIO_MK_MN = 'breakdown_torque_ratio_mk_mn'
+PTB_NUMBER = 'ptb_number'
+CHARACTERISTIC_LINE = 'characteristic_line'
+LENGTH_CONNECTION_CABLE = 'length_connection_cable'
+CONSTRUCTION_YEAR = 'construction_year'
+CONTROL_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLETS = 'control_cable_maximum_number_of_cable_inlets'
+CONTROL_CABLE_MAXIMUM_WIRE_CROSS_SECTION = 'control_cable_maximum_wire_cross_section'
+CONTROLLERS_MAXIMUM_NUMBER_OF_CABLE_INLETS = 'controllers_maximum_number_of_cable_inlets'
+CONTROLLERS_MAXIMUM_WIRE_CROSS_SECTION = 'controllers_maximum_wire_cross_section'
+CONTROL_TRIPPING_VOLTAGE = 'control_tripping_voltage'
+CONTROLLER_MAXIMUM = 'controller_maximum'
+CONTROLLER_MINIMUM = 'controller_minimum'
+COUNTER = 'counter'
+DN = 'dn'
+CUT_OUT_TORQUE = 'cut_out_torque'
+DENSITY_AT_15C = 'density_at_15c'
+DETONATION_HAZARD_PROTECTION_TYPE_HEATER = 'detonation_hazard_protection_type_heater'
+DETONATION_HAZARD_PROTECTION_TYPE_MOTOR = 'detonation_hazard_protection_type_motor'
+RATED_CURRENT_OF_DRIVE = 'rated_current_of_drive'
+RATED_POWER_OF_DRIVE = 'rated_power_of_drive'
+DRIVE_SYSTEM_FOR = 'drive_system_for'
+EFFICIENCY_AT_NOMINAL_LOAD = 'efficiency_at_nominal_load'
+ENGINE_IDENTIFICATION_NUMBER = 'engine_identification_number'
+DEFAULT_COMPONENT_NAME = 'default_component_name'
+FLOAT_TYPE_FORM = 'float_type_form'
+FRAME_SIZE = 'frame_size'
+DEFAULT_SYMBOL_LIBRARY = 'default_symbol_library'
+DEFAULT_SYMBOL = 'default_symbol'
+HEATING_BUNDLE_DIAMETER = 'heating_bundle_diameter'
+IMPULSE_FACTOR = 'impulse_factor'
+INSTRUMENT_LAYOUT = 'instrument_layout'
+INSTRUMENT_LAYOUT_PAGE_NUMBER = 'instrument_layout_page_number'
+INTERRUPTING_CURRENT_LIMIT_XIN = 'interrupting_current_limit_xin'
+LENGTH_OF_DISPLACER = 'length_of_displacer'
+
+
+This is the SQL rename Instrument_Index_Segment_3.
+
+
+as_statement
+Voltage_type As Voltage type
+Classification_by As Classification by
+Edge_change As Edge change
+Signal_Voltage_Output As Signal Voltage Output
+Accuracy_Speed_Output As Accuracy Speed Output ±
+Actuating_Time As Actuating Time
+Actuator_Installation_Position As Actuator Installation Position
+Analyzer_Calibration_Curve As Analyzer Calibration Curve
+Analyzer_90_time_or_Length_of_Analysis As Analyzer 90 Percentage time or Length of Analysis
+Aperture_Angle_Venturi_Tube As Aperture Angle Venturi Tube
+Assembly_Category As Assembly Category
+Assembly_Identifier As Assembly Identifier
+Assembly_Location As Assembly Location
+Auxiliary_Materials As Auxiliary Materials
+Average_Annual_Temperature As Average Annual Temperature
+Bluff_Body_Form As Bluff Body Form
+Breakdown_Torque_Ratio_MK_MN As Breakdown Torque Ratio MK Per MN
+PTB_Number As PTB Number
+Characteristic_Line As Characteristic Line
+Length_Connection_Cable As Length Connection Cable
+Construction_Year As Construction Year
+Control_Cable_Maximum_Number_of_Cable_Inlets As Control Cable Maximum Number of Cable Inlets
+Control_Cable_Maximum_Wire_Cross_Section As Control Cable Maximum Wire Cross Section
+Controllers_Maximum_Number_of_Cable_Inlets As Controllers Maximum Number of Cable Inlets
+Controllers_Maximum_Wire_Cross_Section As Controllers Maximum Wire Cross Section
+Control_Tripping_Voltage As Control Tripping Voltage
+Controller_Maximum As Controller Maximum
+Controller_Minimum As Controller Minimum
+Counter As Counter
+DN As DN
+Cut_Out_Torque As Cut Out Torque
+Density_at_15C As Density at 15C
+Detonation_Hazard_Protection_Type_Heater As Detonation Hazard Protection Type Heater
+Detonation_Hazard_Protection_Type_Motor As Detonation Hazard Protection Type Motor
+Rated_Current_of_Drive As Rated Current of Drive
+Rated_Power_of_Drive As Rated Power of Drive
+Drive_System_for As Drive System for
+Efficiency_at_Nominal_Load As Efficiency at Nominal Load
+Engine_Identification_Number As Engine Identification Number
+Default_Component_Name As Default Component Name
+Float_Type_Form As Float Type Form
+Frame_Size As Frame Size
+Default_Symbol_Library As Default Symbol Library
+Default_Symbol As Default Symbol
+Heating_Bundle_Diameter As Heating Bundle Diameter
+Impulse_Factor As Impulse Factor
+Instrument_Layout As Instrument Layout
+Instrument_Layout_Page_Number As Instrument Layout Page Number
+Interrupting_Current_Limit_xIn As Interrupting Current Limit xIn
+Length_of_Displacer As Length of Displacer
+
+
+&&&&&&&&&&&&&&&&&&&
+
+sql_to_python = {
+    S_Instrument_Index.VOLTAGE_TYPE.value: Instrument_Index.VOLTAGE_TYPE.value,
+    S_Instrument_Index.CLASSIFICATION_BY.value: Instrument_Index.CLASSIFICATION_BY.value,
+    S_Instrument_Index.EDGE_CHANGE.value: Instrument_Index.EDGE_CHANGE.value,
+    S_Instrument_Index.SIGNAL_VOLTAGE_OUTPUT.value: Instrument_Index.SIGNAL_VOLTAGE_OUTPUT.value,
+    S_Instrument_Index.ACCURACY_SPEED_OUTPUT.value: Instrument_Index.ACCURACY_SPEED_OUTPUT.value,
+    S_Instrument_Index.ACTUATING_TIME.value: Instrument_Index.ACTUATING_TIME.value,
+    S_Instrument_Index.ACTUATOR_INSTALLATION_POSITION.value: Instrument_Index.ACTUATOR_INSTALLATION_POSITION.value,
+    S_Instrument_Index.ANALYZER_CALIBRATION_CURVE.value: Instrument_Index.ANALYZER_CALIBRATION_CURVE.value,
+    S_Instrument_Index.ANALYZER_90_TIME_OR_LENGTH_OF_ANALYSIS.value: Instrument_Index.ANALYZER_90_PERCENTAGE_TIME_OR_LENGTH_OF_ANALYSIS.value,
+    S_Instrument_Index.APERTURE_ANGLE_VENTURI_TUBE.value: Instrument_Index.APERTURE_ANGLE_VENTURI_TUBE.value,
+    S_Instrument_Index.ASSEMBLY_CATEGORY.value: Instrument_Index.ASSEMBLY_CATEGORY.value,
+    S_Instrument_Index.ASSEMBLY_IDENTIFIER.value: Instrument_Index.ASSEMBLY_IDENTIFIER.value,
+    S_Instrument_Index.ASSEMBLY_LOCATION.value: Instrument_Index.ASSEMBLY_LOCATION.value,
+    S_Instrument_Index.AUXILIARY_MATERIALS.value: Instrument_Index.AUXILIARY_MATERIALS.value,
+    S_Instrument_Index.AVERAGE_ANNUAL_TEMPERATURE.value: Instrument_Index.AVERAGE_ANNUAL_TEMPERATURE.value,
+    S_Instrument_Index.BLUFF_BODY_FORM.value: Instrument_Index.BLUFF_BODY_FORM.value,
+    S_Instrument_Index.BREAKDOWN_TORQUE_RATIO_MK_MN.value: Instrument_Index.BREAKDOWN_TORQUE_RATIO_MK_PER_MN.value,
+    S_Instrument_Index.PTB_NUMBER.value: Instrument_Index.PTB_NUMBER.value,
+    S_Instrument_Index.CHARACTERISTIC_LINE.value: Instrument_Index.CHARACTERISTIC_LINE.value,
+    S_Instrument_Index.LENGTH_CONNECTION_CABLE.value: Instrument_Index.LENGTH_CONNECTION_CABLE.value,
+    S_Instrument_Index.CONSTRUCTION_YEAR.value: Instrument_Index.CONSTRUCTION_YEAR.value,
+    S_Instrument_Index.CONTROL_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLETS.value: Instrument_Index.CONTROL_CABLE_MAXIMUM_NUMBER_OF_CABLE_INLETS.value,
+    S_Instrument_Index.CONTROL_CABLE_MAXIMUM_WIRE_CROSS_SECTION.value: Instrument_Index.CONTROL_CABLE_MAXIMUM_WIRE_CROSS_SECTION.value,
+    S_Instrument_Index.CONTROLLERS_MAXIMUM_NUMBER_OF_CABLE_INLETS.value: Instrument_Index.CONTROLLERS_MAXIMUM_NUMBER_OF_CABLE_INLETS.value,
+    S_Instrument_Index.CONTROLLERS_MAXIMUM_WIRE_CROSS_SECTION.value: Instrument_Index.CONTROLLERS_MAXIMUM_WIRE_CROSS_SECTION.value,
+    S_Instrument_Index.CONTROL_TRIPPING_VOLTAGE.value: Instrument_Index.CONTROL_TRIPPING_VOLTAGE.value,
+    S_Instrument_Index.CONTROLLER_MAXIMUM.value: Instrument_Index.CONTROLLER_MAXIMUM.value,
+    S_Instrument_Index.CONTROLLER_MINIMUM.value: Instrument_Index.CONTROLLER_MINIMUM.value,
+    S_Instrument_Index.COUNTER.value: Instrument_Index.COUNTER.value,
+    S_Instrument_Index.DN.value: Instrument_Index.DN.value,
+    S_Instrument_Index.CUT_OUT_TORQUE.value: Instrument_Index.CUT_OUT_TORQUE.value,
+    S_Instrument_Index.DENSITY_AT_15C.value: Instrument_Index.DENSITY_AT_15C.value,
+    S_Instrument_Index.DETONATION_HAZARD_PROTECTION_TYPE_HEATER.value: Instrument_Index.DETONATION_HAZARD_PROTECTION_TYPE_HEATER.value,
+    S_Instrument_Index.DETONATION_HAZARD_PROTECTION_TYPE_MOTOR.value: Instrument_Index.DETONATION_HAZARD_PROTECTION_TYPE_MOTOR.value,
+    S_Instrument_Index.RATED_CURRENT_OF_DRIVE.value: Instrument_Index.RATED_CURRENT_OF_DRIVE.value,
+    S_Instrument_Index.RATED_POWER_OF_DRIVE.value: Instrument_Index.RATED_POWER_OF_DRIVE.value,
+    S_Instrument_Index.DRIVE_SYSTEM_FOR.value: Instrument_Index.DRIVE_SYSTEM_FOR.value,
+    S_Instrument_Index.EFFICIENCY_AT_NOMINAL_LOAD.value: Instrument_Index.EFFICIENCY_AT_NOMINAL_LOAD.value,
+    S_Instrument_Index.ENGINE_IDENTIFICATION_NUMBER.value: Instrument_Index.ENGINE_IDENTIFICATION_NUMBER.value,
+    S_Instrument_Index.DEFAULT_COMPONENT_NAME.value: Instrument_Index.DEFAULT_COMPONENT_NAME.value,
+    S_Instrument_Index.FLOAT_TYPE_FORM.value: Instrument_Index.FLOAT_TYPE_FORM.value,
+    S_Instrument_Index.FRAME_SIZE.value: Instrument_Index.FRAME_SIZE.value,
+    S_Instrument_Index.DEFAULT_SYMBOL_LIBRARY.value: Instrument_Index.DEFAULT_SYMBOL_LIBRARY.value,
+    S_Instrument_Index.DEFAULT_SYMBOL.value: Instrument_Index.DEFAULT_SYMBOL.value,
+    S_Instrument_Index.HEATING_BUNDLE_DIAMETER.value: Instrument_Index.HEATING_BUNDLE_DIAMETER.value,
+    S_Instrument_Index.IMPULSE_FACTOR.value: Instrument_Index.IMPULSE_FACTOR.value,
+    S_Instrument_Index.INSTRUMENT_LAYOUT.value: Instrument_Index.INSTRUMENT_LAYOUT.value,
+    S_Instrument_Index.INSTRUMENT_LAYOUT_PAGE_NUMBER.value: Instrument_Index.INSTRUMENT_LAYOUT_PAGE_NUMBER.value,
+    S_Instrument_Index.INTERRUPTING_CURRENT_LIMIT_XIN.value: Instrument_Index.INTERRUPTING_CURRENT_LIMIT_XIN.value,
+    S_Instrument_Index.LENGTH_OF_DISPLACER.value: Instrument_Index.LENGTH_OF_DISPLACER.value
+}

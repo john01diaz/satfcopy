@@ -1,0 +1,52 @@
+Silver_S_Internal_Wiring_schema_format.prompt_1.txt
+
+This is the schema for a table called S_Internal_Wiring.
+It is a list of column names for S_Internal_Wiring
+Create a python Enum for these column names.
+Name the class 'S_Internal_Wiring'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_Internal_Wiring Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Class
+database_name
+From_Compartment
+From_Equipment
+From_Left_Right
+From_Marking
+From_Parent_Equipment_No
+From_Wire_Link
+object_identifier
+parquet_file_relative_path
+To_Compartment
+To_Equipment_No
+To_Left_Right
+To_Marking
+To_Parent_Equipment_No
+To_Wire_Link
+
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_Internal_Wiring(Enum):
+CLASS = 'class'
+DATABASE_NAME = 'database_name'
+FROM_COMPARTMENT = 'from_compartment'
+FROM_EQUIPMENT = 'from_equipment'
+FROM_LEFT_RIGHT = 'from_left_right'
+FROM_MARKING = 'from_marking'
+FROM_PARENT_EQUIPMENT_NO = 'from_parent_equipment_no'
+FROM_WIRE_LINK = 'from_wire_link'
+OBJECT_IDENTIFIER = 'object_identifier'
+PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+TO_COMPARTMENT = 'to_compartment'
+TO_EQUIPMENT_NO = 'to_equipment_no'
+TO_LEFT_RIGHT = 'to_left_right'
+TO_MARKING = 'to_marking'
+TO_PARENT_EQUIPMENT_NO = 'to_parent_equipment_no'
+TO_WIRE_LINK = 'to_wire_link'
+
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

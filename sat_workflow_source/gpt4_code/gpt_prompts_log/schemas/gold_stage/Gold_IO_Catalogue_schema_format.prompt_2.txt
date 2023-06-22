@@ -1,0 +1,40 @@
+This is the schema for a table called IO_Catalogue.
+It is a list of column names for IO_Catalogue
+Create a python Enum for these column names.
+Name the class 'IO_Catalogue'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+
+AllowUse
+Channel
+Description
+DescriptionDrawing
+IOType
+Manufacturer
+Model_Number
+NoOfPoints
+TerminalsPerMarking
+TerminalsPerPointChannel
+
+&&&&&&&&&&&&&&&&&&
+
+Sure, I can help you with that. Here's the Python Enum for the column names:
+
+python
+Copy code
+from enum import Enum
+
+class IO_Catalogue(Enum):
+    ALLOWUSE = 'allowuse'
+    CHANNEL = 'channel'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+This Python Enum, named 'Instrument_Index', has capitalized names as you requested and the values are in lowercase. To access the values of this Enum you would do something like Instrument_Index.ALLOWUSE.value. This would give you the string 'allowuse'.

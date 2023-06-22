@@ -1,0 +1,68 @@
+
+Silver_S_CableCatalogue_schema_format.prompt.txt
+
+This is the schema for a table called S_CableCatalogue. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+can you convert all the column names to lowercase.
+
+
+S_CableCatalogue	Earth_Core_Size
+S_CableCatalogue	Colour2
+S_CableCatalogue	OD
+S_CableCatalogue	Size
+S_CableCatalogue	Material
+S_CableCatalogue	Colour1
+S_CableCatalogue	LineType
+S_CableCatalogue	Remarks
+S_CableCatalogue	LineTypeArrowHead
+S_CableCatalogue	LineTypeColor
+S_CableCatalogue	LineTypeWidth
+S_CableCatalogue	parquet_file_relative_path
+S_CableCatalogue	DrumLength
+S_CableCatalogue	Voltage
+S_CableCatalogue	AllowUse
+S_CableCatalogue	EarthCore
+S_CableCatalogue	GroupType
+S_CableCatalogue	Object_Identifier
+S_CableCatalogue	Description
+S_CableCatalogue	OAScr
+S_CableCatalogue	Class
+S_CableCatalogue	Manufacturer
+S_CableCatalogue	NoOfGroups
+S_CableCatalogue	Armoured
+S_CableCatalogue	Database_name
+S_CableCatalogue	GroupScr
+
+
+S_CableCatalogue Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_CableCatalogueColumns(Enum):
+    earth_core_size = "earth_core_size"
+    colour2 = "colour2"
+    od = "od"
+    size = "size"
+    material = "material"
+    colour1 = "colour1"
+    line_type = "line_type"
+    remarks = "remarks"
+    line_type_arrowhead = "line_type_arrowhead"
+    line_type_color = "line_type_color"
+    line_type_width = "line_type_width"
+    parquet_file_relative_path = "parquet_file_relative_path"
+    drum_length = "drum_length"
+    voltage = "voltage"
+    allow_use = "allow_use"
+    earthcore = "earthcore"
+    group_type = "group_type"
+    object_identifier = "object_identifier"
+    description = "description"
+    oascr = "oascr"
+    class_ = "class"
+    manufacturer = "manufacturer"
+    no_of_groups = "no_of_groups"
+    armoured = "armoured"
+    database_name = "database_name"
+    groupscr = "groupscr"

@@ -1,0 +1,2 @@
+
+DROP TABLE  SIGRAPH_SILVER.S_Instrument_Index

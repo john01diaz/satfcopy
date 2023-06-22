@@ -1,0 +1,25 @@
+This is the schema for a table called Symbol_pin_orientation.
+It is a list of column names for Symbol_pin_orientation
+Create a python Enum for these column names.
+Name the class 'Symbol_pin_orientation'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+Symbol_pin_orientation Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Bottom
+Function_Type_1
+Left
+Master_Symbol_name
+Right
+Symbol_name
+Top
+Unknown
+
+
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

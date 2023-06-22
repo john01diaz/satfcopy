@@ -1,0 +1,115 @@
+Convert the following Databricks SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the output table named Component.
+
+class Component(
+        Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENT_NO = 'equipment_no'
+    EQUIPMENTTYPE = 'equipmenttype'
+    CATALOGUENO = 'catalogueno'
+    DINRAIL = 'dinrail'
+    SEQUENCE = 'sequence'
+    REMARKS = 'remarks'
+
+This is the enum schema for the input table named S_Component.
+
+class S_Component(
+        Enum):
+    CATALOGUENO = 'catalogueno'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DINRAIL = 'dinrail'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENT_NO = 'equipment_no'
+    EQUIPMENTTYPE = 'equipmenttype'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    REMARKS = 'remarks'
+    SEQUENCE = 'sequence'
+
+This is the SQL statement named Component.
+
+Select
+A.Parent_Equipment_No
+,A.Equipment_No
+,A.EquipmentType
+,A.CatalogueNo
+,A.DinRail
+,Row_Number() Over(Partition by Parent_Equipment_No,DinRail order by Item_Object_identifier) as Sequence
+,Remarks
+From (
+Select Distinct
+A.Parent_Equipment_No
+,A.Equipment_No
+,A.EquipmentType
+,A.CatalogueNo
+,A.DinRail
+,A.Remarks
+,A.Item_Object_identifier
+From Sigraph_Silver.S_Component A
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') and database_name in (Select Database_name from VW_Database_names)
+) as A
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+def generate_component_dataframe(s_component_dataframe, vw_database_names_dataframe):
+    class_values = ['Instrumentation', 'Inst(Shared)', 'Elec(Shared)']
+    s_component_dataframe = s_component_dataframe[s_component_dataframe[S_Component.CLASS.value].isin(class_values)]
+    s_component_dataframe = s_component_dataframe[s_component_dataframe[S_Component.DATABASE_NAME.value].isin(vw_database_names_dataframe[DatabaseNames.DATABASE_NAME.value])]
+    s_component_dataframe.drop_duplicates(inplace=True)
+
+    s_component_dataframe[Component.SEQUENCE.value] = s_component_dataframe.sort_values(by=S_Component.ITEM_OBJECT_IDENTIFIER.value).groupby([S_Component.PARENT_EQUIPMENT_NO.value, S_Component.DINRAIL.value]).cumcount() + 1
+
+    component_dataframe = s_component_dataframe[[S_Component.PARENT_EQUIPMENT_NO.value,
+                                                 S_Component.EQUIPMENT_NO.value,
+                                                 S_Component.EQUIPMENTTYPE.value,
+                                                 S_Component.CATALOGUENO.value,
+                                                 S_Component.DINRAIL.value,
+                                                 Component.SEQUENCE.value,
+                                                 S_Component.REMARKS.value]].copy()
+
+    component_dataframe.columns = [Component.PARENT_EQUIPMENT_NO.value,
+                                   Component.EQUIPMENT_NO.value,
+                                   Component.EQUIPMENTTYPE.value,
+                                   Component.CATALOGUENO.value,
+                                   Component.DINRAIL.value,
+                                   Component.SEQUENCE.value,
+                                   Component.REMARKS.value]
+
+    return component_dataframe
+Please note that the input to this function should be pandas dataframes. This function filters the s_component_dataframe based on class and database_name, generates a new sequence column based on the row_number equivalent in pandas, selects the required columns and returns a new dataframe. Please be aware that pandas does not inherently support SQL's partition by logic, so the sequence generation logic here is a best attempt at replicating it. It's recommended to validate this logic withr_dataframe_by_class function.

@@ -1,0 +1,193 @@
+We need to convert Databricks SQL statements into vanilla python code. 
+we want to find the general patterns in the SQL statements so we can write the python code is a similar way.
+
+Where things are not clear please ask for a clarification
+
+General instructions
+Can you make the code as modular as possible.
+Can you use clean coding principles.
+Can you follow the PEP8 style guide.
+Can you use human readable names.
+Can you choose descriptive and unambiguous names.
+Can you choose pronounceable names
+Can you choose searchable names
+Can you NEVER choose any abbreviations or shortened variable names
+Can you replace magic numbers with named constants.
+
+Can you define any literals as named constants
+Define and name all lists and arrays separately
+
+Specific instructions
+
+Can you treat  the input files as pandas dataframes and read them in as parameters at the start,
+
+The input columns can be treated in different ways - modularise these different ways if possible.
+sometimes a column will be passed through without any modification.
+sometimes a columnn will be simply mapped to a column with a new name - note that the same column may be mapped several times
+sometimes a new columnn will be added with a constant value
+sometimes a columnn will be mapped to a column using  more complex calculations 
+
+Can you make sure you complete all the lists and arrays - don't stop in the middle.
+
+Code all literals as constants
+
+use the names 'dataframe' and 'pandas' in full, do not abbreviate. 
+
+------------------
+
+------------------
+This is the Databricks SQL statement called - 06_S_CableCatalogue_Number_Generation.sql
+It takes in two dataframes (S_CableCoreCatalogue and S_CableCatalogue) and outputs a third dataframe (S_CableCatalogueNumber_Master) 
+
+we have converted the schemas for these dataframes into Python Enums - and converted the names to lower case.
+Can you use these when referring to the column names.
+
+S_CableCoreCatalogue Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_CableCoreCatalogueColumns(Enum):
+    object_identifier = "object_identifier"
+    database_name = "database_name"
+    cable_object_identifier = "cable_object_identifier"
+    group_marking = "group_marking"
+    core_markings = "core_markings"
+    group_marking_sequence = "group_marking_sequence"
+    core_markings_core_type = "core_markings_core_type"
+    isvalidcableandcore = "isvalidcableandcore"
+    parquet_file_relative_path = "parquet_file_relative_path"
+	
+	
+S_CableCatalogue Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_CableCatalogueColumns(Enum):
+    earth_core_size = "earth_core_size"
+    colour2 = "colour2"
+    od = "od"
+    size = "size"
+    material = "material"
+    colour1 = "colour1"
+    line_type = "line_type"
+    remarks = "remarks"
+    line_type_arrowhead = "line_type_arrowhead"
+    line_type_color = "line_type_color"
+    line_type_width = "line_type_width"
+    parquet_file_relative_path = "parquet_file_relative_path"
+    drum_length = "drum_length"
+    voltage = "voltage"
+    allow_use = "allow_use"
+    earthcore = "earthcore"
+    group_type = "group_type"
+    object_identifier = "object_identifier"
+    description = "description"
+    oascr = "oascr"
+    class_ = "class"
+    manufacturer = "manufacturer"
+    no_of_groups = "no_of_groups"
+    armoured = "armoured"
+    database_name = "database_name"
+    groupscr = "groupscr"
+
+
+S_CableCatalogueNumber_Master Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_CableCatalogueNumberMasterColumns(Enum):
+    catalogue_no = "catalogue_no"
+    parquet_file_relative_path = "parquet_file_relative_path"
+    database_name = "database_name"
+    description = "description"
+    cable_object_identifier = "cable_object_identifier"
+    object_identifier = "object_identifier"
+
+
+
+"
+Create Or Replace Temp View S_CableCatalogueNumber_Master
+As
+
+Select 
+Concat('SHRH_CABLE_',2000+Dense_Rank() Over(order by Description,Markings)) as CatalogueNo
+,Description
+,Database_name
+,Cable_Object_Identifier
+From (
+      Select Distinct
+        C.Database_name
+        ,C.Cable_Object_Identifier
+        ,TRIM(Replace(Replace(
+          Replace(Replace(Replace(CC.Description,'% GRAU MMA',''),' BLAU MMA',''),' BLAU',''),' GRAU',''),' ROT','')) 
+          as Description
+        ,concat_ws(',',
+        to_get_sort(collect_list(C.Core_Markings) Over(partition by C.database_name,C.Cable_Object_Identifier))) as Markings
+      From sigraph_silver.S_CableCoreCatalogue C
+      inner join sigraph_silver.S_CableCatalogue CC
+      on C.database_name == CC.database_name
+      and C.Cable_object_identifier == CC.Object_identifier
+      Where Cable_Object_Identifier is not null
+) as A
+"
+
+&&&&&&&&&&&&&&&
+
+&&&&&&&&&&&&&&&
+import pandas as pd
+from enum import Enum
+
+# Enum classes defined here... (see above)
+
+# Constants
+SHRH_CABLE = 'SHRH_CABLE_'
+BASE_RANK = 2000
+REPLACEMENTS = [
+    ('% GRAU MMA', ''),
+    (' BLAU MMA', ''),
+    (' BLAU', ''),
+    (' GRAU', ''),
+    (' ROT', '')
+]
+
+# Assume that we have dataframes s_cable_core_catalogue and s_cable_catalogue
+# Remove certain substrings from the original Description column
+for old, new in REPLACEMENTS:
+    s_cable_catalogue[S_CableCatalogueColumns.description.value] = s_cable_catalogue[S_CableCatalogueColumns.description.value].str.replace(old, new)
+s_cable_catalogue[S_CableCatalogueColumns.description.value] = s_cable_catalogue[S_CableCatalogueColumns.description.value].str.strip()
+
+# Merge the two dataframes
+merged_df = pd.merge(
+    s_cable_core_catalogue, 
+    s_cable_catalogue, 
+    left_on=[S_CableCoreCatalogueColumns.database_name.value, S_CableCoreCatalogueColumns.cable_object_identifier.value],
+    right_on=[S_CableCatalogueColumns.database_name.value, S_CableCatalogueColumns.object_identifier.value]
+)
+
+# Remove rows where Cable_Object_Identifier is null
+merged_df = merged_df[merged_df[S_CableCoreCatalogueColumns.cable_object_identifier.value].notna()]
+
+# Generate Markings by concatenating Core_Markings of all records that share the same database_name and Cable_Object_Identifier
+merged_df['Markings'] = merged_df.groupby([S_CableCoreCatalogueColumns.database_name.value, S_CableCoreCatalogueColumns.cable_object_identifier.value])[S_CableCoreCatalogueColumns.core_markings.value].transform(lambda x: ','.join(sorted(x)))
+
+# Drop duplicate rows
+merged_df = merged_df.drop_duplicates()
+
+# Generate a dense rank for each unique combination of Description and Markings
+merged_df['Rank'] = merged_df.groupby([S_CableCatalogueColumns.description.value, 'Markings']).ngroup()
+
+# Create CatalogueNo
+merged_df['CatalogueNo'] = SHRH_CABLE + (BASE_RANK + merged_df['Rank']).astype(str)
+
+# Create the final view VW_CatalogueNo by selecting the relevant columns
+vw_catalogueno = merged_df[['CatalogueNo', S_CableCatalogueColumns.description.value, S_CableCoreCatalogueColumns.database_name.value, S_CableCoreCatalogueColumns.cable_object_identifier.value]]
+
+# Equivalent of 'Create Or Replace Temp View VW_CatalogueNo' in SQL
+vw_catalogueno.to_csv('VW_CatalogueNo.csv', index=False)
+
+
+&&&&&&&&&&&&&&&
+
+
+
+

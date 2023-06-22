@@ -1,0 +1,40 @@
+To make this SQL script more modular, we can split it into multiple parts or modules. Each module can be created as a separate view in the database or can be created as a stored procedure based on your specific requirements. Below are the modules of this SQL script.
+
+Module 1: Get all cable data from sigraph_silver.S_CableCoreCatalogue and sigraph_silver.S_CableCatalogueNumber_Master where the class is 'Instrumentation', 'Inst(Shared)', 'Elec(Shared)'.
+
+sql
+Copy code
+CREATE VIEW vw_cable_data AS
+Select
+C.*
+,CC.Description
+,CM.CatalogueNo
+,Dense_Rank() Over(Partition by CM.CatalogueNo order by CM.database_name,CM.Cable_Object_Identifier) as RNT
+From sigraph_silver.S_CableCoreCatalogue C
+Inner join sigraph_silver.S_CableCatalogueNumber_Master CM
+ON CM.database_name=C.database_name
+and CM.Cable_Object_Identifier = C.Cable_Object_Identifier
+Inner join sigraph_silver.S_CableCatalogue CC
+ON CC.database_name=C.database_name
+and CC.Object_Identifier = C.Cable_Object_Identifier
+Where CC.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and  C.database_name in (Select Database_name from VW_Database_names);
+Module 2: Select the cable information where the dense rank is 1.
+
+sql
+Copy code
+CREATE VIEW vw_cable_data_rnt_1 AS
+Select
+CM.CatalogueNo
+,CM.Description
+,CM.Group_Marking
+,CM.Group_Marking_Sequence
+,CM.Core_Markings
+,CM.Core_Markings_Core_Type
+From vw_cable_data CM
+Where RNT=1;
+With this modular approach, if there are any changes in the logic for getting the cable data, you only need to change the vw_cable_data view. And if the logic for selecting the cable information based on the dense rank changes, you only need to change the vw_cable_data_rnt_1 view.
+
+Furthermore, each of these views can now be used in other SQL queries, thus improving reusability. Please replace 'vw_cable_data' and 'vw_cable_data_rnt_1' with suitable names that align with your database naming conventions.
+
+Please also note, if you are using a database system that does not support views or if you have further processing needs that require parameters to be passed in, you might want to consider converting these into stored procedures instead.

@@ -1,0 +1,2 @@
+
+DROP TABLE sigraph_SILVER.S_Field_Device_Catalogue

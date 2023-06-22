@@ -1,0 +1,63 @@
+Silver_S_DeviceCatalogue_schema_format.prompt_3.txt
+
+This is the schema for a table called S_DeviceCatalogue.
+It is a list of column names for S_DeviceCatalogue
+Create a python Enum for these column names.
+Name the class 'S_DeviceCatalogue'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_DeviceCatalogue Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+AllowUse
+Catalogue_RNT
+Class
+database_name
+Description
+Document_Number
+Dynamic_Class
+Item_Dynamic_Class
+Item_Object_Identifier
+Left
+Left_Marking
+Loop_Number
+Manufacturer
+ModelNo
+Object_Identifier
+parquet_file_relative_path
+Product_Key
+Right
+Right_Marking
+Symbol_name
+Tag_Number
+Type
+
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_DeviceCatalogue(Enum):
+ALLOW_USE = 'allowuse'
+CATALOGUE_RNT = 'catalogue_rnt'
+CLASS = 'class'
+DATABASE_NAME = 'database_name'
+DESCRIPTION = 'description'
+DOCUMENT_NUMBER = 'document_number'
+DYNAMIC_CLASS = 'dynamic_class'
+ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+LEFT = 'left'
+LEFT_MARKING = 'left_marking'
+LOOP_NUMBER = 'loop_number'
+MANUFACTURER = 'manufacturer'
+MODEL_NO = 'modelno'
+OBJECT_IDENTIFIER = 'object_identifier'
+PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+PRODUCT_KEY = 'product_key'
+RIGHT = 'right'
+RIGHT_MARKING = 'right_marking'
+SYMBOL_NAME = 'symbol_name'
+TAG_NUMBER = 'tag_number'
+TYPE = 'type'
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

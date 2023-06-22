@@ -1,0 +1,29 @@
+
+Gold_2_Instrument_Type_Catalogue_schema_format.prompt_1.txt
+
+This is the schema for a table called Instrument_Type_Catalogue.
+It is a list of column names for Instrument_Type_Catalogue
+Create a python Enum for these column names.
+Name the class 'Instrument_Type_Catalogue'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+so the code will start as follows
+
+
+Instrument_Type_Catalogue Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Type
+InstrumentType
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+class Instrument_Type_Catalogue(Enum):
+TYPE = 'type'
+INSTRUMENT_TYPE = 'instrumenttype'
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+

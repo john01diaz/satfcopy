@@ -1,0 +1,66 @@
+
+Silver_S_Major_Equipments_schema_format.prompt_1.txt
+
+This is the schema for a table called S_Major_Equipments. 
+The first column has the table name, the second column has the column names.
+Can you create a python Enum for these column names.
+call this class 'S_Major_Equipments'
+can you convert all the column names to lowercase.
+can you make all enum names uppercase
+can you use single quotes not double quotes for strings
+
+so the code will start as follows
+
+S_Major_Equipments  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_Major_Equipments(Enum):
+
+--- the column names go here.
+
+S_Major_Equipments Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+S_Major_Equipments	Area
+S_Major_Equipments	AreaPath
+S_Major_Equipments	Category
+S_Major_Equipments	Comment
+S_Major_Equipments	database_name
+S_Major_Equipments	Description
+S_Major_Equipments	Designation
+S_Major_Equipments	DwgRequired
+S_Major_Equipments	Dynamic_Class
+S_Major_Equipments	EquipmentType
+S_Major_Equipments	Installation_site
+S_Major_Equipments	Object_Identifier
+S_Major_Equipments	Parent_Equipment_No
+S_Major_Equipments	parquet_file_relative_path
+S_Major_Equipments	Status
+S_Major_Equipments	Type
+S_Major_Equipments	VendorSupplied
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_Major_Equipments(Enum):
+    AREA = 'area'
+    AREAPATH = 'areapath'
+    CATEGORY = 'category'
+    COMMENT = 'comment'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESIGNATION = 'designation'
+    DWGREQUIRED = 'dwgrequired'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENTTYPE = 'equipmenttype'
+    INSTALLATION_SITE = 'installation_site'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    STATUS = 'status'
+    TYPE = 'type'
+    VENDORSUPPLIED = 'vendorsupplied'
+
+	
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+This code defines the S_Major_Equipments enum with all column names in lowercase and enum names in uppercase, using single quotes for strings.

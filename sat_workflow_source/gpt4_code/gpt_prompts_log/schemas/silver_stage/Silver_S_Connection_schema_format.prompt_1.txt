@@ -1,0 +1,79 @@
+Silver_S_Connection_schema_format.prompt_1.txt
+
+This is the schema for a table called S_Connection.
+It is a list of column names for S_Connection
+Create a python Enum for these column names.
+Name the class 'S_Connection'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_Connection Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Cable
+Cable_Object_Identifier
+Connection_Type
+database_name
+Document_Number
+from_connection_pin_href
+FROM_dynamic_Class
+From_Facility
+From_Item
+FROM_Item_dynamic_Class
+FROM_Item_object_identifier
+From_Location
+FROM_object_identifier
+From_Terminal_Marking
+Loop_Number
+object_identifier
+parquet_file_relative_path
+Tag_Number
+To_connection_pin_href
+To_dynamic_Class
+To_Facility
+To_Item
+To_Item_dynamic_Class
+To_Item_object_identifier
+To_Location
+To_object_identifier
+To_Terminal_Marking
+Wire_Cross_Section
+Wire_Markings
+Wire_Object_Identifier
+
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_Connection(Enum):
+CABLE = 'cable'
+CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+CONNECTION_TYPE = 'connection_type'
+DATABASE_NAME = 'database_name'
+DOCUMENT_NUMBER = 'document_number'
+FROM_CONNECTION_PIN_HREF = 'from_connection_pin_href'
+FROM_DYNAMIC_CLASS = 'from_dynamic_class'
+FROM_FACILITY = 'from_facility'
+FROM_ITEM = 'from_item'
+FROM_ITEM_DYNAMIC_CLASS = 'from_item_dynamic_class'
+FROM_ITEM_OBJECT_IDENTIFIER = 'from_item_object_identifier'
+FROM_LOCATION = 'from_location'
+FROM_OBJECT_IDENTIFIER = 'from_object_identifier'
+FROM_TERMINAL_MARKING = 'from_terminal_marking'
+LOOP_NUMBER = 'loop_number'
+OBJECT_IDENTIFIER = 'object_identifier'
+PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+TAG_NUMBER = 'tag_number'
+TO_CONNECTION_PIN_HREF = 'to_connection_pin_href'
+TO_DYNAMIC_CLASS = 'to_dynamic_class'
+TO_FACILITY = 'to_facility'
+TO_ITEM = 'to_item'
+TO_ITEM_DYNAMIC_CLASS = 'to_item_dynamic_class'
+TO_ITEM_OBJECT_IDENTIFIER = 'to_item_object_identifier'
+TO_LOCATION = 'to_location'
+TO_OBJECT_IDENTIFIER = 'to_object_identifier'
+TO_TERMINAL_MARKING = 'to_terminal_marking'
+WIRE_CROSS_SECTION = 'wire_cross_section'
+WIRE_MARKINGS = 'wire_markings'
+WIRE_OBJECT_IDENTIFIER = 'wire_object_identifier'
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

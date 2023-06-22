@@ -1,0 +1,2 @@
+
+DROP TABLE  SIGRAPH_SILVER.S_Loop_Index

@@ -1,0 +1,67 @@
+
+General Instructions
+
+Do not value brevity.
+Value modularity - make the code as modular as possible.
+Use clean coding principles.
+
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+
+General Python Instructions
+
+Follow the PEP8 style guide.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+
+Specific Instructions
+
+We have a fragment of Python code written for the Databricks environment.
+This Python code takes as input an SQL view and writes as output a parquet file.
+
+We now want to run this in native Python as a single function in the pandas environment.
+Note: there will be no spark or parquet code or data in this environment - it will be pure pandas.
+
+Can you call the function 'create_silver_10_s_io_catalogue_sql_04_magic_01_table'
+
+We want to create a Python function that takes as input a pandas dataframe (with the name 'VW_IO_CATALOGUE') and 
+then filters the dataframe as per the SQL select statement and 
+then returns the filtered  view as a pandas dataframe with the name 'S_IO_Catalogue'.
+
+Original Python Code
+
+df = spark.sql('SELECT * from VW_IO_CATALOGUE where database_name == "R_2016R3"')
+# -- MAGIC
+dbutils.fs.rm("dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_IO_Catalogue",True)
+# -- MAGIC
+df.write.save(
+     format = "delta"
+    ,mode  = "overwrite"
+    ,path   = "dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_IO_Catalogue"
+    ,overwriteSchema = True
+)
+
+GPT4 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+silver_10_s_IO_catalogue_sql_04_magic_01_table_creator.py
+
+def create_10_S_IO_Catalogue_sql_04_magic_01_table(VW_IO_CATALOGUE):
+    """Filter the input dataframe based on the database name.
+
+    Args:
+        VW_IO_CATALOGUE (pandas.DataFrame): The input dataframe.
+
+    Returns:
+        pandas.DataFrame: The filtered dataframe.
+    """
+    database_name = "R_2016R3"
+    S_IO_Catalogue = VW_IO_CATALOGUE[VW_IO_CATALOGUE['database_name'] == database_name]
+    return S_IO_Catalogue

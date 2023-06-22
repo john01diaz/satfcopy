@@ -1,0 +1,186 @@
+Convert the following Databricks SQL statement into  python code.
+
+
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Complete all the lists and arrays - don't stop in the middle.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+
+
+Treat the input files as pandas dataframes and read them in as parameters at the start,
+
+You can treat the input columnsin different ways - modularise these different ways if possible.
+Sometimes a column will be passed through without any modification.
+Sometimes a columnn will be simply mapped to a column with a new name - note that the same column may be mapped several times
+Sometimes a new columnn will be added with a constant value
+Sometimes a columnn will be mapped to a column using  more complex calculations
+
+Refer to the following enums when using column names.
+
+This is the enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the enum schema for the input table named Major_Equipments
+
+class Major_Equipments(
+        Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENTTYPE = 'equipmenttype'
+    AREA = 'area'
+    DESCRIPTION = 'description'
+    VENDORSUPPLIED = 'vendorsupplied'
+    DWGREQUIRED = 'dwgrequired'
+    STATUS = 'status'
+    AREAPATH = 'areapath'
+    TYPE = 'type'
+    DESIGNATION = 'designation'
+    COMMENT = 'comment'
+    INSTALLATION_SITE = 'installation_site'
+    CATEGORY = 'category'
+
+
+This is the enum schema for the input table named S_Major_Equipments
+
+class S_Major_Equipments(
+        Enum):
+    AREA = 'area'
+    AREAPATH = 'areapath'
+    CATEGORY = 'category'
+    COMMENT = 'comment'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESIGNATION = 'designation'
+    DWGREQUIRED = 'dwgrequired'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENTTYPE = 'equipmenttype'
+    INSTALLATION_SITE = 'installation_site'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    STATUS = 'status'
+    TYPE = 'type'
+    VENDORSUPPLIED = 'vendorsupplied'
+
+This is the SQL statement named 09_Major_Equipments
+
+Select Distinct
+A.Area
+,A.Parent_Equipment_No
+,A.Description
+,A.EquipmentType
+,A.VendorSupplied
+,A.DwgRequired
+,A.Status
+,A.AreaPath
+,A.Type
+,A.Designation
+,A.Comment
+,A.Installation_site as `Installation site`
+,A.Category
+From Sigraph_Silver.S_Major_Equipments A
+Where database_name in (Select Database_name from VW_Database_names)
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Based on your requirements, here's the Python code to emulate your SQL statement, using pandas for dataframe operations. It's worth noting that SQL and pandas have different performance characteristics, and for very large datasets or complex queries, SQL may be faster. This code assumes that Sigraph_Silver.S_Major_Equipments and VW_Database_names are two separate pandas dataframes, represented by the variables s_major_equipments_dataframe and database_names_dataframe.
+
+This script uses descriptive and unambiguous names, follows the PEP8 style guide, defines literals as named constants, and refrains from using abbreviations. It also modularizes the filtering of dataframes by a given set of values into a separate function.
+
+python
+Copy code
+from enum import Enum
+import pandas
+
+
+# Define the enums for each table
+class DatabaseNames(Enum):
+    DATABASE_NAME = 'database_name'
+
+
+class Major_Equipments(Enum):
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    EQUIPMENTTYPE = 'equipmenttype'
+    AREA = 'area'
+    DESCRIPTION = 'description'
+    VENDORSUPPLIED = 'vendorsupplied'
+    DWGREQUIRED = 'dwgrequired'
+    STATUS = 'status'
+    AREAPATH = 'areapath'
+    TYPE = 'type'
+    DESIGNATION = 'designation'
+    COMMENT = 'comment'
+    INSTALLATION_SITE = 'installation_site'
+    CATEGORY = 'category'
+
+
+class S_Major_Equipments(Enum):
+    AREA = 'area'
+    AREAPATH = 'areapath'
+    CATEGORY = 'category'
+    COMMENT = 'comment'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESIGNATION = 'designation'
+    DWGREQUIRED = 'dwgrequired'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENTTYPE = 'equipmenttype'
+    INSTALLATION_SITE = 'installation_site'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    STATUS = 'status'
+    TYPE = 'type'
+    VENDORSUPPLIED = 'vendorsupplied'
+
+
+# Function to filter the dataframes
+def filter_by_database_name(s_major_equipments_dataframe, database_names_dataframe):
+    return s_major_equipments_dataframe[
+        s_major_equipments_dataframe[S_Major_Equipments.DATABASE_NAME.value].isin(
+            database_names_dataframe[DatabaseNames.DATABASE_NAME.value]
+        )
+    ]
+
+
+# Main transformation function
+def transform_major_equipments(s_major_equipments_dataframe, database_names_dataframe):
+    filtered_s_major_equipments_dataframe = filter_by_database_name(s_major_equipments_dataframe, database_names_dataframe)
+
+    major_equipments_dataframe = filtered_s_major_equipments_dataframe[
+        [
+            S_Major_Equipments.AREA.value,
+            S_Major_Equipments.PARENT_EQUIPMENT_NO.value,
+            S_Major_Equipments.DESCRIPTION.value,
+            S_Major_Equipments.EQUIPMENTTYPE.value,
+            S_Major_Equipments.VENDORSUPPLIED.value,
+            S_Major_Equipments.DWGREQUIRED.value,
+            S_Major_Equipments.STATUS.value,
+            S_Major_Equipments.AREAPATH.value,
+            S_Major_Equipments.TYPE.value,
+            S_Major_Equipments.DESIGNATION.value,
+            S_Major_Equipments.COMMENT.value,
+            S_Major_Equipments.INSTALLATION_SITE.value,
+            S_Major_Equipments.CATEGORY.value,
+        ]
+    ]
+    major_equipments_dataframe = major_equipments_dataframe.drop_duplicates()
+    major_equipments_dataframe.rename(columns={S_Major_Equipments.INSTALLATION_SITE.value: Major_Equipments.INSTALLATION_SITE.value}, inplace=True)
+
+    return major_equipments_dataframe
+This script accomplishes the following tasks:
+
+Defines enums for the input table, output table, and the database names table.
+Defines a helper function filter_by_database_name to filter the S_Major_Equipments dataframe based on the database names.
+Defines the main function transform_major_equipments to perform the main transformation. This function calls the helper function to perform the filtering, then selects the relevant columns and removes any duplicates. Finally, it renames the INSTALLATION_SITE column before returning the resulting dataframe.

@@ -1,0 +1,1 @@
+Can you list the input and output tables or views used or created in the following script?

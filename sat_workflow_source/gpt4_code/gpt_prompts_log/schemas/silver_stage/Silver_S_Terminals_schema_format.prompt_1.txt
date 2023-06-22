@@ -1,0 +1,37 @@
+Silver_S_Terminals_schema_format.prompt_1.txt
+
+This is the schema for a table called S_Terminals.
+It is a list of column names for S_Terminals
+Create a python Enum for these column names.
+Name the class 'S_Terminals'
+Convert all column names to lowercase.
+Make all enum names uppercase.
+Use single quotes for strings.
+
+S_Terminals Schema &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Class
+database_name
+dynamic_class
+Equipment_No
+Marking
+object_identifier
+Parent_Equipment_No
+parquet_file_relative_path
+Sequence
+
+GPT-Code &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+class S_Terminals(Enum):
+CLASS = 'class'
+DATABASE_NAME = 'database_name'
+DYNAMIC_CLASS = 'dynamic_class'
+EQUIPMENT_NO = 'equipment_no'
+MARKING = 'marking'
+OBJECT_IDENTIFIER = 'object_identifier'
+PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+SEQUENCE = 'sequence'
+
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

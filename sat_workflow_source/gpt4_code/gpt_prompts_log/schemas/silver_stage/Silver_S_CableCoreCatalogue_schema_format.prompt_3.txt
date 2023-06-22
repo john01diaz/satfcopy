@@ -1,0 +1,42 @@
+Silver_S_CableCoreCatalogue_schema_format.prompt_3.txt
+
+This is a list of column names for S_CableCatalogue
+Convert all column names to lowercase.
+Create a python Enum for these lowercase column names.
+Name the class 'S_CableCatalogue'
+Make all enum names uppercase. These should not have any quotes.
+Use single quotes for strings.
+
+S_CableCoreCatalogue Schema  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Cable_Object_Identifier
+Core_Markings
+Core_Markings_Core_Type
+database_name
+Group_Marking
+Group_Marking_Sequence
+IsValidCableAndCore
+object_identifier
+parquet_file_relative_path
+
+
+
+GPT-Code&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+from enum import Enum
+
+class S_CableCatalogue(Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CORE_MARKINGS = 'core_markings'
+    CORE_MARKINGS_CORE_TYPE = 'core_markings_core_type'
+    DATABASE_NAME = 'database_name'
+    GROUP_MARKING = 'group_marking'
+    GROUP_MARKING_SEQUENCE = 'group_marking_sequence'
+    ISVALIDCABLEANDCORE = 'isvalidcableandcore'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+
+
+GPT-Comment&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Please note that the enum names are in uppercase as requested, and the column names have been converted to lowercase.

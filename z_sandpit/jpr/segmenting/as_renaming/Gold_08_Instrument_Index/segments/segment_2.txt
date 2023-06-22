@@ -1,0 +1,228 @@
+Convert the following SQL column renames into a python dictionary.
+Use the following python enums to refer to the column names.
+Use enum value attribute when you generate the dictionary.
+
+This is the output schema.
+Instrument_Index(Enum)
+SOLENOID_VALVE_DESIGN = 'solenoid valve design'
+SAMPLE_PROBE_DELAY_TIME = 'sample probe delay time'
+SAMPLE_PREPARATION_RETENTION_TIME = 'sample preparation retention time'
+SAMPLE_PREPARATION_OUTPUT_PRESSURE_NORMAL = 'sample preparation output pressure normal'
+SAMPLE_PREPARATION_OUTPUT_PRESSURE_MAXIMUM = 'sample preparation output pressure maximum'
+SAMPLE_PIPELINE_DIAMETER = 'sample pipeline diameter'
+BYPASS_AMOUNT_MINIMUM = 'bypass amount minimum'
+BYPASS_AMOUNT_MAXIMUM = 'bypass amount maximum'
+ANALYZER_RANGE_OF_TEMPERATURE_COMPENSATION = 'analyzer range of temperature compensation'
+ANALYZER_ERROR_TOLERANCE = 'analyzer error tolerance'
+CALIBRATION_FROM = 'calibration from'
+PA_BUS_MAX_SHORT_CIRCUIT_CURRENT = 'pa bus max. short-circuit current'
+PA_BUS_CURRENT_INPUT = 'pa bus current input'
+CHARACTERISTIC_NOISE_VALUE_ZY = 'characteristic noise value zy'
+DESIGN_GAUGE_PRESSURE = 'design gauge pressure'
+STROKE_HEIGHT = 'stroke/height'
+EFFECT_OF_DP = 'effect of dp'
+VOLTAGE = 'voltage'
+POWER_CONSUMPTION = 'power consumption'
+MEASURING_RANGE_FROM = 'measuring range from'
+LEAKAGE_RATE_PERCENT_OF_KVS = 'leakage rate (% of kvs)'
+INSTALLATION_LENGTH = 'installation length'
+KV_VALUE_AT_KVS_NOMINAL_STROKE = 'kv value at kvs nominal stroke'
+MEASURING_PROCEDURE = 'measuring procedure'
+CALCULATED_MAXIMUM_SOUND_PRESSURE_LEVEL = 'calculated maximum sound pressure level'
+FINAL_ACCEPTANCES = 'final acceptances'
+OUTPUT_SPEED = 'output speed'
+RESTRICTOR_DESIGN = 'restrictor design'
+SEAT_DIAMETER = 'seat diameter'
+INSERT_LENGTH = 'insert length'
+RING_CHAMBER_DIMENSION_D = 'ring chamber dimension d'
+CONTROL_DEVICE_DESIGN = 'control device design'
+CONTROL_VALVE_CERTIFICATION = 'control valve certification'
+KVS_VALUE = 'kvs-value'
+MEASURING_RANGE_TO = 'measuring range to'
+OVERALL_HEIGHT = 'overall height'
+CONTROL_INPUT_RANGE = 'control input range'
+CALCULATED_KV_VALUE = 'calculated kv-value'
+APERTURE_DIAMETER_D = 'aperture diameter d'
+CALIBRATION_TO = 'calibration to'
+TYPE_OF_DRIVE = 'type of drive'
+FAIL_SAFE = 'fail safe'
+EX_I = 'ex (i)'
+TRANSFER_TO_SAP = 'transfer to sap'
+CIRCUIT_TYPE = 'circuit type'
+POWER_SUPPLY_FROM_MODULE = 'power supply from module'
+CLASSIFICATION = 'classification'
+SIGNAL_RANGE_RESISTANCE = 'signal range/resistance'
+METHOD_OF_CONNECTION = 'method of connection'
+SIGNAL_RANGE = 'signal range'
+SIGNAL_VOLTAGE_INPUT = 'signal voltage input'
+
+
+This is the input schema.
+S_Instrument_Index(Enum)
+SOLENOID_VALVE_DESIGN = 'solenoid_valve_design'
+SAMPLE_PROBE_DELAY_TIME = 'sample_probe_delay_time'
+SAMPLE_PREPARATION_RETENTION_TIME = 'sample_preparation_retention_time'
+SAMPLE_PREPARATION_OUTPUT_PRESSURE_NORMAL = 'sample_preparation_output_pressure_normal'
+SAMPLE_PREPARATION_OUTPUT_PRESSURE_MAXIMUM = 'sample_preparation_output_pressure_maximum'
+SAMPLE_PIPELINE_DIAMETER = 'sample_pipeline_diameter'
+BYPASS_AMOUNT_MINIMUM = 'bypass_amount_minimum'
+BYPASS_AMOUNT_MAXIMUM = 'bypass_amount_maximum'
+ANALYZER_RANGE_OF_TEMPERATURE_COMPENSATION = 'analyzer_range_of_temperature_compensation'
+ANALYZER_ERROR_TOLERANCE = 'analyzer_error_tolerance'
+CALIBRATION_FROM = 'calibration_from'
+PA_BUS_MAX_SHORT_CIRCUIT_CURRENT = 'pa_bus_max_short_circuit_current'
+PA_BUS_CURRENT_INPUT = 'pa_bus_current_input'
+CHARACTERISTIC_NOISE_VALUE_ZY = 'characteristic_noise_value_zy'
+DESIGN_GAUGE_PRESSURE = 'design_gauge_pressure'
+STROKE_HEIGHT = 'stroke_height'
+EFFECT_OF_DP = 'effect_of_dp'
+VOLTAGE = 'voltage'
+POWER_CONSUMPTION = 'power_consumption'
+MEASURING_RANGE_FROM = 'measuring_range_from'
+LEAKAGE_RATE_OF_KVS = 'leakage_rate_of_kvs'
+INSTALLATION_LENGTH = 'installation_length'
+KV_VALUE_AT_KVS_NOMINAL_STROKE = 'kv_value_at_kvs_nominal_stroke'
+MEASURING_PROCEDURE = 'measuring_procedure'
+CALCULATED_MAXIMUM_SOUND_PRESSURE_LEVEL = 'calculated_maximum_sound_pressure_level'
+FINAL_ACCEPTANCES = 'final_acceptances'
+OUTPUT_SPEED = 'output_speed'
+RESTRICTOR_DESIGN = 'restrictor_design'
+SEAT_DIAMETER = 'seat_diameter'
+INSERT_LENGTH = 'insert_length'
+RING_CHAMBER_DIMENSION_D = 'ring_chamber_dimension_d'
+CONTROL_DEVICE_DESIGN = 'control_device_design'
+CONTROL_VALVE_CERTIFICATION = 'control_valve_certification'
+KVS_VALUE = 'kvs_value'
+MEASURING_RANGE_TO = 'measuring_range_to'
+OVERALL_HEIGHT = 'overall_height'
+CONTROL_INPUT_RANGE = 'control_input_range'
+CALCULATED_KV_VALUE = 'calculated_kv_value'
+APERTURE_DIAMETER_D = 'aperture_diameter_d'
+CALIBRATION_TO = 'calibration_to'
+TYPE_OF_DRIVE = 'type_of_drive'
+FAIL_SAFE = 'fail_safe'
+EX_I = 'ex_i'
+TRANSFER_TO_SAP = 'transfer_to_sap'
+CIRCUIT_TYPE_OUTPUT = 'circuit_type_output'
+POWER_SUPPLY_FROM_MODULE = 'power_supply_from_module'
+CLASSIFICATION = 'classification'
+SIGNAL_RANGE_RESISTANCE = 'signal_range_resistance'
+METHOD_OF_CONNECTION = 'method_of_connection'
+SIGNAL_RANGE = 'signal_range'
+SIGNAL_VOLTAGE_INPUT = 'signal_voltage_input'
+
+
+This is the SQL rename Instrument_Index_Segment_2.
+
+
+Solenoid_Valve_Design As Solenoid Valve Design
+Sample_Probe_Delay_Time As Sample Probe Delay Time
+Sample_Preparation_Retention_Time As Sample Preparation Retention Time
+Sample_Preparation_Output_Pressure_Normal As Sample Preparation Output Pressure Normal
+Sample_Preparation_Output_Pressure_Maximum As Sample Preparation Output Pressure Maximum
+Sample_Pipeline_Diameter As Sample Pipeline Diameter
+Bypass_Amount_Minimum As Bypass Amount Minimum
+Bypass_Amount_Maximum As Bypass Amount Maximum
+Analyzer_Range_of_Temperature_Compensation As Analyzer Range of Temperature Compensation
+Analyzer_Error_Tolerance As Analyzer Error Tolerance
+Calibration_from As Calibration from
+PA_Bus_max_Short_Circuit_Current As PA Bus max. Short-Circuit Current
+PA_Bus_Current_Input As PA Bus Current Input
+Characteristic_Noise_Value_Zy As Characteristic Noise Value Zy
+Design_Gauge_Pressure As Design Gauge Pressure
+Stroke_Height As Stroke/Height
+Effect_of_dp As Effect of dp
+Voltage As Voltage
+Power_Consumption As Power Consumption
+Measuring_Range_from As Measuring Range from
+Leakage_Rate_of_Kvs As Leakage Rate (% of Kvs)
+Installation_Length As Installation Length
+Kv_Value_at_Kvs_Nominal_Stroke As Kv Value at Kvs Nominal Stroke
+Measuring_Procedure As Measuring Procedure
+Calculated_Maximum_Sound_Pressure_Level As Calculated Maximum Sound Pressure Level
+Final_Acceptances As Final Acceptances
+Output_Speed As Output Speed
+Restrictor_Design As Restrictor Design
+Seat_Diameter As Seat Diameter
+Insert_Length As Insert Length
+Ring_Chamber_Dimension_D As Ring Chamber Dimension D
+Control_Device_Design As Control Device Design
+Control_Valve_Certification As Control Valve Certification
+Kvs_Value As Kvs-Value
+Measuring_Range_to As Measuring Range to
+Overall_Height As Overall Height
+Control_Input_Range As Control Input Range
+Calculated_Kv_Value As Calculated Kv-Value
+Aperture_Diameter_d As Aperture Diameter d
+Calibration_to As Calibration to
+Type_of_Drive As Type of Drive
+Fail_Safe As Fail Safe
+EX_i As EX (i)
+Transfer_to_SAP As Transfer to SAP
+Circuit_Type_Output As Circuit Type
+Power_Supply_from_Module As Power Supply from Module
+Classification As Classification
+Signal_range_resistance As Signal range/resistance
+Method_of_Connection As Method of Connection
+Signal_range As Signal range
+Signal_Voltage_Input As Signal Voltage Input
+
+
+&&&&&&&&&&&&&&&&&&&
+
+sql_to_python = {
+    S_Instrument_Index.SOLENOID_VALVE_DESIGN.value: Instrument_Index.SOLENOID_VALVE_DESIGN.value,
+    S_Instrument_Index.SAMPLE_PROBE_DELAY_TIME.value: Instrument_Index.SAMPLE_PROBE_DELAY_TIME.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_RETENTION_TIME.value: Instrument_Index.SAMPLE_PREPARATION_RETENTION_TIME.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_OUTPUT_PRESSURE_NORMAL.value: Instrument_Index.SAMPLE_PREPARATION_OUTPUT_PRESSURE_NORMAL.value,
+    S_Instrument_Index.SAMPLE_PREPARATION_OUTPUT_PRESSURE_MAXIMUM.value: Instrument_Index.SAMPLE_PREPARATION_OUTPUT_PRESSURE_MAXIMUM.value,
+    S_Instrument_Index.SAMPLE_PIPELINE_DIAMETER.value: Instrument_Index.SAMPLE_PIPELINE_DIAMETER.value,
+    S_Instrument_Index.BYPASS_AMOUNT_MINIMUM.value: Instrument_Index.BYPASS_AMOUNT_MINIMUM.value,
+    S_Instrument_Index.BYPASS_AMOUNT_MAXIMUM.value: Instrument_Index.BYPASS_AMOUNT_MAXIMUM.value,
+    S_Instrument_Index.ANALYZER_RANGE_OF_TEMPERATURE_COMPENSATION.value: Instrument_Index.ANALYZER_RANGE_OF_TEMPERATURE_COMPENSATION.value,
+    S_Instrument_Index.ANALYZER_ERROR_TOLERANCE.value: Instrument_Index.ANALYZER_ERROR_TOLERANCE.value,
+    S_Instrument_Index.CALIBRATION_FROM.value: Instrument_Index.CALIBRATION_FROM.value,
+    S_Instrument_Index.PA_BUS_MAX_SHORT_CIRCUIT_CURRENT.value: Instrument_Index.PA_BUS_MAX_SHORT_CIRCUIT_CURRENT.value,
+    S_Instrument_Index.PA_BUS_CURRENT_INPUT.value: Instrument_Index.PA_BUS_CURRENT_INPUT.value,
+    S_Instrument_Index.CHARACTERISTIC_NOISE_VALUE_ZY.value: Instrument_Index.CHARACTERISTIC_NOISE_VALUE_ZY.value,
+    S_Instrument_Index.DESIGN_GAUGE_PRESSURE.value: Instrument_Index.DESIGN_GAUGE_PRESSURE.value,
+    S_Instrument_Index.STROKE_HEIGHT.value: Instrument_Index.STROKE_HEIGHT.value,
+    S_Instrument_Index.EFFECT_OF_DP.value: Instrument_Index.EFFECT_OF_DP.value,
+    S_Instrument_Index.VOLTAGE.value: Instrument_Index.VOLTAGE.value,
+    S_Instrument_Index.POWER_CONSUMPTION.value: Instrument_Index.POWER_CONSUMPTION.value,
+    S_Instrument_Index.MEASURING_RANGE_FROM.value: Instrument_Index.MEASURING_RANGE_FROM.value,
+    S_Instrument_Index.LEAKAGE_RATE_OF_KVS.value: Instrument_Index.LEAKAGE_RATE_PERCENT_OF_KVS.value,
+    S_Instrument_Index.INSTALLATION_LENGTH.value: Instrument_Index.INSTALLATION_LENGTH.value,
+    S_Instrument_Index.KV_VALUE_AT_KVS_NOMINAL_STROKE.value: Instrument_Index.KV_VALUE_AT_KVS_NOMINAL_STROKE.value,
+    S_Instrument_Index.MEASURING_PROCEDURE.value: Instrument_Index.MEASURING_PROCEDURE.value,
+    S_Instrument_Index.CALCULATED_MAXIMUM_SOUND_PRESSURE_LEVEL.value: Instrument_Index.CALCULATED_MAXIMUM_SOUND_PRESSURE_LEVEL.value,
+    S_Instrument_Index.FINAL_ACCEPTANCES.value: Instrument_Index.FINAL_ACCEPTANCES.value,
+    S_Instrument_Index.OUTPUT_SPEED.value: Instrument_Index.OUTPUT_SPEED.value,
+    S_Instrument_Index.RESTRICTOR_DESIGN.value: Instrument_Index.RESTRICTOR_DESIGN.value,
+    S_Instrument_Index.SEAT_DIAMETER.value: Instrument_Index.SEAT_DIAMETER.value,
+    S_Instrument_Index.INSERT_LENGTH.value: Instrument_Index.INSERT_LENGTH.value,
+    S_Instrument_Index.RING_CHAMBER_DIMENSION_D.value: Instrument_Index.RING_CHAMBER_DIMENSION_D.value,
+    S_Instrument_Index.CONTROL_DEVICE_DESIGN.value: Instrument_Index.CONTROL_DEVICE_DESIGN.value,
+    S_Instrument_Index.CONTROL_VALVE_CERTIFICATION.value: Instrument_Index.CONTROL_VALVE_CERTIFICATION.value,
+    S_Instrument_Index.KVS_VALUE.value: Instrument_Index.KVS_VALUE.value,
+    S_Instrument_Index.MEASURING_RANGE_TO.value: Instrument_Index.MEASURING_RANGE_TO.value,
+    S_Instrument_Index.OVERALL_HEIGHT.value: Instrument_Index.OVERALL_HEIGHT.value,
+    S_Instrument_Index.CONTROL_INPUT_RANGE.value: Instrument_Index.CONTROL_INPUT_RANGE.value,
+    S_Instrument_Index.CALCULATED_KV_VALUE.value: Instrument_Index.CALCULATED_KV_VALUE.value,
+    S_Instrument_Index.APERTURE_DIAMETER_D.value: Instrument_Index.APERTURE_DIAMETER_D.value,
+    S_Instrument_Index.CALIBRATION_TO.value: Instrument_Index.CALIBRATION_TO.value,
+    S_Instrument_Index.TYPE_OF_DRIVE.value: Instrument_Index.TYPE_OF_DRIVE.value,
+    S_Instrument_Index.FAIL_SAFE.value: Instrument_Index.FAIL_SAFE.value,
+    S_Instrument_Index.EX_I.value: Instrument_Index.EX_I.value,
+    S_Instrument_Index.TRANSFER_TO_SAP.value: Instrument_Index.TRANSFER_TO_SAP.value,
+    S_Instrument_Index.CIRCUIT_TYPE_OUTPUT.value: Instrument_Index.CIRCUIT_TYPE.value,
+    S_Instrument_Index.POWER_SUPPLY_FROM_MODULE.value: Instrument_Index.POWER_SUPPLY_FROM_MODULE.value,
+    S_Instrument_Index.CLASSIFICATION.value: Instrument_Index.CLASSIFICATION.value,
+    S_Instrument_Index.SIGNAL_RANGE_RESISTANCE.value: Instrument_Index.SIGNAL_RANGE_RESISTANCE.value,
+    S_Instrument_Index.METHOD_OF_CONNECTION.value: Instrument_Index.METHOD_OF_CONNECTION.value,
+    S_Instrument_Index.SIGNAL_RANGE.value: Instrument_Index.SIGNAL_RANGE.value,
+    S_Instrument_Index.SIGNAL_VOLTAGE_INPUT.value: Instrument_Index.SIGNAL_VOLTAGE_INPUT.value
+}
+
+
+
