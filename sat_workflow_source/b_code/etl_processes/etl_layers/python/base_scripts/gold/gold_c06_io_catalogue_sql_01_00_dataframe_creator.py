@@ -7,10 +7,10 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_io_catalogue import S
 def create_dataframe_gold_c06_io_catalogue_sql_01_00(
         input_tables: dict):
     io_catalogue_dataframe = \
-        input_tables['Sigraph_Silver.S_IO_Catalogue']
+        input_tables['Sigraph_Silver.Sigraph_Silver.S_IO_Catalogue']
     
     vw_database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
 
     """
     Function to execute the SQL query equivalent in Python

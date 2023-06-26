@@ -23,9 +23,12 @@ def get_b_app_runner_standard_exemplar_configuration_oxi() \
         get_common_b_app_runner_standard_exemplar_configuration(
             drive_name='C',
             user_initials='OXi',
-            configuration_json_filename='etl_run_configuration_filtered_database_names_v2.json',
+            configuration_json_filename='filtered_v7_run_processes OXi2_multi_test_10_s_io_catalogue.json',
+            # filtered_v7_run_processes OXi2_multi_test
+            # filtered_v7_run_processes OXi2_multi_test_one_fragment_1
+            # etl_run_configuration_filtered_database_names_v2
             run_new_vs_original_comparison=True,
-            output_folder_prefix='etl_run_configuration_filtered_database_names_v2',
+            output_folder_prefix='multi_test_10_s_io_catalogue',
             output_folder_suffix=str(),
             main_wrapper_outputs_folder_name='main_wrapper_outputs')
     

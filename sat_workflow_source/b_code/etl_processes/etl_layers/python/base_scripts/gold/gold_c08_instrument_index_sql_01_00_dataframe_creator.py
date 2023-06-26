@@ -9,10 +9,10 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_instrument_index impo
 def create_dataframe_gold_c08_instrument_index_sql_01_00(
         input_tables: dict) -> pandas.DataFrame:
     s_instrument_index = \
-        input_tables['S_Instrument_Index']
+        input_tables['Sigraph_Silver.S_Instrument_Index']
     
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
     
     # Filter out rows where Class is not 'Instrumentation'
     instrument_index_filtered = s_instrument_index[

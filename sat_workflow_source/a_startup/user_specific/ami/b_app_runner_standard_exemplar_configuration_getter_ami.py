@@ -26,7 +26,7 @@ def get_sat_workflow_b_app_runner_configuration_ami() \
         get_common_b_app_runner_standard_exemplar_configuration(
             drive_name='C',
             user_initials='AMi',
-            configuration_json_filename='etl_run_configuration_filtered_database_namesv2.json',
+            configuration_json_filename='etl_run_configuration_filtered_compare_csvs.json',
             run_new_vs_original_comparison=True,
             output_folder_prefix='internal_wiring',
             output_folder_suffix='stn_generated',

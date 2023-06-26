@@ -148,10 +148,10 @@ def __add_process_record(
         eval(row['bie_identifying_columns']) if row['bie_identifying_columns'] else row['bie_identifying_columns']
 
     expected_column_count = \
-        None if row['expected_column_count'] == str() else int(float(row['expected_column_count']))
+        None if row['expected_column_count'] == str() else row['expected_column_count']
 
     expected_row_count = \
-        None if row['expected_row_count'] == str() else int(float(row['expected_row_count']))
+        None if row['expected_row_count'] == str() else row['expected_row_count']
 
     process_table_columns_filters = \
         row['process_table_columns_filters']
@@ -178,7 +178,7 @@ def __add_process_record(
         process_table_configuration_record)
 
     bie_process_ids = \
-        None if row['bie_process_ids'] == str() else str(int(float(row['bie_process_ids'])))
+        None if row['bie_process_ids'] == str() else row['bie_process_ids']
 
     if bie_process_ids not in bie_process_ids_to_run:
         return

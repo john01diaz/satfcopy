@@ -27,10 +27,10 @@ def filter_dataframe_on_other_dataframe(dataframe1: pandas.DataFrame, dataframe2
 def create_dataframe_gold_c11_cable_schedule_sql_01_00_v0_02(
         input_tables: dict) -> pandas.DataFrame:
     cable_schedule_dataframe = \
-        input_tables['S_CableSchedule']
+        input_tables['Sigraph_Silver.S_CableSchedule']
     
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
     
     # renaming the columns
     renaming_dictionary = {

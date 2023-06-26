@@ -1,15 +1,18 @@
 import os
 import sys
-
+import pyspark
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 from pandas import DataFrame
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType
-
 from sat_workflow_source.b_code.etl_processes.etl_layers.python.runners.helpers.dataframe_columns_to_lowercase_renamer import \
     rename_dataframe_columns_to_lowercase
 from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.file_content_as_string_reader import \
     read_file_content_as_string
+from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.spark_dataframe_schema_from_pandas_dataframe_getter import \
+    get_spark_dataframe_schema_from_pandas_dataframe
+from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.sql_statement_sequence_runner import \
+    run_sql_statement_sequence
 from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.tables_in_sql_script_renamer import \
     rename_tables_in_sql_script
 
@@ -70,8 +73,9 @@ def run_common_spark_sql(
             table_name=table_name)
 
     output_dataframe = \
-        spark_session.sql(
-            sqlQuery=renamed_sql_script_as_string).toPandas()
+        run_sql_statement_sequence(
+            spark_session=spark_session,
+            sql_statement_sequence_as_string=renamed_sql_script_as_string)
 
     spark_session.stop()
 
@@ -88,6 +92,7 @@ def __register_table_in_spark_session(
         table_name: str) \
         -> None:
     print('creating spark dataframe for table: ' + table_name)
+
     if table is None:
         table_spark_dataframe = \
             spark_session.createDataFrame(
@@ -96,10 +101,31 @@ def __register_table_in_spark_session(
 
     else:
         table_spark_dataframe = \
-            spark_session.createDataFrame(
-                table)
+            __get_table_spark_dataframe(
+                table=table,
+                table_name=table_name,
+                spark_session=spark_session)
 
     print('registering table in spark session: ' + table_name)
 
     table_spark_dataframe.createOrReplaceTempView(
         name=table_name)
+
+
+def __get_table_spark_dataframe(
+        table: DataFrame,
+        table_name: str,
+        spark_session: SparkSession) \
+        -> pyspark.sql.DataFrame:
+    table_spark_dataframe_schema = \
+        get_spark_dataframe_schema_from_pandas_dataframe(
+            dataframe=table,
+            table_name=table_name)
+
+    table_spark_dataframe = \
+        spark_session.createDataFrame(
+            table,
+            schema=table_spark_dataframe_schema)
+
+    return \
+        table_spark_dataframe

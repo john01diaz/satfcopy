@@ -33,11 +33,22 @@ def report_bie(
         bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register.generated_bie_sub_register,
         origin_type=OriginTableTypes.GENERATED)
 
+    __report_bie_sub_register(
+        bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register.source_before_bie_sub_register,
+        origin_type=OriginTableTypes.SOURCE_BEFORE)
+
+    __report_bie_sub_register(
+        bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register.source_after_bie_sub_register,
+        origin_type=OriginTableTypes.SOURCE_AFTER)
+
 
 def __report_bie_sub_register(
         bie_sub_register: BieSubRegisters,
         origin_type: OriginTableTypes) \
         -> None:
+    if not bie_sub_register.bie_tables:
+        return
+
     for table_name, table in bie_sub_register.bie_tables.items():
         __export_table(
             dataframe=table,

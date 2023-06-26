@@ -13,11 +13,11 @@ if __name__ == '__main__':
 
     input_root_folder = \
         Folders(
-            absolute_path_string=r'C:\bWa\DZa\antlr_ws\inputs\master'
+            absolute_path_string=r'/Users/terraire/bWa/DZa/antlr_ws/inputs/master'
                                  + os.sep + collection_name + os.sep + r'01_Instrumentation_ETL_Scripts')
 
     output_root_folder = \
-        Folders(absolute_path_string=r'C:\bWa\DZa\antlr_ws\inputs\outputs')
+        Folders(absolute_path_string=r'/Users/terraire/bWa/DZa/antlr_ws/inputs/outputs')
 
     run_b_app(
         app_startup_method=orchestrate_shell_etl_files_converter,

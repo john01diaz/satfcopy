@@ -5,10 +5,10 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_field_device_catalogu
 def create_dataframe_gold_c05_field_device_catalogue_sql_01_00(
         input_tables: dict):
     s_field_device_catalogue_df = \
-        input_tables['S_Field_Device_Catalogue']
+        input_tables['Sigraph_Silver.S_Field_Device_Catalogue']
     
     vw_database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
 
     # Constants
     CATALOGUE_RNT_VALUE = 1

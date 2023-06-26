@@ -7,10 +7,10 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_terminations import S
 def create_dataframe_gold_c13_terminations_sql_01_00(
         input_tables: dict):
     terminations_dataframe = \
-        input_tables['S_Terminations']
+        input_tables['Sigraph_Silver.S_Terminations']
     
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
 
     # Define the classes we're interested in
     classes_of_interest = ['Instrumentation', 'Inst(Shared)', 'Elec(Shared)']

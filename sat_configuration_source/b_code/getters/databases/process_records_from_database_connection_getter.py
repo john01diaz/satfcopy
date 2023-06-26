@@ -70,10 +70,10 @@ def __add_process_record(
         row['run']
 
     bie_run_process_ids = \
-        None if row['bie_run_process_ids'] == str() else str(int(float(row['bie_run_process_ids'])))
+        None if row['bie_run_process_ids'] == str() else row['bie_run_process_ids']
 
     bie_process_ids = \
-        None if row['bie_process_ids'] == str() else str(int(float(row['bie_process_ids'])))
+        None if row['bie_process_ids'] == str() else row['bie_process_ids']
 
     process_names = \
         row['process_names'].replace('.sql', str())

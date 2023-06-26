@@ -15,17 +15,17 @@ def get_sat_configuration_b_app_runner_configuration_oxi() \
     etl_database_configuration_file = \
         __get_etl_database_configuration_file(
             configurations_folder=configurations_folder,
-            etl_database_configuration_filename='sqlite_test\configuration_db_sqlite_test_v2.db')
+            etl_database_configuration_filename='process_table_configuration v0.02 AGu modified OXi+AMi_CPa_v7_run_processes OXi2_multi_test.accdb')
 
     sat_configuration_b_app_runner_configuration = \
         SatConfigurationBAppRunnerConfigurations(
             environment_log_level_type=EnvironmentLogLevelTypes.FILTERED,
             output_root_folder=configurations_folder,
             output_folder_prefix='json_configurations',
-            output_folder_suffix='sqlite_test_v2',
+            output_folder_suffix='v7_run_processes OXi2_multi_test',
             etl_database_configuration_file=etl_database_configuration_file,
-            etl_json_configuration_file_name='etl_run_configuration_full_sqlite_test_v2.json',
-            etl_json_configuration_filtered_file_name='etl_run_configuration_filtered_sqlite_test_v2.json')
+            etl_json_configuration_file_name='full_v7_run_processes OXi2_multi_test.json',
+            etl_json_configuration_filtered_file_name='filtered_v7_run_processes OXi2_multi_test.json')
     
     return \
         sat_configuration_b_app_runner_configuration

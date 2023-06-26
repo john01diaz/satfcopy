@@ -1,4 +1,4 @@
-git+https://ElBloqueReadOnly:qgqvrjLgcLTbvmN6BR5C@bitbucket.org/nf_py_g6_team/nf_common.git
+git+https://ElBloqueReadOnly:qgqvrjLgcLTbvmN6BR5C@bitbucket.org/nf_py_g6_team/nf_common.git@string_splitter_by_separators
 pandas
 pyarrow
 openpyxl
@@ -11,4 +11,5 @@ pyodbc
 pyspark
 xlsxwriter
 easygui
+chardet
 msaccessdb

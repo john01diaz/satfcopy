@@ -9,6 +9,8 @@ from sat_etl_script_source.b_code.orchestrators.shell_etl_files_converter_orches
     orchestrate_shell_etl_files_converter_stage_02
 from sat_etl_script_source.b_code.orchestrators.shell_etl_files_converter_orchestrator_stage_02b import \
     orchestrate_shell_etl_files_converter_stage_02b
+from sat_etl_script_source.b_code.orchestrators.shell_etl_files_converter_orchestrator_stage_03 import \
+    orchestrate_shell_etl_files_converter_stage_03_py
 from sat_etl_script_source.b_code.orchestrators.shell_etl_files_converter_orchestrator_stage_04_py import \
     orchestrate_shell_etl_files_converter_stage_04_py
 from sat_etl_script_source.b_code.orchestrators.shell_etl_files_converter_orchestrator_stage_04_sql import \
@@ -44,11 +46,11 @@ def orchestrate_shell_etl_files_converter(
         previous_stage_name='stage_01',
         stage_name='stage_02b')
 
-    # # TODO: Stage 3: NOT TO BE DONE NOW
-    # orchestrate_shell_etl_files_converter_stage_03_py(
-    #     input_root_folder=input_root_folder,
-    #     previous_stage_name='stage_02',
-    #     stage_name='stage_03')
+    # TODO: Stage 3: NOT TO BE DONE NOW
+    orchestrate_shell_etl_files_converter_stage_03_py(
+        input_root_folder=input_root_folder,
+        previous_stage_name='stage_02',
+        stage_name='stage_03')
 
     # TODO: Stage 4: split all files by the COMMAND line
     orchestrate_shell_etl_files_converter_stage_04_py(

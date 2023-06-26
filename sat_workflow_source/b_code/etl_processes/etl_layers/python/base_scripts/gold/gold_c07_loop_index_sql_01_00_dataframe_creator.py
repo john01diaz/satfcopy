@@ -6,10 +6,10 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_loop_index import S_L
 def create_dataframe_gold_c07_loop_index_sql_01_00_v0_02(
         input_tables: dict):
     loop_index_dataframe = \
-        input_tables['S_Loop_Index']
+        input_tables['Sigraph_Silver.S_Loop_Index']
     
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
 
     # Defining the simple column mappings
     simple_column_mapping = {

@@ -51,28 +51,28 @@ def __clean_old_parquet_files_in_parquet_folder(
         DeltaTable(
             absolute_file_name_folder_path)
 
-    for input_root_folder_child \
-            in input_root_folder_children:
-        latest_parquet_file_paths = \
-            delta_table.file_uris()
+    # for input_root_folder_child \
+    #         in input_root_folder_children:
+    #     latest_parquet_file_paths = \
+    #         delta_table.file_uris()
+    #
+    #     input_root_folder_child_normalized = \
+    #         input_root_folder_child.replace('\\', '/')
+    #
+    #     if latest_parquet_file_paths:
+    #         if input_root_folder_child_normalized not in latest_parquet_file_paths:
+    #             os.remove(
+    #                 input_root_folder_child)
+    #
+    #             print(
+    #                 'File removed: ' + str(input_root_folder_child))
 
-        input_root_folder_child_normalized = \
-            input_root_folder_child.replace('\\', '/')
+    table = \
+        delta_table.to_pyarrow_table().to_pandas()
 
-        if latest_parquet_file_paths:
-            if input_root_folder_child_normalized not in latest_parquet_file_paths:
-                os.remove(
-                    input_root_folder_child)
-
-                print(
-                    'File removed: ' + str(input_root_folder_child))
-
-    # table = \
-    #     delta_table.to_pyarrow_table().to_pandas()
-
-    # print(
-    #     'Folder processed: ' + str(os.sep.join(absolute_file_name_folder_path.split(os.sep)[7:]))
-    #     + ' Shape: ' + str(table.shape))
+    print(
+        'Folder processed: ' + str(os.sep.join(absolute_file_name_folder_path.split(os.sep)[7:]))
+        + ' Shape: ' + str(table.shape))
 
     # no_delta_lake_table = \
     #     pandas.read_parquet(

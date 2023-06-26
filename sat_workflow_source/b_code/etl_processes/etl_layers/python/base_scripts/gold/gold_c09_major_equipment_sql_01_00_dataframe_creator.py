@@ -16,10 +16,10 @@ def filter_by_database_name(
 def create_dataframe_gold_c09_major_equipment_sql_01_00(
         input_tables: dict):
     s_major_equipments_dataframe = \
-        input_tables['S_Major_Equipments']
+        input_tables['Sigraph_Silver.S_Major_Equipments']
     
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
     
     filtered_s_major_equipments_dataframe = filter_by_database_name(
             s_major_equipments_dataframe,

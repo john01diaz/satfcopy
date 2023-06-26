@@ -20,10 +20,10 @@ def dense_rank(
 def create_dataframe_gold_c12_terminals_sql_01_00(
         input_tables: dict):
     terminals_dataframe = \
-        input_tables['S_Terminals']
+        input_tables['Sigraph_Silver.S_Terminals']
     
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
     # Define the classes we're interested in
     classes_of_interest = ['Instrumentation', 'Inst(Shared)', 'Elec(Shared)']
     

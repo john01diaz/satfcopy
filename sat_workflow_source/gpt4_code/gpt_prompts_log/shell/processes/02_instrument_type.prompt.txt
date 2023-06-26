@@ -1,0 +1,71 @@
+You are a prompt expert, you need to improve the following prompt:
+
+The Prompt to improve:
+
+You are an Azure SQL and python expert. 
+Convert the following Databricks SQL statement into python code.
+
+
+Do not value brevity.
+Make the code as modular as possible.
+Use clean coding principles.
+Follow the PEP8 style guide.
+Use human readable names.
+Choose descriptive and unambiguous names.
+Choose pronounceable names.
+Choose searchable names.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'. Do not abbreviate.
+Ignore all the comments, which are indicated by -- inside the sql.
+Generate an orchestrating function for the component functions. Add an underscore to the beginning of component function names.
+Make the name of the main function: create_dataframe_gold_c02_instrument_type_catalogue_sql_01_00.
+This python function will have a single input parameter called 'input_tables', which will be of type dictionary and will contain the sql tables stored as dataframes keyed upon their sql name (a string). 
+To retrieve the dataframes from the dictionary, create string literals for the names of the SQL tables and use these to access the dataframes from the dictionary.
+
+
+Treat the input files as pandas dataframes and read them in as parameters at the start.
+
+Treat the input columns in different ways, modularise these different ways if possible.
+A column will be passed through without any modification.
+A columnn will be simply mapped to a column with a new name, sometimes multiple times.
+A new columnn will be added with a constant value
+A columnn will be mapped to a column using  more complex calculations
+
+
+Do not generate the enums. Refer to the following enums when using column names.
+These are the enum schemas for the input tables
+
+class VwDatabaseNames(
+        Enum):
+    VW_DATABASE_NAME = 'vw_database_name'
+
+class CS_Layer_Loop_Loop_elements(
+        Enum):
+    CS_LOOP_ELEMENT_ID = 'cs_loop_element_id'
+    CS_DEVICE_TYPE = 'cs_device_type'
+    CS_LOCATION_FULL_DESIGNATION = 'cs_location_full_designation'
+    LOOP_ELEMENT_DATABASE_NAME = 'loop_element_database_name'
+    CS_DEVICE_TYPE = 'cs_device_type'
+
+This is the enum schema for the output table
+
+class Instrument_Type_Catalogue(
+        Enum):
+    TYPE = 'type'
+    INSTRUMENT_TYPE = 'instrumenttype'
+
+This is the SQL statement named 02_Instrument_Type_Catalogue_sql_01_00.sql
+
+Select Distinct
+regexp_extract(CS_loop_element_id, '[A-Za-z]+', 0) as Type,
+UPPER(TRIM(CS_device_type)) as InstrumentType
+From Sigraph.CS_layer_loop_loop_elements
+Where CS_location_full_designation is null
+and loop_element_database_name in (select * from VW_Database_names)
+and  CS_device_type is not null
+and trim(CS_device_type) != ""
+order by Type

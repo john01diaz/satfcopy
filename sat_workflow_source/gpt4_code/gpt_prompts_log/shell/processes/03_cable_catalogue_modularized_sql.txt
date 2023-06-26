@@ -1,0 +1,41 @@
+-- CTE for the join and row number calculation
+WITH CTE_CableCatalogue AS (
+SELECT C.*
+,CM.CatalogueNo
+,ROW_NUMBER() OVER(PARTITION BY CM.CatalogueNo ORDER BY CM.Cable_Object_Identifier) AS RNT
+FROM sigraph_silver.S_CableCatalogue C
+INNER JOIN sigraph_silver.S_CableCatalogueNumber_Master CM 
+ON CM.database_name=C.database_name 
+AND CM.Cable_Object_Identifier = C.Object_Identifier
+WHERE Class IN ('Instrumentation','Inst(Shared)','Elec(Shared)')
+AND C.database_name IN (SELECT Database_name FROM VW_Database_names)
+)
+
+-- Final SELECT statement
+SELECT 
+CatalogueNo
+,Manufacturer
+,Class
+,Description
+,GroupType
+,NoOfGroups
+,Armoured
+,OAScr
+,GroupScr
+,EarthCore
+,Voltage
+,Size
+,Earth_Core_Size
+,OD
+,Material
+,Colour1
+,Colour2
+,AllowUse
+,DrumLength
+,LineType
+,LineTypeColor
+,LineTypeWidth
+,LineTypeArrowHead
+,Remarks
+FROM CTE_CableCatalogue
+WHERE RNT=1

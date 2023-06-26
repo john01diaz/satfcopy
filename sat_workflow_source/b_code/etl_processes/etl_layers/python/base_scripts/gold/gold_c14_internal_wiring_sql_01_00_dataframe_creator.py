@@ -4,10 +4,10 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_internal_wiring impor
 def create_dataframe_gold_c14_internal_wiring_sql_01_00(
         input_tables: dict):
     s_internal_wiring_dataframe = \
-        input_tables['S_Internal_Wiring']
+        input_tables['Sigraph_Silver.S_Internal_Wiring']
     
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
 
     classes =\
         ['Instrumentation', 'Inst(Shared)', 'Elec(Shared)']

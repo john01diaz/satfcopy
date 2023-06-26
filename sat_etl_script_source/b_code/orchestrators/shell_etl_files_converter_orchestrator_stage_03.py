@@ -5,7 +5,6 @@ from nf_common_source.code.services.input_output_service.delimited_text.table_as
 from nf_common_source.code.services.reporting_service.reporters.log_file import LogFiles
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 from nf_common_source.code.services.reporting_service.wrappers.run_and_log_function_wrapper import run_and_log_function
-
 from sat_etl_script_source.b_code.common.helpers.new_folder_creator import create_new_folder
 from sat_etl_script_source.b_code.common.splitted_file_to_dictionary_adder import add_splitted_file_to_dictionary
 
@@ -20,87 +19,89 @@ def orchestrate_shell_etl_files_converter_stage_03_py(
         dict()
 
     log_message(
-        message='extract python methods from sql files')
-
-    log_message(
         message='input filepath:' + input_root_folder.absolute_path_string)
 
-    py_extension_folder_path = \
+    sql_extension_folder_path = \
         os.path.join(
             LogFiles.folder_path,
             previous_stage_name,
-            'py_ext')
+            'sql_ext')
 
     relative_path_removal = \
-        py_extension_folder_path + os.sep
+        sql_extension_folder_path + os.sep
 
-    stage_04_folder_path = \
+    previous_stage_folder_path = \
         os.path.join(
             LogFiles.folder_path,
             stage_name)
 
-    py_methods_folder_path = \
+    create_new_folder(
+        folder_path=previous_stage_folder_path)
+
+    sql_extension_files_folder_path = \
         os.path.join(
-            stage_04_folder_path,
-            'py_ext')
+            previous_stage_folder_path,
+            'sql_ext')
 
     __process_input_folder_children(
         splitted_files_dictionary=splitted_files_dictionary,
-        py_extension_folder_path=py_extension_folder_path,
-        py_methods_folder_path=py_methods_folder_path,
-        relative_path_removal=relative_path_removal)
+        sql_extension_folder_path=sql_extension_folder_path,
+        relative_path_removal=relative_path_removal,
+        sql_extension_files_folder_path=sql_extension_files_folder_path)
 
     export_table_as_dictionary_to_csv(
         table_as_dictionary=splitted_files_dictionary,
         output_folder=Folders(absolute_path_string=LogFiles.folder_path),
-        output_file_base_name='py_method_04_files')
+        output_file_base_name='stage_03_files')
 
 
 def __process_input_folder_children(
         splitted_files_dictionary: dict,
-        py_extension_folder_path: str,
-        py_methods_folder_path: str,
-        relative_path_removal: str) \
+        sql_extension_folder_path: str,
+        relative_path_removal: str,
+        sql_extension_files_folder_path: str) \
         -> None:
     for input_folder_path, dirs, filenames \
-            in os.walk(py_extension_folder_path):
+            in os.walk(sql_extension_folder_path):
         relative_path = \
-            (input_folder_path + os.sep).replace(relative_path_removal, '')
+            (input_folder_path + os.sep).replace(
+                relative_path_removal,
+                str())
 
         log_message(
             message='processing folder:  ' + relative_path)
 
-        output_py_methods_folder_path = \
+        output_sql_extension_files_folder_path = \
             os.path.join(
-                py_methods_folder_path,
+                sql_extension_files_folder_path,
                 relative_path)
 
         create_new_folder(
-            folder_path=output_py_methods_folder_path)
+            folder_path=output_sql_extension_files_folder_path)
 
         __process_files(
+            splitted_files_dictionary=splitted_files_dictionary,
             filenames=filenames,
             input_folder_path=input_folder_path,
             relative_path=relative_path,
-            output_py_methods_folder_path=output_py_methods_folder_path,
-            splitted_files_dictionary=splitted_files_dictionary)
+            output_sql_extension_files_folder_path=output_sql_extension_files_folder_path)
 
 
 def __process_files(
+        splitted_files_dictionary: dict,
         filenames: list,
         input_folder_path: str,
         relative_path: str,
-        output_py_methods_folder_path: str,
-        splitted_files_dictionary: dict) \
+        output_sql_extension_files_folder_path: str) \
         -> None:
     for filename \
             in filenames:
-        if filename[-3:] == '.py':
+        if filename[-4:] == '.sql':
             __process_file(
                 filename=filename,
                 input_folder_path=input_folder_path,
                 relative_path=relative_path,
-                output_py_methods_folder_path=output_py_methods_folder_path,
+                output_sql_extension_files_folder_path=output_sql_extension_files_folder_path,
                 splitted_files_dictionary=splitted_files_dictionary)
 
 
@@ -108,7 +109,7 @@ def __process_file(
         filename: str,
         input_folder_path: str,
         relative_path: str,
-        output_py_methods_folder_path: str,
+        output_sql_extension_files_folder_path: str,
         splitted_files_dictionary: dict) \
         -> None:
     log_message(
@@ -119,84 +120,67 @@ def __process_file(
             input_folder_path,
             filename)
 
-    __process_py_file(
-            filename=filename,
-            input_file_path=input_file_path,
-            relative_path=relative_path,
-            output_py_methods_folder_path=output_py_methods_folder_path,
-            splitted_files_dictionary=splitted_files_dictionary)
+    __process_sql_file(
+        filename=filename,
+        input_file_path=input_file_path,
+        relative_path=relative_path,
+        output_sql_extension_files_folder_path=output_sql_extension_files_folder_path,
+        splitted_files_dictionary=splitted_files_dictionary)
 
 
-def __process_py_file(
+def __process_sql_file(
         filename: str,
         input_file_path: str,
         relative_path: str,
-        output_py_methods_folder_path: str,
+        output_sql_extension_files_folder_path: str,
         splitted_files_dictionary: dict) \
         -> None:
     with open(input_file_path, 'r') as f:
-        commands = f.read().split('# COMMAND ----------\n')
+        commands = f.read().split('-- COMMAND ----------\n')
 
-    command_position = \
-        0
+    sql_commands = \
+        list()
 
-    for command \
-            in commands:
-        extension = \
-            'py'
+    for command_position, command \
+            in enumerate(commands):
+        if __is_sql_command(command):
+            sql_commands.append(
+                command.rstrip())
 
-        new_filename = \
-            filename[:-3] + '_py_' + f'{command_position:02}'
+    sql_only = \
+        ';\n'.join(
+            sql_commands)
 
-        if command.isspace():
-            empty_statement_file_path = \
-                os.path.join(
-                    relative_path,
-                    new_filename)
+    output_file_path = \
+        os.path.join(
+            output_sql_extension_files_folder_path,
+            filename + '.sql_only.sql')
 
-            log_message(
-                'empty py method command in:' + empty_statement_file_path)
+    with open(output_file_path, 'w') as f:
+        f.write(sql_only)
 
-            output_file_path = \
-                os.path.join(
-                    output_py_methods_folder_path,
-                    new_filename + '.empty')
+    add_splitted_file_to_dictionary(
+        splitted_files_dictionary=splitted_files_dictionary,
+        relative_path=relative_path,
+        filename=filename + '.sql_only.sql',
+        source_filename=filename,
+        source_type='sql',
+        line_count=sql_only.count('\n'),
+        type='sql',
+        is_empty=False,
+        position_in_file=str(),
+        position_in_statements=str())
 
-            with open(output_file_path, 'w') as f:
-                f.write(command)
+def __is_sql_command(
+        command: str) \
+        -> bool:
+    if '%run' in command:
+        return \
+            False
 
-            add_splitted_file_to_dictionary(
-                splitted_files_dictionary=splitted_files_dictionary,
-                relative_path=relative_path,
-                filename=new_filename + '.empty',
-                source_filename=filename,
-                source_type='sql',
-                line_count=len(command.splitlines()),
-                type='empty',
-                is_empty=True,
-                position_in_file=f'{command_position:02}',
-                position_in_statements='')
+    if 'python' in command:
+        return \
+            False
 
-        else:
-            output_file_path = \
-                os.path.join(
-                    output_py_methods_folder_path,
-                    new_filename + '.' + extension)
-
-            with open(output_file_path, 'w') as f:
-                f.write(command)
-
-            add_splitted_file_to_dictionary(
-                splitted_files_dictionary=splitted_files_dictionary,
-                relative_path=relative_path,
-                filename=new_filename + '.' + extension,
-                source_filename=filename,
-                source_type='py',
-                line_count=len(command.splitlines()),
-                type=extension,
-                is_empty=False,
-                position_in_file=f'{command_position:02}',
-                position_in_statements='')
-
-        command_position += \
-            1
+    return \
+        True

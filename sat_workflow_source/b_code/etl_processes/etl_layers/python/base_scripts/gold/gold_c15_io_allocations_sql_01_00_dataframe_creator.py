@@ -34,10 +34,10 @@ def select_distinct_columns(
 def create_dataframe_gold_c15_io_allocations_sql_01_00(
     input_tables: dict) -> pandas.DataFrame:
     s_io_allocations_dataframe = \
-        input_tables['S_IO_Allocations']
+        input_tables['Sigraph_Silver.S_IO_Allocations']
     
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
 
     filtered_dataframe = \
         filter_dataframe(

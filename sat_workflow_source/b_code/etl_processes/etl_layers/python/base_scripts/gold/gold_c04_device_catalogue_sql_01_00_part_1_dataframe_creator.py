@@ -9,7 +9,7 @@ def create_dataframe_gold_c04_device_catalogue_sql_01_00_part_1(
         input_tables['Sigraph_Silver.S_DeviceCatalogue']
 
     database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
 
     database_dataframe_filtered = \
         filter_database_names(

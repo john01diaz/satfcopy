@@ -69,7 +69,7 @@ def __add_process_record(
             table_name='processes')
 
     bie_process_ids = \
-        None if row['bie_process_ids'] == str() else str(int(float(row['bie_process_ids'])))
+        None if row['bie_process_ids'] == str() else row['bie_process_ids']
 
     bie_table_ids = \
         row['bie_table_ids']

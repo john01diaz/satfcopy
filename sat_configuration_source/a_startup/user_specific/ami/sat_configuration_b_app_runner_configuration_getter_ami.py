@@ -15,7 +15,7 @@ def get_sat_configuration_b_app_runner_configuration_ami() \
     etl_database_configuration_file = \
         __get_etl_database_configuration_file(
             configurations_folder=configurations_folder,
-            etl_database_configuration_filename='configuration_db_sqlite_test_v2.db')
+            etl_database_configuration_filename='process_table_configuration v0.02 AGu modified OXi+AMi_CPa_v7_run_processes.accdb')
 
     sat_configuration_b_app_runner_configuration = \
         SatConfigurationBAppRunnerConfigurations(

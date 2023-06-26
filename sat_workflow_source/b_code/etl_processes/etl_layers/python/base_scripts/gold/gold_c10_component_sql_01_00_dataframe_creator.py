@@ -7,10 +7,10 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_component import S_Co
 def create_dataframe_gold_c10_component_sql_01_00(
         input_tables: dict):
     s_component_dataframe = \
-        input_tables['S_Component']
+        input_tables['Sigraph_Silver.S_Component']
     
     vw_database_names_dataframe = \
-        input_tables['database_names']
+        input_tables['VW_Database_names']
 
     class_values = ['Instrumentation', 'Inst(Shared)', 'Elec(Shared)']
     s_component_dataframe = s_component_dataframe[s_component_dataframe[S_Component.CLASS.value].isin(
