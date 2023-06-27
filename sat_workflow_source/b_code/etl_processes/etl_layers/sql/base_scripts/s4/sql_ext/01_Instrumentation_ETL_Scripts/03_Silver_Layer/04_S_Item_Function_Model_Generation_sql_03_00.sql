@@ -32,8 +32,7 @@ Select Distinct
 from sigraph_silver.S_Itemfunction A
 Where Type in ('IO Module') and A.ChannelNumber is not null and A.ChannelNumber<>'' and A.ChannelNumber<>'0'
 and Case When Type='IO Module' and (Coalesce(ChannelNumber,'')='' OR ChannelNumber='0') Then 0 Else 1 End=1
--- As per the IO rule, each IO should have two terminals.
--- If we have El PIn for PLC Function, but only one marking is there then add additional marking using below query
+
 
 
 

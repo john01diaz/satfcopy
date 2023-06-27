@@ -13,7 +13,7 @@ def get_working_output_folder(
                 output_folder.absolute_path_string,
                 'working'))
 
-    if not os.path.exists(working_output_folder.parent_absolute_path_string):
+    if not os.path.exists(working_output_folder.absolute_path_string):
         create_new_folder(
             parent_folder_path=working_output_folder.parent_absolute_path_string,
             new_folder_name=working_output_folder.base_name)

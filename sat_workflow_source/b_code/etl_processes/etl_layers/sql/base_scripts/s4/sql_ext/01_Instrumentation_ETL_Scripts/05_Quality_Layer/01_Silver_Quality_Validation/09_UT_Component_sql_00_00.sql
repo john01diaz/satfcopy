@@ -10,7 +10,22 @@ from Sigraph_silver.s_itemfunction A
 LEFT SEMI JOIN Sigraph_Silver.S_Item_Function_Model FM ON FM.database_name=A.Database_name 
 and FM.Object_Identifier=A.Object_Identifier
 Left outer join sigraph_Silver.S_Component B On A.database_name=B.database_name and A.Object_Identifier=B.Object_Identifier
-Where A.Type in ('FTA','Device','Terminal Strips','IO Module')
+Where A.Type in ('FTA','Device','Terminal Strips')
+-- in PLC Module for PLC Overview class we dont have channel number. We no need to load this data.
+and A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+
+UNION
+
+Select 
+ A.database_name
+,A.object_identifier
+,'142' as UT_ID
+,CASE WHEN B.Object_Identifier is not null then 'Pass' else 'Fail' end as Test_Case
+from Sigraph_silver.s_itemfunction A
+LEFT SEMI JOIN Sigraph_Silver.S_IO_Catalogue FM ON FM.database_name=A.Database_name 
+and FM.Object_Identifier=A.Object_Identifier
+Left outer join sigraph_Silver.S_Component B On A.database_name=B.database_name and A.Object_Identifier=B.Object_Identifier
+Where A.Type in ('IO Module')
 -- in PLC Module for PLC Overview class we dont have channel number. We no need to load this data.
 and A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
 

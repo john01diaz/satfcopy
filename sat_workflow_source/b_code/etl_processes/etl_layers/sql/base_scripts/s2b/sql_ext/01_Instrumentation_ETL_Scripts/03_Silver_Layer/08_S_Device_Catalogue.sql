@@ -33,7 +33,7 @@ Select Distinct
 ,VDV.Item_Dynamic_Class
 ,VDV.Object_Identifier
 ,VDV.Dynamic_Class
-,Row_Number() Over(Partition by VM.ModelNo order by VDV.Item_Object_Identifier) as Catalogue_RNT
+,Row_Number() Over(Partition by VM.ModelNo order by VDV.Object_Identifier) as Catalogue_RNT
 from sigraph_silver.S_Itemfunction VDV
 Inner join sigraph_silver.S_Item_Function_Model VM 
 On VDV.database_name=VM.database_name 
@@ -48,6 +48,8 @@ and (Coalesce(VM.Left,0)+Coalesce(VM.Right,0))>0
  df = spark.sql('Select * from VW_DeviceCatalogue_Extract where database_name == "R_2016R3"')
 
  dbutils.fs.rm('dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_DeviceCatalogue',True)
+
+ df = cleansing_df(df)
 
  df.write.save(
      format = 'delta'

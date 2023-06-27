@@ -31,19 +31,19 @@ From (
 Select Distinct
 C.database_name
 ,C.object_identifier
-,multipleReplace(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'{"NEU":"","~":"","_":"","ALT":"","?M":"µm"}') as Description
-,Case When UPPER(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code)) like "%NEU%" Then "NEW" END as Cable_Standard
+,multipleReplace(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'{"NEU":"","~":"","_":"","ALT":"","?M":"µm"}') as Description
+,Case When UPPER(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string)) like "%NEU%" Then "NEW" END as Cable_Standard
 ,LC_cable_color as Cable_Color
 ,PC_Part_def_manufacturer as Manufacturer
 -- Calculated Columns
 ,regexp_extract(
-      UPPER(REPLACE(Replace(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),',','.'),'G','X')),
+      UPPER(REPLACE(Replace(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),',','.'),'G','X')),
       '([0-9]+[ ]*[X][ ]*[0-9]+[X]?[0-9]*[,|.|//]?[0-9]*[.|//]?[0-9]*)'
       ) as CableDetails
-,getCableCatalogue(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'OAS_Coll_SH') as OAS_Coll_SH
-,getCableCatalogue(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'GSCR') as GSCR
-,getCableCatalogue(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'Armoured') as Armoured
-,getCableCatalogue(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'ArmourDescription') as ArmourDescription
+,getCableCatalogue(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'OAS_Coll_SH') as OAS_Coll_SH
+,getCableCatalogue(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'GSCR') as GSCR
+,getCableCatalogue(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'Armoured') as Armoured
+,getCableCatalogue(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'ArmourDescription') as ArmourDescription
 from sigraph.Cable C
 left outer join sigraph.Cable_eq CE 
 ON CE.database_name=C.database_name 
@@ -52,7 +52,7 @@ left outer join sigraph.Std_part_def CM
 ON CM.database_name=CE.database_name 
 and CM.PC_Equipment_Part_def_Rel_dyn_class=CE.dynamic_class 
 and CM.PC_Equipment_Part_def_Rel_href=CE.object_identifier
-Where   UPPER(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code)) Not in ("REP DRAHT","RESERVIERT","FREI")
-and UPPER(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code)) is not null
+Where   UPPER(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string)) Not in ("REP DRAHT","RESERVIERT","FREI")
+and UPPER(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string)) is not null
 ) as A
 

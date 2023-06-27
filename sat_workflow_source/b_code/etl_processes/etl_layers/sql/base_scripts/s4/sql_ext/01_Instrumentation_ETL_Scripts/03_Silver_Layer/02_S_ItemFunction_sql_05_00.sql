@@ -58,3 +58,5 @@
  and regexp_extract(C.Tag_Number,'([A-Z]+)([0-9]+)',0)=A.product_key
  and C.LC_Item_function_CS_Loop_element_href is null
 
+
+

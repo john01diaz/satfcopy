@@ -80,13 +80,18 @@ WF.Database_name
    
 ,Case   When  UPPER(Coalesce(LC_wire_function_wire_spec,''))  like '%SCHWARZ%' 
         THEN 0
-        When  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SL%'
-          OR  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SH%'
-          OR  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SC%'
+          
+        --UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SL%'
+ --         OR  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SH%'
+ --         OR  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SC%'
+        When UPPER(C.description) like '%PIMF%' and UPPER(TRIM(WF.LC_wire_function_wire_spec))='SC' Then 0
+        When (UPPER(C.description) like '%PIMF%'  OR UPPER(C.description)='RE-2Y(ST)YV 24X2X0,8')
+        and Translate(getColourRevised(UPPER(LC_wire_function_wire_spec)),'0,1,2,3,4,5,6,7,8,9,|,\,/,-','') ='SC'
+       
         THEN 1
         ELSE 0 END  as IsScreeningCore  
         
-,Case   When  UPPER(Coalesce(LC_wire_function_wire_spec,'')) in ('SCHIRM','SCH','S','SH') 
+,Case   When UPPER(Coalesce(LC_wire_function_wire_spec,'')) in ('SCHIRM','SCH','S','SH','SL','SC') 
         Then 1 
         ELSE 0 END IsOASH   
 -- Duplicate core for same cable, then assign running number at the end. 
@@ -103,7 +108,6 @@ from sigraph.Wire_function WF
 Inner join VW_Cable C 
 ON  WF.database_name = C.database_name 
 and WF.LC_item_functions_rel_href=C.object_identifier
-
 ) as A
 ) as A
 

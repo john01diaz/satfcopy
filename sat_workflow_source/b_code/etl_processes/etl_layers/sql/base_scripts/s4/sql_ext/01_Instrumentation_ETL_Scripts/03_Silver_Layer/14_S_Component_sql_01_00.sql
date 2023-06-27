@@ -25,3 +25,5 @@
  and A.Object_Identifier=B.Object_Identifier
  Where A.Type in ('Device','FTA') and A.location_designation is not null
 
+
+

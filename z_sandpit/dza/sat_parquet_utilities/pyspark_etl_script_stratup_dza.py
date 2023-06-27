@@ -30,5 +30,5 @@ if __name__ == '__main__':
             export_to_access=False,
             export_to_sqlite=True,
             export_csvs_to_sqlite=True,
-            export_parquet_file_to_csv=False,
+            export_parquet_file_to_csv=True,
             data_chunk_size=10)

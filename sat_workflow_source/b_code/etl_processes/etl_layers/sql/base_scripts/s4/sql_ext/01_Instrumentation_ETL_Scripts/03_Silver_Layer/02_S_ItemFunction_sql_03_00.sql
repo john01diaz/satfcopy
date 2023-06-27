@@ -92,3 +92,4 @@
  From sigraph.Integrated_Item B
  Inner join sigraph.Item_K K ON K.database_name=B.database_name and K.LC_Item_k_Rel_dyn_class=B.dynamic_Class and K.LC_Item_k_Rel_href=B.object_identifier
 
+

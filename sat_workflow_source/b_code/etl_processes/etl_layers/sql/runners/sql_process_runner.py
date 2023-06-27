@@ -11,6 +11,7 @@ from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.code_from_
 
 
 def run_sql_process(
+        raw_and_bie_sub_register,
         process_name: str,
         input_tables: dict) \
         -> Optional[DataFrame]:
@@ -34,6 +35,7 @@ def run_sql_process(
 
     output_table = \
         run_common_spark_sql(
+            raw_and_bie_sub_register=raw_and_bie_sub_register,
             sql_script_file_path=sql_script_file_path,
             input_tables=input_tables)
 

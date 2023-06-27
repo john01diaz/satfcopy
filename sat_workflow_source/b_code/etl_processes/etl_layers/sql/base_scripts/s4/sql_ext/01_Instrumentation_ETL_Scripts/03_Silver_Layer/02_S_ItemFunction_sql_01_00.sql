@@ -38,3 +38,5 @@
  -- Manufacturer
  Left Outer Join sigraph_reference.Manufacturer MC On UPPER(TRIM(MC.Sigraph_manufacturer))=UPPER(TRIM(LE.CS_manufacturer_mce))
 
+
+

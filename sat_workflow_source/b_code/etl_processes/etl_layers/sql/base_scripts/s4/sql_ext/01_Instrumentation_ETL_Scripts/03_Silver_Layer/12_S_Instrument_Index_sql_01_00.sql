@@ -2,7 +2,7 @@
 CREATE OR REPLACE TEMP VIEW Instrument_List
 AS 
 SELECT 
- loop_element_database_namev
+ loop_element_database_name
 ,loop_element_dynamic_class
 ,loop_element_object_identifier
 ,'INS' as ClassName
@@ -410,7 +410,7 @@ Inner join Sigraph_Silver.S_Loop_Index L On LE.loop_element_database_name=L.data
 and LE.CS_Loop_CS_Loop_element_dyn_class=L.dynamic_class
 and LE.CS_Loop_CS_Loop_element_href=L.object_identifier
 -- Restrict the data only for field device
-inner join sigraph_silver.S_Field_Device_Catalogue  FD 
+INNER join sigraph_silver.S_Field_Device_Catalogue  FD 
 on  FD.database_name==LE.loop_element_database_name
 and FD.dynamic_class=LE.loop_element_dynamic_class
 and FD.Object_Identifier=LE.loop_element_Object_Identifier
@@ -421,7 +421,7 @@ LEFT JOIN
             ,concat_ws(',',collect_set(CS_pipeline_main_nominal_size) over(partition by CS_Loop_CS_Mechanical_data_href)) as size
             ,CS_Loop_CS_Mechanical_data_dyn_class
             ,CS_Loop_CS_Mechanical_data_href
-        from  sigraph.CS_Mechanical_data_actuator 
+        from  sigraph.CS_Mechanical_data_actuator
         ) CS_Mechanical_data_actuator
 on  L.database_name     == CS_Mechanical_data_actuator.database_name
 and L.dynamic_class     == CS_Mechanical_data_actuator.CS_Loop_CS_Mechanical_data_dyn_class

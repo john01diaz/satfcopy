@@ -2,7 +2,19 @@
 -- Final Extracts
 CREATE OR REPLACE TEMP View VW_Cable_Core_Extract
 As
-     
+Select
+database_name
+,object_identifier
+,Cable_Object_Identifier
+,Case When GroupType='Cores' and Core_Markings_Core_Type='C' 
+      Then Group_Marking_Sequence Else Group_Marking END as Group_Marking
+,GroupType
+,Case When GroupType='Cores' and Core_Markings_Core_Type='C'
+      Then 1 Else Group_Marking_Sequence END as Group_Marking_Sequence
+,Core_Markings
+,Core_Markings_Core_Type
+,IsValidCableAndCore
+From (
 Select 
 database_name
 ,object_identifier
@@ -91,5 +103,5 @@ database_name
 ,Cast(Group_Sequence as Bigint)
 ,CasT(Group_Marking as Bigint)
 ,Cast(Group_Marking_Sequence as Bigint)
-
+) as A
 

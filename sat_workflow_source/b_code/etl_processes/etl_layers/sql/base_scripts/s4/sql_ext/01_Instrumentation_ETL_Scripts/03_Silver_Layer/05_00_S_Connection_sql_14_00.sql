@@ -1,5 +1,5 @@
 
-Create Or Replace TEMP VIEW VW_Connection_Final_Extract
+Create Or Replace TEMP VIEW VW_Connection_PreFinal_Extract
 AS
 Select Distinct
 Con.object_identifier

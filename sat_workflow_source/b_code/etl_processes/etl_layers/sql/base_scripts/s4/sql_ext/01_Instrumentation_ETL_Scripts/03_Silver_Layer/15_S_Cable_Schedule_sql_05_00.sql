@@ -4,6 +4,8 @@
 
  dbutils.fs.rm("dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_CableSchedule",True)
 
+ DF = cleansing_df(DF)
+
  DF.write.save(
       format = "delta"
      ,path   = "dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_CableSchedule"

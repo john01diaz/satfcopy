@@ -17,6 +17,3 @@ A.Area
 ,A.Category
 From Sigraph_Silver.S_Major_Equipments A
 Where database_name in (Select Database_name from VW_Database_names)
-
-
-

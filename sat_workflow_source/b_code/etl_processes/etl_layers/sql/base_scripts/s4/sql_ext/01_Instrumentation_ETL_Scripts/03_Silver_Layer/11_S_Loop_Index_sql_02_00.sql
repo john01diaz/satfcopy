@@ -10,6 +10,8 @@
      .withColumnRenamed('loop_object_identifier', 'object_identifier')
  )
 
+ df = cleansing_df(df)
+
  df.write.save(
      format = "delta"
     ,mode   = "overwrite"

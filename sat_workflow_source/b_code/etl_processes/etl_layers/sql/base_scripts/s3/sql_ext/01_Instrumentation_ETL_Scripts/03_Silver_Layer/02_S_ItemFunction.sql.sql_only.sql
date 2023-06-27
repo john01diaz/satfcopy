@@ -462,4 +462,6 @@ and F.Item_dynamic_class=D.Item_dynamic_class and F.Item_object_identifier=D.Ite
 and D.type='Field Device' and F.Type='Device'
 Where  F.database_name='R_2016R3' 
 ) as B ON A.database_name=B.database_name and A.dynamic_class=B.dynamic_class and A.object_identifier=B.object_identifier
-where A.database_name == "R_2016R3"
+where A.database_name == "R_2016R3";
+
+SELECT DISTINCT Tag_Number from VW_ItemFunction where Type = "Field Device"

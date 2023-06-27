@@ -1,6 +1,2 @@
 
-Select *
-,Concat(B.Site_Code,"-",B.Plant_Code,"-",B.Process_Unit) 
-from Sigraph_reference.PlantBreakdown
-
-
+DELETE FROM SIGRAPH_SILVER.UNIT_TEST_RESULTS WHERE Loader_Name=="MAJOR_EQUIPMENTS"

@@ -108,6 +108,7 @@ and Case When Type='IO Module' and (Coalesce(ChannelNumber,'')='' OR ChannelNumb
 
 
 
+
 Create Or Replace Temp View VW_Item_Function_Model_Extract
 As
 
@@ -182,12 +183,15 @@ and MD.Dynamic_Class=DP.Dynamic_Class and MD.Object_Identifier=DP.Object_identif
 
  dbutils.fs.rm('dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Item_Function_Model',True)
 
+ DF = cleansing_df(DF)
+
  df.write.save(
       format          = "delta"
      ,path            = 'dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Item_Function_Model'
      ,mode            = 'overwrite'
      ,overwriteSchema = True
  )
+
 
 
 Select * from VW_Item_Model_Prep_Query_2 Where object_identifier='ID_28_c_1b36fc8'

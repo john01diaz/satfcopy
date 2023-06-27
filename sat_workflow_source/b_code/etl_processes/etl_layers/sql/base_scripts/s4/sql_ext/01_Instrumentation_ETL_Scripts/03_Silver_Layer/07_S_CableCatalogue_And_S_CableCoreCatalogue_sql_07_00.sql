@@ -4,6 +4,8 @@
 
  dbutils.fs.rm("dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_CableCatalogue",True)
 
+ df1 = cleansing_df(df1)
+
  df1.write.save(
      format = "delta"
     ,mode   = "overwrite"

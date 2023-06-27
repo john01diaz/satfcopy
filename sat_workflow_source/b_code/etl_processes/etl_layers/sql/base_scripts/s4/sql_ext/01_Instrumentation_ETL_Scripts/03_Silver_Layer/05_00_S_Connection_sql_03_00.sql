@@ -28,7 +28,8 @@ From VW_Connection_Pin_Unions
 ) as Con
 --Right Pin
 Left outer join sigraph_silver.S_Pin RPN ON RPN.database_name=Con.database_name 
-and RPN.Object_Identifier=Con.Pin_Object_Identifier and RPN.Dynamic_Class=Con.Pin_Dynamic_Class
+and RPN.Object_Identifier=Con.Pin_Object_Identifier 
+and RPN.Dynamic_Class=Con.Pin_Dynamic_Class
 and Coalesce(RPN.Terminal_Side,'Left')='Right'
 --Left Pin
 Left outer join sigraph_silver.S_Pin LPN ON LPN.database_name=Con.database_name 

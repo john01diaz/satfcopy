@@ -1,5 +1,6 @@
 
 
+-- Terminal markings for the devices, where it does not have pin information in the pin class
 Create OR Replace Temp View VW_Terminals_Prep_2
 As
 
@@ -11,7 +12,7 @@ Select
 ,A.Item_object_Identifier
 ,Coalesce(Location_Designation,'') as Parent_Equipment_No
 -- for instrument load the tag number as Equipment no, for rest all load the product key.
-,Case When A.Type='Field Device' Then Tag_Number else Product_Key END as Equipment_No
+,A.Product_Key as Equipment_No
 ,Case When Dense_rank() Over(Partition by A.database_name,A.Item_Object_identifier
           ,Coalesce(SPO.Top,SPO.Right,SPO.Unknown,SPO.Bottom,SPO.Left) order by A.Object_identifier)>1
       Then Concat(
@@ -31,8 +32,6 @@ Inner join sigraph_reference.Symbol_pin_orientation SPO ON
 SPO.Symbol_Name=Case When A.Item_Dynamic_Class<>'LC_PLC_Module' Then A.Symbol_Name END
 and Coalesce(SPO.Top,SPO.Right,SPO.Unknown,SPO.Bottom,SPO.Left) is not null
 -- Consider only those records, where we are getting pin orientation
-Where 
--- For PLC Overview function, where Type is IO Module and Channl number is blank then ignore, as these are created for visualization purpose only.
- Case When Type='IO Module' and (Coalesce(ChannelNumber,'')='' OR ChannelNumber='0') Then 0 Else 1 End=1
+Where A.Type in ('Device','FTA','Terminal Strip')
 
 

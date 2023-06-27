@@ -44,12 +44,6 @@ def orchestrate_parquet_folder_report(
             pyspark_dataframe_to_pandas_dataframe_dictionary=pyspark_dataframe_to_pandas_dataframe_dictionary,
             parquet_files_dictionary=parquet_files_dictionary)
 
-        if export_to_access:
-            export_csv_files_to_ms_access(
-                output_file_suffix=output_file_suffix,
-                working_output_folder=working_output_folder,
-                datetime_stamp=datetime_stamp)
-
     if export_to_access:
         export_csv_files_to_ms_access(
             output_file_suffix=output_file_suffix,

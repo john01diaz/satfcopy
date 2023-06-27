@@ -1,4 +1,5 @@
 import glob
+import os
 from nf_common_source.code.services.datetime_service.time_helpers.time_getter import now_time_as_string_for_files
 from nf_common_source.code.services.file_system_service.objects.folders import Folders
 from sat_parquet_source.b_code.helpers.spark_session_creator import create_pyspark_session
@@ -17,7 +18,7 @@ def __resize_parquet_file(
                 .read \
                 .option("mergeSchema", "true") \
                 .parquet(parquet_file_path) \
-                .limit(1000)
+                .limit(100)
 
         pyspark_dataframe.write.mode("overwrite").parquet(
             parquet_file_path)
@@ -28,7 +29,10 @@ def __resize_parquet_file(
 if __name__ == '__main__':
     child_parquet_folder = \
         Folders(
-            absolute_path_string='/Users/terraire/bWa/DZa/etl/collect/blob/blob-temp-anusha_folder-sigraph_bronze_2023_05_21_1500/sigraph_bronze/CS_Layer_Loop_Loop_elements_latest')
+            absolute_path_string='/Users/terraire/bWa/DZa/etl/collect/blob_latest/' + os.sep
+             + 'blob_latest_parquet_files_sigraph_bronze_wrapper_2023_06_27_11_19_02_reduced_to_1000_rows/' + os.sep +
+             'temp_anusha_folder_sigraph_bronze_onefile_2023_06_27_1022/' + os.sep +
+             'sigraph_bronze/CS_Layer_Loop_Loop_elements')
 
     input_root_folder_child_path_children = \
         glob.glob(

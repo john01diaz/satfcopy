@@ -26,5 +26,5 @@ and CC.Object_Identifier = C.Cable_Object_Identifier
 Where CC.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
 and  C.database_name in (Select Database_name from VW_Database_names)
 ) as CM
-
 Where RNT=1
+

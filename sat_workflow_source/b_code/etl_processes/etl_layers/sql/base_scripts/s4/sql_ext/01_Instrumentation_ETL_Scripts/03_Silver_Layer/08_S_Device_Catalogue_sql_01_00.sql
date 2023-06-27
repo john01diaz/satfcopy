@@ -33,7 +33,7 @@ Select Distinct
 ,VDV.Item_Dynamic_Class
 ,VDV.Object_Identifier
 ,VDV.Dynamic_Class
-,Row_Number() Over(Partition by VM.ModelNo order by VDV.Item_Object_Identifier) as Catalogue_RNT
+,Row_Number() Over(Partition by VM.ModelNo order by VDV.Object_Identifier) as Catalogue_RNT
 from sigraph_silver.S_Itemfunction VDV
 Inner join sigraph_silver.S_Item_Function_Model VM 
 On VDV.database_name=VM.database_name 

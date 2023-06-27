@@ -18,6 +18,7 @@ from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.tab
 
 
 def run_common_spark_sql(
+        raw_and_bie_sub_register,
         sql_script_file_path: str,
         input_tables: dict) \
         -> DataFrame:
@@ -74,6 +75,7 @@ def run_common_spark_sql(
 
     output_dataframe = \
         run_sql_statement_sequence(
+            raw_and_bie_sub_register=raw_and_bie_sub_register,
             spark_session=spark_session,
             sql_statement_sequence_as_string=renamed_sql_script_as_string)
 

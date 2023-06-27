@@ -4,6 +4,8 @@
 
  dbutils.fs.rm("dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Internal_Wiring",True)
 
+ df = cleansing_df(df)
+
  df.write.save(
      format = "delta"
      ,path = "dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Internal_Wiring"

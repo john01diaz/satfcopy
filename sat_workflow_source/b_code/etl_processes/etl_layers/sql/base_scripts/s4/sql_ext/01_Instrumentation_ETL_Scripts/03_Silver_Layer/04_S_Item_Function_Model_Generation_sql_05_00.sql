@@ -4,10 +4,13 @@
 
  dbutils.fs.rm('dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Item_Function_Model',True)
 
+ DF = cleansing_df(DF)
+
  df.write.save(
       format          = "delta"
      ,path            = 'dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Item_Function_Model'
      ,mode            = 'overwrite'
      ,overwriteSchema = True
  )
+
 

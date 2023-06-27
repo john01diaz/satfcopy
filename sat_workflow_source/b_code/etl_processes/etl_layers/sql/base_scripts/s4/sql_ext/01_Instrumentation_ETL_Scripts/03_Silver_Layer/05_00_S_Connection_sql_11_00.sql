@@ -3,7 +3,7 @@
 -- The connection is derived by joining, loop number, io type, channel number with IO and FTA.
 Create or Replace Temp view VW_Connection_Prep_Query_IO
 AS
--- Possitive Connection
+-- Positive Connection
 Select Distinct
 IO.object_identifier
 ,IO.database_name
@@ -24,27 +24,38 @@ IO.object_identifier
 ,IO.location_designation as From_Location
 ,IO.facility_designation as From_Facility
 ,IO.product_Key as From_Item
-,Concat(IO.ChannelNumber,'+') as From_Terminal_Marking
+,Coalesce(FIO.TerminalMarking,Concat(IO.ChannelNumber,'+')) as From_Terminal_Marking
 ,IO.Object_Identifier as Cable
 ,0 as Wire_Cross_Section
 ,1 as Wire_Markings
 ,FTA.location_designation as To_Location
 ,FTA.facility_designation as To_Facility 
 ,FTA.product_Key as To_Item
-,Concat(FTA.ChannelNumber,'+') as To_Terminal_Marking
+,Coalesce(TIO.TerminalMarking,Concat(FTA.ChannelNumber,'+')) as To_Terminal_Marking
 ,Coalesce(IO.Loop_Number,FTA.Loop_Number) as Loop_Number
 ,Coalesce(IO.Tag_Number,FTA.Tag_Number) as Tag_Number
 ,Coalesce(IO.Document_Number,FTA.Document_Number) as Document_Number
 from VW_IO_Card_To_FTA_Connection ConIO
+
 Inner join sigraph_silver.S_ItemFunction IO 
 ON ConIO.database_name=IO.Database_name
 and ConIO.IO_Dynamic_Class=IO.Dynamic_Class
 and ConIO.IO_Object_Identifier=IO.Object_Identifier
+
+Left outer join VW_IO_TerminalMarking FIO 
+ON ConIO.database_name=FIO.database_name
+and ConIO.IO_Dynamic_Class=FIO.Dynamic_Class
+and ConIO.IO_Object_Identifier=FIO.Object_Identifier
+
 Inner join sigraph_silver.S_ItemFunction FTA
 ON ConIO.database_name=IO.Database_name
 and ConIO.FTA_Dynamic_Class=FTA.Dynamic_Class
 and ConIO.FTA_Object_Identifier=FTA.Object_Identifier
 
+Left outer join VW_IO_TerminalMarking TIO 
+ON ConIO.database_name=TIO.database_name
+and ConIO.FTA_Dynamic_Class=TIO.Dynamic_Class
+and ConIO.FTA_Object_Identifier=TIO.Object_Identifier
 
 
 

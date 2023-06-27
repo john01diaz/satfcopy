@@ -36,6 +36,8 @@
  Left Outer Join sigraph_reference.Manufacturer MC On UPPER(TRIM(MC.Sigraph_manufacturer))=UPPER(TRIM(LE.CS_manufacturer_mce))
 
 
+
+
  Create Or Replace Temp View VW_FunctionClass
  As
  Select
@@ -228,6 +230,7 @@
  Inner join sigraph.Item_K K ON K.database_name=B.database_name and K.LC_Item_k_Rel_dyn_class=B.dynamic_Class and K.LC_Item_k_Rel_href=B.object_identifier
 
 
+
  CREATE OR REPLACE TEMP VIEW VW_ItemFunction_Prep_Query1
  As
  Select Distinct
@@ -340,6 +343,8 @@
  and C.LC_Item_function_CS_Loop_element_href is null
 
 
+
+
 CREATE OR REPLACE TEMP VIEW VW_ItemFunction_Prep_Query
 As
 Select Distinct
@@ -450,9 +455,14 @@ where A.database_name == "R_2016R3"
   %python
  DFF=spark.sql('Select * from VW_ItemFunction where database_name == "R_2016R3"')
 
+ DFF = cleansing_df(DFF)
+
  DFF.write.save(
      path            = 'dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_ItemFunction'
     ,format          = "delta"
     ,mode            = 'overwrite'
     ,overwriteSchema = True
  )
+
+
+SELECT DISTINCT Tag_Number from VW_ItemFunction where Type = "Field Device"

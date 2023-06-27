@@ -26,6 +26,8 @@
  Where A.Type in ('Device','FTA') and A.location_designation is not null
 
 
+
+
  CREATE OR Replace TEMP VIEW VW_TerminalStrip
  AS
  Select Distinct
@@ -56,20 +58,21 @@
  ,A.location_designation as Parent_Equipment_No
  ,A.product_key as Equipment_No
  ,'IO Module' as EquipmentType
- ,B.ModelNo as CatalogueNo
+ ,B.Model_Number as CatalogueNo
  ,A.Rack
  ,A.Item_Object_identifier
  ,A.Item_dynamic_class
  ,Case When Coalesce(A.item_slot,'')<>'' and Coalesce(A.item_slot,'')<>'0' then item_slot END as Slot
  ,A.Class
  from sigraph_silver.S_Itemfunction A
- Inner join sigraph_silver.S_Item_Function_Model B 
+ Inner join (
+   Select Distinct database_name,object_identifier,dynamic_class,Model_Number from sigraph_silver.S_IO_Catalogue
+            ) B 
  On A.database_name=B.database_name
- and A.Item_Dynamic_Class=B.Item_Dynamic_Class
- and A.Item_Object_identifier=B.Item_Object_identifier
  and A.Dynamic_Class=B.Dynamic_Class
  and A.Object_Identifier=B.Object_Identifier
  Where A.Type='IO Module'
+ and A.location_designation is not null
  and A.location_designation is not null
 
 
@@ -85,25 +88,25 @@ Select database_name
 ,Rack
 ,Item_dynamic_class
 ,Item_Object_identifier
-,NumberOfEquipments
+,MAX(NumberOfEquipments) Over(Partition by Parent_Equipment_No,EquipmentType) as NumberOfEquipments
 ,Remarks
 ,Class
 From (
 Select database_name,object_identifier,dynamic_class,Parent_Equipment_No,Equipment_No,EquipmentType,CatalogueNo,Rack
 ,Item_Object_identifier,Item_dynamic_class,Slot
-,Count(1) Over(Partition by Parent_Equipment_No,EquipmentType) as NumberOfEquipments
+,dense_rank() Over(Partition by Parent_Equipment_No,EquipmentType order by Equipment_No) as NumberOfEquipments
 ,Case when Rack is not null then 'Rack' Else 'DinRail' END as Remarks 
 ,Class
 from VW_Device_Extract
 UNION
 Select database_name,object_identifier,dynamic_class,Parent_Equipment_No,Equipment_No,EquipmentType,CatalogueNo,Rack,Item_Object_identifier,Item_dynamic_class,Slot
-,Count(1) Over(Partition by Parent_Equipment_No,EquipmentType) as NumberOfEquipments
+,dense_rank() Over(Partition by Parent_Equipment_No,EquipmentType order by Equipment_No) as NumberOfEquipments
 ,Case when Rack is not null then 'Rack' Else 'DinRail' END as Remarks 
 ,Class
 from VW_TerminalStrip
 UNION
 Select database_name,object_identifier,dynamic_class,Parent_Equipment_No,Equipment_No,EquipmentType,CatalogueNo,Rack ,Item_Object_identifier,Item_dynamic_class,Slot
-,Count(1) Over(Partition by Parent_Equipment_No,EquipmentType) as NumberOfEquipments
+,dense_rank() Over(Partition by Parent_Equipment_No,EquipmentType order by Equipment_No) as NumberOfEquipments
 ,Case when Rack is not null then 'Rack' Else 'DinRail' END as Remarks 
 ,Class
 from VW_IO_Module 
@@ -236,6 +239,8 @@ order by Parent_Equipment_No,EquipmentType,Remarks,DinRail,Sequence
  dbutils.fs.rm('dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Component', True)
 
  DF=spark.sql('Select * from VW_Component_Extract where database_name in (Select * from VW_Database_names)')
+
+ DF = cleansing_df(DF)
 
  DF.write.save(
      path  = 'dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Component'

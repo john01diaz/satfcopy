@@ -31,6 +31,8 @@ From (
 
  dbutils.fs.rm('dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_CableCatalogueNumber_Master',True)
 
+ df = cleansing_df(df)
+
  df.write.save(
      format = 'delta'
     ,mode   = 'overwrite'

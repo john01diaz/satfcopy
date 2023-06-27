@@ -1,18 +1,23 @@
 
--- MAGIC %python
- df = (
-     spark.sql("select * from Instrument_List where loop_element_database_name in (Select * from VW_Database_names)")
-     .withColumnRenamed('loop_element_database_name', 'database_name')
-     .withColumnRenamed('loop_element_dynamic_class', 'dynamic_class')
-     .withColumnRenamed('loop_element_object_identifier','object_identifier')
- )
-
- dbutils.fs.rm("dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Instrument_Index", True)
-
- df.write.save(
-     format = "delta"
-    ,mode   = "overwrite"
-    ,path   = "dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Instrument_Index"  
-    ,overwriteSchema = True
- )
+-- Soft tags data loading script
+CREATE OR REPLACE TEMP VIEW VW_SoftTag_Instrument_List
+AS 
+Select  Distinct
+A.database_name
+,A.Dynamic_Class
+,A.object_identifier
+,'VINS' as ClassName
+,'As Built' as Status
+,'Default' as Area
+,'' as AreaPath
+,'Instrumentation' as Class
+,Tag_Number as TagNo
+,'RHLND Free Form' as FormatName
+,'Soft tag' as Device_Type
+,'Soft tag' as OperatingPrinc
+,'FLD' as ISALocation
+,Junction_Box
+,'Soft tag' as SpecialRemarks
+from sigraph_silver.S_IO_Allocations  A
+Where IsSoftTag=1
 

@@ -118,4 +118,6 @@ From
       and Item.Dynamic_Class = VM.Dynamic_Class
       and Item.Object_Identifier = VM.Object_Identifier
       Where L.loop_database_name='R_2016R3'
-  ) as A
+  ) as A;
+
+SELECT distinct Tag_Number from sigraph_silver.S_Field_Device_Catalogue

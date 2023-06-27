@@ -31,10 +31,10 @@ Select Distinct
 ,A.object_identifier
 ,'139' as UT_ID
 ,CASE When B.Site_code is not null  then 'Pass' 
-      When A.Area='R' Then 'Pass'
+      When A.Area='Default' Then 'Pass'
       Else 'Fail' end as Test_Case
 from sigraph_Silver.s_major_equipments A
-left outer join Sigraph_reference.PlantBreakdown B ON A.Area=B.area_code
+left outer join Sigraph_reference.PlantBreakdown B ON A.Area=B.area
 
 UNION
 
@@ -43,11 +43,12 @@ Select Distinct
 ,A.object_identifier
 ,'140' as UT_ID
 ,CASE When B.Site_Code is not null  then 'Pass' 
-      When A.Area='R' Then 'Pass'
+      When A.Area='Default' Then 'Pass'
       Else 'Fail' end as TestCase
 from sigraph_Silver.s_major_equipments A
 left outer join Sigraph_reference.PlantBreakdown B 
-ON A.AreaPath=Concat(B.Site_Code,"-",B.Plant_Code,"-",B.Process_Unit)
+ON A.AreaPath=Concat(B.Site_Code,"-",Coalesce(Engineering_Plant_Code,B.Plant_Code),"-"
+                     ,Coalesce(Engineering_Process_Unit,B.Process_Unit))
 
 UNION
 
@@ -57,12 +58,6 @@ Select Distinct
 ,'141' as UT_ID
 ,CASE When EquipmentType is not null  then 'Pass' Else 'Fail' end as TestCase
 from sigraph_Silver.s_major_equipments A
-
-
-
-Select *
-,Concat(B.Site_Code,"-",B.Plant_Code,"-",B.Process_Unit) 
-from Sigraph_reference.PlantBreakdown
 
 
 

@@ -30,10 +30,10 @@ Select Distinct
  A.database_name as database_name 
 ,A.object_identifier as object_identifier
 ,'126' as UT_ID
-,CASE WHEN B.Area_Code is not null then 'Pass' else 'Fail' end as Test_Case
+,CASE WHEN B.Area is not null then 'Pass' else 'Fail' end as Test_Case
 From  Sigraph_Silver.S_Loop_Index A
-left outer join sigraph_reference.PlantbreakdownStructure B 
-ON A.Area=B.Area_Code
+left outer join sigraph_reference.Plantbreakdown B 
+ON A.Area=B.Area
 Where A.Class='Instrumentation'
 
 UNION
@@ -44,8 +44,8 @@ Select Distinct
 ,'127' as UT_ID
 ,CASE WHEN B.site_code is not null  then 'Pass' else 'Fail' end as Test_Case
 from Sigraph_Silver.S_Loop_Index A
-left outer join sigraph_reference.PlantbreakdownStructure B 
-ON A.AreaPath=Concat(B.site_code,"-",B.Plant_Code,"-",B.Process_Unit)
+left outer join sigraph_reference.Plantbreakdown B 
+ON A.AreaPath=concat_ws('-',Site_Code,Coalesce(Engineering_Plant_Code,Plant_Code),Coalesce(Engineering_Process_Unit,Process_Unit))
 Where A.Class='Instrumentation'
 
 UNION

@@ -7,6 +7,8 @@
 
  dbutils.fs.rm('dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_CableCoreCatalogue',True)
 
+ df2 = cleansing_df(df2)
+
  df2.write.save(
      format = 'delta'
      ,mode  = 'overwrite'

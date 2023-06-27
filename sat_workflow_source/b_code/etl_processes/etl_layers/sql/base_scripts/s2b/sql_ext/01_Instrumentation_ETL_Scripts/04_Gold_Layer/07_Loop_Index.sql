@@ -26,11 +26,11 @@ Area
 ,Suppl_char_1  As `Suppl char 1`
 ,Visual_Inspection  As `Visual Inspection`
 ,EP_Origin  As `EP Origin`
-,`Y_Coord.`  As `Y Coord.`
+,`Y_Coord`  As `Y Coord.`
 ,ET_structure  As `ET structure`
 ,Classification  As `Classification`
 ,Related_Report  As `Related Report`
-,`X_Coord.`  As `X Coord.`
+,`X_Coord`  As `X Coord.`
 ,Field_Distrib_Output  As `Field Distrib Output`
 ,Root_Extraction_Point  As `Root Extraction Point`
 ,Suppl_char_3  As `Suppl char 3`

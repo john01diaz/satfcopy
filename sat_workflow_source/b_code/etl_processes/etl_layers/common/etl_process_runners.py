@@ -48,6 +48,7 @@ class EtlProcessRunners:
         elif self.process_configuration['process_types'] == 'sql':
             output_table = \
                 run_sql_process(
+                    raw_and_bie_sub_register=self.etl_processes_wrapper_universe.etl_processes_wrapper_registry.raw_and_bie_sub_register,
                     process_name=self.process_configuration['process_names'],
                     input_tables=input_tables_keyed_on_table_name)
 

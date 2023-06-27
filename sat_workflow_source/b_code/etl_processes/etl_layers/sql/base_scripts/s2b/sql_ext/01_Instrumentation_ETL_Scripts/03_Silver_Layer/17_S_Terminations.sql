@@ -47,6 +47,8 @@ order by 1,2
 
  dbutils.fs.rm("dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Terminations",True)
 
+ df = cleansing_df(df)
+
  df.write.save(
      format = "delta"
      ,path = "dbfs:/mnt/bclearer/temp/anusha_folder/sigraph_silver/S_Terminations"

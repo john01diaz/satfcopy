@@ -7,9 +7,9 @@ Select Distinct
 Con.database_name
 ,Con.dynamic_class
 ,Con.object_identifier
-,'R' as Area
+,'Default' as Area
 ,Con.EquipmentNo
-,'D015-MMP3-R' as AreaPath
+,'' as AreaPath
 From VW_Location as Con 
 Left Anti Join (
 Select Database_name,EquipmentNo from VW_EquipmentExtract_From_DocumentClasses
@@ -24,9 +24,9 @@ Select Distinct
 Con.database_name
 ,Con.dynamic_class
 ,Con.object_identifier
-,'R' as Area
+,'Default' as Area
 ,Con.Location_Designation as EquipmentNo
-,'D015-MMP3-R' as AreaPath
+,'' as AreaPath
 From sigraph_Silver.S_ItemFunction as Con 
 Left Anti Join (
 Select Database_name,EquipmentNo from VW_EquipmentExtract_From_DocumentClasses

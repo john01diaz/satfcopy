@@ -14,6 +14,25 @@ ON A.database_name=B.database_name
 and A.Dynamic_Class=B.Dynamic_Class 
 and A.Object_Identifier=B.Object_Identifier
 Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and A.Type in ('Device','FTA','Terminal Strip')
+
+UNION
+
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'151' as UT_ID
+,CASE WHEN B.Object_Identifier is not null  then 'Pass' else 'Fail' end as Test_Case
+from Sigraph_Silver.S_ItemFunction A
+LEFT SEMI JOIN Sigraph_Silver.S_IO_Catalogue FM ON FM.database_name=A.Database_name 
+and FM.dynamic_class=A.Dynamic_Class
+and FM.Object_Identifier=A.Object_Identifier
+left outer join Sigraph_Silver.S_Terminals B
+ON A.database_name=B.database_name
+and A.Dynamic_Class=B.Dynamic_Class 
+and A.Object_Identifier=B.Object_Identifier
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and A.Type in ('IO Module')
 
 UNION
 
@@ -133,36 +152,6 @@ Where database_name='R_2016R3' and Catalogue_RNT = 1 and Class in ('Instrumentat
 
 UNION
 
-Select Distinct
- A.database_name
-,A.object_identifier
-,'180' as UT_ID
-,CASE WHEN B.Catalogue_Name is not null  then 'Pass' else 'Fail' end as Test_Case
-From (
-Select Distinct A.Database_name,A.Dynamic_Class,A.Object_identifier,B.Wiring_Config,A.Marking
-from Sigraph_Silver.S_Terminals A
-Inner join sigraph_silver.s_instrument_index B ON A.Database_name=B.Database_name and A.Equipment_No=B.TagNo
--- Check if the markings are presentin field device catalogues
-Where A.database_name='R_2016R3'  and A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') 
-) as A
-LEFT Outer join (
-Select Distinct
-Catalogue_Name,
-explode(split(Left_Marking,',')) as Marking
-from Sigraph_silver.s_field_device_catalogue
-Where database_name='R_2016R3' and Catalogue_RNT = 1 and Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') 
-
-UNION
- 
-Select Distinct
-Catalogue_Name,
-explode(split(Right_Marking,',')) as Marking
-from Sigraph_silver.s_field_device_catalogue
-Where database_name='R_2016R3' and Catalogue_RNT = 1 and Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') 
-) as B ON A.Wiring_Config=B.Catalogue_Name and A.Marking=B.Marking
-
-UNION
-
 
 Select Distinct
  A.database_name
@@ -181,4 +170,30 @@ Left Outer join  Sigraph_silver.S_IO_Catalogue B ON B.Catalogue_RNT = 1
 and B.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') 
 and A.CatalogueNo=B.Model_Number and A.Marking=B.TerminalsPerMarking
 
+--UNION
+--Select Distinct
+-- A.database_name
+--,A.object_identifier
+--,'180' as UT_ID
+--,CASE WHEN B.Catalogue_Name is not null  then 'Pass' else 'Fail' end as Test_Case
+--From (
+--Select Distinct A.Database_name,A.Dynamic_Class,A.Object_identifier,B.Wiring_Config,A.Marking
+--from Sigraph_Silver.S_Terminals A
+--Inner join sigraph_silver.s_instrument_index B ON A.Database_name=B.Database_name and A.Equipment_No=B.TagNo
+---- Check if the markings are presentin field device catalogues
+--Where A.database_name='R_2016R3'  and A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') 
+--) as A
+--LEFT Outer join (
+--Select Distinct
+--Catalogue_Name,
+--explode(split(Left_Marking,',')) as Marking
+--from Sigraph_silver.s_field_device_catalogue
+--Where database_name='R_2016R3' and Catalogue_RNT = 1 and Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') 
+--UNION
+--Select Distinct
+--Catalogue_Name,
+--explode(split(Right_Marking,',')) as Marking
+--from Sigraph_silver.s_field_device_catalogue
+--Where database_name='R_2016R3' and Catalogue_RNT = 1 and Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') 
+--) as B ON A.Wiring_Config=B.Catalogue_Name and A.Marking=B.Marking
 

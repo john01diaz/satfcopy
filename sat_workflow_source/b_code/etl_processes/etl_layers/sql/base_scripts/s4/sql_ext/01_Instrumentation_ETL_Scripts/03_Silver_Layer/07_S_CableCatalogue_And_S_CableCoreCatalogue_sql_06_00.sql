@@ -30,7 +30,7 @@ A.Database_name
       END as Earth_Core_Size
 ,1 as OD
 ,Case When A.Description like '%A' then 'A' else 'Cu' END as Material
-,Coalesce(UPPER(Cable_Color),'BK_And_BL') as Colour1
+,Coalesce(UPPER(Cable_Color),'BK/BL') as Colour1
 ,'' as Colour2
 ,'TRUE' as AllowUse
 ,'' as DrumLength
@@ -39,7 +39,9 @@ A.Database_name
 ,'' as LineTypeWidth
 ,'' as LineTypeArrowHead
 ,Case when IsValidCableAndCore=0 then 'Special Cable'
-      when A.Cores<>1 and B.GroupType<>'Cores' and CountGroupMarkings=1 then 'Special Cable' END as Remarks
+      when A.Cores<>1 and B.GroupType<>'Cores' and CountGroupMarkings=1 then 'Special Cable'
+      when A.GroupType<>B.GroupType Then 'Special Cable'
+       END as Remarks
 from VW_Cable A
 Inner join (
 -- Cable Core Details --> updating into cable.

@@ -14,10 +14,9 @@ loop_database_name
 ,regexp_extract(CS_loop_id,"(^[0-9]+)([A-Z]+)([0-9]+)",3) as  Number
 ,regexp_extract(CS_loop_id,"(^[0-9]+)([A-Z]+)([0-9]+)([-_ ]*)([A-Z0-9]*$)",5) as  Suffix
 ,to_get_loop_format_tag(CS_loop_id) as FormatName
+,concat_ws('-',PBS.Site_Code,Coalesce(PBS.Engineering_Plant_Code,PBS.Plant_Code)
+            ,Coalesce(PBS.Engineering_Process_unit,PBS.Process_Unit)) as AreaPath
 
-                  ---- **** Plant breakdown structure columns ****----
-,concat_ws('-',Site_Code,Coalesce(Revised_Plant_Code,Plant_Code),Coalesce(Revised_Process_Unit,Process_Unit)) as AreaPath
-                  --------------------------------------------------
 ,CS_loop_kat_id as Function
 ,loop_CS_comment as Remarks
 ,translate(CS_loop_description_1,"?#*","") as  `Loop_Service_1`
@@ -27,9 +26,9 @@ loop_database_name
 ,CS_variable_part_drawing_number as `Var_Part_of_Drawing_No`
 ,CS_loop_id_1 as `Suppl_char_1`
 ,CS_visual_inspection as `Visual_Inspection`
-,CS_y_coordinate_pi_data as `Y_Coord.`
+,CS_y_coordinate_pi_data as `Y_Coord`
 ,CS_et_node_path as `ET_structure`
-,CS_x_coordinate_pi_data as `X_Coord.`
+,CS_x_coordinate_pi_data as `X_Coord`
 ,CS_field_distributor_output_id as `Field_Distrib_Output`
 ,CS_loop_id_3 as `Suppl_char_3`
 ,CS_loop_id_2 as `Suppl_char_2`
@@ -64,24 +63,27 @@ loop_database_name
 ,get_loop_picklist_display_value(array('CS_special_requirements_3',CS_special_requirements_3)) as `Special_Req_3`
 ,get_loop_picklist_display_value(array('loop_CS_classification_by',loop_CS_classification_by)) as `Classification_by`
 ,get_loop_picklist_display_value(array('CS_sifpro_relevant',CS_sifpro_relevant)) as `SIFpro_Relevant`
-from  sigraph.Layer l
+from  (
+      Select *
+      --Plant_Code
+      ,Coalesce(Replace(Replace(Replace(Replace(l.CS_production_unit,'-',''),'MMP4','MMP64'),'MMP6','MMP64'),'MMP644','MMP64'),'') as Plant_Code      
+      -- Process_unit
+      ,Replace(TRIM(
+      Case When substring(l.name,1,Charindex('_',l.name)-1)='RAUM' Then substring(l.name,Charindex('_',l.name)+1,200) 
+       When l.name like 'OFEN%' Then l.name Else substring(l.name,Charindex('_',l.name)+1,200) 
+      End),' ','_') as Process_unit
+      from sigraph.Layer l
+      )l
 
-inner join Sigraph.Loop loop
+inner join  Sigraph.Loop  
 on  l.database_name      == loop.Loop_database_name
 and l.object_identifier  == loop.Layer_CS_Loop_href
 and l.dynamic_class      == loop.Layer_CS_Loop_dyn_class
 
-INNER JOIN Sigraph_Reference.PlantBreakDown PBS ON 
-PBS.Process_Unit=Case When L.Name like 'RAUM%' Then Substring(Replace(L.name,'RAUM_',''),1,100)
-                      When Substring(L.name,1,charindex('_',L.Name )-1)=CS_loop_unit
-                      Then Substring(L.name,charindex('_',L.Name )+1,100)
-                      Else Substring(L.name,1,charindex('_',L.Name )-1) 
-                  END
-AND
-PBS.Area_Code=regexp_extract(CS_loop_id,('^[0-9]+'),0)        
---inner join sigraph_reference.PlantbreakdownStructure pbs on l.name == pbs.distinct_column
-
+inner join  Sigraph_Reference.PlantBreakDown pbs
+ON    l.Plant_Code = PBS.Plant_Code
+AND   l.Process_Unit = PBS.Process_Unit
+AND   regexp_extract(loop.CS_loop_id,('^[0-9]+'),0) = PBS.Area 
 
 where Template_loop == "FALSE"
-
 

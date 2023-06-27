@@ -31,19 +31,19 @@ From (
 Select Distinct
 C.database_name
 ,C.object_identifier
-,multipleReplace(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'{"NEU":"","~":"","_":"","ALT":"","?M":"µm"}') as Description
-,Case When UPPER(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code)) like "%NEU%" Then "NEW" END as Cable_Standard
+,multipleReplace(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'{"NEU":"","~":"","_":"","ALT":"","?M":"µm"}') as Description
+,Case When UPPER(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string)) like "%NEU%" Then "NEW" END as Cable_Standard
 ,LC_cable_color as Cable_Color
 ,PC_Part_def_manufacturer as Manufacturer
 -- Calculated Columns
 ,regexp_extract(
-      UPPER(REPLACE(Replace(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),',','.'),'G','X')),
+      UPPER(REPLACE(Replace(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),',','.'),'G','X')),
       '([0-9]+[ ]*[X][ ]*[0-9]+[X]?[0-9]*[,|.|//]?[0-9]*[.|//]?[0-9]*)'
       ) as CableDetails
-,getCableCatalogue(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'OAS_Coll_SH') as OAS_Coll_SH
-,getCableCatalogue(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'GSCR') as GSCR
-,getCableCatalogue(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'Armoured') as Armoured
-,getCableCatalogue(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code),'ArmourDescription') as ArmourDescription
+,getCableCatalogue(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'OAS_Coll_SH') as OAS_Coll_SH
+,getCableCatalogue(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'GSCR') as GSCR
+,getCableCatalogue(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'Armoured') as Armoured
+,getCableCatalogue(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string),'ArmourDescription') as ArmourDescription
 from sigraph.Cable C
 left outer join sigraph.Cable_eq CE 
 ON CE.database_name=C.database_name 
@@ -52,8 +52,8 @@ left outer join sigraph.Std_part_def CM
 ON CM.database_name=CE.database_name 
 and CM.PC_Equipment_Part_def_Rel_dyn_class=CE.dynamic_class 
 and CM.PC_Equipment_Part_def_Rel_href=CE.object_identifier
-Where   UPPER(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code)) Not in ("REP DRAHT","RESERVIERT","FREI")
-and UPPER(Coalesce(LC_item_complete_part_string,LC_cable_my_construction_code)) is not null
+Where   UPPER(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string)) Not in ("REP DRAHT","RESERVIERT","FREI")
+and UPPER(Coalesce(LC_cable_my_construction_code,LC_item_complete_part_string)) is not null
 ) as A;
 
 Create OR Replace TEMP View VW_WireFunction
@@ -137,13 +137,18 @@ WF.Database_name
    
 ,Case   When  UPPER(Coalesce(LC_wire_function_wire_spec,''))  like '%SCHWARZ%' 
         THEN 0
-        When  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SL%'
-          OR  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SH%'
-          OR  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SC%'
+          
+        --UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SL%'
+ --         OR  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SH%'
+ --         OR  UPPER(Coalesce(LC_wire_function_wire_spec,'')) like '%SC%'
+        When UPPER(C.description) like '%PIMF%' and UPPER(TRIM(WF.LC_wire_function_wire_spec))='SC' Then 0
+        When (UPPER(C.description) like '%PIMF%'  OR UPPER(C.description)='RE-2Y(ST)YV 24X2X0,8')
+        and Translate(getColourRevised(UPPER(LC_wire_function_wire_spec)),'0,1,2,3,4,5,6,7,8,9,|,\,/,-','') ='SC'
+       
         THEN 1
         ELSE 0 END  as IsScreeningCore  
         
-,Case   When  UPPER(Coalesce(LC_wire_function_wire_spec,'')) in ('SCHIRM','SCH','S','SH') 
+,Case   When UPPER(Coalesce(LC_wire_function_wire_spec,'')) in ('SCHIRM','SCH','S','SH','SL','SC') 
         Then 1 
         ELSE 0 END IsOASH   
 -- Duplicate core for same cable, then assign running number at the end. 
@@ -160,7 +165,6 @@ from sigraph.Wire_function WF
 Inner join VW_Cable C 
 ON  WF.database_name = C.database_name 
 and WF.LC_item_functions_rel_href=C.object_identifier
-
 ) as A
 ) as A;
 
@@ -309,7 +313,19 @@ Where A.GroupType='Cores'
 -- Final Extracts
 CREATE OR REPLACE TEMP View VW_Cable_Core_Extract
 As
-     
+Select
+database_name
+,object_identifier
+,Cable_Object_Identifier
+,Case When GroupType='Cores' and Core_Markings_Core_Type='C' 
+      Then Group_Marking_Sequence Else Group_Marking END as Group_Marking
+,GroupType
+,Case When GroupType='Cores' and Core_Markings_Core_Type='C'
+      Then 1 Else Group_Marking_Sequence END as Group_Marking_Sequence
+,Core_Markings
+,Core_Markings_Core_Type
+,IsValidCableAndCore
+From (
 Select 
 database_name
 ,object_identifier
@@ -397,7 +413,8 @@ database_name
 ,Core_Markings_Core_Type
 ,Cast(Group_Sequence as Bigint)
 ,CasT(Group_Marking as Bigint)
-,Cast(Group_Marking_Sequence as Bigint);
+,Cast(Group_Marking_Sequence as Bigint)
+) as A;
 
 -- Cable Catalogue Extract
 Create OR REPLACE TEMP VIEW VW_Cable_Catalogue_Extract
@@ -430,7 +447,7 @@ A.Database_name
       END as Earth_Core_Size
 ,1 as OD
 ,Case When A.Description like '%A' then 'A' else 'Cu' END as Material
-,Coalesce(UPPER(Cable_Color),'BK_And_BL') as Colour1
+,Coalesce(UPPER(Cable_Color),'BK/BL') as Colour1
 ,'' as Colour2
 ,'TRUE' as AllowUse
 ,'' as DrumLength
@@ -439,7 +456,9 @@ A.Database_name
 ,'' as LineTypeWidth
 ,'' as LineTypeArrowHead
 ,Case when IsValidCableAndCore=0 then 'Special Cable'
-      when A.Cores<>1 and B.GroupType<>'Cores' and CountGroupMarkings=1 then 'Special Cable' END as Remarks
+      when A.Cores<>1 and B.GroupType<>'Cores' and CountGroupMarkings=1 then 'Special Cable'
+      when A.GroupType<>B.GroupType Then 'Special Cable'
+       END as Remarks
 from VW_Cable A
 Inner join (
 -- Cable Core Details --> updating into cable.

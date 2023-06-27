@@ -11,7 +11,7 @@ Select database_name
 ,Rack
 ,Item_dynamic_class
 ,Item_Object_identifier
-,NumberOfEquipments
+,MAX(NumberOfEquipments) Over(Partition by Parent_Equipment_No,EquipmentType) as NumberOfEquipments
 ,Remarks
 ,Class
 -- Below script added, as in Aveva we cannot have on same cabinet, dinrail/rack FTA and IO cards on same slot. It has to be a different slot or sequence.
@@ -23,19 +23,19 @@ Select database_name
 From (
 Select database_name,object_identifier,dynamic_class,Parent_Equipment_No,Equipment_No,EquipmentType,CatalogueNo,Rack
 ,Item_Object_identifier,Item_dynamic_class,Slot
-,Count(1) Over(Partition by Parent_Equipment_No,EquipmentType) as NumberOfEquipments
+,dense_rank() Over(Partition by Parent_Equipment_No,EquipmentType order by Equipment_No) as NumberOfEquipments
 ,Case when Rack is not null then 'Rack' Else 'DinRail' END as Remarks 
 ,Class
 from VW_Device_Extract
 UNION
 Select database_name,object_identifier,dynamic_class,Parent_Equipment_No,Equipment_No,EquipmentType,CatalogueNo,Rack,Item_Object_identifier,Item_dynamic_class,Slot
-,Count(1) Over(Partition by Parent_Equipment_No,EquipmentType) as NumberOfEquipments
+,dense_rank() Over(Partition by Parent_Equipment_No,EquipmentType order by Equipment_No) as NumberOfEquipments
 ,Case when Rack is not null then 'Rack' Else 'DinRail' END as Remarks 
 ,Class
 from VW_TerminalStrip
 UNION
 Select database_name,object_identifier,dynamic_class,Parent_Equipment_No,Equipment_No,EquipmentType,CatalogueNo,Rack ,Item_Object_identifier,Item_dynamic_class,Slot
-,Count(1) Over(Partition by Parent_Equipment_No,EquipmentType) as NumberOfEquipments
+,dense_rank() Over(Partition by Parent_Equipment_No,EquipmentType order by Equipment_No) as NumberOfEquipments
 ,Case when Rack is not null then 'Rack' Else 'DinRail' END as Remarks 
 ,Class
 from VW_IO_Module 

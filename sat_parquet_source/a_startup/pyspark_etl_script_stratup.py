@@ -14,8 +14,8 @@ if __name__ == '__main__':
     b_app_runner_for_parquet_files_reader(
         input_root_folder=input_root_folder,
         output_root_folder=output_root_folder,
-        export_to_access=False,
+        export_to_access=True,
         export_to_sqlite=True,
-        export_csvs_to_sqlite=False,
-        export_parquet_file_to_csv=False,
+        export_csvs_to_sqlite=True,
+        export_parquet_file_to_csv=True,
         data_chunk_size=100)

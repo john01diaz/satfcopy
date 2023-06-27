@@ -34,7 +34,7 @@ Select
 ,CASE WHEN B.Object_Identifier is not null then 'Pass' else 'Fail' end as Test_Case
 from Sigraph_Silver.S_CableCoreCatalogue A
 Left Outer join Sigraph_Silver.S_CableCatalogue B On A.database_name=B.database_name and A.Cable_Object_Identifier=B.Object_Identifier
-and B.GroupScr='TRUE'
+and B.OAScr='TRUE'
 Where A.Core_Markings_Core_Type='OAS'
 
 UNION
@@ -51,7 +51,7 @@ Select
       Else NoOfGroups
       END
       =
-      MAX(Cast(Group_Marking as Bigint)) Over(Partition by A.database_name,A.Cable_Object_Identifier)
+      MAX(Cast(Case When  A.GroupType='Cores' Then 1 Else Group_Marking END as Bigint)) Over(Partition by A.database_name,A.Cable_Object_Identifier)
       Then 'Pass'
       Else 'Fail'
       END as Test_Case
@@ -124,4 +124,4 @@ DELETE FROM SIGRAPH_SILVER.UNIT_TEST_RESULTS WHERE Loader_Name=="CABLE_CORE_CATA
 INSERT INTO SIGRAPH_SILVER.UNIT_TEST_RESULTS (Loader_Name,database_name,Object_Identifier,UT_ID,Test_Case)
 SELECT "CABLE_CORE_CATALOGUE" AS Loader_Name,
 *
-FROM UT_VW_CABLE_CORE_CATALOGUE
+FROM UT_VW_CABLE_CORE_CATALOGUE;
