@@ -1,0 +1,29 @@
+CREATE VIEW vw_S_DeviceCatalogue AS
+SELECT DISTINCT 
+    AllowUse,
+    Type,
+    Description,
+    Manufacturer,
+    ModelNo,
+    Class,
+    Left,
+    Right,
+    Left_Marking,
+    Right_Marking,
+    Symbol_name,
+    Product_Key,
+    Loop_Number,
+    Tag_Number,
+    Document_Number
+FROM Sigraph_silver.S_DeviceCatalogue
+WHERE Catalogue_RNT = 1 
+    AND Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+
+CREATE VIEW vw_DatabaseNames AS
+SELECT Database_name
+FROM VW_Database_names;
+
+SELECT * 
+FROM vw_S_DeviceCatalogue
+WHERE database_name IN (SELECT Database_name FROM vw_DatabaseNames);
+

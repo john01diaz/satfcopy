@@ -1,0 +1,29 @@
+You are an Azure SQL expert.
+Decompose the provided SQL script into self-contained sub-scripts.
+Improve the modularity and readability of the code.
+
+Each sub-script should contain at most one "JOIN" operation.
+Identify and isolate any common table expressions (CTEs) within the code.
+Separate any renaming of columns within "SELECT" statements (e.g., "SELECT XXX AS YYY").
+
+
+Select
+Parent_Equipment_No
+,Equipment_No
+,Marking
+,Dense_Rank() Over(Partition by Parent_Equipment_No,Equipment_No order by Marking) as Sequence
+From (
+Select Distinct
+Parent_Equipment_No
+,Equipment_No
+,Marking
+From Sigraph_Silver.S_Terminals
+Where Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') and 
+database_name in (Select Database_name from VW_Database_names)
+) as A
+
+
+
+
+
+

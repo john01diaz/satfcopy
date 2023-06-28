@@ -1,0 +1,38 @@
+-- Isolate the sub-query for fetching Database_name from VW_Database_names
+
+CREATE VIEW V_Database_Names AS 
+SELECT Database_name 
+FROM VW_Database_names;
+
+
+-- Separate SELECT statement to retrieve specific class records from S_Terminals
+
+CREATE VIEW V_S_Terminals AS
+SELECT DISTINCT
+Parent_Equipment_No,
+Equipment_No,
+Marking
+FROM Sigraph_Silver.S_Terminals
+WHERE Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)') 
+AND database_name IN (SELECT Database_name FROM V_Database_Names);
+
+
+-- Finally, creating a view that gives us the ranking sequence
+
+CREATE VIEW V_Final_Output AS
+SELECT
+Parent_Equipment_No,
+Equipment_No,
+Marking,
+DENSE_RANK() OVER(PARTITION BY Parent_Equipment_No, Equipment_No ORDER BY Marking) as Sequence
+FROM V_S_Terminals;
+
+
+-- Fetching the final output
+
+SELECT 
+Parent_Equipment_No, 
+Equipment_No, 
+Marking, 
+Sequence 
+FROM V_Final_Output;

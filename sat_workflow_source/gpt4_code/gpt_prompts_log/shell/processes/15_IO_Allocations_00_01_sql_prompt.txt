@@ -1,0 +1,16 @@
+WITH cte_database_names AS (
+    SELECT Database_name 
+    FROM VW_Database_names
+)
+
+SELECT DISTINCT
+    Tag_Number,
+    Parent_Equipment_No,
+    IOType,
+    Equipment_No,
+    CatalogueNo,
+    ChannelNumber
+FROM Sigraph_Silver.S_IO_Allocations
+WHERE Class IN ('Instrumentation','Inst(Shared)','Elec(Shared)')
+AND database_name IN (SELECT Database_name FROM cte_database_names)
+

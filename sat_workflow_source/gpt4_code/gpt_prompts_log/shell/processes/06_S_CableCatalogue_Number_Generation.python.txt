@@ -1,12 +1,3 @@
-import pandas
-from pandas import DataFrame
-
-from sat_workflow_source.b_code.etl_processes.common.constants import DEFAULT_CELL_VALUE
-from sat_workflow_source.b_code.etl_schemas.silver_stage.s_cable_catalogue import S_CableCatalogue
-from sat_workflow_source.b_code.etl_schemas.silver_stage.s_cable_catalogue_number_master import \
-    S_CableCatalogueNumber_Master
-from sat_workflow_source.b_code.etl_schemas.silver_stage.s_cable_core_catalogue import S_CableCoreCatalogue
-
 def __get_dataframes(input_tables: dict) -> tuple:
     s_cablecorecatalogue_dataframe = input_tables['Sigraph_Silver.S_CableCoreCatalogue']
     s_cablecatalogue_dataframe = input_tables['Sigraph_Silver.S_CableCatalogue']

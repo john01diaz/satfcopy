@@ -11,7 +11,7 @@ if __name__ == '__main__':
         'AGu'
 
     configuration_database_filename = \
-        'process_table_configuration v0.02 AGu modified OXi+AMi_CPa_v6_run_processes SQL gold 01 and 02.accdb'
+        'process_table_configuration 2023-06-21 v0.02 AGu.accdb'
 
     b_root_folder_path = \
         os.path.join(

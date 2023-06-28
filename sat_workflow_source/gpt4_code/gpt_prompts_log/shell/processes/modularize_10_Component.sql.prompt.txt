@@ -1,0 +1,60 @@
+You are a Azure SQL expert.
+Decompose the provided SQL script into self-contained sub-scripts.
+Improve the modularity and readability of the code.
+
+Each sub-script should contain at most one "JOIN" operation.
+Identify and isolate any common table expressions (CTEs) within the code.
+Separate any renaming of columns within "SELECT" statements (e.g., "SELECT XXX AS YYY").
+
+Input:
+
+Select 
+A.Parent_Equipment_No
+,A.Equipment_No
+,A.EquipmentType
+,A.CatalogueNo
+,A.DinRail
+,Row_Number() Over(Partition by Parent_Equipment_No,DinRail order by Item_Object_identifier) as Sequence
+,Remarks  
+From (
+Select Distinct
+A.Parent_Equipment_No
+,A.Equipment_No
+,A.EquipmentType
+,A.CatalogueNo
+,A.DinRail
+,A.Remarks  
+,A.Item_Object_identifier
+From Sigraph_Silver.S_Component A
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)') and database_name in (Select Database_name from VW_Database_names) 
+) as A
+
+Output:
+
+-- Sub-script 1: Get database names
+SELECT Database_name 
+FROM VW_Database_names;
+
+-- Sub-script 2: Filter the S_Component table
+SELECT DISTINCT
+    Parent_Equipment_No,
+    Equipment_No,
+    EquipmentType,
+    CatalogueNo,
+    DinRail,
+    Remarks,
+    Item_Object_identifier
+FROM Sigraph_Silver.S_Component 
+WHERE Class IN ('Instrumentation','Inst(Shared)','Elec(Shared)') 
+    AND database_name IN (SELECT Database_name FROM DatabaseNames);
+
+-- Sub-script 3: Calculate sequence numbers
+SELECT 
+    Parent_Equipment_No,
+    Equipment_No,
+    EquipmentType,
+    CatalogueNo,
+    DinRail,
+    ROW_NUMBER() OVER(PARTITION BY Parent_Equipment_No, DinRail ORDER BY Item_Object_identifier) AS Sequence,
+    Remarks  
+FROM FilteredComponents;

@@ -23,9 +23,9 @@ def get_b_app_runner_standard_exemplar_configuration_agu() \
         get_common_b_app_runner_standard_exemplar_configuration(
                 drive_name='C',
                 user_initials='AGu',
-                configuration_json_filename='process_table_configuration v0.02 AGu modified OXi+AMi_CPa_v6_run_processes SQL gold 01 and 02.json',
+                configuration_json_filename='08_S_Device_Catalogue_sql_01_00.json',
                 run_new_vs_original_comparison=True,
-                output_folder_prefix='s_devicecatalogue lower case',
+                output_folder_prefix='Silver 08_S_Device_Catalogue_sql_01_00 SQL',
                 output_folder_suffix=str(),
                 main_wrapper_outputs_folder_name='main_wrapper_outputs')
     
