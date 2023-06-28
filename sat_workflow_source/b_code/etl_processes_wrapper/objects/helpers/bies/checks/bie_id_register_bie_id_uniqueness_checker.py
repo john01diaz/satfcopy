@@ -1,28 +1,37 @@
-from nf_common_source.code.services.b_dictionary_service.objects.table_b_dictionaries import TableBDictionaries
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
+from pandas import DataFrame
 
 
-def check_bie_id_register_bie_id_uniqueness(
-        bie_id_register: TableBDictionaries,
-        bie_id_register_alias: str) \
+def check_bie_table_bie_ids_for_uniqueness(
+        table_name: str,
+        bie_table: DataFrame) \
         -> None:
-    bie_id_register_bie_id_counts = \
-        bie_id_register.pivot_table(index=['bie_ids'], aggfunc='size')
+    bie_ids = \
+        bie_table['bie_ids'].tolist()
 
-    duplicated_bie_ids = \
-        bie_id_register_bie_id_counts[bie_id_register_bie_id_counts > 1]
+    distinct_bie_ids = \
+        dict()
 
-    if len(duplicated_bie_ids) > 0:
-        # TODO: log these as proper warnings
+    for bie_id in bie_ids:
+        if bie_id not in distinct_bie_ids.keys():
+            distinct_bie_ids[bie_id] = \
+                1
+
+        else:
+            distinct_bie_ids[bie_id] += \
+                1
+
+    table_has_unique_bie_ids = \
+        True
+
+    for bie_id in distinct_bie_ids.keys():
+        if distinct_bie_ids[bie_id] > 1:
+            table_has_unique_bie_ids = \
+                False
+
+            log_message(
+                "ERROR: Duplicate bie_id " + str(bie_id) + " in table " + table_name + " with count " + str(distinct_bie_ids[bie_id]))
+
+    if table_has_unique_bie_ids:
         log_message(
-            message='WARNING - there are {0} duplicated bie_ids in the {1} register \n Which are: {2}'.format(
-                len(duplicated_bie_ids),
-                bie_id_register_alias,
-                duplicated_bie_ids))
-
-        bie_id_register_duplicated_rows = \
-            bie_id_register[bie_id_register.duplicated()]
-
-        log_message(
-            message='WARNING - From these duplicated bie_ids, the following are full row duplications:\n{0}'.format(
-                bie_id_register_duplicated_rows))
+            'All bie_ids in table ' + table_name + ' are unique')

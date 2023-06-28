@@ -1,5 +1,6 @@
-from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.code_from_string.excel_process_runner import \
+from sat_workflow_source.b_code.etl_processes.etl_layers.common.excel_process_runner import \
     run_excel_process
+from sat_workflow_source.b_code.etl_processes.etl_layers.common.parquet_process_runner import run_parquet_process
 from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.sql_process_runner import \
     run_sql_process
 from sat_workflow_source.b_code.etl_processes.etl_layers.python.runners.code_process_runner import \
@@ -53,14 +54,19 @@ class EtlProcessRunners:
                     input_tables=input_tables_keyed_on_table_name)
 
         elif self.process_configuration['process_types'] == 'excel':
-            bie_process_id = \
-                self.process_configuration['bie_process_ids']
-
             output_table = \
                 run_excel_process(
-                    bie_process_id=bie_process_id,
+                    bie_process_id=self.process_configuration['bie_process_ids'],
                     process_table_configurations=process_table_configurations,
                     code_process_name=self.code_process_name,
+                    input_tables=input_tables_keyed_on_table_name,
+                    table_configurations=json_list_of_table_configurations)
+
+        elif self.process_configuration['process_types'] == 'parquet':
+            output_table = \
+                run_parquet_process(
+                    bie_process_id=self.process_configuration['bie_process_ids'],
+                    process_table_configurations=process_table_configurations,
                     input_tables=input_tables_keyed_on_table_name,
                     table_configurations=json_list_of_table_configurations)
 

@@ -6,7 +6,7 @@ class GlobalFlags:
         True
     
     RUN_BIEIZE_SANITY_CHECK = \
-        False
+        True
     
     RUN_BIEIZE_COMPARISON = \
         True

@@ -9,10 +9,10 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_item_function_model i
 def create_silver_08_s_device_catalogue_dataframe(
         input_tables: dict):
     s_itemfunction_dataframe = \
-        input_tables['S_Itemfunction']
+        input_tables['Sigraph_Silver.S_ItemFunction']
 
     s_item_function_model_dataframe = \
-        input_tables['S_Item_Function_Model']
+        input_tables['Sigraph_Silver.S_Item_Function_Model']
 
     # Select required columns
     s_itemfunction_dataframe = s_itemfunction_dataframe[[S_ItemFunction.DATABASE_NAME.value,
