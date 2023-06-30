@@ -12,6 +12,9 @@ class TableConfigurations:
         self.table_name = \
             json_table_configuration['table_names']
 
+        self.alternative_table_name = \
+            json_table_configuration['alternative_table_names']
+
         self.source_extension_type = \
             json_table_configuration['source_extension_types']
 

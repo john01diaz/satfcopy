@@ -64,6 +64,7 @@ def get_table_configuration_records_from_database_connection(
             'bie_process_ids',
             'bie_ids_tables',
             'table_names_first_merge',
+            'alternative_table_names',
             'source_extension_types',
             'table_source_folders',
             'table_source_relative_paths',
@@ -132,6 +133,9 @@ def __add_process_record(
     table_names = \
         row['table_names']
 
+    alternative_table_names = \
+        row['alternative_table_names']
+
     source_extension_types = \
         row['source_extension_types']
 
@@ -163,6 +167,7 @@ def __add_process_record(
         {
             'bie_table_ids': bie_table_ids,
             'table_names': table_names,
+            'alternative_table_names': alternative_table_names,
             'source_extension_types': source_extension_types,
             'table_source_folders': table_source_folders,
             'table_source_relative_paths': table_source_relative_paths,

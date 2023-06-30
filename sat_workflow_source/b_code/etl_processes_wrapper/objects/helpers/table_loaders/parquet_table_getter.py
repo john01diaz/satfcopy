@@ -12,13 +12,18 @@ def get_parquet_table(
     etl_root_folder_path \
         = etl_processes_wrapper_registry.owning_etl_processes_wrapper_universe.etl_processes_wrapper_configuration.etl_root_folder_path
 
-    name_components = \
-        table_configuration.table_name.split(
-            '.')
+    if table_configuration.alternative_table_name:
+        table_name = \
+            table_configuration.alternative_table_name
 
-    table_name = \
-        str(
-            name_components[-1])
+    else:
+        name_components = \
+            table_configuration.table_name.split(
+                '.')
+
+        table_name = \
+            str(
+                name_components[-1])
 
     absolute_table_name_folder_path = \
         os.path.join(

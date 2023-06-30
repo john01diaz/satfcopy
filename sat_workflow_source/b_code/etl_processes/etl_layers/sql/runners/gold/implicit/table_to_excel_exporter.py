@@ -4,6 +4,8 @@ from nf_common_source.code.services.reporting_service.reporters.log_file import 
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 from pandas import DataFrame
 
+from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.satf_constants import DEFAULT_NULL_VALUE
+
 
 def export_table_to_excel(
         bie_table_id: str,
@@ -38,6 +40,11 @@ def export_table_to_excel(
 
     dataframe = \
         dataframe.fillna('null')
+
+    dataframe.replace(
+        DEFAULT_NULL_VALUE,
+        'null',
+        inplace=True)
 
     full_filename = \
         os.path.join(

@@ -14,19 +14,19 @@ def get_sat_workflow_b_app_runner_configuration_ami() \
         True
 
     GlobalFlags.RUN_BIEIZE_SANITY_CHECK = \
-        True
+        False
 
     GlobalFlags.RUN_BIEIZE_COMPARISON = \
         True
 
-    # filtered_v7_run_processes OXi2_multi_test_10_s_io_catalogue.json
-    # etl_run_configuration_filtered_common_code_test.json
+    # etl_run_configuration_filtered_stn_device_catalogue_generated.json
+    # STN_Internal_Wiring_test.json
 
     etl_processes_wrapper_configuration = \
         get_common_b_app_runner_standard_exemplar_configuration(
             drive_name='C',
             user_initials='AMi',
-            configuration_json_filename='filtered_v7_run_processes OXi2_multi_test_10_s_io_catalogue.json',
+            configuration_json_filename=r'testing\etl_run_configuration_filtered_RUN_NAME.json',
             run_new_vs_original_comparison=True,
             output_folder_prefix='internal_wiring',
             output_folder_suffix='stn_generated',

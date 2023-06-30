@@ -1,5 +1,5 @@
 from nf_common_source.code.services.file_system_service.folder_selector import select_folder
-from sat_parquet_source.a_startup.b_app_runner_for_parquet_files_reader import b_app_runner_for_parquet_files_reader
+from z_old_code.sat_parquet.OLD.b_app_runner_for_parquet_files_reader import b_app_runner_for_parquet_files_reader
 
 
 if __name__ == '__main__':
