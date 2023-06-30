@@ -49,9 +49,19 @@ def __run_sql_statement(
         spark_session.sql(
             sqlQuery=sql_statement).toPandas()
 
-    if sql_statement.strip().lower().startswith('create or replace temp view'):
+    # if sql_statement.strip().lower().startswith('create or replace temp view'):
+    create_view_string = \
+        'create or replace temp view'
+
+    if create_view_string in sql_statement.lower():
+        # TODO: Would it be also the [1] if the sql statement begins with 'create or replace temp view'?
+        view_name_prep = \
+            sql_statement.lower().split(create_view_string)[1]
+
+        # TODO: this view name will always be lowercase, try to find a system of keeping the original case until we got
+        #  the new function in nf_common to get the BORO standard class name format
         view_name = \
-            ' '.join(sql_statement.split()).split(' ')[5]
+            ' '.join(view_name_prep.split()).split(' ')[0]
 
         result_dataframe = \
             spark_session.sql(

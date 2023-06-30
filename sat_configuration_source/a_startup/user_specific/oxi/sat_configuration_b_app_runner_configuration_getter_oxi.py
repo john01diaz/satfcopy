@@ -22,10 +22,10 @@ def get_sat_configuration_b_app_runner_configuration_oxi() \
             environment_log_level_type=EnvironmentLogLevelTypes.FILTERED,
             output_root_folder=configurations_folder,
             output_folder_prefix='json_configurations',
-            output_folder_suffix='v7_run_processes OXi2_multi_test',
+            output_folder_suffix='v7_run_processes_OXi2_multi_test_silver_04',
             etl_database_configuration_file=etl_database_configuration_file,
-            etl_json_configuration_file_name='full_v7_run_processes OXi2_multi_test.json',
-            etl_json_configuration_filtered_file_name='filtered_v7_run_processes OXi2_multi_test.json')
+            etl_json_configuration_file_name='full_v7_run_processes_OXi2_multi_test_silver_04.json',
+            etl_json_configuration_filtered_file_name='filtered_v7_run_processes_OXi2_multi_test_silver_04.json')
     
     return \
         sat_configuration_b_app_runner_configuration

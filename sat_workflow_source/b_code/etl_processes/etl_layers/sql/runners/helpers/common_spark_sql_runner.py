@@ -13,6 +13,8 @@ from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.spa
     get_spark_dataframe_schema_from_pandas_dataframe
 from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.sql_statement_sequence_runner import \
     run_sql_statement_sequence
+from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.user_defined_functions_in_spark_registerer import \
+    register_user_defined_functions_in_spark
 from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.helpers.tables_in_sql_script_renamer import \
     rename_tables_in_sql_script
 
@@ -64,7 +66,9 @@ def run_common_spark_sql(
         sys.executable
 
     spark_session = \
-        SparkSession.builder.getOrCreate()
+        SparkSession.builder \
+            .config('spark.sql.debug.maxToStringFields', '1000') \
+            .getOrCreate()
 
     for table_name, table \
             in renamed_input_tables.items():
@@ -72,6 +76,9 @@ def run_common_spark_sql(
             spark_session=spark_session,
             table=table,
             table_name=table_name)
+
+    register_user_defined_functions_in_spark(
+        spark_session=spark_session)
 
     output_dataframe = \
         run_sql_statement_sequence(

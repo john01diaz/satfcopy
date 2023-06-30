@@ -1,0 +1,4 @@
+include sat_workflow_source/c_resources/Loop_List_Cross_walk.xlsx
+include sat_workflow_source/c_resources/Picklist_ColumnName_Values.xlsx
+include sat_workflow_source/c_resources/sigraph_dyn_enums.txt
+include sat_workflow_source/c_resources/sigraph_dyn_system_enums.txt
