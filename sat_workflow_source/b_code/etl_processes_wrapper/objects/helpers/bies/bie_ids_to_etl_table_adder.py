@@ -1,3 +1,4 @@
+import numpy
 import pandas
 from nf_common_source.code.services.identification_services.b_identity_ecosystem.bie_id_creators.bie_id_sum_from_strings_creator import \
     create_bie_id_sum_from_strings
@@ -52,6 +53,10 @@ def __add_bie_component(
         table_row[identifier_column_name]
 
     if component is None:
+        component = \
+            str()
+
+    if component is numpy.nan:
         component = \
             str()
 

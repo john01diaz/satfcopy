@@ -57,5 +57,8 @@ def get_parquet_table(
     table = \
         delta_table.to_pyarrow_table().to_pandas()
 
+    # table = \
+    #     table[table['database_name'] == 'R_2016R3']
+
     return \
         table

@@ -4,6 +4,8 @@ from pandas import DataFrame
 
 from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.satf_constants import DEFAULT_NULL_VALUE
 from sat_workflow_source.b_code.etl_processes_wrapper.helpers.table_cleaner import clean_source_table
+from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_loaders.aql_table_getter import \
+    get_aql_table
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_loaders.csv_table_getter import \
     get_csv_table
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_loaders.parquet_table_getter import \
@@ -33,6 +35,12 @@ def get_table(
         case 'csv':
             table = \
                 get_csv_table(
+                    etl_processes_wrapper_registry=etl_processes_wrapper_registry,
+                    table_configuration=table_configuration)
+
+        case 'aql':
+            table = \
+                get_aql_table(
                     etl_processes_wrapper_registry=etl_processes_wrapper_registry,
                     table_configuration=table_configuration)
 

@@ -14,7 +14,7 @@ def get_sat_workflow_b_app_runner_configuration_ami() \
         True
 
     GlobalFlags.RUN_BIEIZE_SANITY_CHECK = \
-        False
+        True
 
     GlobalFlags.RUN_BIEIZE_COMPARISON = \
         True
@@ -26,10 +26,10 @@ def get_sat_workflow_b_app_runner_configuration_ami() \
         get_common_b_app_runner_standard_exemplar_configuration(
             drive_name='C',
             user_initials='AMi',
-            configuration_json_filename=r'testing\etl_run_configuration_filtered_RUN_NAME.json',
+            configuration_json_filename=r'testing\satf_config_compare_cs_loop_spez_bronze_v_aql_2cols.json',
             run_new_vs_original_comparison=True,
-            output_folder_prefix='internal_wiring',
-            output_folder_suffix='stn_generated',
+            output_folder_prefix='comparison',
+            output_folder_suffix='bronze_v_aql',
             main_wrapper_outputs_folder_name='main_wrapper_outputs')
     
     return \
