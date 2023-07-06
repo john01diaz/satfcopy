@@ -10,3 +10,6 @@ class GlobalFlags:
     
     RUN_BIEIZE_COMPARISON = \
         True
+
+    FILTER_TO_DATABASE_LIST = \
+        False

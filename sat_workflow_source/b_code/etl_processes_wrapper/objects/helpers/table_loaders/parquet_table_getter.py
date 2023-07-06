@@ -1,6 +1,8 @@
 import os.path
 import pandas
 from deltalake import DeltaTable
+
+from sat_workflow_source.b_code.etl_processes.common.global_flags import GlobalFlags
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.enum_from_string.enum_getter import get_enum
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.table_configurations import TableConfigurations
 
@@ -57,8 +59,9 @@ def get_parquet_table(
     table = \
         delta_table.to_pyarrow_table().to_pandas()
 
-    # table = \
-    #     table[table['database_name'] == 'R_2016R3']
+    if GlobalFlags.FILTER_TO_DATABASE_LIST:
+        table = \
+            table[table['database_name'] == 'R_2016R3']
 
     return \
         table

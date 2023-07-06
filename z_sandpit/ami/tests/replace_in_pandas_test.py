@@ -1,20 +1,22 @@
-import numpy as np
-import pandas as pd
-from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.satf_constants import DEFAULT_NULL_VALUE
+from numpy import nan
+from pandas import DataFrame
+from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.satf_constants import B_DEFAULT_ISNULL
 
 
-df = pd.DataFrame({
+dataframe = DataFrame({
     'A': ['foo', '', 'baz', 'qux', ''],
-    'B': ['', 'bar', None, np.nan, 'foo'],
+    'B': ['', 'bar', None, nan, 'foo'],
     'C': ['baz', 'qux', 'foo', '', 'bar']
 })
 
-# replace all empty strings with 'EMPTY'
-cleaned_df = \
-    df.replace(
-        str(),
-        DEFAULT_NULL_VALUE)
+cleaned_dataframe = \
+    dataframe.replace(
+        nan,
+        B_DEFAULT_ISNULL,
+        regex=True)
 
-print(df)
+print(
+    dataframe)
 
-print(cleaned_df)
+print(
+    cleaned_dataframe)

@@ -54,9 +54,17 @@ def compare_all_bie_ids_from_table(
     add_bie_ids_to_comparison_table(
         comparison_b_table=comparison_table,
         bie_ids=bie_ids_matched,
+        bie_id_register_table_b_dictionary=before_bie_id_register_table_b_dictionary,
+        matching_status='matched',
+        register='before',
+        table_name=table_name)
+
+    add_bie_ids_to_comparison_table(
+        comparison_b_table=comparison_table,
+        bie_ids=bie_ids_matched,
         bie_id_register_table_b_dictionary=after_bie_id_register_table_b_dictionary,
         matching_status='matched',
-        register='both',
+        register='after',
         table_name=table_name)
 
     add_bie_ids_to_comparison_table(

@@ -42,24 +42,10 @@ def __populate_bie_sub_register(
         -> None:
     if origin_table_type == OriginTableTypes.GENERATED:
         if (table_name, OriginTableTypes.SOURCE) in etl_processes_wrapper_registry.raw_and_bie_sub_register.raw_sub_register.keys():
-            __populate_bie_sub_register_by_origin_table_type(
-                raw_and_bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register,
-                bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register.generated_bie_sub_register,
-                origin_table_type=OriginTableTypes.GENERATED,
-                table_name=table_name)
-
-            __populate_bie_sub_register_by_origin_table_type(
-                raw_and_bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register,
-                bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register.source_bie_sub_register,
-                origin_table_type=OriginTableTypes.SOURCE,
-                table_name=table_name)
-
-            index_table(
+            __bieise_tables(
                 etl_processes_wrapper_registry=etl_processes_wrapper_registry,
-                table_name=table_name,
-                origin_table_type=OriginTableTypes.SOURCE,
-                usage_table_type=UsageTableTypes.OUTPUT,
-                process_name=process_name)
+                process_name=process_name,
+                table_name=table_name)
 
         else:
             message = \
@@ -83,6 +69,30 @@ def __populate_bie_sub_register(
             bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register.source_before_bie_sub_register,
             origin_table_type=origin_table_type,
             table_name=table_name)
+
+
+def __bieise_tables(
+        etl_processes_wrapper_registry,
+        process_name: str,
+        table_name: str):
+    __populate_bie_sub_register_by_origin_table_type(
+        raw_and_bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register,
+        bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register.generated_bie_sub_register,
+        origin_table_type=OriginTableTypes.GENERATED,
+        table_name=table_name)
+
+    __populate_bie_sub_register_by_origin_table_type(
+        raw_and_bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register,
+        bie_sub_register=etl_processes_wrapper_registry.raw_and_bie_sub_register.source_bie_sub_register,
+        origin_table_type=OriginTableTypes.SOURCE,
+        table_name=table_name)
+
+    index_table(
+        etl_processes_wrapper_registry=etl_processes_wrapper_registry,
+        table_name=table_name,
+        origin_table_type=OriginTableTypes.SOURCE,
+        usage_table_type=UsageTableTypes.OUTPUT,
+        process_name=process_name)
 
 
 def __populate_bie_sub_register_by_origin_table_type(

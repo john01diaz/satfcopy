@@ -1,2 +1,2 @@
-DEFAULT_NULL_VALUE = \
-    'boro%default%null%value'
+B_DEFAULT_ISNULL = \
+    'b%default%isnull'

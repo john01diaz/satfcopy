@@ -5,8 +5,8 @@ from nf_common_source.code.services.identification_services.b_identity_ecosystem
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.bie_sub_registers import BieSubRegisters
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.bies.bie_id_registerer import register_bie_id
-from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.bies.column_name_bies_create_and_registerer import \
-    create_and_register_column_name_bies
+from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.bies.column_bies_create_and_registerer import \
+    create_and_register_column_bies
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.bies.row_bies_registerer import register_row_bies
 
 
@@ -47,7 +47,7 @@ def create_and_register_bie_table_rows(
         bie_id_type='bie_table_ids',
         name=table_name)
 
-    create_and_register_column_name_bies(
+    create_and_register_column_bies(
         bie_sub_register=bie_sub_register,
         table_bie_id=table_bie_id,
         bie_table=bie_table,

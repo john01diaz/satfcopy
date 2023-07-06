@@ -3,8 +3,7 @@ from nf_common_source.code.services.input_output_service.excel.excel_write impor
 from nf_common_source.code.services.reporting_service.reporters.log_file import LogFiles
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 from pandas import DataFrame
-
-from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.satf_constants import DEFAULT_NULL_VALUE
+from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.satf_constants import B_DEFAULT_ISNULL
 
 
 def export_table_to_excel(
@@ -39,10 +38,11 @@ def export_table_to_excel(
         return
 
     dataframe = \
-        dataframe.fillna('null')
+        dataframe.fillna(
+            'null')
 
     dataframe.replace(
-        DEFAULT_NULL_VALUE,
+        B_DEFAULT_ISNULL,
         'null',
         inplace=True)
 

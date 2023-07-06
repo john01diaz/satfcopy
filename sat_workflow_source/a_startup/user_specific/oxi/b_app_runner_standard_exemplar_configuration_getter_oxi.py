@@ -19,6 +19,9 @@ def get_b_app_runner_standard_exemplar_configuration_oxi() \
     GlobalFlags.RUN_BIEIZE_COMPARISON = \
         True
 
+    GlobalFlags.FILTER_TO_DATABASE_LIST = \
+        True
+
     etl_processes_wrapper_configuration = \
         get_common_b_app_runner_standard_exemplar_configuration(
             drive_name='C',

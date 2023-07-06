@@ -2,8 +2,7 @@ from typing import Optional
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 from pandas import DataFrame
 
-from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.satf_constants import DEFAULT_NULL_VALUE
-from sat_workflow_source.b_code.etl_processes_wrapper.helpers.table_cleaner import clean_source_table
+from sat_workflow_source.b_code.etl_processes_wrapper.helpers.source_table_cleaner import clean_source_table
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_loaders.aql_table_getter import \
     get_aql_table
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_loaders.csv_table_getter import \
