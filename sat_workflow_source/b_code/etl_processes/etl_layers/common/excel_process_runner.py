@@ -11,7 +11,8 @@ def run_excel_process(
         process_table_configurations: dict,
         code_process_name: str,
         input_tables: dict,
-        table_configurations: list) \
+        table_configurations: list,
+        output_table_name: str) \
         -> Optional[DataFrame]:
     bie_table_id = \
         [
@@ -26,7 +27,8 @@ def run_excel_process(
             bie_table_id=bie_table_id,
             input_tables=input_tables,
             table_configurations=table_configurations,
-            code_process_name=code_process_name)
+            code_process_name=code_process_name,
+            output_table_name=output_table_name)
 
     return \
         output_table

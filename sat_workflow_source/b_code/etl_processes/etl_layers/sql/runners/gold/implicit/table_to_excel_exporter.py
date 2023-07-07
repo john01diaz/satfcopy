@@ -10,7 +10,8 @@ def export_table_to_excel(
         bie_table_id: str,
         input_tables: dict,
         table_configurations: list,
-        code_process_name: str) \
+        code_process_name: str,
+        output_table_name: str) \
         -> DataFrame:
     folder_path = \
         os.path.join(
@@ -40,6 +41,12 @@ def export_table_to_excel(
     dataframe = \
         dataframe.fillna(
             'null')
+    #
+    # dataframe.replace(
+    #     r'^\s*$',
+    #     'null',
+    #     regex=True,
+    #     inplace=True)
 
     dataframe.replace(
         B_DEFAULT_ISNULL,
@@ -49,7 +56,7 @@ def export_table_to_excel(
     full_filename = \
         os.path.join(
             folder_path,
-            table_name + '.xlsx')
+            output_table_name + '.xlsx')
 
     sheet_name = \
         [

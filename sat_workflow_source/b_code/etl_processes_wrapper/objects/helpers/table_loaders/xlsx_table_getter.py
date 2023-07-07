@@ -1,5 +1,8 @@
 import os.path
 import pandas
+
+from sat_workflow_source.b_code.etl_processes_wrapper.helpers.aveva_loader_data_policy_applier import \
+    apply_aveva_loader_data_policy
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.table_configurations import TableConfigurations
 
 
@@ -25,5 +28,9 @@ def get_xlsx_table(
             dtype=str,
             na_filter=False)
 
+    cleaned_table = \
+        apply_aveva_loader_data_policy(
+            table=table)
+
     return \
-        table
+        cleaned_table

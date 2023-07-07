@@ -41,6 +41,11 @@ class EtlProcessRunners:
                 process_table_configurations=process_table_configurations,
                 json_list_of_table_configurations=json_list_of_table_configurations)
 
+        output_table_configuration = \
+            self.__get_output_table_configuration(
+                process_table_configurations=process_table_configurations,
+                json_list_of_table_configurations=json_list_of_table_configurations)
+
         if self.process_configuration['process_types'] == 'python':
             output_table = \
                 run_code_process(
@@ -61,7 +66,8 @@ class EtlProcessRunners:
                     process_table_configurations=process_table_configurations,
                     code_process_name=self.code_process_name,
                     input_tables=input_tables_keyed_on_table_name,
-                    table_configurations=json_list_of_table_configurations)
+                    table_configurations=json_list_of_table_configurations,
+                    output_table_name=output_table_configuration['table_names'])
 
         elif self.process_configuration['process_types'] == 'parquet':
             output_table = \
@@ -78,11 +84,6 @@ class EtlProcessRunners:
         cleaned_output_table = \
             clean_output_table(
                 output_table=output_table)
-
-        output_table_configuration = \
-            self.__get_output_table_configuration(
-                process_table_configurations=process_table_configurations,
-                json_list_of_table_configurations=json_list_of_table_configurations)
 
         self.etl_processes_wrapper_universe.register_generated_and_index_output_table(
             table=cleaned_output_table,
