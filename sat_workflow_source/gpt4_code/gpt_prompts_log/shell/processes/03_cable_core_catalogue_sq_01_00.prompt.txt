@@ -1,0 +1,144 @@
+Convert the following Azure SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Generate an orchestrating function for the component functions.
+Make the name of the orchestrating function:create_dataframe_gold_c03_cable_core_catalogue
+Make the parameter of the orchestration function a dictionary named input_tables.
+Make the orchestrating function a public function at the beginning of the script.
+Add double underscore to the beginning of the private function names.
+
+Use clean coding principles.
+Follow the PEP8 style guide.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input into the orchetrating function as a dictionary of dataframes.
+Use the table names in the following schemas to load the dataframes from the dictionary name input_tables. 
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations.
+Please keep in mind that sql is processed from the bottom up.
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+This is the output enum:
+
+
+class Cable_Core_Catalogue(
+        Enum):
+    CATALOGUENO = 'catalogueno'
+    DESCRIPTION = 'description'
+    GROUP_MARKING = 'group_marking'
+    GROUP_MARKING_SEQUENCE = 'group_marking_sequence'
+    CORE_MARKINGS = 'core_markings'
+    CORE_MARKINGS_CORE_TYPE = 'core_markings_core_type'
+
+These are the input enums:
+
+class S_CableCatalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    ARMOURED = 'armoured'
+    CLASS = 'class'
+    COLOUR1 = 'colour1'
+    COLOUR2 = 'colour2'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DRUMLENGTH = 'drumlength'
+    EARTH_CORE_SIZE = 'earth_core_size'
+    EARTHCORE = 'earthcore'
+    GROUPSCR = 'groupscr'
+    GROUPTYPE = 'grouptype'
+    LINETYPE = 'linetype'
+    LINETYPEARROWHEAD = 'linetypearrowhead'
+    LINETYPECOLOR = 'linetypecolor'
+    LINETYPEWIDTH = 'linetypewidth'
+    MANUFACTURER = 'manufacturer'
+    MATERIAL = 'material'
+    NOOFGROUPS = 'noofgroups'
+    OASCR = 'oascr'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OD = 'od'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    REMARKS = 'remarks'
+    SIZE = 'size'
+    VOLTAGE = 'voltage'
+
+class S_CableCatalogueNumber_Master(
+        Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CATALOGUENO = 'catalogueno'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+
+class S_CableCoreCatalogue(
+        Enum):
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CORE_MARKINGS = 'core_markings'
+    CORE_MARKINGS_CORE_TYPE = 'core_markings_core_type'
+    DATABASE_NAME = 'database_name'
+    GROUP_MARKING = 'group_marking'
+    GROUP_MARKING_SEQUENCE = 'group_marking_sequence'
+    ISVALIDCABLEANDCORE = 'isvalidcableandcore'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+
+This is the splitted SQL:
+
+SELECT 
+C.*,
+CM.CatalogueNo,
+CM.database_name,
+CM.Cable_Object_Identifier
+FROM sigraph_silver.S_CableCoreCatalogue C
+INNER JOIN sigraph_silver.S_CableCatalogueNumber_Master CM 
+ON CM.database_name = C.database_name 
+AND CM.Cable_Object_Identifier = C.Cable_Object_Identifier
+
+
+SELECT 
+C.*,
+CC.Description,
+CC.Object_Identifier,
+CC.Class
+FROM C -- Resultant table from Sub-script 1
+INNER JOIN sigraph_silver.S_CableCatalogue CC 
+ON CC.database_name = C.database_name 
+AND CC.Object_Identifier = C.Cable_Object_Identifier
+
+
+SELECT *
+FROM C -- Resultant table from Sub-script 2
+WHERE CC.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+AND C.database_name IN (SELECT Database_name FROM VW_Database_names)
+
+
+SELECT *,
+DENSE_RANK() OVER(PARTITION BY CatalogueNo ORDER BY database_name, Cable_Object_Identifier) AS RNT
+FROM C -- Resultant table from Sub-script 3
+
+
+SELECT 
+CatalogueNo,
+Description,
+Group_Marking,
+Group_Marking_Sequence,
+Core_Markings,
+Core_Markings_Core_Type
+FROM C -- Resultant table from Sub-script 4
+WHERE RNT = 1

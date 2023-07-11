@@ -9,7 +9,7 @@ def _cte_cable_catalogue(
     cable_catalogue = input_tables[f"Sigraph_Silver.{S_CableCatalogue.__name__}"]
     cable_catalogue_master = input_tables[f"Sigraph_Silver.{S_CableCatalogueNumber_Master.__name__}"]
     database_names_table = input_tables["VW_Database_names"]
-
+    
     joined_table = pd.merge(
         cable_catalogue,
         cable_catalogue_master,
@@ -17,18 +17,18 @@ def _cte_cable_catalogue(
         right_on=[S_CableCatalogueNumber_Master.DATABASE_NAME.value,
                   S_CableCatalogueNumber_Master.CABLE_OBJECT_IDENTIFIER.value],
         suffixes=('', 'right'))
-
+    
     class_criteria = ['Instrumentation', 'Inst(Shared)', 'Elec(Shared)']
     joined_table = joined_table[joined_table[S_CableCatalogue.CLASS.value].isin(
         class_criteria)]
-
+    
     database_names = database_names_table['database_name'].unique().tolist()
     joined_table = joined_table[joined_table[S_CableCatalogue.DATABASE_NAME.value].isin(
         database_names)]
-
+    
     joined_table['RNT'] = joined_table.groupby(
         S_CableCatalogueNumber_Master.CATALOGUENO.value).cumcount() + 1
-
+    
     return joined_table
 
 
@@ -60,7 +60,7 @@ def _final_select_statement(
         S_CableCatalogue.LINETYPEWIDTH.value,
         S_CableCatalogue.LINETYPEARROWHEAD.value,
         S_CableCatalogue.REMARKS.value
-    ]
+        ]
     return cte_cable_catalogue[selected_columns]
 
 

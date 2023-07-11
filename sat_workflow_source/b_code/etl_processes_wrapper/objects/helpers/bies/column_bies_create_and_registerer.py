@@ -61,5 +61,4 @@ def __create_and_register_single_column_bies(
         table_bie_id=table_bie_id,
         bie_table=bie_table,
         table_name=table_name,
-        column_name=column_name,
-        bie_column_name_ids=bie_column_name_ids)
+        column_name=column_name)

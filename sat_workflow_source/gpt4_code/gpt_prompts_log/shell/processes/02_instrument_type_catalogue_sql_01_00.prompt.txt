@@ -1,0 +1,65 @@
+Convert the following Azure SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Generate an orchestrating function for the component functions.
+Make the name of the orchestrating function:create_dataframe_gold_c02_instrument_type_catalogue_sql_01_00
+Make the parameter of the orchestration function a dictionary named input_tables.
+Make the orchestrating function a public function at the beginning of the script.
+Add double underscore to the beginning of the private function names.
+
+Use clean coding principles.
+Follow the PEP8 style guide.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input into the orchetrating function as a dictionary of dataframes.
+Use the table names in the following schemas to load the dataframes from the dictionary name input_tables. 
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations.
+Please keep in mind that sql is processed from the bottom up.
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+    
+This is the enum schema for the output table named [xxxxx].
+
+class Instrument_Type_Catalogue(
+        Enum):
+    TYPE = 'type'
+    INSTRUMENT_TYPE = 'instrumenttype'
+
+
+This is the enum schema for the input table(s) named [CS_Layer_Loop_Loop_elements].
+
+class CS_Layer_Loop_Loop_elements_FilteredFor02InstrumentTypeCatalogueSql0100SqlParquet(
+        Enum):
+    CS_LOOP_ELEMENT_ID = 'CS_loop_element_id'
+    CS_DEVICE_TYPE = 'CS_device_type'
+    CS_LOCATION_FULL_DESIGNATION = 'CS_location_full_designation'
+    LOOP_ELEMENT_DATABASE_NAME = 'loop_element_database_name'
+
+This is the SQL statement named [02_Instrument_Type_Catalogue_sql_01_00.sql]: 
+
+Select Distinct
+  regexp_extract(CS_loop_element_id, '[A-Za-z]+', 0) as Type,
+  UPPER(TRIM(CS_device_type)) as InstrumentType
+From Sigraph.CS_layer_loop_loop_elements
+Where CS_location_full_designation is null 
+and loop_element_database_name in (select * from VW_Database_names)
+and  CS_device_type is not null 
+and trim(CS_device_type) != ""
+order by Type

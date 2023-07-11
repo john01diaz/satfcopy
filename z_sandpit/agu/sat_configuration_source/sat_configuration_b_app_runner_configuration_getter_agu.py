@@ -15,7 +15,7 @@ def get_sat_configuration_b_app_runner_configuration_agu() \
     etl_database_configuration_file = \
         __get_etl_database_configuration_file(
             configurations_folder=configurations_folder,
-            etl_database_configuration_filename='process_table_configuration_2023_06_25_13_43_41_925 v20230627_2.accdb')
+            etl_database_configuration_filename='configuration_database v20230705 0.01 AGu_SQL+Excel Gold 10 to 15_raw.accdb')
 
     sat_configuration_b_app_runner_configuration = \
         SatConfigurationBAppRunnerConfigurations(

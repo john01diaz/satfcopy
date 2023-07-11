@@ -1,8 +1,8 @@
 from typing import Optional
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 from pandas import DataFrame
-
-from sat_workflow_source.b_code.etl_processes_wrapper.helpers.source_table_cleaner import clean_source_table
+from sat_workflow_source.b_code.etl_processes_wrapper.helpers.data_policy_to_source_table_applier import \
+    migrate_source_table_to_bclearer_data_policy
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_loaders.aql_table_getter import \
     get_aql_table
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_loaders.csv_table_getter import \
@@ -50,7 +50,7 @@ def get_table(
             return
 
     cleaned_table = \
-        clean_source_table(
+        migrate_source_table_to_bclearer_data_policy(
             source_table=table)
 
     return \

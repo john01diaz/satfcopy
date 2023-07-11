@@ -1,0 +1,103 @@
+Convert the following Azure SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Generate an orchestrating function for the component functions.
+Make the name of the orchestrating function:create_dataframe_gold_c06_io_catalogue_sql_01_00
+Make the parameter of the orchestration function a dictionary named input_tables.
+Make the orchestrating function a public function at the beginning of the script.
+Add double underscore to the beginning of the private function names.
+
+Use clean coding principles.
+Follow the PEP8 style guide.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input into the orchetrating function as a dictionary of dataframes.
+Use the table names in the following schemas to load the dataframes from the dictionary name input_tables. 
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations.
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+    
+This is the enum schema for the output table named [IO_Catalogue].
+
+class IO_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CHANNEL = 'channel'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+This is the enum schema for the input table(s) named [S_IO_Catalogue].
+
+class S_IO_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CHANNEL = 'channel'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    DYNAMIC_CLASS = 'dynamic_class'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARQUET_FILE_RELATIVE_PATH = 'parquet_file_relative_path'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+This is the SQL statement named [06_IO_Catalogue_sql_01_00].
+
+SELECT
+    Model_Number,
+    Description,
+    Manufacturer,
+    DescriptionDrawing,
+    Channel,
+    AllowUse,
+    IOType,
+    NoOfPoints,
+    TerminalsPerPointChannel,
+    TerminalsPerMarking,
+    ChannelNumber
+FROM
+    SIGRAPH_SILVER.S_IO_CATALOGUE
+Where
+    Catalogue_RNT = 1
+    and database_name in (
+        Select
+            Database_name
+        from
+            VW_Database_names
+    )
+order by
+    Model_Number,
+    IOType,
+    Cast(
+        Translate(ChannelNumber, 'AI_,AO_,DI_,DO_,FIELD BUS_', '') as Bigint
+    ),
+    TerminalsPerMarking

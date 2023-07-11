@@ -5,7 +5,8 @@ from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.sql_process
     run_sql_process
 from sat_workflow_source.b_code.etl_processes.etl_layers.python.runners.code_process_runner import \
     run_code_process
-from sat_workflow_source.b_code.etl_processes_wrapper.helpers.output_table_cleaner import clean_output_table
+from sat_workflow_source.b_code.etl_processes_wrapper.helpers.data_policy_to_output_table_applier import \
+    migrate_output_table_to_bclearer_data_policy
 
 
 class EtlProcessRunners:
@@ -82,7 +83,7 @@ class EtlProcessRunners:
                 NotImplemented
 
         cleaned_output_table = \
-            clean_output_table(
+            migrate_output_table_to_bclearer_data_policy(
                 output_table=output_table)
 
         self.etl_processes_wrapper_universe.register_generated_and_index_output_table(

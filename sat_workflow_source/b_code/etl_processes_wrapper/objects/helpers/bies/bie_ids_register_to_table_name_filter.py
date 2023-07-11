@@ -3,7 +3,7 @@ from nf_common_source.code.services.b_dictionary_service.objects.table_b_diction
 from nf_common_source.code.services.identification_services.b_identity_ecosystem.bie_id_creators.bie_id_sum_from_strings_creator import \
     create_bie_id_sum_from_strings
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.bies.comparison.all_bie_ids_from_table_name_getter import \
-    get_all_bie_ids_from_table_name
+    get_all_bie_ids_by_type_from_table_name
 
 
 def filter_bie_ids_register_to_table_name(
@@ -11,7 +11,7 @@ def filter_bie_ids_register_to_table_name(
         bie_id_register: TableBDictionaries) \
         -> TableBDictionaries:
     all_bie_ids_from_table = \
-        get_all_bie_ids_from_table_name(
+        get_all_bie_ids_by_type_from_table_name(
             table_name=table_name,
             bie_id_register_table_b_dictionary=bie_id_register)
 

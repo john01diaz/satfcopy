@@ -12,8 +12,7 @@ def create_and_register_immutable_column_bie(
         table_bie_id: BieIds,
         bie_table: DataFrame,
         table_name: str,
-        column_name: str,
-        bie_column_name_ids: list):
+        column_name: str):
     column = \
         bie_table[column_name]
 
@@ -28,9 +27,6 @@ def create_and_register_immutable_column_bie(
         bie_id_type='bie_column_sum_cell_content_ids',
         name=table_name + '::' + column_name,
         parent_bie_id=table_bie_id)
-
-    bie_column_name_ids.append(
-        immutable_column_bie_id)
 
 
 def __get_bie_id(
