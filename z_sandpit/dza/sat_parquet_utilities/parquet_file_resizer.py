@@ -1,8 +1,9 @@
 import glob
 import os
+import shutil
 from nf_common_source.code.services.datetime_service.time_helpers.time_getter import now_time_as_string_for_files
 from nf_common_source.code.services.file_system_service.objects.folders import Folders
-from sat_parquet_source.b_code.helpers.spark_session_creator import create_pyspark_session
+from sat_parquet_source.parquet_schema_analyzer.b_code.helpers.spark_session_creator import create_pyspark_session
 
 
 def __resize_parquet_file(
@@ -23,16 +24,50 @@ def __resize_parquet_file(
         pyspark_dataframe.write.mode("overwrite").parquet(
             parquet_file_path)
 
+        created_parquet_files = \
+            glob.glob(
+                parquet_file_path + "/*.snappy.parquet",
+                recursive=False)
+
+        if len(created_parquet_files) > 1:
+            raise Exception
+
+        created_parquet_file = \
+            created_parquet_files[0]
+
+        original_file_name = \
+            parquet_file_path.split(os.sep)[-1]
+
+        created_parquet_filename = \
+            created_parquet_file.split(os.sep)[-1]
+
+        reduced_file_path = \
+            os.sep.join(parquet_file_path.split(os.sep)[:-1]) + os.sep + created_parquet_filename
+
+        shutil.copy2(
+            created_parquet_file,
+            reduced_file_path)
+
+        new_name_for_reduced_file_path = \
+            os.sep.join(reduced_file_path.split(os.sep)[:-1]) + os.sep + original_file_name
+
+        shutil.rmtree(
+            os.sep.join(created_parquet_file.split(os.sep)[:-1]))
+
+        os.rename(
+            reduced_file_path,
+            new_name_for_reduced_file_path)
+
+        print(
+            'Processed file: ' + str(original_file_name))
+
     spark_session.stop()
 
 
 if __name__ == '__main__':
     child_parquet_folder = \
         Folders(
-            absolute_path_string='/Users/terraire/bWa/DZa/etl/collect/blob_latest/' + os.sep
-             + 'blob_latest_parquet_files_sigraph_bronze_wrapper_2023_06_27_11_19_02_reduced_to_1000_rows/' + os.sep +
-             'temp_anusha_folder_sigraph_bronze_onefile_2023_06_27_1022/' + os.sep +
-             'sigraph_bronze/CS_Layer_Loop_Loop_elements')
+            absolute_path_string=r'/Users/terraire/bWa/DZa/etl/collect/blob_latest/clean_parquet_2023_07_11_09_20_22_CS_Layer_Loop_Loop_elements/blob-temp-anusha_folder-sigraph_bronze_2023_06_27_1817/CS_Layer_Loop_Loop_elements')
 
     input_root_folder_child_path_children = \
         glob.glob(

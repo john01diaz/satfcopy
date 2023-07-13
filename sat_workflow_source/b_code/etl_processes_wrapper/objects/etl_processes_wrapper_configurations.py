@@ -1,9 +1,7 @@
 import json
-
 from nf_common_source.code.services.file_system_service.objects.files import Files
 from nf_common_source.code.services.file_system_service.objects.folders import Folders
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
-
 from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.origin_table_types import OriginTableTypes
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.table_configurations import TableConfigurations
 
@@ -11,12 +9,11 @@ from sat_workflow_source.b_code.etl_processes_wrapper.objects.table_configuratio
 class EtlProcessesWrapperConfigurations:
     def __init__(
             self,
-            run_new_vs_original_comparison: bool,
             output_root_folder: Folders,
             output_folder_prefix: str,
             output_folder_suffix: str,
             etl_json_configuration_file: Files = None,
-            etl_root_folder_path: str = None,
+            etl_sources_root_folder: Folders = None,
             file_configuration_list: list = None,
             process_configuration_list: list = None):
         # TODO - Delete when new config is implemented
@@ -30,11 +27,8 @@ class EtlProcessesWrapperConfigurations:
         self.run_configuration_as_json_dictionary = \
             dict()
 
-        self.run_new_vs_original_comparison = \
-            run_new_vs_original_comparison
-
-        self.etl_root_folder_path = \
-            etl_root_folder_path
+        self.etl_sources_root_folder = \
+            etl_sources_root_folder
         
         self.output_root_folder = \
             output_root_folder

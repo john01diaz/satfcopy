@@ -54,8 +54,7 @@ if __name__ == '__main__':
     etl_processes_wrapper_configuration = \
         EtlProcessesWrapperConfigurations(
             file_configuration_list=file_configuration_list,
-            process_configuration_list=process_configuration_list,
-            run_new_vs_original_comparison=True)
+            process_configuration_list=process_configuration_list)
 
     # GlobalFlags.RUN_PROCESS_FILES = \
     #     False

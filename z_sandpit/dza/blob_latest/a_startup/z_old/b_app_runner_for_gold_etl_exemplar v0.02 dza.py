@@ -1,7 +1,7 @@
 import os
 from nf_common_source.code.services.file_system_service.objects.folders import Folders
 import glob
-from sat_parquet_source.b_code.table_load_and_registerer_v002 import load_and_register_table
+from sat_parquet_source.parquet_schema_analyzer.b_code import load_and_register_table
 
 
 if __name__ == '__main__':

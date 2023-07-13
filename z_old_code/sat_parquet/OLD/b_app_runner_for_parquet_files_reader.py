@@ -3,7 +3,7 @@ from nf_common_source.code.services.b_app_runner_service.b_app_runner import run
 from nf_common_source.code.services.file_system_service.objects.folders import Folders
 from nf_common_source.code.services.log_environment_utility_service.common_knowledge.environment_log_level_types import \
     EnvironmentLogLevelTypes
-from sat_parquet_source.b_code.orchestrators.parquet_folder_consumer_orchestrator import \
+from sat_parquet_source.parquet_schema_analyzer.b_code import \
     orchestrate_parquet_folder_consumer
 
 

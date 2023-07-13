@@ -188,7 +188,6 @@ def get_b_app_runner_standard_exemplar_configuration_oxi() \
     etl_processes_wrapper_configuration = \
         EtlProcessesWrapperConfigurations(
             etl_json_configuration_file=etl_json_configuration_file,
-            run_new_vs_original_comparison=True,
             output_root_folder=output_root_folder,
             output_folder_prefix=output_folder_prefix,
             output_folder_suffix=output_folder_suffix)

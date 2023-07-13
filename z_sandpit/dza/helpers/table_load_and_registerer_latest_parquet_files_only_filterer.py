@@ -2,7 +2,7 @@ import os.path
 import glob
 from deltalake import DeltaTable
 from nf_common_source.code.services.datetime_service.time_helpers.time_getter import now_time_as_string_for_files
-from sat_parquet_source.b_code.helpers.spark_session_creator import create_pyspark_session
+from sat_parquet_source.parquet_schema_analyzer.b_code import create_pyspark_session
 
 
 def load_and_register_table(

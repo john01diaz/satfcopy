@@ -2,7 +2,7 @@ from nf_common_source.code.services.b_dictionary_service.objects.row_b_dictionar
 from nf_common_source.code.services.b_dictionary_service.objects.table_b_dictionaries import TableBDictionaries
 from nf_common_source.code.services.identification_services.b_identity_ecosystem.bie_id_creators.bie_id_sum_from_strings_creator import \
     create_bie_id_sum_from_strings
-from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.bies.comparison.all_bie_ids_from_table_name_getter import \
+from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.bies.comparison.all_bie_ids_by_type_from_table_name_getter import \
     get_all_bie_ids_by_type_from_table_name
 
 

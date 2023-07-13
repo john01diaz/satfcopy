@@ -1,5 +1,7 @@
 import pandas
 
+from sat_common_source.table_readers.table_loaders.source_table_load_and_registerer import \
+    load_and_register_source_table
 from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.origin_table_types import OriginTableTypes
 from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.usage_table_types import UsageTableTypes
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.b_tables import BTables
@@ -16,8 +18,6 @@ from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.index_repo
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.python_schema_enums_reporter import \
     report_python_schema_enums
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_indexer import index_table
-from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.table_loaders.source_table_load_and_registerer import \
-    load_and_register_source_table
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.helpers.raw_table_registerer import register_raw_table
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.raw_and_bie_sub_registers import RawAndBieSubRegisters
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.table_configurations import TableConfigurations

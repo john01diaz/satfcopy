@@ -1,8 +1,6 @@
 from typing import Optional
 from nf_common_source.code.services.reporting_service.wrappers.run_and_log_function_wrapper import run_and_log_function
 from pandas import DataFrame
-from sat_workflow_source.b_code.etl_processes.etl_layers.sql.runners.gold.implicit.table_to_excel_exporter import \
-    export_table_to_excel
 
 
 @run_and_log_function

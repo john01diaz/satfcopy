@@ -17,7 +17,7 @@ def create_and_register_column_bies(
         []
 
     for column_name in list(bie_table.columns):
-        __create_and_register_single_column_bies(
+        __create_and_register_single_column_bies_if_required(
             bie_sub_register=bie_sub_register,
             table_bie_id=table_bie_id,
             bie_table=bie_table,
@@ -41,14 +41,20 @@ def create_and_register_column_bies(
         parent_bie_id=table_bie_id)
 
 
-def __create_and_register_single_column_bies(
+def __create_and_register_single_column_bies_if_required(
         bie_sub_register: BieSubRegisters,
         table_bie_id: BieIds,
         bie_table: pandas.DataFrame,
-        column_name:str,
+        column_name: str,
         table_name: str,
         bie_column_name_ids: list) \
         -> None:
+    if column_name == 'bie_ids':
+        return
+
+    if column_name == 'bie_immutable_item_ids':
+        return
+
     create_and_register_column_name_bie(
         bie_sub_register=bie_sub_register,
         table_bie_id=table_bie_id,

@@ -1,8 +1,8 @@
 from sat_workflow_source.b_code.etl_processes.common.global_flags import GlobalFlags
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.etl_processes_wrapper_configurations import \
     EtlProcessesWrapperConfigurations
-from sat_workflow_source.a_startup.common.common_b_app_runner_standard_exemplar_configuration_getter import \
-    get_common_b_app_runner_standard_exemplar_configuration
+from sat_workflow_source.a_startup.common.common_local_b_app_runner_standard_exemplar_configuration_getter import \
+    get_common_local_b_app_runner_standard_exemplar_configuration
 
 
 def get_sat_workflow_b_app_runner_configuration_ami() \
@@ -26,11 +26,10 @@ def get_sat_workflow_b_app_runner_configuration_ami() \
     # STN_Internal_Wiring_test.json
 
     etl_processes_wrapper_configuration = \
-        get_common_b_app_runner_standard_exemplar_configuration(
+        get_common_local_b_app_runner_standard_exemplar_configuration(
             drive_name='C',
             user_initials='AMi',
-            configuration_json_filename=r'C:\bWa\AMi\etl\configurations\S_Cable_Catalogue_raw_to_clean_comparison\Comparison_S_Cable_Catalogue_raw_to_clean.json',
-            run_new_vs_original_comparison=True,
+            configuration_json_relative_file_path=r'S_Cable_Catalogue_raw_to_clean_comparison\Comparison_S_Cable_Catalogue_raw_to_clean.json',
             output_folder_prefix='Comparison_S_Cable_Catalogue_raw_to_clean',
             output_folder_suffix='',
             main_wrapper_outputs_folder_name='comparison_outputs')

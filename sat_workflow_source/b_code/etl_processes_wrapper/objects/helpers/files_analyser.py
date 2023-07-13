@@ -12,12 +12,8 @@ def bieize(
     setup_universe_bies(
         etl_processes_wrapper_registry=etl_processes_wrapper_registry)
 
-    etl_processes_wrapper_configuration = \
-        etl_processes_wrapper_registry.owning_etl_processes_wrapper_universe.etl_processes_wrapper_configuration
-
-    if etl_processes_wrapper_configuration.run_new_vs_original_comparison:
-        __analyse_bies(
-            etl_processes_wrapper_registry=etl_processes_wrapper_registry)
+    __analyse_bies(
+        etl_processes_wrapper_registry=etl_processes_wrapper_registry)
 
 
 def __analyse_bies(

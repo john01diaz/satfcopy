@@ -12,8 +12,7 @@ if __name__ == '__main__':
     etl_processes_wrapper_configuration = \
         EtlProcessesWrapperConfigurations(
             file_configuration_list=FULL_USER_FILE_CONFIGURATION_LIST,
-            process_configuration_list=FULL_USER_PROCESS_CONFIGURATION_LIST,
-            run_new_vs_original_comparison=True)
+            process_configuration_list=FULL_USER_PROCESS_CONFIGURATION_LIST)
 
     run_b_app(
         app_startup_method=orchestrate_etl_processes_wrapper,

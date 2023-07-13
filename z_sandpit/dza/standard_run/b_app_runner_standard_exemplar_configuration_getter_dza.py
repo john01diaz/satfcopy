@@ -161,7 +161,6 @@ def get_b_app_runner_standard_exemplar_configuration_dza() \
         EtlProcessesWrapperConfigurations(
             file_configuration_list=file_configuration_list,
             process_configuration_list=process_configuration_list,
-            run_new_vs_original_comparison=True,
             output_root_folder=output_root_folder,
             output_folder_prefix=output_folder_prefix,
             output_folder_suffix=output_folder_suffix)
