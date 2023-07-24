@@ -1,5 +1,7 @@
 import pandas
 import pyodbc as odbc_library
+from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
+
 from sat_configuration_source.b_code.getters.dataframe_from_query_getter import \
     get_dataframe_from_query
 
@@ -76,7 +78,11 @@ def __add_process_record(
         None if row['bie_process_ids'] == str() else row['bie_process_ids']
 
     process_names = \
-        row['process_names'].replace('.sql', str())
+        row['process_names']
+
+    if row['process_names'].endswith('.sql') or row['process_names'].endswith('.sql.sql_only'):
+        log_message(
+            message='A process name still is ending with .sql or .sql.sql_only process_names: ' + process_names)
 
     process_types = \
         row['process_types']

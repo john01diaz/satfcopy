@@ -4,7 +4,10 @@ from nf_common_source.code.services.reporting_service.reporters.log_file import 
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 from nf_common_source.code.services.reporting_service.wrappers.run_and_log_function_wrapper import run_and_log_function
 
+from sat_etl_script_source.b_code.common.helpers.string_replacers.charindex_string_to_instr_replacer import replace_charindex_to_instr
 from sat_etl_script_source.b_code.common.helpers.new_folder_creator import create_new_folder
+from sat_etl_script_source.b_code.common.helpers.string_replacers.qualify_string_to_having_replacer import \
+    replace_qualify_string_to_having
 
 
 @run_and_log_function
@@ -127,6 +130,17 @@ def __process_file(
 
     with open(new_input_file_path, 'w') as output:
         for non_magic_command in non_magic_commands:
+            non_magic_command = \
+                replace_charindex_to_instr(
+                    line_index=non_magic_commands.index(non_magic_command),
+                    input_file_path=input_file_path,
+                    input_sql_command=non_magic_command)
+
+            # TODO: Move the 'QUALIFY' string to 'HAVING' from to shell_etl_files_converter_orchestrator_stage_06.py here - DONE
+            # non_magic_command = \
+            #     replace_qualify_string_to_having(
+            #         command_string=non_magic_command)
+
             output.write(
                 str(non_magic_command) + '\n')
 

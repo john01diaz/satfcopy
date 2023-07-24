@@ -151,10 +151,13 @@ def __process_sql_file(
         ';\n'.join(
             sql_commands)
 
+    output_filename = \
+        '_'.join(filename.split('.')) + '_sql_only.sql'
+
     output_file_path = \
         os.path.join(
             output_sql_extension_files_folder_path,
-            filename + '.sql_only.sql')
+            output_filename)
 
     with open(output_file_path, 'w') as f:
         f.write(sql_only)
@@ -162,7 +165,7 @@ def __process_sql_file(
     add_splitted_file_to_dictionary(
         splitted_files_dictionary=splitted_files_dictionary,
         relative_path=relative_path,
-        filename=filename + '.sql_only.sql',
+        filename=output_filename,
         source_filename=filename,
         source_type='sql',
         line_count=sql_only.count('\n'),
@@ -170,6 +173,7 @@ def __process_sql_file(
         is_empty=False,
         position_in_file=str(),
         position_in_statements=str())
+
 
 def __is_sql_command(
         command: str) \

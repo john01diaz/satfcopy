@@ -100,6 +100,12 @@ def __populate_bie_sub_register_by_origin_table_type(
         bie_sub_register: BieSubRegisters,
         origin_table_type: OriginTableTypes,
         table_name: str):
+    message = \
+        'Setting up BIEs for:' + table_name + ' ' + origin_table_type.name
+
+    log_message(
+        message=message)
+
     raw_table = \
         raw_and_bie_sub_register.raw_sub_register[(table_name, origin_table_type)]
 

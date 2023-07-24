@@ -25,4 +25,5 @@ def orchestrate_remove_history_parquet_table(
             in file_configuration_list:
         run_remove_history_parquet_table(
             timestamped_output_folder=timestamped_output_folder,
+            stage_name=stage_name,
             file_configuration=file_configuration)

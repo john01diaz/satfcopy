@@ -24,6 +24,7 @@ def run_parquet_folder_as_delta_table_history_remover(
     for parquet_folder_child_path \
             in parquet_folder_children:
         run_latest_parquet_table_files_to_output_folder(
+            parquet_folder_path=parquet_folder_path,
             parquet_delta_table=parquet_delta_table,
             output_root_folder=output_root_folder,
             parquet_folder_child_path=parquet_folder_child_path)
@@ -36,7 +37,7 @@ def __get_parquet_folder_children(
         parquet_folder_path: str):
     parquet_folder_children = \
         glob.glob(
-            parquet_folder_path + "**/*.snappy.parquet",
+            parquet_folder_path + "/**/*.snappy.parquet",
             recursive=True)
 
     return \

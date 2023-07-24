@@ -1,4 +1,3 @@
-import glob
 import os.path
 from nf_common_source.code.services.file_system_service.objects.folders import Folders
 from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
@@ -44,18 +43,12 @@ def __process_container_try_catch_wrapper(
                     absolute_path_string=input_root_folder_child_path)
 
             input_root_folder_child_path_children = \
-                glob.glob(
-                    input_root_folder_child_path + "/**/*.snappy.parquet",
-                    recursive=True)
-
-            # TODO: Add a filter to get just latest .parquet files
-            input_root_folder_child_path_children = \
                 get_latest_parquet_files(
-                    child_parquet_folder=child_parquet_folder,
-                    input_root_folder_child_path_children=input_root_folder_child_path_children)
+                    child_parquet_folder=child_parquet_folder)
 
             log_message(
-                message='*' * 50 + 'Processing folder: ' + child_parquet_folder.base_name)
+                message='*' * 50 + 'Processing folder: ' + child_parquet_folder.base_name
+                        + ' - With {0} parquet files'.format(str(len(input_root_folder_child_path_children))))
 
             process_parquet_files_container(
                 working_output_folder=working_output_folder,

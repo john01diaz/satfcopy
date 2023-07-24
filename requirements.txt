@@ -6,10 +6,11 @@ psutil
 kafka-python
 setuptools
 scipy
+delta-spark
 deltalake
+fastparquet
 pyodbc
 pyspark
 xlsxwriter
-easygui
 chardet
 msaccessdb

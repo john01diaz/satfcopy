@@ -5,6 +5,8 @@ from nf_common_source.code.services.reporting_service.reporters.log_with_datetim
 from nf_common_source.code.services.reporting_service.wrappers.run_and_log_function_wrapper import run_and_log_function
 
 from sat_etl_script_source.b_code.common.helpers.new_folder_creator import create_new_folder
+from sat_etl_script_source.b_code.common.helpers.string_replacers.qualify_string_to_having_replacer import \
+    replace_qualify_string_to_having
 
 
 @run_and_log_function
@@ -89,12 +91,9 @@ def __process_sql_file(
         list()
 
     for command in command_lines:
-        if 'QUALIFY' in command.upper():
-            command = \
-                command.replace(
-                    'Qualify', 'HAVING').replace(
-                    'qualify', 'HAVING').replace(
-                    'QUALIFY', 'HAVING')
+        command = \
+            replace_qualify_string_to_having(
+                command_string=command)
 
         if command.startswith('--') or command == '\n' or command.startswith('\n--'):
             continue

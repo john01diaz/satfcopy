@@ -42,22 +42,34 @@ if __name__ == '__main__':
     parquet_table_root_folder_path = \
         os.path.join(
             collect_blob_folder_path,
-            'blob-temp-anusha_folder-sigraph_silver_2023_06_27_1815')
+            'blob-temp-anusha_folder-sigraph_bronze_2023_06_27_1817')
 
     # TODO: comment lines below to run all snapshots inside the folder
-    # file_configuration_list = \
-    #     [
-    #         [
-    #             parquet_folder_root_folder_path, 'snappy.parquet', 'sigraph_silver', 'S_CableCatalogue', 'input', None, ''
-    #         ]
-    #     ]
+    file_configuration_list = \
+        [
+            [
+                parquet_table_root_folder_path, 'snappy.parquet', 'sigraph_bronze', 'Integrated_function', 'input', None, ''
+            ],
+            [
+                parquet_table_root_folder_path, 'snappy.parquet', 'sigraph_bronze', 'CS_Loop_subfunction_actuator', 'input', None, ''
+            ],
+            [
+                parquet_table_root_folder_path, 'snappy.parquet', 'sigraph_bronze', 'CS_Loop_subfunction_sensor', 'input', None, ''
+            ],
+            [
+                parquet_table_root_folder_path, 'snappy.parquet', 'sigraph_bronze', 'CS_Process_data_actuator', 'input', None, ''
+            ],
+            [
+                parquet_table_root_folder_path, 'snappy.parquet', 'sigraph_bronze', 'CS_Process_data_sensor', 'input', None, ''
+            ]
+        ]
 
     run_b_app(
         app_startup_method=orchestrate_remove_history_parquet_table,
         environment_log_level_type=EnvironmentLogLevelTypes.FILTERED,
-        output_folder_prefix='clean_parquet',
+        output_folder_prefix='clean_parquet_sigraph_bronze',
         output_folder_suffix=str(),
         output_root_folder=output_root_folder,
-        file_configuration_list=list(),
-        stage_name='sigraph_silver',
+        file_configuration_list=file_configuration_list,
+        stage_name='sigraph_bronze',
         parquet_table_root_folder_path=parquet_table_root_folder_path)

@@ -1,4 +1,4 @@
-from sat_workflow_source.b_code.etl_processes.etl_layers.python.base_scripts.common.pandas_sql import PandasSQL
+# from sat_workflow_source.b_code.etl_processes.etl_layers.python.base_scripts.common.pandas_sql import PandasSQL
 from sat_workflow_source.b_code.etl_schemas.common.database_names import DatabaseNames
 from sat_workflow_source.b_code.etl_schemas.gold_stage.cable_core_catalogue import Cable_Core_Catalogue
 from sat_workflow_source.b_code.etl_schemas.silver_stage.s_cable_catalogue import S_CableCatalogue

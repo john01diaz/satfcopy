@@ -1,6 +1,5 @@
 import pandas
-
-from z_sandpit.common.hardcoded_configurations import HardcodedConfigurations
+from sat_workflow_source.b_code.model.hardcoded_configurations import HardcodedConfigurations
 
 
 def get_loop_picklist_from_model() \

@@ -12,6 +12,14 @@ def run_parquet_tables_history_remover(
     if file_configuration[1] != 'snappy.parquet':
         return
 
+    __parquet_tables_history_remover_hard_crash_wrapper(
+        file_configuration=file_configuration,
+        output_root_folder=output_root_folder)
+
+
+def __parquet_tables_history_remover_hard_crash_wrapper(
+        file_configuration: list,
+        output_root_folder: Folders):
     try:
         parquet_delta_table, parquet_folder_path = \
             get_parquet_table_as_delta_table(

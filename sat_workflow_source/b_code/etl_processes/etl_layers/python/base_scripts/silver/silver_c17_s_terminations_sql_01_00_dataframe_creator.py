@@ -2,6 +2,8 @@ import pandas as pd
 from pyspark.shell import spark
 
 from sat_workflow_source.b_code.etl_processes.common.constants import DEFAULT_CELL_VALUE
+from sat_workflow_source.b_code.etl_processes.etl_layers.python.base_scripts.silver.helpers.table_from_input_tables_getter import \
+    get_table_from_input_tables
 from sat_workflow_source.b_code.etl_schemas.silver_stage.s_connection import S_Connection
 from sat_workflow_source.b_code.etl_schemas.silver_stage.s_item_function import S_ItemFunction
 from sat_workflow_source.b_code.etl_schemas.silver_stage.s_terminals import S_Terminals
@@ -11,13 +13,19 @@ from sat_workflow_source.b_code.etl_schemas.silver_stage.s_terminations import S
 def create_silver_17_s_terminations_sql_01_00_dataframe(
         input_tables: dict):
     connection_dataframe = \
-        input_tables['S_Connection']
+        get_table_from_input_tables(
+            input_tables=input_tables,
+            table_name='Sigraph_Silver.S_Connection')
 
     itemfunction_dataframe = \
-        input_tables['S_ItemFunction']
+        get_table_from_input_tables(
+            input_tables=input_tables,
+            table_name='Sigraph_Silver.S_ItemFunction')
 
     terminals_dataframe = \
-        input_tables['S_Terminals']
+        get_table_from_input_tables(
+            input_tables=input_tables,
+            table_name='Sigraph_Silver.S_Terminals')
 
     DEFAULT_CORE_MARKINGS = '1'
     DEFAULT_EQUIPMENT_NO = ''

@@ -1,7 +1,7 @@
 import pandas
 import pyodbc as odbc_library
-from sat_configuration_source.b_code.getters.dataframe_from_query_getter import \
-    get_dataframe_from_query
+from sat_configuration_source.b_code.getters.databases.process_table_roles_data_getter import \
+    get_process_table_roles_data
 from sat_configuration_source.b_code.getters.filtered_bie_ids_getter import get_filtered_bie_ids
 
 
@@ -9,16 +9,18 @@ def get_process_table_configuration_records_from_database_connection(
         filtered_database_records_dictionary: dict,
         database_records_dictionary: dict,
         database_connection: odbc_library.Connection,
-        table_name: str) \
+        left_table_name: str,
+        left_table_join_column_name: str,
+        right_table_name: str,
+        right_table_join_column_name: str) \
         -> None:
-    sql_query = \
-        'SELECT * FROM ' \
-        + table_name + ';'
-
     dataframe_first_table = \
-        get_dataframe_from_query(
+        get_process_table_roles_data(
             database_connection=database_connection,
-            sql_query=sql_query)
+            left_table_name=left_table_name,
+            left_table_join_column_name=left_table_join_column_name,
+            right_table_name=right_table_name,
+            right_table_join_column_name=right_table_join_column_name)
 
     columns_to_keep = \
         [
@@ -35,12 +37,13 @@ def get_process_table_configuration_records_from_database_connection(
     final_dataframe = \
         final_dataframe.fillna(
             str())
-
+    
+    # TODO: table_name to be checked
     __populate_database_records(
         database_records_dictionary=database_records_dictionary,
         filtered_database_records_dictionary=filtered_database_records_dictionary,
         final_dataframe=final_dataframe,
-        table_name=table_name)
+        table_name='process_table_configuration')
 
 
 def __populate_database_records(

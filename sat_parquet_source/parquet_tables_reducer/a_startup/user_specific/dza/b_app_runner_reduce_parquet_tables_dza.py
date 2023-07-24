@@ -3,6 +3,8 @@ from nf_common_source.code.services.b_app_runner_service.b_app_runner import run
 from nf_common_source.code.services.file_system_service.objects.folders import Folders
 from nf_common_source.code.services.log_environment_utility_service.common_knowledge.environment_log_level_types import \
     EnvironmentLogLevelTypes
+from sat_parquet_source.parquet_common.interfaces.reduce_parquet_table_configuration import \
+    ReduceParquetTableConfiguration
 from sat_parquet_source.parquet_tables_reducer.b_code.orchestrator.reduce_parquet_tables_orchestrator import \
     orchestrate_reduce_parquet_tables
 
@@ -40,16 +42,12 @@ if __name__ == '__main__':
                 blob_latest_output_folder_name))
 
     parquet_folder_root_folder_path = \
-        os.path.join(
-            collect_blob_folder_path,
-            'blob-temp-anusha_folder-sigraph_silver_2023_06_27_1815')
+        r'/Users/terraire/bWa/DZa/etl/collect/blob_latest/clean_parquet_2023_07_17_13_22_31/blob-temp-anusha_folder-sigraph_silver_2023_06_27_1815/'
 
     # TODO: comment lines below to run all snapshots inside the folder
     file_configuration_list = \
         [
-            [
-                parquet_folder_root_folder_path, 'snappy.parquet', 'sigraph_silver', 'S_ItemFunction', 'input', None, ''
-            ]
+            [parquet_folder_root_folder_path, 'snappy.parquet', 'sigraph_silver', 'S_CableCatalogue', 'input', None, '']
         ]
 
     run_b_app(
@@ -61,4 +59,5 @@ if __name__ == '__main__':
         file_configuration_list=file_configuration_list,
         stage_name='sigraph_silver',
         number_of_rows_to_keep=1000,
-        input_parquet_table_path=parquet_folder_root_folder_path)
+        input_parquet_table_path=parquet_folder_root_folder_path,
+        reduce_parquet_table_configuration=ReduceParquetTableConfiguration.OPTION_PANDAS_PYARROW)

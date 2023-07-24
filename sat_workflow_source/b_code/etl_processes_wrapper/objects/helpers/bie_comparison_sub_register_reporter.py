@@ -7,6 +7,8 @@ from nf_common_source.code.services.input_output_service.delimited_text.datafram
 from nf_common_source.code.services.input_output_service.delimited_text.table_as_dictionary_to_csv_exporter import \
     export_table_as_dictionary_to_csv
 from nf_common_source.code.services.reporting_service.reporters.log_file import LogFiles
+from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
+
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.bie_comparisons_sub_registers import \
     BieComparisonsSubRegisters
 
@@ -17,8 +19,17 @@ def report_bie_comparison_sub_register(
     table_name = \
         'etl_analysis_bie_ids_comparison_summary'
 
+    if table_name not in bie_comparisons_register.comparison_tables:
+        log_message(
+            'WARNING - No etl_analysis_bie_ids_comparison_summary table in bie comparison sub register')
+
+        return
+
+    table = \
+        bie_comparisons_register.comparison_tables[table_name]
+
     __export_table(
-        dataframe=bie_comparisons_register.comparison_tables['etl_analysis_bie_ids_comparison_summary'],
+        dataframe=table,
         table_name=table_name)
 
     __export_table_b_dictionary_to_csv(

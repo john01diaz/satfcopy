@@ -62,19 +62,18 @@ def __get_records_from_database_file(
         filtered_database_records_dictionary=filtered_database_records,
         database_records_dictionary=database_records,
         database_connection=database_connection,
-        table_name='run_processes')
+        table_name='run_configuration_processes')
 
     get_process_table_configuration_records_from_database_connection(
         filtered_database_records_dictionary=filtered_database_records,
         database_records_dictionary=database_records,
         database_connection=database_connection,
-        table_name='process_table_configuration')
+        left_table_name='process_table_roles',
+        left_table_join_column_name='bie_ids',
+        right_table_name='run_configuration_process_table_input_roles',
+        right_table_join_column_name='bie_process_table_role_ids')
 
     get_table_configuration_records_from_database_connection(
         filtered_database_records_dictionary=filtered_database_records,
         database_records_dictionary=database_records,
-        database_connection=database_connection,
-        table_name='tables',
-        first_join_table_name='table_sources',
-        second_join_table_name='process_table_configuration',
-        join_column_name='bie_ids')
+        database_connection=database_connection)

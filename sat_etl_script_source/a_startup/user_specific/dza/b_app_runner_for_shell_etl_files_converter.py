@@ -9,7 +9,7 @@ from sat_etl_script_source.b_code.orchestrators.shell_etl_files_converter_orches
 
 if __name__ == '__main__':
     collection_name = \
-        'ETL_Scripts_20230516'
+        'ETL_Scripts_20230627'
 
     input_root_folder = \
         Folders(

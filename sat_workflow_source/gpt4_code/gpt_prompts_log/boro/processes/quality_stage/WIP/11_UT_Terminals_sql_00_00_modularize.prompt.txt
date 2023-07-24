@@ -1,0 +1,392 @@
+You are an Azure SQL expert.
+Decompose the provided SQL script into self-contained sub-scripts.
+Improve the modularity and readability of the code.
+
+Each sub-script should contain at most one "JOIN" operation.
+Identify and isolate any common table expressions (CTEs) within the code.
+Separate any renaming of columns within "SELECT" statements (e.g., "SELECT XXX AS YYY").
+
+-- Databricks notebook source
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS
+AS
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'151' as UT_ID
+,CASE WHEN B.Object_Identifier is not null  then 'Pass' else 'Fail' end as Test_Case
+from Sigraph_Silver.S_ItemFunction A
+LEFT SEMI JOIN Sigraph_Silver.S_Item_Function_Model FM ON FM.database_name=A.Database_name
+and FM.Object_Identifier=A.Object_Identifier
+left outer join Sigraph_Silver.S_Terminals B
+ON A.database_name=B.database_name
+and A.Dynamic_Class=B.Dynamic_Class
+and A.Object_Identifier=B.Object_Identifier
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and A.Type in ('Device','FTA','Terminal Strip')
+
+UNION
+
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'151' as UT_ID
+,CASE WHEN B.Object_Identifier is not null  then 'Pass' else 'Fail' end as Test_Case
+from Sigraph_Silver.S_ItemFunction A
+LEFT SEMI JOIN Sigraph_Silver.S_IO_Catalogue FM ON FM.database_name=A.Database_name
+and FM.dynamic_class=A.Dynamic_Class
+and FM.Object_Identifier=A.Object_Identifier
+left outer join Sigraph_Silver.S_Terminals B
+ON A.database_name=B.database_name
+and A.Dynamic_Class=B.Dynamic_Class
+and A.Object_Identifier=B.Object_Identifier
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and A.Type in ('IO Module')
+
+UNION
+
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'152' as UT_ID
+,CASE WHEN Row_Number() Over(Partition by Database_name, Dynamic_Class, Object_Identifier,Marking Order by Object_Identifier)=1
+      Then 'Pass' else 'Fail' end as Test_Case
+from Sigraph_Silver.S_Terminals A
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+
+UNION
+
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'153' as UT_ID
+,CASE WHEN B.Parent_Equipment_No is not null  then 'Pass' else 'Fail' end as Test_Case
+from Sigraph_Silver.S_Terminals A
+left outer join Sigraph_Silver.S_Major_Equipments B
+ON A.Parent_Equipment_No=B.Parent_Equipment_No
+Where A.Parent_Equipment_No<>''
+and A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+
+UNION
+
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'154' as UT_ID
+,CASE WHEN RD.Equipment_No is not null  then 'Pass' else 'Fail' end as Test_Case
+from Sigraph_Silver.S_Terminals A
+LEFT Outer JOIN (
+Select
+TagNo as Equipment_No
+from Sigraph_Silver.S_Instrument_Index
+UNION
+Select Equipment_No
+from Sigraph_Silver.S_Component
+) as RD
+ON RD.Equipment_No=A.Equipment_No
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+
+UNION
+
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'155' as UT_ID
+,CASE WHEN   B.Object_Identifier is not null
+      Then 'Pass'
+      Else 'Fail' End as Test_Case
+from Sigraph_Silver.S_Terminals A
+Inner JOIN (
+Select Distinct
+Database_name
+,From_Dynamic_Class as Dynamic_Class
+,From_Object_Identifier as Object_Identifier
+,Coalesce(From_Location,'') as Parent_Equipment_No
+,Coalesce(From_Item,'') as Equipment_No
+,Coalesce(From_Terminal_marking,'')  as Marking
+from Sigraph_Silver.S_Connection
+UNION
+Select
+Database_name
+,To_Dynamic_Class as Dynamic_Class
+,To_Object_Identifier as Object_Identifier
+,Coalesce(To_Location,'') as Parent_Equipment_No
+,Coalesce(To_Item,'') as Equipment_No
+,Coalesce(To_Terminal_marking,'')  as Marking
+from Sigraph_Silver.S_Connection
+) as B
+ON A.Database_name=B.Database_name and A.Dynamic_Class=B.Dynamic_Class and A.Object_Identifier=B.Object_Identifier
+and B.Parent_Equipment_No=A.Parent_Equipment_No and B.Equipment_No=A.Equipment_No and B.Marking=A.Marking
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+
+UNION
+
+Select Distinct
+ database_name
+,object_identifier
+,'156' as UT_ID
+,CASE WHEN Row_Number() Over(Partition by Parent_Equipment_No,Equipment_No,Marking order by Sequence)=1 then 'Pass' else 'Fail' end as Test_Case
+from Sigraph_Silver.S_Terminals A
+Where A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+
+UNION
+
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'179' as UT_ID
+,CASE WHEN B.ModelNo is not null  then 'Pass' else 'Fail' end as Test_Case
+From (
+Select Distinct A.Database_name,A.Dynamic_Class,A.Object_identifier,B.CatalogueNo,A.Marking
+from Sigraph_Silver.S_Terminals A
+Inner join Sigraph_Silver.S_Component B ON A.Database_name=B.Database_name and A.Dynamic_Class=B.Dynamic_Class
+and A.Object_Identifier=B.Object_Identifier
+Where A.database_name='R_2016R3' and EquipmentType='Device'  and A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+) as A
+Left Outer join (
+Select Distinct
+ModelNo,
+explode(split(Left_Marking,',')) as Marking
+from Sigraph_silver.S_DeviceCatalogue
+Where database_name='R_2016R3' and Catalogue_RNT = 1 and Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+
+UNION
+
+Select Distinct
+ModelNo,
+explode(split(Right_Marking,',')) as Marking
+from Sigraph_silver.S_DeviceCatalogue
+Where database_name='R_2016R3' and Catalogue_RNT = 1 and Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+) as B ON A.CatalogueNo=B.ModelNo and A.Marking=B.Marking
+
+UNION
+
+
+Select Distinct
+ A.database_name
+,A.object_identifier
+,'184' as UT_ID
+,CASE WHEN B.Model_Number is not null  then 'Pass' else 'Fail' end as Test_Case
+From (
+Select Distinct A.Database_name,A.Dynamic_Class,A.Object_identifier,B.CatalogueNo,A.Marking
+from Sigraph_Silver.S_Terminals A
+Inner join Sigraph_Silver.S_Component B ON A.Database_name=B.Database_name and A.Dynamic_Class=B.Dynamic_Class
+and A.Object_Identifier=B.Object_Identifier
+Where A.database_name='R_2016R3' and EquipmentType='IO Module'
+and A.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+) as A
+Left Outer join  Sigraph_silver.S_IO_Catalogue B ON B.Catalogue_RNT = 1
+and B.Class in ('Instrumentation','Inst(Shared)','Elec(Shared)')
+and A.CatalogueNo=B.Model_Number and A.Marking=B.TerminalsPerMarking
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Script for UT_ID '151' with model function:
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_151_Model_Function AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '151' AS UT_ID,
+    CASE WHEN B.Object_Identifier IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_ItemFunction A
+    LEFT SEMI JOIN Sigraph_Silver.S_Item_Function_Model FM
+        ON FM.database_name = A.Database_name
+        AND FM.Object_Identifier = A.Object_Identifier
+    LEFT OUTER JOIN Sigraph_Silver.S_Terminals B
+        ON A.database_name = B.database_name
+        AND A.Dynamic_Class = B.Dynamic_Class
+        AND A.Object_Identifier = B.Object_Identifier
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)') AND
+    A.Type IN ('Device', 'FTA', 'Terminal Strip');
+Script for UT_ID '151' with IO catalogue:
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_151_IO_Catalogue AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '151' AS UT_ID,
+    CASE WHEN B.Object_Identifier IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_ItemFunction A
+    LEFT SEMI JOIN Sigraph_Silver.S_IO_Catalogue FM
+        ON FM.database_name = A.Database_name
+        AND FM.dynamic_class = A.Dynamic_Class
+        AND FM.Object_Identifier = A.Object_Identifier
+    LEFT OUTER JOIN Sigraph_Silver.S_Terminals B
+        ON A.database_name = B.database_name
+        AND A.Dynamic_Class = B.Dynamic_Class
+        AND A.Object_Identifier = B.Object_Identifier
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)') AND
+    A.Type = 'IO Module';
+
+Script for UT_ID '152':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_152 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '152' AS UT_ID,
+    CASE
+        WHEN ROW_NUMBER() OVER(PARTITION BY Database_name, Dynamic_Class, Object_Identifier, Marking ORDER BY Object_Identifier) = 1
+        THEN 'Pass'
+        ELSE 'Fail'
+    END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+
+Script for UT_ID '153':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_153 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '153' AS UT_ID,
+    CASE WHEN B.Parent_Equipment_No IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+    LEFT OUTER JOIN Sigraph_Silver.S_Major_Equipments B
+        ON A.Parent_Equipment_No = B.Parent_Equipment_No
+WHERE
+    A.Parent_Equipment_No <> '' AND
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+
+Script for UT_ID '154':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_154 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '154' AS UT_ID,
+    CASE WHEN RD.Equipment_No IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+    LEFT OUTER JOIN (
+        SELECT
+            TagNo AS Equipment_No
+        FROM
+            Sigraph_Silver.S_Instrument_Index
+        UNION
+        SELECT
+            Equipment_No
+        FROM
+            Sigraph_Silver.S_Component
+    ) AS RD
+        ON RD.Equipment_No = A.Equipment_No
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+Script for UT_ID '155':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_155 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '155' AS UT_ID,
+    CASE WHEN B.Object_Identifier IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+    INNER JOIN (
+        SELECT DISTINCT
+            Database_name,
+            From_Dynamic_Class AS Dynamic_Class,
+            From_Object_Identifier AS Object_Identifier,
+            COALESCE(From_Location,'') AS Parent_Equipment_No,
+            COALESCE(From_Item,'') AS Equipment_No,
+            COALESCE(From_Terminal_marking,'') AS Marking
+        FROM
+            Sigraph_Silver.S_Connection
+        UNION
+        SELECT
+            Database_name,
+            To_Dynamic_Class AS Dynamic_Class,
+            To_Object_Identifier AS Object_Identifier,
+            COALESCE(To_Location,'') AS Parent_Equipment_No,
+            COALESCE(To_Item,'') AS Equipment_No,
+            COALESCE(To_Terminal_marking,'') AS Marking
+        FROM
+            Sigraph_Silver.S_Connection
+    ) AS B
+        ON A.Database_name = B.Database_name AND A.Dynamic_Class = B.Dynamic_Class AND A.Object_Identifier = B.Object_Identifier
+        AND B.Parent_Equipment_No = A.Parent_Equipment_No AND B.Equipment_No = A.Equipment_No AND B.Marking = A.Marking
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+Script for UT_ID '156':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_156 AS
+SELECT DISTINCT
+    database_name,
+    object_identifier,
+    '156' AS UT_ID,
+    CASE WHEN ROW_NUMBER() OVER(PARTITION BY Parent_Equipment_No, Equipment_No, Marking ORDER BY Sequence) = 1 THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+Script for UT_ID '179':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_179 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '179' AS UT_ID,
+    CASE WHEN B.ModelNo IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM (
+    SELECT DISTINCT A.Database_name, A.Dynamic_Class, A.Object_identifier, B.CatalogueNo, A.Marking
+    FROM
+        Sigraph_Silver.S_Terminals A
+        INNER JOIN Sigraph_Silver.S_Component B
+            ON A.Database_name = B.Database_name AND A.Dynamic_Class = B.Dynamic_Class AND A.Object_Identifier = B.Object_Identifier
+    WHERE
+        A.database_name = 'R_2016R3' AND EquipmentType = 'Device' AND A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+) AS A
+LEFT OUTER JOIN (
+    SELECT DISTINCT
+        ModelNo,
+        explode(split(Left_Marking, ',')) AS Marking
+    FROM
+        Sigraph_silver.S_DeviceCatalogue
+    WHERE
+        database_name = 'R_2016R3' AND Catalogue_RNT = 1 AND Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+
+    UNION
+
+    SELECT DISTINCT
+        ModelNo,
+        explode(split(Right_Marking, ',')) AS Marking
+    FROM
+        Sigraph_silver.S_DeviceCatalogue
+    WHERE
+        database_name = 'R_2016R3' AND Catalogue_RNT = 1 AND Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+) AS B
+    ON A.CatalogueNo = B.ModelNo AND A.Marking = B.Marking;
+Script for UT_ID '184':
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_184 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '184' AS UT_ID,
+    CASE WHEN B.Model_Number IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM (
+    SELECT DISTINCT A.Database_name, A.Dynamic_Class, A.Object_identifier, B.CatalogueNo, A.Marking
+    FROM
+        Sigraph_Silver.S_Terminals A
+        INNER JOIN Sigraph_Silver.S_Component B
+            ON A.Database_name = B.Database_name AND A.Dynamic_Class = B.Dynamic_Class AND A.Object_Identifier = B.Object_Identifier
+    WHERE
+        A.database_name = 'R_2016R3' AND EquipmentType = 'IO Module' AND A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+) AS A
+LEFT OUTER JOIN Sigraph_silver.S_IO_Catalogue B
+    ON B.Catalogue_RNT = 1 AND B.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)') AND A.CatalogueNo = B.Model_Number AND A.Marking = B.TerminalsPerMarking;

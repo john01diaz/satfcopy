@@ -30,8 +30,8 @@ A.database_name
 ,Coalesce(Replace(Replace(Replace(Replace(L.CS_production_unit,'-',''),'MMP4','MMP64'),'MMP6','MMP64'),'MMP644','MMP64'),'') as Plant_Code      
 -- Process_unit
 ,Replace(TRIM(
-  Case When substring(L.name,1,Charindex('_',L.name)-1)='RAUM' Then substring(L.name,Charindex('_',L.name)+1,200) 
-       When L.name like 'OFEN%' Then L.name Else substring(L.name,Charindex('_',L.name)+1,200) 
+  Case When substring(L.name,1,instr(L.name,'_')-1)='RAUM' Then substring(L.name,instr(L.name,'_')+1,200) 
+       When L.name like 'OFEN%' Then L.name Else substring(L.name,instr(L.name,'_')+1,200) 
   End),' ','_') as Process_unit
 -- Area Code
 ,regexp_extract(

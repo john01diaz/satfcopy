@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     output_root_folder = \
         Folders(
-            absolute_path_string=r'D:\bWa\AMi\etl\file_conversion_outputs')
+            absolute_path_string=r'D:\bWa\JPr\etl\file_conversion_outputs')
 
     run_b_app(
         app_startup_method=orchestrate_shell_etl_files_converter,

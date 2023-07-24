@@ -1,0 +1,98 @@
+SELECT
+subquery_process.bie_process_ids,
+subquery_process.bie_table_ids,
+subquery_process.table_names,
+subquery_process.process_table_columns_filters,
+subquery_process.defaulted_process_table_columns,
+tables_subquery.alternative_table_names,
+tables_subquery.source_extension_types,
+tables_subquery.table_source_folders,
+subquery_process.table_source_minor_types_table_source_minor_types,
+subquery_process.table_source_relative_paths,
+tables_subquery.loader_excel_sheet_names,
+tables_subquery.bie_identifying_columns,
+tables_subquery.expected_column_count,
+tables_subquery.expected_row_count
+
+FROM
+
+(SELECT
+    subquery_process.*,
+    table_source_relative_paths_subquery.table_source_relative_paths,
+    table_source_relative_paths_subquery.table_source_minor_types_table_source_minor_types
+    FROM
+        (SELECT
+    process_table_roles.bie_process_ids,
+    process_table_roles.bie_table_ids,
+    process_table_roles.table_names,
+    process_table_roles.process_table_columns_filters,
+    run_configuration_process_table_output_roles.defaulted_process_table_columns
+
+FROM process_table_roles
+    LEFT JOIN run_configuration_process_table_output_roles
+        ON process_table_roles.bie_ids = run_configuration_process_table_output_roles.process_table_role_bie_ids) AS subquery_process
+
+LEFT JOIN
+
+(
+    SELECT
+        bie_process_ids AS bie_process_ids,
+        bie_table_ids,
+        table_source_minor_types AS table_source_minor_types_table_source_minor_types,
+        CASE
+            WHEN table_source_major_type_relative_paths <> ''
+            THEN table_source_major_type_relative_paths || '\'
+                || (CASE WHEN table_source_root_folders != '' THEN table_source_root_folders ELSE '' END)
+            ELSE ''
+        END AS table_source_relative_paths
+
+    FROM (
+        SELECT subquery_major_types.*, subquery_minor_types.* FROM ((
+            SELECT *, process_table_roles.bie_ids as bie_process_table_roles_ids, tables.bie_ids AS bie_table_ids, table_source_roots.table_source_root_folders
+                FROM ((((run_configuration_processes
+                    LEFT JOIN process_table_roles ON run_configuration_processes.bie_process_ids = process_table_roles.bie_process_ids)
+                    LEFT JOIN tables ON process_table_roles.bie_table_ids = tables.bie_ids)
+                    LEFT JOIN table_source_roots ON tables.bie_table_source_ids = table_source_roots.bie_ids)
+                    LEFT JOIN table_source_major_types ON table_source_roots.bie_table_source_major_type_ids = table_source_major_types.bie_ids)
+            ) AS subquery_major_types
+
+            LEFT JOIN
+
+            (SELECT query_union_input_and_output_roles.*, table_source_minor_types.*
+                FROM (SELECT bie_process_table_role_ids, 'input' as input_output, input_origin_types, bie_table_source_minor_type_ids
+                        FROM run_configuration_process_table_input_roles
+
+                    UNION
+
+                    SELECT process_table_role_bie_ids as bie_process_table_role_ids, 'output' as input_output, '' AS input_origin_types, bie_table_source_minor_type_ids
+                        FROM run_configuration_process_table_output_roles
+                    ) AS query_union_input_and_output_roles
+                LEFT JOIN table_source_minor_types
+                    ON query_union_input_and_output_roles.bie_table_source_minor_type_ids = table_source_minor_types.bie_ids) AS subquery_minor_types
+
+            ON subquery_major_types.bie_process_table_roles_ids = subquery_minor_types.bie_process_table_role_ids)
+        )
+) AS table_source_relative_paths_subquery
+
+ON subquery_process.bie_process_ids = table_source_relative_paths_subquery.bie_process_ids
+    AND subquery_process.bie_table_ids = table_source_relative_paths_subquery.bie_table_ids
+) AS subquery_process
+
+INNER JOIN
+
+(SELECT
+    tables.bie_ids,
+    tables.table_names,
+    tables.alternative_table_names,
+    tables.source_extension_types,
+    table_source_roots.table_source_root_folders AS table_source_folders,
+    tables.loader_excel_sheet_names,
+    tables.bie_identifying_columns,
+    tables.expected_column_count,
+    tables.expected_row_count
+
+FROM tables
+    LEFT JOIN table_source_roots
+    ON tables.bie_table_source_ids = table_source_roots.bie_ids) AS tables_subquery
+
+ON subquery_process.bie_table_ids = tables_subquery.bie_ids;

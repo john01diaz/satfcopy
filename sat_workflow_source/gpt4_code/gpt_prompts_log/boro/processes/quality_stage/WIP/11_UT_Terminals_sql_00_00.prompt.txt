@@ -1,0 +1,435 @@
+Convert the following Azure SQL statement into python code.
+
+Value modularity when you generate the python code.
+Do not value brevity when you generate the python code.
+Generate an orchestrating function for the component functions.
+Make the name of the orchestrating function: create_silver_UT_Terminals_sql_00_00
+Make the parameter of the orchestration function a dictionary named input_tables.
+Make the orchestrating function a public function at the beginning of the script.
+Add double underscore to the beginning of the private function names.
+
+Use clean coding principles.
+Follow the PEP8 style guide.
+Never choose any abbreviations or shortened variable names.
+Replace magic numbers with named constants.
+Define any literals as named constants.
+Define and name all lists and arrays separately.
+Fully generate all lists, arrays, and dictionaries of mappings.
+Use the names 'dataframe' instead of 'df' and 'pandas' instead of 'pd'.
+
+Treat the input into the orchetrating function as a dictionary of dataframes.
+Use the table names in the following schemas to load the dataframes from the dictionary name input_tables.
+
+Treat the input columns in different ways:
+Sometimes a column will be passed through without any modification.
+Sometimes a column will be simply mapped to a column with a new name, sometimes multiple times.
+Sometimes a new column will be added with a constant value.
+Sometimes a column will be mapped to a column using more complex calculations.
+
+Use the following Enum when using column names.
+
+This is the Enum schema for the table named DatabaseNames
+
+class DatabaseNames(
+        Enum):
+    DATABASE_NAME = 'database_name'
+
+
+This is the enum schema for the input and output table(s) named S_CableCatalogue.
+class S_ItemFunction(
+        Enum):
+    ADD = 'add'
+    CHANNELNUMBER = 'channelnumber'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DEVICE_TYPE = 'device_type'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    FACILITY_DESIGNATION = 'facility_designation'
+    FACILITY_DYNAMIC_CLASS = 'facility_dynamic_class'
+    FACILITY_OBJECT_IDENTIFIER = 'facility_object_identifier'
+    FUNCTION_OCC_OBJECT_IDENTIFIER = 'function_occ_object_identifier'
+    IOTYPE = 'iotype'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    ITEM_SLOT = 'item_slot'
+    LOCATION_DESIGNATION = 'location_designation'
+    LOCATION_DYNAMIC_CLASS = 'location_dynamic_class'
+    LOCATION_OBJECT_IDENTIFIER = 'location_object_identifier'
+    LOOP_ELEMENT_DYNAMIC_CLASS = 'loop_element_dynamic_class'
+    LOOP_ELEMENT_OBJECT_IDENTIFIER = 'loop_element_object_identifier'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    METADATA = 'metadata'
+    MODELNO = 'modelno'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PRODUCT_DESIGNATION = 'product_designation'
+    PRODUCT_KEY = 'product_key'
+    PRODUCT_KEY_ORIGINAL = 'product_key_original'
+    PROTOCOL = 'protocol'
+    RACK = 'rack'
+    RACK_DYNAMIC_CLASS = 'rack_dynamic_class'
+    RACK_OBJECT_IDENTIFIER = 'rack_object_identifier'
+    REMOVE = 'remove'
+    ROWIDHIGHWATERMARK = 'rowidhighwatermark'
+    SHOW_KEY = 'show_key'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TXN = 'txn'
+    TYPE = 'type'
+
+class S_Connection(
+        Enum):
+    CABLE = 'cable'
+    CABLE_OBJECT_IDENTIFIER = 'cable_object_identifier'
+    CONNECTION_TYPE = 'connection_type'
+    DATABASE_NAME = 'database_name'
+    DOCUMENT_NUMBER = 'document_number'
+    FROM_CONNECTION_PIN_HREF = 'from_connection_pin_href'
+    FROM_DYNAMIC_CLASS = 'from_dynamic_class'
+    FROM_FACILITY = 'from_facility'
+    FROM_ITEM = 'from_item'
+    FROM_ITEM_DYNAMIC_CLASS = 'from_item_dynamic_class'
+    FROM_ITEM_OBJECT_IDENTIFIER = 'from_item_object_identifier'
+    FROM_LOCATION = 'from_location'
+    FROM_OBJECT_IDENTIFIER = 'from_object_identifier'
+    FROM_TERMINAL_MARKING = 'from_terminal_marking'
+    LOOP_NUMBER = 'loop_number'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    TAG_NUMBER = 'tag_number'
+    TO_CONNECTION_PIN_HREF = 'to_connection_pin_href'
+    TO_DYNAMIC_CLASS = 'to_dynamic_class'
+    TO_FACILITY = 'to_facility'
+    TO_ITEM = 'to_item'
+    TO_ITEM_DYNAMIC_CLASS = 'to_item_dynamic_class'
+    TO_ITEM_OBJECT_IDENTIFIER = 'to_item_object_identifier'
+    TO_LOCATION = 'to_location'
+    TO_OBJECT_IDENTIFIER = 'to_object_identifier'
+    TO_TERMINAL_MARKING = 'to_terminal_marking'
+    WIRE_CROSS_SECTION = 'wire_cross_section'
+    WIRE_MARKINGS = 'wire_markings'
+    WIRE_OBJECT_IDENTIFIER = 'wire_object_identifier'
+
+class S_Item_Function_Model(
+        Enum):
+    ALL_MARKING = 'all_marking'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    LEFT = 'left'
+    LEFT_MARKING = 'left_marking'
+    MODELNO = 'modelno'
+    MODELNO_ORIGINAL = 'modelno_original'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    RIGHT = 'right'
+    RIGHT_MARKING = 'right_marking'
+    SYMBOL_NAME = 'symbol_name'
+
+class S_IO_Catalogue(
+        Enum):
+    ALLOWUSE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CHANNEL = 'channel'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESCRIPTIONDRAWING = 'descriptiondrawing'
+    DYNAMIC_CLASS = 'dynamic_class'
+    IOTYPE = 'iotype'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NUMBER = 'model_number'
+    NOOFPOINTS = 'noofpoints'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    TERMINALSPERMARKING = 'terminalspermarking'
+    TERMINALSPERPOINTCHANNEL = 'terminalsperpointchannel'
+
+class S_Pin(
+        Enum):
+    ADD = 'add'
+    COMPONENT_FUNCTION_DESIGNATION = 'component_function_designation'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    FUNCTION_DYNAMIC_CLASS = 'function_dynamic_class'
+    FUNCTION_OBJECT_IDENTIFIER = 'function_object_identifier'
+    GROUP_OVERVIEW = 'group_overview'
+    INTERNAL_PIN_NUMBER = 'internal_pin_number'
+    METADATA = 'metadata'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    OVERVIEW_PIN_NUMBER = 'overview_pin_number'
+    PIN_DESIGNATION = 'pin_designation'
+    PIN_GROUP = 'pin_group'
+    PIN_TYPE = 'pin_type'
+    POTENTIAL = 'potential'
+    PROTOCOL = 'protocol'
+    REMOVE = 'remove'
+    ROWIDHIGHWATERMARK = 'rowidhighwatermark'
+    TERMINAL_MARKING = 'terminal_marking'
+    TERMINAL_SIDE = 'terminal_side'
+    TXN = 'txn'
+
+    class S_Terminals(
+        Enum):
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENT_NO = 'equipment_no'
+    MARKING = 'marking'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    SEQUENCE = 'sequence'
+
+class S_DeviceCatalogue(
+        Enum):
+    ALLOW_USE = 'allowuse'
+    CATALOGUE_RNT = 'catalogue_rnt'
+    CLASS = 'class'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DOCUMENT_NUMBER = 'document_number'
+    DYNAMIC_CLASS = 'dynamic_class'
+    ITEM_DYNAMIC_CLASS = 'item_dynamic_class'
+    ITEM_OBJECT_IDENTIFIER = 'item_object_identifier'
+    LEFT = 'left'
+    LEFT_MARKING = 'left_marking'
+    LOOP_NUMBER = 'loop_number'
+    MANUFACTURER = 'manufacturer'
+    MODEL_NO = 'modelno'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PRODUCT_KEY = 'product_key'
+    RIGHT = 'right'
+    RIGHT_MARKING = 'right_marking'
+    SYMBOL_NAME = 'symbol_name'
+    TAG_NUMBER = 'tag_number'
+    TYPE = 'type'
+
+    class S_Major_Equipments(
+        Enum):
+    AREA = 'area'
+    AREAPATH = 'areapath'
+    CATEGORY = 'category'
+    COMMENT = 'comment'
+    DATABASE_NAME = 'database_name'
+    DESCRIPTION = 'description'
+    DESIGNATION = 'designation'
+    DWGREQUIRED = 'dwgrequired'
+    DYNAMIC_CLASS = 'dynamic_class'
+    EQUIPMENTTYPE = 'equipmenttype'
+    INSTALLATION_SITE = 'installation_site'
+    OBJECT_IDENTIFIER = 'object_identifier'
+    PARENT_EQUIPMENT_NO = 'parent_equipment_no'
+    STATUS = 'status'
+    TYPE = 'type'
+    VENDORSUPPLIED = 'vendorsupplied'
+
+
+Script for UT_ID '151' with model function:
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_151_Model_Function AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '151' AS UT_ID,
+    CASE WHEN B.Object_Identifier IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_ItemFunction A
+    LEFT SEMI JOIN Sigraph_Silver.S_Item_Function_Model FM
+        ON FM.database_name = A.Database_name
+        AND FM.Object_Identifier = A.Object_Identifier
+    LEFT OUTER JOIN Sigraph_Silver.S_Terminals B
+        ON A.database_name = B.database_name
+        AND A.Dynamic_Class = B.Dynamic_Class
+        AND A.Object_Identifier = B.Object_Identifier
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)') AND
+    A.Type IN ('Device', 'FTA', 'Terminal Strip');
+Script for UT_ID '151' with IO catalogue:
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_151_IO_Catalogue AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '151' AS UT_ID,
+    CASE WHEN B.Object_Identifier IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_ItemFunction A
+    LEFT SEMI JOIN Sigraph_Silver.S_IO_Catalogue FM
+        ON FM.database_name = A.Database_name
+        AND FM.dynamic_class = A.Dynamic_Class
+        AND FM.Object_Identifier = A.Object_Identifier
+    LEFT OUTER JOIN Sigraph_Silver.S_Terminals B
+        ON A.database_name = B.database_name
+        AND A.Dynamic_Class = B.Dynamic_Class
+        AND A.Object_Identifier = B.Object_Identifier
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)') AND
+    A.Type = 'IO Module';
+
+Script for UT_ID '152':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_152 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '152' AS UT_ID,
+    CASE
+        WHEN ROW_NUMBER() OVER(PARTITION BY Database_name, Dynamic_Class, Object_Identifier, Marking ORDER BY Object_Identifier) = 1
+        THEN 'Pass'
+        ELSE 'Fail'
+    END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+
+Script for UT_ID '153':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_153 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '153' AS UT_ID,
+    CASE WHEN B.Parent_Equipment_No IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+    LEFT OUTER JOIN Sigraph_Silver.S_Major_Equipments B
+        ON A.Parent_Equipment_No = B.Parent_Equipment_No
+WHERE
+    A.Parent_Equipment_No <> '' AND
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+
+Script for UT_ID '154':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_154 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '154' AS UT_ID,
+    CASE WHEN RD.Equipment_No IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+    LEFT OUTER JOIN (
+        SELECT
+            TagNo AS Equipment_No
+        FROM
+            Sigraph_Silver.S_Instrument_Index
+        UNION
+        SELECT
+            Equipment_No
+        FROM
+            Sigraph_Silver.S_Component
+    ) AS RD
+        ON RD.Equipment_No = A.Equipment_No
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+Script for UT_ID '155':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_155 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '155' AS UT_ID,
+    CASE WHEN B.Object_Identifier IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+    INNER JOIN (
+        SELECT DISTINCT
+            Database_name,
+            From_Dynamic_Class AS Dynamic_Class,
+            From_Object_Identifier AS Object_Identifier,
+            COALESCE(From_Location,'') AS Parent_Equipment_No,
+            COALESCE(From_Item,'') AS Equipment_No,
+            COALESCE(From_Terminal_marking,'') AS Marking
+        FROM
+            Sigraph_Silver.S_Connection
+        UNION
+        SELECT
+            Database_name,
+            To_Dynamic_Class AS Dynamic_Class,
+            To_Object_Identifier AS Object_Identifier,
+            COALESCE(To_Location,'') AS Parent_Equipment_No,
+            COALESCE(To_Item,'') AS Equipment_No,
+            COALESCE(To_Terminal_marking,'') AS Marking
+        FROM
+            Sigraph_Silver.S_Connection
+    ) AS B
+        ON A.Database_name = B.Database_name AND A.Dynamic_Class = B.Dynamic_Class AND A.Object_Identifier = B.Object_Identifier
+        AND B.Parent_Equipment_No = A.Parent_Equipment_No AND B.Equipment_No = A.Equipment_No AND B.Marking = A.Marking
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+Script for UT_ID '156':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_156 AS
+SELECT DISTINCT
+    database_name,
+    object_identifier,
+    '156' AS UT_ID,
+    CASE WHEN ROW_NUMBER() OVER(PARTITION BY Parent_Equipment_No, Equipment_No, Marking ORDER BY Sequence) = 1 THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM
+    Sigraph_Silver.S_Terminals A
+WHERE
+    A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)');
+Script for UT_ID '179':
+sql
+Copy code
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_179 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '179' AS UT_ID,
+    CASE WHEN B.ModelNo IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM (
+    SELECT DISTINCT A.Database_name, A.Dynamic_Class, A.Object_identifier, B.CatalogueNo, A.Marking
+    FROM
+        Sigraph_Silver.S_Terminals A
+        INNER JOIN Sigraph_Silver.S_Component B
+            ON A.Database_name = B.Database_name AND A.Dynamic_Class = B.Dynamic_Class AND A.Object_Identifier = B.Object_Identifier
+    WHERE
+        A.database_name = 'R_2016R3' AND EquipmentType = 'Device' AND A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+) AS A
+LEFT OUTER JOIN (
+    SELECT DISTINCT
+        ModelNo,
+        explode(split(Left_Marking, ',')) AS Marking
+    FROM
+        Sigraph_silver.S_DeviceCatalogue
+    WHERE
+        database_name = 'R_2016R3' AND Catalogue_RNT = 1 AND Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+
+    UNION
+
+    SELECT DISTINCT
+        ModelNo,
+        explode(split(Right_Marking, ',')) AS Marking
+    FROM
+        Sigraph_silver.S_DeviceCatalogue
+    WHERE
+        database_name = 'R_2016R3' AND Catalogue_RNT = 1 AND Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+) AS B
+    ON A.CatalogueNo = B.ModelNo AND A.Marking = B.Marking;
+Script for UT_ID '184':
+CREATE OR REPLACE TEMP VIEW UT_VW_TERMINALS_184 AS
+SELECT DISTINCT
+    A.database_name,
+    A.object_identifier,
+    '184' AS UT_ID,
+    CASE WHEN B.Model_Number IS NOT NULL THEN 'Pass' ELSE 'Fail' END AS Test_Case
+FROM (
+    SELECT DISTINCT A.Database_name, A.Dynamic_Class, A.Object_identifier, B.CatalogueNo, A.Marking
+    FROM
+        Sigraph_Silver.S_Terminals A
+        INNER JOIN Sigraph_Silver.S_Component B
+            ON A.Database_name = B.Database_name AND A.Dynamic_Class = B.Dynamic_Class AND A.Object_Identifier = B.Object_Identifier
+    WHERE
+        A.database_name = 'R_2016R3' AND EquipmentType = 'IO Module' AND A.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)')
+) AS A
+LEFT OUTER JOIN Sigraph_silver.S_IO_Catalogue B
+    ON B.Catalogue_RNT = 1 AND B.Class IN ('Instrumentation', 'Inst(Shared)', 'Elec(Shared)') AND A.CatalogueNo = B.Model_Number AND A.Marking = B.TerminalsPerMarking;

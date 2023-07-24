@@ -69,8 +69,8 @@ from  (
       ,Coalesce(Replace(Replace(Replace(Replace(l.CS_production_unit,'-',''),'MMP4','MMP64'),'MMP6','MMP64'),'MMP644','MMP64'),'') as Plant_Code      
       -- Process_unit
       ,Replace(TRIM(
-      Case When substring(l.name,1,Charindex('_',l.name)-1)='RAUM' Then substring(l.name,Charindex('_',l.name)+1,200) 
-       When l.name like 'OFEN%' Then l.name Else substring(l.name,Charindex('_',l.name)+1,200) 
+      Case When substring(l.name,1,instr(l.name,'_')-1)='RAUM' Then substring(l.name,instr(l.name,'_')+1,200) 
+       When l.name like 'OFEN%' Then l.name Else substring(l.name,instr(l.name,'_')+1,200) 
       End),' ','_') as Process_unit
       from sigraph.Layer l
       )l

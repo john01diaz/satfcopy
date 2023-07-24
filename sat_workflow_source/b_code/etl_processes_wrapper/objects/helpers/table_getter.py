@@ -24,6 +24,9 @@ def get_table(
                 etl_processes_wrapper_registry=etl_processes_wrapper_registry,
                 table_configuration=table_configuration)
 
+    if table is None:
+        return
+
     cleaned_table = \
         migrate_source_table_to_bclearer_data_policy(
             source_table=table)

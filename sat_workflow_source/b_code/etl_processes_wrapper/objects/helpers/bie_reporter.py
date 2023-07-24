@@ -8,6 +8,7 @@ from nf_common_source.code.services.input_output_service.delimited_text.datafram
 from nf_common_source.code.services.input_output_service.delimited_text.table_as_dictionary_to_csv_exporter import \
     export_table_as_dictionary_to_csv
 from nf_common_source.code.services.reporting_service.reporters.log_file import LogFiles
+from nf_common_source.code.services.reporting_service.reporters.log_with_datetime import log_message
 
 from sat_workflow_source.b_code.etl_processes_wrapper.common_knowledge.origin_table_types import OriginTableTypes
 from sat_workflow_source.b_code.etl_processes_wrapper.objects.bie_sub_registers import BieSubRegisters
@@ -65,6 +66,9 @@ def __export_table(
         table_name: str,
         origin_type: OriginTableTypes) \
         -> None:
+    log_message(
+        'Exporting ' + str(origin_type.value) + ' table: ' + table_name)
+
     folder_path = \
         os.path.join(
             LogFiles.folder_path,

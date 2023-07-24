@@ -48,11 +48,18 @@ def __get_etl_root_folder_path(
         drive_name: str,
         user_initials: str) \
         -> str:
-    b_root_folder_path = \
-        os.path.join(
-            drive_name,
-            os.sep,
-            'bWa')
+    if drive_name.startswith(os.sep):
+        b_root_folder_path = \
+            os.path.join(
+                drive_name,
+                'bWa')
+
+    else:
+        b_root_folder_path = \
+            os.path.join(
+                drive_name,
+                os.sep,
+                'bWa')
 
     etl_root_folder_path = \
         os.path.join(

@@ -15,7 +15,7 @@ def get_sat_configuration_b_app_runner_configuration_jpr() \
     etl_database_configuration_file = \
         __get_etl_database_configuration_file(
             configurations_folder=configurations_folder,
-            etl_database_configuration_filename='process_table_configuration v0.02 AGu modified OXi+AMi_CPa_v6_run_processes s_devicecatalogue lower case - full gold.accdb')
+            etl_database_configuration_filename='configuration_database v20230705 0.01 AGu.db')
 
     sat_configuration_b_app_runner_configuration = \
         SatConfigurationBAppRunnerConfigurations(
@@ -25,7 +25,7 @@ def get_sat_configuration_b_app_runner_configuration_jpr() \
             output_folder_suffix='output_folder_suffix',
             etl_database_configuration_file=etl_database_configuration_file,
             etl_json_configuration_file_name='etl_run_configuration_full_RUN_NAME.json',
-            etl_json_configuration_filtered_file_name='04_device_catalogue_sql_01_00.json')
+            etl_json_configuration_filtered_file_name='01_Project_Voltages_sql_01_00.json')
     
     return \
         sat_configuration_b_app_runner_configuration

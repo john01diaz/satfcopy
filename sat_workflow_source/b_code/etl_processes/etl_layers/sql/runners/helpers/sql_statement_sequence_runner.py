@@ -49,7 +49,6 @@ def __run_sql_statement(
         spark_session.sql(
             sqlQuery=sql_statement).toPandas()
 
-    # if sql_statement.strip().lower().startswith('create or replace temp view'):
     create_view_string = \
         'create or replace temp view'
 
@@ -65,7 +64,10 @@ def __run_sql_statement(
 
         result_dataframe = \
             spark_session.sql(
-                sqlQuery=f'SELECT * FROM {view_name}').toPandas()
+                sqlQuery=f'SELECT * FROM {view_name}')
+
+        result_dataframe = \
+            result_dataframe.toPandas()
 
         __register_output_view_schema_as_sql_and_python(
             raw_and_bie_sub_register=raw_and_bie_sub_register,
